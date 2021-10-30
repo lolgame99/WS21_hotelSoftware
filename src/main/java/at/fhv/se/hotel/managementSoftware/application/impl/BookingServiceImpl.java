@@ -65,5 +65,12 @@ public class BookingServiceImpl implements BookingService{
 		
 		return bookingDTOs;
 	}
+
+	@Override
+	public void addBooking(Booking booking) {
+		bookingRepository.addBooking(booking);
+	}
+	
+	
 	
 }
