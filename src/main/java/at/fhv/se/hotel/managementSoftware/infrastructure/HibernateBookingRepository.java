@@ -12,8 +12,8 @@ import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 @Component
 public class HibernateBookingRepository implements BookingRepository{
 	
-	private List<Booking> bookings = new ArrayList<Booking>()
-;
+	private List<Booking> bookings = new ArrayList<Booking>();
+	
 	@Override
 	public List<Booking> getAllBookings() {
 		return bookings;

@@ -25,8 +25,9 @@ public class Booking {
 		categoryCount = new HashMap<String, Integer>();
 	}
 	
-	public void addCategory(String category, Integer count) {
+	public Booking addCategory(String category, Integer count) {
 		categoryCount.put(category, count);
+		return this;
 	}
 
 	public String getBookingId() {

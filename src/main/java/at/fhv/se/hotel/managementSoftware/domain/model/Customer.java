@@ -6,7 +6,7 @@ public class Customer {
 	private String firstName;
 	private String middleName;
 	private String lastName;
-	private enum Gender {
+	public enum Gender {
 		MALE, FEMALE, DIVERSE;
 	}
 	private String streetName;
@@ -24,7 +24,6 @@ public class Customer {
 	private String billingCity;
 	private String billingPostCode;
 	private String billingCountry;
-	
 	
 	public Customer(String customerId, String firstName, String lastName, String streetName,
 			String streetNumber, String city, String postCode, String country, String email,
