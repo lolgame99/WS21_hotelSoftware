@@ -1,11 +1,11 @@
 package at.fhv.se.hotel.managementSoftware.application.api;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-import at.fhv.se.hotel.managementSoftware.application.dto.BookingDTO;
+import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
 
 public interface BookingService {
-	public List<BookingDTO> getAllBookings();
-	public List<BookingDTO> getBookingsByDate(Date date);
+	public List<BookingOverviewDTO> getAllBookings();
+	public List<BookingOverviewDTO> getBookingsByDate(LocalDate date);
 }
