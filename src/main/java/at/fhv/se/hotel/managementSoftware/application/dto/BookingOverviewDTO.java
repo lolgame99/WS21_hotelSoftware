@@ -1,12 +1,12 @@
 package at.fhv.se.hotel.managementSoftware.application.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 
 public class BookingOverviewDTO {
 	private String bookingId;
-	private Date checkInDate;
+	private LocalDate checkInDate;
 	private int roomCount;
 	private int guestCount;
 	private String customerId;
@@ -20,7 +20,7 @@ public class BookingOverviewDTO {
 		return bookingId;
 	}
 
-	public Date getCheckInDate() {
+	public LocalDate getCheckInDate() {
 		return checkInDate;
 	}
 
@@ -51,7 +51,7 @@ public class BookingOverviewDTO {
             return this;
         }
 
-        public Builder withCheckInDate(Date date) {
+        public Builder withCheckInDate(LocalDate date) {
             this.instance.checkInDate = date;
             return this;
         } 
