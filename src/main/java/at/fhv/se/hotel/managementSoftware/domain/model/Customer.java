@@ -15,11 +15,7 @@ public class Customer {
 	private String phoneNumber;
 	private Gender gender;
 	
-	private String billingStreetName;
-	private String billingStreetNumber;
-	private String billingCity;
-	private String billingPostCode;
-	private String billingCountry;
+	private Address billingAddress;
 	
 	public Customer(String customerId, String firstName, String lastName, Address address, String email,
 			String phoneNumber, Gender gender) {
@@ -33,12 +29,8 @@ public class Customer {
 		this.gender = gender;
 	}
 	
-	public void addBillingAddress(String billingStreetName, String billingStreetNumber, String billingCity, String billingPostCode, String billingCountry) {
-		this.billingStreetName = billingStreetName;
-		this.billingStreetNumber = billingStreetNumber;
-		this.billingCity = billingCity;
-		this.billingPostCode = billingPostCode;
-		this.billingCountry = billingCountry;
+	public void setBillingAddress(Address billingAddress) {
+		this.billingAddress = billingAddress;
 	}
 	
 	public void addMiddleName(String middlename) {
@@ -63,6 +55,10 @@ public class Customer {
 
 	public Address getAddress() {
 		return address;
+	}
+	
+	public Address getBillingAddress() {
+		return billingAddress;
 	}
 
 	public String getEmail() {

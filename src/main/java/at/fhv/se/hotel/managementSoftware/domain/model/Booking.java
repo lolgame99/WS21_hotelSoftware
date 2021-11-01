@@ -9,7 +9,6 @@ public class Booking {
 	private String bookingId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
-	private LocalDate cancelationDeadline;
 	private String creditCardNumber;
 	private Customer customer;
 	private int guestCount;
@@ -17,12 +16,11 @@ public class Booking {
 	
 	private HashMap<String, Integer> categoryCount;
 	
-	public Booking(String bookingId, LocalDate checkInDate,  LocalDate checkOutDate, LocalDate cancelationDeadline, String creditCardNumber, Customer customer, int guestCount, BookingStatus bookingStatus) {
+	public Booking(String bookingId, LocalDate checkInDate,  LocalDate checkOutDate, String creditCardNumber, Customer customer, int guestCount, BookingStatus bookingStatus) {
 		super();
 		this.bookingId = bookingId;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
-		this.cancelationDeadline = cancelationDeadline;
 		this.creditCardNumber = creditCardNumber;
 		this.customer = customer;
 		this.guestCount = guestCount;
@@ -31,10 +29,11 @@ public class Booking {
 		
 		//Prüfen, ob Check-in-Date vor Check-out-Date liegt
 		if (checkInDate.compareTo(checkOutDate) >= 0) {
+			
 			System.out.println("Fehler: Check-in-Date darf nicht hinter Check-out-Date liegen!");
 		}
 		
-		//Prüfen, ob mind. ein Raum gebucht wurde
+		//Prüfen, ob mind. ein Kunde
 		if (guestCount <= 0) {
 			System.out.println("Fehler: Es muss mind. ein Raum gebucht werden!");
 		}
@@ -43,8 +42,6 @@ public class Booking {
 		if (categoryCount.isEmpty()) {
 			System.out.println();
 		}
-		
-		//CancelationDeadline
 		
 	}
 	
@@ -63,10 +60,6 @@ public class Booking {
 
 	public LocalDate getCheckOutDate() {
 		return checkOutDate;
-	}
-
-	public LocalDate getCancelationDeadline() {
-		return cancelationDeadline;
 	}
 
 	public String getCreditCardNumber() {
