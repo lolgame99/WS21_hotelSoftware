@@ -1,19 +1,15 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
+import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
+
 public class Customer {
 	
 	private String customerId;
 	private String firstName;
 	private String middleName;
 	private String lastName;
-	public enum Gender {
-		MALE, FEMALE, DIVERSE;
-	}
-	private String streetName;
-	private String streetNumber;
-	private String city;
-	private String postCode;
-	private String country;
+	
+	private Address address;
 
 	private String email;
 	private String phoneNumber;
@@ -25,18 +21,13 @@ public class Customer {
 	private String billingPostCode;
 	private String billingCountry;
 	
-	public Customer(String customerId, String firstName, String lastName, String streetName,
-			String streetNumber, String city, String postCode, String country, String email,
+	public Customer(String customerId, String firstName, String lastName, Address address, String email,
 			String phoneNumber, Gender gender) {
 		super();
 		this.customerId = customerId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.streetName = streetName;
-		this.streetNumber = streetNumber;
-		this.city = city;
-		this.postCode = postCode;
-		this.country = country;
+		this.address = address;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.gender = gender;
@@ -70,6 +61,10 @@ public class Customer {
 		return lastName;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -77,7 +72,10 @@ public class Customer {
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
-	
+
+	public Gender getGender() {
+		return gender;
+	}
 	
 	
 }
