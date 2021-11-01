@@ -3,13 +3,15 @@ package at.fhv.se.hotel.managementSoftware.application.dto;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+
 
 public class BookingOverviewDTO {
 	private String bookingId;
 	private LocalDate checkInDate;
 	private int roomCount;
 	private int guestCount;
-	private String customerId;
+	private Customer customer;
 	
 	
 	public static Builder builder() {
@@ -32,8 +34,8 @@ public class BookingOverviewDTO {
 		return guestCount;
 	}
 
-	public String getCustomerId() {
-		return customerId;
+	public Customer getCustomer() {
+		return customer;
 	}
 
 	private BookingOverviewDTO() {
@@ -66,15 +68,15 @@ public class BookingOverviewDTO {
         	return this;
         }
         
-        public Builder withCustomerId(String id) {
-        	this.instance.customerId = id;
+        public Builder withCustomer(Customer customer) {
+        	this.instance.customer = customer;
         	return this;
         }
 
         public BookingOverviewDTO build() {
             Objects.requireNonNull(this.instance.checkInDate, "checkInDate must be set in BookingOverviewDTO");
             Objects.requireNonNull(this.instance.bookingId, "bookingId must be set in BookingOverviewDTO");
-            Objects.requireNonNull(this.instance.customerId, "customerId must be set in BookingOverviewDTO");
+            Objects.requireNonNull(this.instance.customer, "customer must be set in BookingOverviewDTO");
             Objects.requireNonNull(this.instance.guestCount, "guestCount must be set in BookingOverviewDTO");
             Objects.requireNonNull(this.instance.roomCount, "roomCount must be set in BookingOverviewDTO");
             return this.instance;

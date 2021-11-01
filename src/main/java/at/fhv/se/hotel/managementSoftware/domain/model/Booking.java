@@ -9,18 +9,18 @@ public class Booking {
 	private LocalDate checkOutDate;
 	private LocalDate cancelationDate;
 	private String creditCardNumber;
-	private String customerId;
+	private Customer customer;
 	private int guestCount;
 	
 	private HashMap<String, Integer> categoryCount;
 	
-	public Booking(String bookingId, LocalDate checkInDate, LocalDate checkOutDate, String creditCardNumber, String customerId, int guestCount) {
+	public Booking(String bookingId, LocalDate checkInDate, LocalDate checkOutDate, String creditCardNumber, Customer customer, int guestCount) {
 		super();
 		this.bookingId = bookingId;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
 		this.creditCardNumber = creditCardNumber;
-		this.customerId = customerId;
+		this.customer = customer;
 		this.guestCount = guestCount;
 		categoryCount = new HashMap<String, Integer>();
 	}
@@ -50,8 +50,8 @@ public class Booking {
 		return creditCardNumber;
 	}
 
-	public String getCustomerId() {
-		return customerId;
+	public Customer getCustomer() {
+		return customer;
 	}
 
 	public HashMap<String, Integer> getCategoryCount() {
