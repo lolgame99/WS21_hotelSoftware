@@ -17,10 +17,10 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="dashboard" class="nav-link">Dashboard</a></li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" >
                     Booking
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="createBooking">Create Booking</a></li>
                     <li><a class="dropdown-item" href="#">Edit Booking</a></li>
                     <li><a class="dropdown-item" href="#">Cancel Booking</a></li>
@@ -36,40 +36,8 @@
         <p class="fs-3">Create new booking</p>
         <form class="new_booking row" action="index.html" method="post">
             <div class="col-6">
-                <p class="fs-5">Booking information</p>
-                <div class="form-row row mb-2">
-                    <div class="col">
-                        <label class="form-label" for="check-in">Check-in Date</label><br>
-                        <input class="form-control" type="date" id="check-in" name="check-in" value="" required>
-                    </div>
-                    <div class="col">
-                        <label class="form-label" for="check-out">Check-out Date</label><br>
-                        <input class="form-control" type="date" id="check-out" name="check-out" value="" required>
-                    </div>
-                </div>
-                <div class="form-row mb-2">
-                    <label for="categoryList">Add Category</label><br>
-
-                    <button type="button" class="btn btn-secondary addCategoryBtn">+</button>
-                </div>
-                <div class="form-row mb-2">
-                    <label class="form-label" for="guestCount">Number of guests</label><br>
-                    <input class="form-control" type="number" id="guestCount" name="guestCount" value="" required>
-                </div>
-                <div class="form-row row mb-2">
-                    <div class="col-9">
-                        <label class="form-label" for="creditCardNumber">Credit card number</label><br>
-                        <input class="form-control" type="text" id="creditCardNumber" name="creditCardNumber" value="" placeholder="4242 4242 4242 4242" required>
-                    </div>
-                    <div class="col-3">
-                        <label class="form-label" for="creditCardNumber">Valid until</label><br>
-                        <input class="form-control" type="text" id="creditCardExpiration" name="creditCardExpiration" value="" placeholder="MM/YY" required>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
                 <p class="fs-5">Customer information</p>
-                <button type="button" class="btn btn-secondary">Add existing customer</button>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#customerSelection">Add existing customer</button>
                 <div class="form-row row my-2">
                     <div class="col">
                         <label class="form-label" for="firstName">First name</label><br>
@@ -135,18 +103,76 @@
                     <select class="form-control selectpicker countrypicker" name="country" id="country" required></select>
                 </div>
             </div>
+            <div class="col-6">
+                <p class="fs-5">Booking information</p>
+                <div class="form-row row mb-2">
+                    <div class="col">
+                        <label class="form-label" for="check-in">Check-in Date</label><br>
+                        <input class="form-control" type="date" id="check-in" name="check-in" value="" required>
+                    </div>
+                    <div class="col">
+                        <label class="form-label" for="check-out">Check-out Date</label><br>
+                        <input class="form-control" type="date" id="check-out" name="check-out" value="" required>
+                    </div>
+                </div>
+                <div class="form-row mb-2">
+                    <label for="categoryList">Add Category</label><br>
+
+                    <button type="button" class="btn btn-secondary addCategoryBtn">+</button>
+                </div>
+                <div class="form-row mb-2">
+                    <label class="form-label" for="guestCount">Number of guests</label><br>
+                    <input class="form-control" type="number" id="guestCount" name="guestCount" value="" required>
+                </div>
+                <div class="form-row row mb-2">
+                    <div class="col-9">
+                        <label class="form-label" for="creditCardNumber">Credit card number</label><br>
+                        <input class="form-control" type="text" id="creditCardNumber" name="creditCardNumber" value="" placeholder="4242 4242 4242 4242" required>
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label" for="creditCardNumber">Valid until</label><br>
+                        <input class="form-control" type="text" id="creditCardExpiration" name="creditCardExpiration" value="" placeholder="MM/YY" required>
+                    </div>
+                </div>
+            </div>
             <div class="col">
                 <button type="submit" class="btn btn-primary">Create booking</button>
-                <button type="reset" class="btn btn-secondary">Reset</button>
+                <button type="button" onClick="window.location.reload();" class="btn btn-secondary">Reset</button>
             </div>
 
         </form>
+    </div>
+
+    <!-- Customer Selection Modal -->
+    <div class="modal fade" id="customerSelection" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="customerSelectionLabel">Select customer</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+              <input class="form-control mb-3" type="text" id="customerSearch" placeholder="search here...">
+              <ul class="list-group customerList">
+                  <!-- Dynamically load all customer -->
+                  <li class="list-group-item"><a href="#">Otto Test</a></li>
+                  <li class="list-group-item"><a href="#">Walter Test</a></li>
+                  <li class="list-group-item"><a href="#">Ursula Frank</a></li>
+              </ul>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="categoryEntryEmpty d-none form-row row mb-1">
         <div class="col">
             <input class="form-control" list="categoryOptions" name="categoryList" id="categoryList" placeholder="type category..." required>
             <datalist id="categoryOptions">
+                <!-- Dynamicly load all categories via thymeleaf-->
                 <option value="Einzelzimmer">
                 <option value="Doppelzimmer">
                 <option value="Suite">
