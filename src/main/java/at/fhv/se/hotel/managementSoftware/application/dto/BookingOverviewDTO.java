@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 
 
 public class BookingOverviewDTO {
@@ -12,6 +13,7 @@ public class BookingOverviewDTO {
 	private int roomCount;
 	private int guestCount;
 	private Customer customer;
+	private RoomCategory roomCategory;
 	
 	
 	public static Builder builder() {
@@ -36,6 +38,10 @@ public class BookingOverviewDTO {
 
 	public Customer getCustomer() {
 		return customer;
+	}
+	
+	public RoomCategory roomCategory() {
+		return roomCategory;
 	}
 
 	private BookingOverviewDTO() {
@@ -70,6 +76,11 @@ public class BookingOverviewDTO {
         
         public Builder withCustomer(Customer customer) {
         	this.instance.customer = customer;
+        	return this;
+        }
+        
+        public Builder withRoomCategory(RoomCategory roomCategory) {
+        	this.instance.roomCategory = roomCategory;
         	return this;
         }
 

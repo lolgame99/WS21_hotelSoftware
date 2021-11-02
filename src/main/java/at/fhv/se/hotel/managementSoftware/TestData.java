@@ -7,6 +7,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer.Gender;
@@ -27,14 +28,10 @@ public class TestData implements ApplicationRunner{
 		customerRepository.addCustomer(new Customer("1", "Ulrich", "Vogler", "Kantstraﬂe", "32", "Rochlitz", "09301", "Deutschland", "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
 		customerRepository.addCustomer(new Customer("2", "Michelle", "Eichelberger", "Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Deutschland", "MichelleEichelberger@rhyta.com", "++499497826628", Gender.FEMALE));
 		
-		bookingRepository.addBooking(new Booking("1", LocalDate.of(2021, 11, 3), LocalDate.of(2021, 11, 10), "5555555555554444", customerRepository.getCustomerById("1").get(), 2)
-				.addCategory("Doppelzimmer", 1));
-		bookingRepository.addBooking(new Booking("2", LocalDate.of(2021, 11, 3), LocalDate.of(2021, 11, 15), "5555555555554444", customerRepository.getCustomerById("2").get(), 6)
-				.addCategory("Doppelzimmer", 2)
-				.addCategory("Einzelzimmer", 2));
-		bookingRepository.addBooking(new Booking("3", LocalDate.of(2021, 11, 10), LocalDate.of(2021, 11, 20), "5555555555554444", customerRepository.getCustomerById("1").get(), 2)
-				.addCategory("Suite", 1));
-		
+	
+		bookingRepository.addBooking(new Booking("1", LocalDate.of(2021, 11, 3), LocalDate.of(2021, 11, 10), "5555555555554444", customerRepository.getCustomerById("1").get(), 2);
+		bookingRepository.addBooking(new Booking("2", LocalDate.of(2021, 11, 3), LocalDate.of(2021, 11, 15), "5555555555554444", customerRepository.getCustomerById("2").get(), 6, "Doppelzimmer", 2, BookingStatus.PENDING));
+		bookingRepository.addBooking(new Booking("3", LocalDate.of(2021, 11, 10), LocalDate.of(2021, 11, 20), "5555555555554444", customerRepository.getCustomerById("1").get(), 2));
 		
 	}
 
