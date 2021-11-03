@@ -37,15 +37,20 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public CustomerOverviewDTO getCustomerOverviewById(String id) {
+	public Optional<CustomerOverviewDTO> getCustomerOverviewById(String id) {
 		Optional<Customer> customer = customerRepository.getCustomerById(id);
+		Optional<CustomerOverviewDTO> customerDTO = Optional.empty();
 		
-		return CustomerOverviewDTO.builder()
-				.withFirstName(customer.get().getFirstName())
-				.withLastName(customer.get().getLastName())
-				.withMiddleName(customer.get().getMiddleName())
-				.withId(customer.get().getCustomerId())
-				.build();
+		if (customer.isPresent()) {
+			customerDTO = Optional.of(CustomerOverviewDTO.builder()
+					.withFirstName(customer.get().getFirstName())
+					.withLastName(customer.get().getLastName())
+					.withMiddleName(customer.get().getMiddleName())
+					.withId(customer.get().getCustomerId())
+					.build());
+		}
+		
+		return customerDTO;
 	}
 
 }
