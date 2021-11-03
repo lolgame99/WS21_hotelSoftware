@@ -1,6 +1,7 @@
 package at.fhv.se.hotel.managementSoftware.application.dto;
 
-import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.Objects;
 
 
@@ -9,7 +10,7 @@ public class CustomerOverviewDTO {
 	private String firstName;
 	private String middleName;
 	private String lastName;
-	private Date birthdate;
+	private LocalDate birthdate;
 	
 	public static Builder builder() {
 		return new Builder();
@@ -31,7 +32,7 @@ public class CustomerOverviewDTO {
 		return lastName;
 	}
 	
-	public Date getBirthdate() {
+	public LocalDate getBirthdate() {
 		return birthdate;
 	}
 	
@@ -65,7 +66,7 @@ public class CustomerOverviewDTO {
             return this;
         } 
         
-        public Builder withBirthdate(Date birthdate) {
+        public Builder withBirthdate(LocalDate birthdate) {
         	this.instance.birthdate = birthdate;
         	return this;
         }
