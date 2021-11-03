@@ -12,7 +12,7 @@ public class BookingForm {
 	private String middleName;
 	private String lastName;
 	private Gender gender;
-	private LocalDate birthdate;
+	private String birthdate;
 	
 	private String email;
 	private String phoneNumber;
@@ -23,8 +23,8 @@ public class BookingForm {
 	private String postcode;
 	private String country;
 	
-	private LocalDate checkInDate;
-	private LocalDate checkOutDate;
+	private String checkInDate;
+	private String checkOutDate;
 	private int guestCount;
 	private String creditCardNumber;
 	private String creditCardValid;
@@ -96,11 +96,11 @@ public class BookingForm {
 		this.gender = gender;
 	}
 
-	public LocalDate getBirthdate() {
+	public String getBirthdate() {
 		return birthdate;
 	}
 
-	public void setBirthdate(LocalDate birthdate) {
+	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
 	}
 
@@ -160,19 +160,19 @@ public class BookingForm {
 		this.country = country;
 	}
 
-	public LocalDate getCheckInDate() {
+	public String getCheckInDate() {
 		return checkInDate;
 	}
 
-	public void setCheckInDate(LocalDate checkInDate) {
+	public void setCheckInDate(String checkInDate) {
 		this.checkInDate = checkInDate;
 	}
 
-	public LocalDate getCheckOutDate() {
+	public String getCheckOutDate() {
 		return checkOutDate;
 	}
 
-	public void setCheckOutDate(LocalDate checkOutDate) {
+	public void setCheckOutDate(String checkOutDate) {
 		this.checkOutDate = checkOutDate;
 	}
 

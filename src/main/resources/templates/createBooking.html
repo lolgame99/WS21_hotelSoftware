@@ -158,12 +158,12 @@
 
     <div class="categoryEntryEmpty d-none form-row row mb-1">
         <div class="col">
-            <select class="form-control" required>
+            <select class="form-control categoryValues" required>
                 <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID}"></option>
             </select>
         </div>
         <div class="col">
-            <input class="form-control" type="number" placeholder="number of rooms" required>
+            <input class="form-control categoryAmounts" type="number" placeholder="number of rooms" required>
         </div>
     </div>
 </body>

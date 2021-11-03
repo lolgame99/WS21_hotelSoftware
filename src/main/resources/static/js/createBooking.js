@@ -1,8 +1,13 @@
 $(document).ready(function(){
+	var categoryCounter = 0;
+	
     $(".addCategoryBtn").click(function(){
         var newCategoryEntry = $('.categoryEntryEmpty').clone();
         newCategoryEntry.removeClass("categoryEntryEmpty d-none");
+		newCategoryEntry.find(".categoryAmounts")[0].setAttribute("name","categoryAmounts["+ categoryCounter+"]");
+		newCategoryEntry.find(".categoryValues")[0].setAttribute("name","categoryAmounts["+ categoryCounter+"]");
         $(this).before(newCategoryEntry);
+		categoryCounter++;
     });
 
     jQuery("#customerSearch").keyup(function () {

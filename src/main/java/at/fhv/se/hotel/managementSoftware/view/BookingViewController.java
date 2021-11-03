@@ -64,11 +64,14 @@ public class BookingViewController {
 		return CREATE_BOOKING_VIEW;
 	}
 	
-	/*
-	@PostMapping(CREATE_BOOKING_VIEW)
-	  public ModelAndView greetingSubmit(@ModelAttribute Booking booking, @ModelAttribute Customer customer,Model model) {
-		bookingService.addBooking(booking);
-	    return new ModelAndView("redirect:" + DAILY_CHECKINS_URL);
+	
+	@PostMapping(CREATE_BOOKING_URL)
+	  public ModelAndView greetingSubmit(@ModelAttribute BookingForm form, Model model) {
+		System.out.println(form);
+		
+		//TODO: Create new booking from form
+		
+	    return new ModelAndView("redirect:" + DASHBOARD_URL);
 	  }
-	  */
+	  
 }
