@@ -20,6 +20,7 @@ import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.view.forms.BookingForm;
 
 @Controller
 public class BookingViewController {
@@ -29,7 +30,6 @@ public class BookingViewController {
 	private static final String DASHBOARD_URL ="/";
 	private static final String ERROR_URL = "/error";
 	
-	//TODO: change name of daily checkin view
 	private static final String DASHBOARD_VIEW ="dashboard";
 	private static final String CREATE_BOOKING_VIEW ="createBooking";
 	
@@ -57,6 +57,10 @@ public class BookingViewController {
 		
 		List<CustomerOverviewDTO> customers = customerService.getAllCustomersOverview();
 		model.addAttribute("customers", customers);
+		
+		final BookingForm form = new BookingForm();
+		model.addAttribute("form", form);
+		
 		return CREATE_BOOKING_VIEW;
 	}
 	
