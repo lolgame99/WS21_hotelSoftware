@@ -35,7 +35,6 @@ public class BookingServiceImpl implements BookingService{
 					.withCustomer(b.getCustomer())
 					.withGuestCount(b.getGuestCount())
 					.withRoomCount(totalRoomCount)
-					.withRoomCategory(b.getRoomCategory())
 					.build()
 					);
 		}
@@ -60,7 +59,6 @@ public class BookingServiceImpl implements BookingService{
 					.withCustomer(b.getCustomer())
 					.withGuestCount(b.getGuestCount())
 					.withRoomCount(totalRoomCount)
-					.withRoomCategory(b.getRoomCategory())
 					.build()
 					);
 		}

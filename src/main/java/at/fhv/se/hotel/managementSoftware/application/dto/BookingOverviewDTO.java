@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
-import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 
 
 public class BookingOverviewDTO {
@@ -13,7 +12,6 @@ public class BookingOverviewDTO {
 	private int roomCount;
 	private int guestCount;
 	private Customer customer;
-	private RoomCategory roomCategory;
 	
 	
 	public static Builder builder() {
@@ -40,10 +38,6 @@ public class BookingOverviewDTO {
 		return customer;
 	}
 	
-	public RoomCategory roomCategory() {
-		return roomCategory;
-	}
-
 	private BookingOverviewDTO() {
 	}
 	
@@ -78,18 +72,12 @@ public class BookingOverviewDTO {
         	this.instance.customer = customer;
         	return this;
         }
-        
-        public Builder withRoomCategory(RoomCategory roomCategory) {
-        	this.instance.roomCategory = roomCategory;
-        	return this;
-        }
 
         public BookingOverviewDTO build() {
             Objects.requireNonNull(this.instance.checkInDate, "checkInDate must be set in BookingOverviewDTO");
             Objects.requireNonNull(this.instance.bookingId, "bookingId must be set in BookingOverviewDTO");
             Objects.requireNonNull(this.instance.customer, "customer must be set in BookingOverviewDTO");
             Objects.requireNonNull(this.instance.guestCount, "guestCount must be set in BookingOverviewDTO");
-            Objects.requireNonNull(this.instance.roomCount, "roomCount must be set in BookingOverviewDTO");
             return this.instance;
         }
 	}
