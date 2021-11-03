@@ -20,7 +20,7 @@ public class Booking {
 	public Booking(String bookingId, LocalDate checkInDate,  LocalDate checkOutDate, String creditCardNumber, Customer customer, int guestCount, BookingStatus bookingStatus) throws InvalidBookingException {
 		super();
 		//Prüfen, ob Check-in-Date vor Check-out-Date liegt
-		if (checkInDate.compareTo(checkOutDate) <= 0) {
+		if (checkInDate.compareTo(checkOutDate) >= 0) {
 			throw new InvalidBookingException("ERROR: Check-out-Date is before Check-in Date");
 		}
 		
