@@ -15,13 +15,13 @@
 <body>
     <header class="d-flex justify-content-center py-3 bg-light">
         <ul class="nav nav-pills">
-            <li class="nav-item"><a href="#" class="nav-link active">Dashboard</a></li>
+            <li class="nav-item"><a href="dashboard" class="nav-link active">Dashboard</a></li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" >
                     Booking
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="booking">Create Booking</a></li>
+                    <li><a class="dropdown-item" href="createBooking">Create Booking</a></li>
                     <li><a class="dropdown-item" href="#">Edit Booking</a></li>
                     <li><a class="dropdown-item" href="#">Cancel Booking</a></li>
                 </ul>
@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <table class="table">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th class="text-center" scope="col">Name</th>
@@ -62,23 +62,40 @@
           <td class="text-center">1</td>
           <td class="text-center">1</td>
           <td class="text-center"><input class="form-check-input" type="checkbox" id="confirmed" name="confirmed" value""></td>
-          <td class="text-center"><a href="#">Edit</a> <a href="#">Delete</a></td>
+          <td class="text-center"><a href="#">Edit</a> <a href="#" data-bs-toggle="modal" data-bs-target="#deleteBooking">Delete</a></td>
         </tr>
         <tr>
           <td class="text-center">Firma Mustermann<br><small>01.01.99</small></td>
           <td class="text-center">50</td>
           <td class="text-center">25</td>
           <td class="text-center"><input class="form-check-input" type="checkbox" id="confirmed" name="confirmed" value""></td>
-          <td class="text-center"><a href="#">Edit</a> <a href="#">Delete</a></td>
+          <td class="text-center"><a href="#">Edit</a> <a href="#" data-bs-toggle="modal" data-bs-target="#deleteBooking">Delete</a></td>
         </tr>
         <tr>
           <td class="text-center">Max Mustermann<br><small>01.01.99</small></td>
             <td class="text-center">4</td>
             <td class="text-center">1</td>
             <td class="text-center"><input class="form-check-input" type="checkbox" id="confirmed" name="confirmed" value""></td>
-          <td class="text-center"><a href="#">Edit</a> <a href="#">Delete</a></td>
+          <td class="text-center"><a href="#">Edit</a> <a href="#" data-bs-toggle="modal" data-bs-target="#deleteBooking">Delete</a></td>
         </tr>
       </tbody>
+    </div>
+
+    <div class="modal fade" id="deleteBooking" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteBooking">Confirm</h5>
+                </div>
+                <div class="modal-body">
+                  <p>Are your sure you want to delete this booking?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
     </div>
   </body>
 </html>
