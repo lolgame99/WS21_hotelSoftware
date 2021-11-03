@@ -31,8 +31,8 @@ public class TestData implements ApplicationRunner{
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		customerRepository.addCustomer(new Customer("1", "Ulrich", "Vogler", new Address("Kantstraße", "32", "Rochlitz", "09301", "Deutschland"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
-		customerRepository.addCustomer(new Customer("2", "Michelle", "Eichelberger", new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Deutschland"), "MichelleEichelberger@rhyta.com", "++499497826628", Gender.FEMALE));
+		customerRepository.addCustomer(new Customer("1", "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstraï¿½e", "32", "Rochlitz", "09301", "Deutschland"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
+		customerRepository.addCustomer(new Customer("2", "Michelle", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Deutschland"), "MichelleEichelberger@rhyta.com", "++499497826628", Gender.FEMALE));
 		
 		roomCategoryRepository.addRoomCategory(new RoomCategory("1", "Single Room", 1));
 		roomCategoryRepository.addRoomCategory(new RoomCategory("2", "Double Room", 2));

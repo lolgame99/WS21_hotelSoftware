@@ -1,5 +1,7 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
+import java.time.LocalDate;
+
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 
 public class Customer {
@@ -8,6 +10,7 @@ public class Customer {
 	private String firstName;
 	private String middleName;
 	private String lastName;
+	private LocalDate birthdate;
 	
 	private Address address;
 
@@ -17,12 +20,13 @@ public class Customer {
 	
 	private Address billingAddress;
 	
-	public Customer(String customerId, String firstName, String lastName, Address address, String email,
+	public Customer(String customerId, String firstName, String lastName, LocalDate birthdate, Address address, String email,
 			String phoneNumber, Gender gender) {
 		super();
 		this.customerId = customerId;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.birthdate = birthdate;
 		this.address = address;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
@@ -51,6 +55,10 @@ public class Customer {
 
 	public String getLastName() {
 		return lastName;
+	}
+	
+	public LocalDate getBirthdate() {
+		return birthdate;
 	}
 
 	public Address getAddress() {

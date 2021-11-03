@@ -29,6 +29,7 @@ public class CustomerServiceImpl implements CustomerService{
 					.withLastName(cus.getLastName())
 					.withMiddleName(cus.getMiddleName())
 					.withId(cus.getCustomerId())
+					.withBirthdate(cus.getBirthdate())
 					.build());
 		}
 		
@@ -47,6 +48,7 @@ public class CustomerServiceImpl implements CustomerService{
 					.withLastName(customer.get().getLastName())
 					.withMiddleName(customer.get().getMiddleName())
 					.withId(customer.get().getCustomerId())
+					.withBirthdate(customer.get().getBirthdate())
 					.build());
 		}
 		
