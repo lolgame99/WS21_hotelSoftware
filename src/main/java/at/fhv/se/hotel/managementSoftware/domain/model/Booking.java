@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 
 public class Booking {
 	private String bookingId;
@@ -16,8 +17,23 @@ public class Booking {
 	
 	private HashMap<RoomCategory, Integer> categoryCount;
 	
-	public Booking(String bookingId, LocalDate checkInDate,  LocalDate checkOutDate, String creditCardNumber, Customer customer, int guestCount, BookingStatus bookingStatus) {
+	public Booking(String bookingId, LocalDate checkInDate,  LocalDate checkOutDate, String creditCardNumber, Customer customer, int guestCount, BookingStatus bookingStatus) throws InvalidBookingException {
 		super();
+		//Prüfen, ob Check-in-Date vor Check-out-Date liegt
+		if (checkInDate.compareTo(checkOutDate) <= 0) {
+			throw new InvalidBookingException("ERROR: Check-out-Date is before Check-in Date");
+		}
+		
+		//Prüfen, ob mind. ein Kunde
+		if (guestCount <= 0) {
+			throw new InvalidBookingException("ERROR: Minimal guest count is 1");
+		}
+		
+//		//Prüfen, ob HashMap leer ist
+//		if (categoryCount.isEmpty()) {
+//			throw new InvalidBookingException("ERROR: HashMap is not supposed to be empty!");
+//		}
+		
 		this.bookingId = bookingId;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
@@ -30,10 +46,6 @@ public class Booking {
 		
 		
 		//Prüfen, ob Check-in-Date vor Check-out-Date liegt
-		if (checkInDate.compareTo(checkOutDate) >= 0) {
-			
-			System.out.println("Fehler: Check-in-Date darf nicht hinter Check-out-Date liegen!");
-		}
 		
 		//Prüfen, ob mind. ein Kunde
 		if (guestCount <= 0) {
