@@ -1,5 +1,6 @@
 package at.fhv.se.hotel.managementSoftware.application.dto;
 
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -8,6 +9,7 @@ public class CustomerOverviewDTO {
 	private String firstName;
 	private String middleName;
 	private String lastName;
+	private Date birthdate;
 	
 	public static Builder builder() {
 		return new Builder();
@@ -27,6 +29,10 @@ public class CustomerOverviewDTO {
 
 	public String getLastName() {
 		return lastName;
+	}
+	
+	public Date getBirthdate() {
+		return birthdate;
 	}
 	
 	private CustomerOverviewDTO() {
@@ -58,12 +64,18 @@ public class CustomerOverviewDTO {
             this.instance.middleName = middleName;
             return this;
         } 
+        
+        public Builder withBirthdate(Date birthdate) {
+        	this.instance.birthdate = birthdate;
+        	return this;
+        }
 
 
         public CustomerOverviewDTO build() {
             Objects.requireNonNull(this.instance.customerId, "customerId must be set in CustomerOverviewDTO");
             Objects.requireNonNull(this.instance.firstName, "firstName must be set in CustomerOverviewDTO");
             Objects.requireNonNull(this.instance.lastName, "lastName must be set in CustomerOverviewDTO");
+            Objects.requireNonNull(this.instance.birthdate, "birthdate must be set in CustomerOverviewDTO");
             return this.instance;
         }
 	}
