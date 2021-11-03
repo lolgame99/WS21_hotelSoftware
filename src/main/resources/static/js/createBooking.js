@@ -6,14 +6,14 @@ $(document).ready(function(){
     });
 
     jQuery("#customerSearch").keyup(function () {
-    var filter = jQuery(this).val();
-    jQuery(".customerList li").each(function () {
-        if (jQuery(this).text().search(new RegExp(filter, "i")) < 0) {
-            jQuery(this).hide();
-        } else {
-            jQuery(this).show()
-        }
+        var filter = jQuery(this).val();
+        jQuery(".customerList li").each(function () {
+            if (jQuery(this).text().search(new RegExp(filter, "i")) < 0) {
+                jQuery(this).hide();
+            } else {
+                jQuery(this).show()
+            }
+        });
     });
-});
 
 });

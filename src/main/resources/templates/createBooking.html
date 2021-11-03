@@ -17,7 +17,7 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="dashboard" class="nav-link">Dashboard</a></li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" >
+                <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
                     Booking
                 </a>
                 <ul class="dropdown-menu">
@@ -145,38 +145,34 @@
 
     <!-- Customer Selection Modal -->
     <div class="modal fade" id="customerSelection" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="customerSelectionLabel">Select customer</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-              <input class="form-control mb-3" type="text" id="customerSearch" placeholder="search here...">
-              <ul class="list-group customerList">
-                  <!-- Dynamically load all customer -->
-                  <li class="list-group-item"><a href="#">Otto Test</a></li>
-                  <li class="list-group-item"><a href="#">Walter Test</a></li>
-                  <li class="list-group-item"><a href="#">Ursula Frank</a></li>
-              </ul>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="customerSelectionLabel">Select customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control mb-3" type="text" id="customerSearch" placeholder="search here...">
+                    <ul class="list-group customerList">
+                        <!-- Dynamically load all customer -->
+                        <li class="list-group-item" th:each="n : ${customers}">
+                        	<a th:href="@{/booking(customer=${n.customerId})}" th:text="${n.firstName}+' '+${n.lastName}"></a>
+                        </li>
+                    </ul>
 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="categoryEntryEmpty d-none form-row row mb-1">
         <div class="col">
-            <input class="form-control" list="categoryOptions" name="categoryList" id="categoryList" placeholder="type category..." required>
-            <datalist id="categoryOptions">
-                <!-- Dynamicly load all categories via thymeleaf-->
-                <option value="Einzelzimmer">
-                <option value="Doppelzimmer">
-                <option value="Suite">
-            </datalist>
+            <select class="form-control" name="categoryList" id="categoryList" required>
+                <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID}"></option>
+            </select>
         </div>
         <div class="col">
             <input class="form-control" type="number" name="categoryCount" value="" placeholder="number of rooms" required>
