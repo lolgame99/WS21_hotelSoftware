@@ -26,69 +26,70 @@
     <div class="content container my-3">
         <p class="fs-3">Create new booking</p>
         <form class="new_booking row" action="#" th:object="${form}" th:action="@{/booking}" method="post">
+        	<input class="form-control d-none" type="text" th:field="*{customerId}">
             <div class="col-6">
                 <p class="fs-5">Customer information</p>
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#customerSelection">Add existing customer</button>
                 <div class="form-row row my-2">
                     <div class="col">
                         <label class="form-label" for="firstName">First name</label><br>
-                        <input class="form-control" type="text" th:field="*{firstName}" required>
+                        <input class="form-control" type="text" th:field="*{firstName}" th:disabled="*{customerId != null}" required>
                     </div>
                     <div class="col">
                         <label class="form-label" for="middleName">Middle name</label><br>
-                        <input class="form-control" type="text" th:field="*{middleName}">
+                        <input class="form-control" type="text" th:field="*{middleName}" th:disabled="*{customerId != null}">
                     </div>
                     <div class="col">
                         <label class="form-label" for="lastName">Last name</label><br>
-                        <input class="form-control" type="text" th:field="*{lastName}" required>
+                        <input class="form-control" type="text" th:field="*{lastName}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
                     <div class="col">
                         <label class="form-label" for="gender">Gender</label><br>
-                        <select class="form-control" th:field="*{gender}" required>
-			                <option th:each="n : ${T(at.fhv.se.hotel.managementSoftware.domain.enums.Gender).values()}" th:text="${n.displayValue}" th:value="${n}"></option>
+                        <select class="form-control" th:field="*{gender}" th:disabled="*{customerId != null}" required>
+			                <option th:each="n : ${T(at.fhv.se.hotel.managementSoftware.domain.enums.Gender).values()}" th:text="${n.displayValue}" th:value="${n}" ></option>
 			            </select>
                     </div>
                     <div class="col">
                         <label class="form-label" for="birthdate">Birthdate</label><br>
-                        <input class="form-control" type="date" th:field="*{birthdate}" required>
+                        <input class="form-control" type="date" th:field="*{birthdate}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
                     <div class="col">
                         <label class="form-label" for="email">Email</label><br>
-                        <input class="form-control" type="text" th:field="*{email}" required>
+                        <input class="form-control" type="text" th:field="*{email}" th:disabled="*{customerId != null}" required>
                     </div>
                     <div class="col">
                         <label class="form-label" for="phoneNumber">Phone number</label><br>
-                        <input class="form-control" type="text" th:field="*{phoneNumber}" required>
+                        <input class="form-control" type="text" th:field="*{phoneNumber}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
                 <hr>
                 <div class="form-row row mb-2">
                     <div class="col-8">
                         <label class="form-label" for="streetName">Street name</label><br>
-                        <input class="form-control" type="text" th:field="*{streetName}" required>
+                        <input class="form-control" type="text" th:field="*{streetName}" th:disabled="*{customerId != null}" required>
                     </div>
                     <div class="col-4">
                         <label class="form-label" for="streetNumber">Street number</label><br>
-                        <input class="form-control" type="text" th:field="*{streetNumber}" required>
+                        <input class="form-control" type="text" th:field="*{streetNumber}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
                     <div class="col-8">
                         <label class="form-label" for="city">City</label><br>
-                        <input class="form-control" type="text" th:field="*{city}" required>
+                        <input class="form-control" type="text" th:field="*{city}" th:disabled="*{customerId != null}" required>
                     </div>
                     <div class="col-4">
                         <label class="form-label" for="postcode">Postcode</label><br>
-                        <input class="form-control" type="text" th:field="*{postcode}" required>
+                        <input class="form-control" type="text" th:field="*{postcode}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
                 <div class="form-row mb-2">
                     <label class="form-label" for="country">Country</label><br>
-                    <select class="form-control selectpicker countrypicker" th:field="*{country}" required></select>
+                    <select class="form-control selectpicker countrypicker" th:field="*{country}" th:disabled="*{customerId != null}" required></select>
                 </div>
             </div>
             <div class="col-6">
@@ -144,7 +145,7 @@
                     <ul class="list-group customerList">
                         <!-- Dynamically load all customer -->
                         <li class="list-group-item" th:each="n : ${customers}">
-                        	<a th:href="@{/booking(customer=${n.customerId})}" th:text="${n.firstName}+' '+${n.lastName}"></a>
+                        	<a th:href="@{/booking(customerId=${n.customerId})}" th:text="${n.firstName}+' '+${n.lastName}"></a>
                         </li>
                     </ul>
 

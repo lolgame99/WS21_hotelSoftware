@@ -47,7 +47,6 @@ public class BookingViewController {
 	
 	@GetMapping(DASHBOARD_URL)
     public String customer(Model model) {
-        
         List<BookingOverviewDTO> bookingOverviews = bookingService.getBookingsByDate(LocalDate.now());
         model.addAttribute("bookings", bookingOverviews);
         return DASHBOARD_VIEW;
@@ -55,13 +54,15 @@ public class BookingViewController {
 	
 	@GetMapping(CREATE_BOOKING_URL)
 	public String createBooking(@RequestParam(value = "customerId", required = false) String customerId, Model model) {
+		final BookingData form = new BookingData();
 		
-		if(!customerId.isEmpty()) {
-			Optional<CustomerDetailsDTO> customerDetailsDTO = customerService.getCustomerDetailsById(customerId);
-			if (customerDetailsDTO.isPresent()) {
-				model.addAttribute("existingCustomer", customerDetailsDTO);
+		if(customerId != null) {
+			Optional<CustomerDetailsDTO> existingCustomer = customerService.getCustomerDetailsById(customerId);
+			if (existingCustomer.isPresent()) {
+				form.addExistingCustomer(existingCustomer.get());
 			}
 		}
+		model.addAttribute("form", form);
 		
 		List<RoomCategoryDTO> roomCategories = roomCategoryService.getAllRoomCategoriesDTO();
 		model.addAttribute("roomCategories", roomCategories);
@@ -69,8 +70,7 @@ public class BookingViewController {
 		List<CustomerOverviewDTO> customers = customerService.getAllCustomersOverview();
 		model.addAttribute("customers", customers);
 		
-		final BookingData form = new BookingData();
-		model.addAttribute("form", form);
+		
 		
 		return CREATE_BOOKING_VIEW;
 	}
@@ -84,7 +84,7 @@ public class BookingViewController {
 			request.setAttribute("msg", e.getMessage());
 			return new ModelAndView("forward:"+ERROR_URL);
 		}
-		return new ModelAndView("forward:" + DASHBOARD_URL);
+		return new ModelAndView("redirect:" + DASHBOARD_URL);
 	}
 	
 	@GetMapping(ERROR_URL)

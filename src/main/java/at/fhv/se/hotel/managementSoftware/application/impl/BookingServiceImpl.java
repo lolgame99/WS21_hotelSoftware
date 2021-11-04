@@ -92,7 +92,8 @@ public class BookingServiceImpl implements BookingService{
 	@Override
 	public void addBookingFromData(BookingData bookingData) throws InvalidBookingException {
 		Optional<Customer> customer = customerRepository.getCustomerById(bookingData.getCustomerId());
-		if(customer.isEmpty()) {
+		Boolean customerCreated = customer.isEmpty();
+		if(customerCreated) {
 			customer = Optional.of(new Customer(
 					customerRepository.nextIdentity(),
 					bookingData.getFirstName(),
@@ -120,7 +121,9 @@ public class BookingServiceImpl implements BookingService{
 			booking.addCategory(roomCategoryRepository.getRoomCategoryById(bookingData.getCategoryValues().get(i).toString()).get(), 
 					bookingData.getCategoryAmounts().get(i));
 		}
-		customerRepository.addCustomer(customer.get());
+		if (customerCreated) {
+			customerRepository.addCustomer(customer.get());
+		}
 		bookingRepository.addBooking(booking);
 		
 		

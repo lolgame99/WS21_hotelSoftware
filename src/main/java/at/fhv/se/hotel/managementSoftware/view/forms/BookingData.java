@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 
 public class BookingData {
@@ -30,12 +31,27 @@ public class BookingData {
 	private String creditCardNumber;
 	private String creditCardValid;
 	
-	private List<Integer> categoryValues= new ArrayList<Integer>();
+	private List<String> categoryValues= new ArrayList<String>();
 	private List<Integer> categoryAmounts= new ArrayList<Integer>();
 
 	public BookingData() {
 	}
 	
+	public void addExistingCustomer(CustomerDetailsDTO existingCustomer) {
+		this.customerId = existingCustomer.getCustomerId();
+		this.firstName = existingCustomer.getFirstName();
+		this.middleName = existingCustomer.getMiddleName();
+		this.lastName = existingCustomer.getLastName();
+		this.gender = existingCustomer.getGender();
+		this.birthdate = existingCustomer.getBirthdate().toString();
+		this.email = existingCustomer.getEmail();
+		this.phoneNumber = existingCustomer.getPhoneNumber();
+		this.streetName = existingCustomer.getAddress().getStreetName();
+		this.streetNumber = existingCustomer.getAddress().getStreetNumber();
+		this.city = existingCustomer.getAddress().getCity();
+		this.postcode = existingCustomer.getAddress().getPostCode();
+		this.country = existingCustomer.getAddress().getCountry();
+	}
 	
 	public String getCustomerId() {
 		return customerId;
@@ -47,12 +63,12 @@ public class BookingData {
 	}
 
 
-	public List<Integer> getCategoryValues() {
+	public List<String> getCategoryValues() {
 		return categoryValues;
 	}
 
 
-	public void setCategoryValues(List<Integer> categoryValues) {
+	public void setCategoryValues(List<String> categoryValues) {
 		this.categoryValues = categoryValues;
 	}
 
