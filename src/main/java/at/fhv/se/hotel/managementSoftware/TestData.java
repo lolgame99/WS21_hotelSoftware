@@ -40,7 +40,7 @@ public class TestData implements ApplicationRunner{
 		
 		
 	
-		bookingRepository.addBooking(new Booking("1", LocalDate.of(2021, 11, 3), LocalDate.of(2021, 11, 10), "5555555555554444", customerRepository.getCustomerById("1").get(), 2, BookingStatus.CONFIRMED)
+		bookingRepository.addBooking(new Booking("1", LocalDate.of(2021, 11, 4), LocalDate.of(2021, 11, 10), "5555555555554444", customerRepository.getCustomerById("1").get(), 2, BookingStatus.CONFIRMED)
 				.addCategory(roomCategoryRepository.getRoomCategoryById("2").get(), 1));
 		bookingRepository.addBooking(new Booking("2", LocalDate.of(2021, 11, 3), LocalDate.of(2021, 11, 15), "5555555555554444", customerRepository.getCustomerById("2").get(), 6, BookingStatus.PENDING)
 				.addCategory(roomCategoryRepository.getRoomCategoryById("3").get(), 1)
