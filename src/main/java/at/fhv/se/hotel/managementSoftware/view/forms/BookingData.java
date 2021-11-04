@@ -7,7 +7,8 @@ import java.util.List;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 
-public class BookingForm {
+public class BookingData {
+	private String customerId;
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -32,10 +33,20 @@ public class BookingForm {
 	private List<Integer> categoryValues= new ArrayList<Integer>();
 	private List<Integer> categoryAmounts= new ArrayList<Integer>();
 
-	public BookingForm() {
+	public BookingData() {
 	}
 	
 	
+	public String getCustomerId() {
+		return customerId;
+	}
+
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+
+
 	public List<Integer> getCategoryValues() {
 		return categoryValues;
 	}
