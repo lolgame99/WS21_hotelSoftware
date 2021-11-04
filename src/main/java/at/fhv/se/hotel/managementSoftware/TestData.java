@@ -37,7 +37,7 @@ public class TestData implements ApplicationRunner{
 		String[] bookingUUID = {UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase()};
 		
 		customerRepository.addCustomer(new Customer(customerUUID[0], "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Deutschland"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
-		customerRepository.addCustomer(new Customer(customerUUID[1], "Michelle", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Deutschland"), "MichelleEichelberger@rhyta.com", "++499497826628", Gender.FEMALE));
+		customerRepository.addCustomer(new Customer(customerUUID[1], "Michelle", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Deutschland"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
 		
 		roomCategoryRepository.addRoomCategory(new RoomCategory(categoryUUID[0], "Single Room", 1));
 		roomCategoryRepository.addRoomCategory(new RoomCategory(categoryUUID[1], "Double Room", 2));
