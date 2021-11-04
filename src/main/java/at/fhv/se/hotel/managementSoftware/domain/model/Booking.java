@@ -21,12 +21,12 @@ public class Booking {
 		super();
 		//Prüfen, ob Check-in-Date vor Check-out-Date liegt
 		if (checkInDate.compareTo(checkOutDate) >= 0) {
-			throw new InvalidBookingException("ERROR: Check-out-Date is before Check-in Date");
+			throw new InvalidBookingException("Booking could not be created <br> Check-out-Date can't be before Check-in Date");
 		}
 		
 		//Prüfen, ob mind. ein Kunde
 		if (guestCount <= 0) {
-			throw new InvalidBookingException("ERROR: Minimal guest count is 1");
+			throw new InvalidBookingException("Booking could not be created <br> Booking requires atleast 1 person");
 		}
 		
 //		//Prüfen, ob HashMap leer ist
@@ -42,15 +42,8 @@ public class Booking {
 		this.guestCount = guestCount;
 		categoryCount = new HashMap<RoomCategory, Integer>();
 		this.bookingStatus = bookingStatus;
-
 		
 		
-		//Prüfen, ob Check-in-Date vor Check-out-Date liegt
-		
-		//Prüfen, ob mind. ein Kunde
-		if (guestCount <= 0) {
-			System.out.println("Fehler: Es muss mind. ein Raum gebucht werden!");
-		}
 		
 		//Prüfen, ob HashMap leer ist
 		if (categoryCount.isEmpty()) {
