@@ -2,6 +2,7 @@ package at.fhv.se.hotel.managementSoftware.view;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +19,7 @@ import at.fhv.se.hotel.managementSoftware.application.api.BookingService;
 import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomCategoryService;
 import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
+import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
@@ -53,7 +55,14 @@ public class BookingViewController {
 	
 	@GetMapping(CREATE_BOOKING_URL)
 	public String createBooking(@RequestParam(value = "customerId", required = false) String customerId, Model model) {
-		System.out.println(customerId);
+		
+		if(!customerId.isEmpty()) {
+			Optional<CustomerDetailsDTO> customerDetailsDTO = customerService.getCustomerDetailsById(customerId);
+			if (customerDetailsDTO.isPresent()) {
+				model.addAttribute("existingCustomer", customerDetailsDTO);
+			}
+		}
+		
 		List<RoomCategoryDTO> roomCategories = roomCategoryService.getAllRoomCategoriesDTO();
 		model.addAttribute("roomCategories", roomCategories);
 		
@@ -68,16 +77,15 @@ public class BookingViewController {
 	
 	
 	@PostMapping(CREATE_BOOKING_URL)
-	  public ModelAndView createBookingPost(@ModelAttribute BookingData form, Model model, HttpServletRequest request) {
+	public ModelAndView createBookingPost(@ModelAttribute BookingData form, Model model, HttpServletRequest request) {
 		try {
 			bookingService.addBookingFromData(form);
 		} catch (InvalidBookingException e) {
 			request.setAttribute("msg", e.getMessage());
 			return new ModelAndView("forward:"+ERROR_URL);
 		}
-		
-	    return new ModelAndView("forward:" + DASHBOARD_URL);
-	  }
+		return new ModelAndView("forward:" + DASHBOARD_URL);
+	}
 	
 	@GetMapping(ERROR_URL)
     public String displayError(HttpServletRequest request, Model model) {
