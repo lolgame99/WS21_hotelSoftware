@@ -16,7 +16,7 @@ $(document).ready(function(){
             if (jQuery(this).text().search(new RegExp(filter, "i")) < 0) {
                 jQuery(this).hide();
             } else {
-                jQuery(this).show()
+                jQuery(this).show();
             }
         });
     });
