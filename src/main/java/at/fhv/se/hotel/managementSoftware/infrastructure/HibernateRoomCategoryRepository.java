@@ -3,6 +3,7 @@ package at.fhv.se.hotel.managementSoftware.infrastructure;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,11 @@ public class HibernateRoomCategoryRepository implements RoomCategoryRepository{
 	@Override
 	public void addRoomCategory(RoomCategory category) {
 		roomCategories.add(category);
+	}
+
+	@Override
+	public String nextIdentity() {
+		return UUID.randomUUID().toString().toUpperCase();
 	}
 
 }

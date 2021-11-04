@@ -9,4 +9,5 @@ public interface RoomCategoryRepository {
 	public List<RoomCategory> getAllRoomCategories();
 	public Optional<RoomCategory> getRoomCategoryById(String id);
 	public void addRoomCategory(RoomCategory category);
+	public String nextIdentity();
 }

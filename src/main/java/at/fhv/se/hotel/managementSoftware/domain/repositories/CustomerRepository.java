@@ -10,4 +10,5 @@ public interface CustomerRepository {
 	public List<Customer> getAllCustomers();
 	public Optional<Customer> getCustomerById(String id);
 	public void addCustomer(Customer customer);
+	public String nextIdentity();
 }

@@ -3,6 +3,7 @@ package at.fhv.se.hotel.managementSoftware.infrastructure;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -34,6 +35,11 @@ public class HibernateCustomerRepository implements CustomerRepository{
 	public void addCustomer(Customer customer) {
 		customers.add(customer);
 		
+	}
+
+	@Override
+	public String nextIdentity() {
+		return UUID.randomUUID().toString().toUpperCase();
 	}
 
 }

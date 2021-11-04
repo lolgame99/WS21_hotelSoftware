@@ -9,4 +9,5 @@ public interface BookingRepository {
 	public List<Booking> getAllBookings();
 	public List<Booking> getBookingsByCheckInDate(LocalDate date);
 	public void addBooking(Booking booking);
+	public String nextIdentity();
 }
