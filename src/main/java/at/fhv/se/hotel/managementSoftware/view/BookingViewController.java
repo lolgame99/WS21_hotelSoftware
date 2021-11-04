@@ -3,6 +3,8 @@ package at.fhv.se.hotel.managementSoftware.view;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +21,6 @@ import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
-import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.view.forms.BookingData;
 
 @Controller
@@ -33,6 +33,7 @@ public class BookingViewController {
 	
 	private static final String DASHBOARD_VIEW ="dashboard";
 	private static final String CREATE_BOOKING_VIEW ="createBooking";
+	private static final String ERROR_VIEW ="error";
 	
 
 	@Autowired
@@ -45,14 +46,14 @@ public class BookingViewController {
 	@GetMapping(DASHBOARD_URL)
     public String customer(Model model) {
         
-        // TODO: redirect to the error page in case of an error situation - use redirectError("SOME MESSAGE"); for that
         List<BookingOverviewDTO> bookingOverviews = bookingService.getBookingsByDate(LocalDate.now());
         model.addAttribute("bookings", bookingOverviews);
         return DASHBOARD_VIEW;
     }
 	
 	@GetMapping(CREATE_BOOKING_URL)
-	public String createBooking( @RequestParam(value = "customerId", required = false) String customerId, Model model) {
+	public String createBooking(@RequestParam(value = "customerId", required = false) String customerId, Model model) {
+		System.out.println(customerId);
 		List<RoomCategoryDTO> roomCategories = roomCategoryService.getAllRoomCategoriesDTO();
 		model.addAttribute("roomCategories", roomCategories);
 		
@@ -67,15 +68,22 @@ public class BookingViewController {
 	
 	
 	@PostMapping(CREATE_BOOKING_URL)
-	  public ModelAndView createBookingPost(@ModelAttribute BookingData form, Model model) {
+	  public ModelAndView createBookingPost(@ModelAttribute BookingData form, Model model, HttpServletRequest request) {
 		try {
 			bookingService.addBookingFromData(form);
 		} catch (InvalidBookingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("msg", e.getMessage());
+			return new ModelAndView("forward:"+ERROR_URL);
 		}
 		
-	    return new ModelAndView("redirect:" + DASHBOARD_URL);
+	    return new ModelAndView("forward:" + DASHBOARD_URL);
 	  }
+	
+	@GetMapping(ERROR_URL)
+    public String displayError(HttpServletRequest request, Model model) {
+		String msg = (String) request.getAttribute("msg");
+		model.addAttribute("msg", msg);
+        return ERROR_VIEW;
+    }
 	  
 }

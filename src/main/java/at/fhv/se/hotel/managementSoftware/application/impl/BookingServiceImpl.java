@@ -105,7 +105,6 @@ public class BookingServiceImpl implements BookingService{
 					));
 		}
 		
-		customerRepository.addCustomer(customer.get());
 		
 		Booking booking =new Booking(
 				bookingRepository.nextIdentity(),
@@ -121,7 +120,7 @@ public class BookingServiceImpl implements BookingService{
 			booking.addCategory(roomCategoryRepository.getRoomCategoryById(bookingData.getCategoryValues().get(i).toString()).get(), 
 					bookingData.getCategoryAmounts().get(i));
 		}
-		
+		customerRepository.addCustomer(customer.get());
 		bookingRepository.addBooking(booking);
 		
 		
