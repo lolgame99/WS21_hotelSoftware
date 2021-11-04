@@ -122,6 +122,8 @@ public class BookingServiceImpl implements BookingService{
 					bookingData.getCategoryAmounts().get(i));
 		}
 		
+		bookingRepository.addBooking(booking);
+		
 		
 		
 	}
