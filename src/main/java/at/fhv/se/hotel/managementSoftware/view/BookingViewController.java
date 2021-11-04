@@ -18,9 +18,10 @@ import at.fhv.se.hotel.managementSoftware.application.api.RoomCategoryService;
 import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
-import at.fhv.se.hotel.managementSoftware.view.forms.BookingForm;
+import at.fhv.se.hotel.managementSoftware.view.forms.BookingData;
 
 @Controller
 public class BookingViewController {
@@ -51,14 +52,14 @@ public class BookingViewController {
     }
 	
 	@GetMapping(CREATE_BOOKING_URL)
-	public String createBooking(Model model) {
+	public String createBooking( @RequestParam(value = "customerId", required = false) String customerId, Model model) {
 		List<RoomCategoryDTO> roomCategories = roomCategoryService.getAllRoomCategoriesDTO();
 		model.addAttribute("roomCategories", roomCategories);
 		
 		List<CustomerOverviewDTO> customers = customerService.getAllCustomersOverview();
 		model.addAttribute("customers", customers);
 		
-		final BookingForm form = new BookingForm();
+		final BookingData form = new BookingData();
 		model.addAttribute("form", form);
 		
 		return CREATE_BOOKING_VIEW;
@@ -66,10 +67,13 @@ public class BookingViewController {
 	
 	
 	@PostMapping(CREATE_BOOKING_URL)
-	  public ModelAndView greetingSubmit(@ModelAttribute BookingForm form, Model model) {
-		System.out.println(form);
-		
-		//TODO: Create new booking from form
+	  public ModelAndView createBookingPost(@ModelAttribute BookingData form, Model model) {
+		try {
+			bookingService.addBookingFromData(form);
+		} catch (InvalidBookingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	    return new ModelAndView("redirect:" + DASHBOARD_URL);
 	  }
