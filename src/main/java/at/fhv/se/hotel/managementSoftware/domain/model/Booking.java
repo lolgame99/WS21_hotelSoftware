@@ -14,26 +14,13 @@ public class Booking {
 	private Customer customer;
 	private int guestCount;
 	private BookingStatus bookingStatus;
-	
+
 	private HashMap<RoomCategory, Integer> categoryCount;
-	
-	public Booking(String bookingId, LocalDate checkInDate,  LocalDate checkOutDate, String creditCardNumber, Customer customer, int guestCount, BookingStatus bookingStatus) throws InvalidBookingException {
+
+	public Booking(String bookingId, LocalDate checkInDate, LocalDate checkOutDate, String creditCardNumber,
+			Customer customer, int guestCount, BookingStatus bookingStatus) throws InvalidBookingException {
 		super();
-		//Prüfen, ob Check-in-Date vor Check-out-Date liegt
-		if (checkInDate.compareTo(checkOutDate) >= 0) {
-			throw new InvalidBookingException("Booking could not be created <br> Check-out-Date can't be before Check-in Date");
-		}
-		
-		//Prüfen, ob mind. ein Kunde
-		if (guestCount <= 0) {
-			throw new InvalidBookingException("Booking could not be created <br> Booking requires atleast 1 person");
-		}
-		
-//		//Prüfen, ob HashMap leer ist
-//		if (categoryCount.isEmpty()) {
-//			throw new InvalidBookingException("ERROR: HashMap is not supposed to be empty!");
-//		}
-		
+
 		this.bookingId = bookingId;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
@@ -42,22 +29,37 @@ public class Booking {
 		this.guestCount = guestCount;
 		categoryCount = new HashMap<RoomCategory, Integer>();
 		this.bookingStatus = bookingStatus;
+	}
+
+	public void FactorcyMethod() throws InvalidBookingException {
 		
-		
-		
-		//Prüfen, ob HashMap leer ist
+		// Prï¿½fen, ob Check-in-Date vor Check-out-Date liegt
+		if (checkInDate.compareTo(checkOutDate) >= 0) {
+			throw new InvalidBookingException("Booking could not be created <br> Check-out-Date can't be before Check-in Date");
+		}
+
+		// Prï¿½fen, ob mind. ein Kunde
+		if (guestCount <= 0) {
+			throw new InvalidBookingException("Booking could not be created <br> Booking requires atleast 1 person");
+		}
+
+//			//Prï¿½fen, ob HashMap leer ist
+//			if (categoryCount.isEmpty()) {
+//				throw new InvalidBookingException("ERROR: HashMap is not supposed to be empty!");
+//			}
+
+		// Prï¿½fen, ob HashMap leer ist
 		if (categoryCount.isEmpty()) {
 			System.out.println();
 		}
-		
+
 	}
-	
+
 	public Booking addCategory(RoomCategory roomCategory, Integer count) {
 		categoryCount.put(roomCategory, count);
 		return this;
 	}
 
-	
 	public String getBookingId() {
 		return bookingId;
 	}
@@ -89,6 +91,5 @@ public class Booking {
 	public BookingStatus getBookingStatus() {
 		return bookingStatus;
 	}
-	
-	
+
 }
