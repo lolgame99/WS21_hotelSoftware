@@ -1,6 +1,7 @@
 package at.fhv.se.hotel.managementSoftware;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,17 @@ import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
 
 @Component
-public class TestData implements ApplicationRunner{
+public class TestData implements ApplicationRunner {
 
 	@Autowired
 	private CustomerRepository customerRepository;
-	
+
 	@Autowired
 	private BookingRepository bookingRepository;
-	
+
 	@Autowired
 	private RoomCategoryRepository roomCategoryRepository;
-	
+
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		String[] customerUUID = {UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase()};
@@ -44,14 +45,38 @@ public class TestData implements ApplicationRunner{
 		roomCategoryRepository.addRoomCategory(new RoomCategory(categoryUUID[2], "Family Suite", 4));
 		
 		
-	
-		bookingRepository.addBooking(new Booking(bookingUUID[0], LocalDate.of(2021, 11, 4), LocalDate.of(2021, 11, 10), "5555555555554444", customerRepository.getCustomerById(customerUUID[0]).get(), 2, BookingStatus.CONFIRMED)
-				.addCategory(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(), 1));
-		bookingRepository.addBooking(new Booking(bookingUUID[1], LocalDate.of(2021, 11, 3), LocalDate.of(2021, 11, 15), "5555555555554444", customerRepository.getCustomerById(customerUUID[1]).get(), 6, BookingStatus.PENDING)
-				.addCategory(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 1)
-				.addCategory(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(), 1));
-		bookingRepository.addBooking(new Booking(bookingUUID[2], LocalDate.of(2021, 11, 10), LocalDate.of(2021, 11, 20), "5555555555554444", customerRepository.getCustomerById(customerUUID[0]).get(), 2, BookingStatus.PAID)
-				.addCategory(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 2));
+		
+		bookingRepository.addBooking(new Booking(
+				bookingUUID[0],
+				LocalDate.now(),
+				LocalDate.now().plusDays(7),
+				"5555555555554444",
+				customerRepository.getCustomerById(customerUUID[0]).get(),
+				2,
+				BookingStatus.CONFIRMED,
+				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(),1);}})); 
+
+		bookingRepository.addBooking(new Booking(
+				bookingUUID[1],
+				LocalDate.now().plusDays(1),
+				LocalDate.now().plusDays(10),
+				"5555555555554444",
+				customerRepository.getCustomerById(customerUUID[1]).get(),
+				6,
+				BookingStatus.PENDING,
+				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 1);
+					put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(), 1);}}));
+
+		bookingRepository.addBooking(new Booking(
+				bookingUUID[2],
+				LocalDate.now().plusDays(7),
+				LocalDate.now().plusDays(20),
+				"5555555555554444",
+				customerRepository.getCustomerById(customerUUID[0]).get(),
+				2,
+				BookingStatus.PAID,
+				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 2);}}
+				));
 		
 		
 		
