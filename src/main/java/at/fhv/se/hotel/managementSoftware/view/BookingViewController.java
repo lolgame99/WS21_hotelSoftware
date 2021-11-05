@@ -1,6 +1,7 @@
 package at.fhv.se.hotel.managementSoftware.view;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +47,15 @@ public class BookingViewController {
 	private RoomCategoryService roomCategoryService;
 	
 	@GetMapping(DASHBOARD_URL)
-    public String customer(Model model) {
-        List<BookingOverviewDTO> bookingOverviews = bookingService.getBookingsByDate(LocalDate.now());
+    public String customer(@RequestParam(value = "date", required = false) String date, Model model) {		
+		List<BookingOverviewDTO> bookingOverviews = new ArrayList<>();
+		System.out.println(date);
+		if(date != null) {
+			bookingOverviews = bookingService.getBookingsByDate(bookingService.dateStringConverter(date));
+		}else {
+			bookingOverviews = bookingService.getBookingsByDate(LocalDate.now());
+		}
+		
         model.addAttribute("bookings", bookingOverviews);
         return DASHBOARD_VIEW;
     }
