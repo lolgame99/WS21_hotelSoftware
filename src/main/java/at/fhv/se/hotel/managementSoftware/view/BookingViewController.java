@@ -49,7 +49,6 @@ public class BookingViewController {
 	@GetMapping(DASHBOARD_URL)
     public String customer(@RequestParam(value = "date", required = false) String date, Model model) {		
 		List<BookingOverviewDTO> bookingOverviews = new ArrayList<>();
-		System.out.println(date);
 		if(date != null) {
 			bookingOverviews = bookingService.getBookingsByDate(bookingService.dateStringConverter(date));
 		}else {
