@@ -13,4 +13,5 @@ public interface BookingService {
 	public List<BookingOverviewDTO> getBookingsByDate(LocalDate date);
 	public void addBooking(Booking booking);
 	public void addBookingFromData(BookingData bookingData) throws InvalidBookingException;
+	public LocalDate dateStringConverter(String date);
 }

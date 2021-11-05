@@ -2,6 +2,7 @@ package at.fhv.se.hotel.managementSoftware.application.impl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingExcept
 import at.fhv.se.hotel.managementSoftware.domain.model.Address;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
@@ -98,7 +100,7 @@ public class BookingServiceImpl implements BookingService{
 					customerRepository.nextIdentity(),
 					bookingData.getFirstName(),
 					bookingData.getLastName(),
-					LocalDate.of(splitDateString(bookingData.getBirthdate())[0],splitDateString(bookingData.getBirthdate())[1],splitDateString(bookingData.getBirthdate())[2]),
+					dateStringConverter(bookingData.getBirthdate()),
 					new Address(bookingData.getStreetName(),bookingData.getStreetNumber(),bookingData.getCity(),bookingData.getPostcode(),bookingData.getCountry()),
 					bookingData.getEmail(),
 					bookingData.getPhoneNumber(),
@@ -106,21 +108,26 @@ public class BookingServiceImpl implements BookingService{
 					));
 		}
 		
-		
-		Booking booking =new Booking(
+		HashMap<RoomCategory, Integer> categoryCount = new HashMap<RoomCategory, Integer>();
+		for (int i = 0; i < bookingData.getCategoryValues().size(); i++) {
+			if(categoryCount.containsKey(roomCategoryRepository.getRoomCategoryById(bookingData.getCategoryValues().get(i).toString()).get())) {
+				throw new InvalidBookingException("Booking could not be created <br> The same category can't be selected more than once");
+			}
+			categoryCount.put(
+					roomCategoryRepository.getRoomCategoryById(bookingData.getCategoryValues().get(i).toString()).get(), 
+					bookingData.getCategoryAmounts().get(i));
+		}
+		Booking booking = new Booking(
 				bookingRepository.nextIdentity(),
-				LocalDate.of(splitDateString(bookingData.getCheckInDate())[0],splitDateString(bookingData.getCheckInDate())[1],splitDateString(bookingData.getCheckInDate())[2]),
-				LocalDate.of(splitDateString(bookingData.getCheckOutDate())[0],splitDateString(bookingData.getCheckOutDate())[1],splitDateString(bookingData.getCheckOutDate())[2]),
+				dateStringConverter(bookingData.getCheckInDate()),
+				dateStringConverter(bookingData.getCheckOutDate()),
 				bookingData.getCreditCardNumber(),
 				customer.get(),
 				bookingData.getGuestCount(),
-				BookingStatus.PENDING
-				);
+				BookingStatus.PENDING,
+				categoryCount);
 		
-		for (int i = 0; i < bookingData.getCategoryValues().size(); i++) {
-			booking.addCategory(roomCategoryRepository.getRoomCategoryById(bookingData.getCategoryValues().get(i).toString()).get(), 
-					bookingData.getCategoryAmounts().get(i));
-		}
+		
 		if (customerCreated) {
 			customerRepository.addCustomer(customer.get());
 		}
@@ -135,14 +142,14 @@ public class BookingServiceImpl implements BookingService{
 	 * splitArray[1] = month
 	 * splitArray[2] = day
 	 */
-	private int[] splitDateString(String date) {
+	public LocalDate dateStringConverter(String date) {
 		String[] splitStringArray = null;
 		int[] splitIntArray = new int[3];
 		splitStringArray = date.split("-");
 		for (int i = 0; i < splitStringArray.length; i++) {
 			splitIntArray[i] = Integer.parseInt(splitStringArray[i]);
 		}	
-		return splitIntArray;
+		return LocalDate.of(splitIntArray[0], splitIntArray[1], splitIntArray[2]);
 	}
 	
 }
