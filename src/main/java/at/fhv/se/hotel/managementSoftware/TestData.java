@@ -74,8 +74,8 @@ public class TestData implements ApplicationRunner {
 
 		bookingRepository.addBooking(new Booking(
 				bookingUUID[2],
-				LocalDate.now().plusDays(2),
-				LocalDate.now().plusDays(20),
+				LocalDate.now().plusDays(9),
+				LocalDate.now().plusDays(16),
 				"5555555555554444",
 				customerRepository.getCustomerById(customerUUID[2]).get(),
 				2,
@@ -85,8 +85,8 @@ public class TestData implements ApplicationRunner {
 		
 		bookingRepository.addBooking(new Booking(
 				bookingUUID[2],
-				LocalDate.now().plusDays(2),
-				LocalDate.now().plusDays(20),
+				LocalDate.now().plusDays(3),
+				LocalDate.now().plusDays(7),
 				"5555555555554444",
 				customerRepository.getCustomerById(customerUUID[3]).get(),
 				3,
@@ -96,7 +96,7 @@ public class TestData implements ApplicationRunner {
 		
 		bookingRepository.addBooking(new Booking(
 				bookingUUID[2],
-				LocalDate.now().plusDays(2),
+				LocalDate.now().plusDays(9),
 				LocalDate.now().plusDays(10),
 				"5555555555554444",
 				customerRepository.getCustomerById(customerUUID[4]).get(),
