@@ -35,7 +35,7 @@ public class TestData implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		String[] customerUUID = {UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(), UUID.randomUUID().toString().toUpperCase(), UUID.randomUUID().toString().toUpperCase(), UUID.randomUUID().toString().toUpperCase(), UUID.randomUUID().toString().toUpperCase()};
 		String[] categoryUUID = {UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase()};
-		String[] bookingUUID = {UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase()};
+		String[] bookingUUID = {UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase()};
 		
 		customerRepository.addCustomer(new Customer(customerUUID[0], "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Deutschland"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
 		customerRepository.addCustomer(new Customer(customerUUID[1], "Michelle", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Deutschland"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
@@ -84,7 +84,7 @@ public class TestData implements ApplicationRunner {
 				));
 		
 		bookingRepository.addBooking(new Booking(
-				bookingUUID[2],
+				bookingUUID[3],
 				LocalDate.now().plusDays(3),
 				LocalDate.now().plusDays(7),
 				"5555555555554444",
@@ -95,7 +95,7 @@ public class TestData implements ApplicationRunner {
 				));
 		
 		bookingRepository.addBooking(new Booking(
-				bookingUUID[2],
+				bookingUUID[4],
 				LocalDate.now().plusDays(9),
 				LocalDate.now().plusDays(10),
 				"5555555555554444",
@@ -104,6 +104,17 @@ public class TestData implements ApplicationRunner {
 				BookingStatus.PAID,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(), 2);
 														put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 2);}}
+				));
+		
+		bookingRepository.addBooking(new Booking(
+				bookingUUID[5],
+				LocalDate.now().plusDays(3),
+				LocalDate.now().plusDays(4),
+				"5555555555554444",
+				customerRepository.getCustomerById(customerUUID[5]).get(),
+				1,
+				BookingStatus.PENDING,
+				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 1);}}
 				));
 		
 		
