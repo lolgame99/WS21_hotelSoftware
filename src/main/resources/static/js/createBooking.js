@@ -10,6 +10,11 @@ $(document).ready(function(){
 		categoryCounter++;
     });
 
+	$(".resetBtn").click(function(){
+        var baseUrl = window.location.href.split("?")[0];
+		$(location).attr('href',baseUrl);
+    });
+
     jQuery("#customerSearch").keyup(function () {
         var filter = jQuery(this).val();
         jQuery(".customerList li").each(function () {
