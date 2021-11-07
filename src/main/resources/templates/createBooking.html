@@ -89,7 +89,13 @@
                 </div>
                 <div class="form-row mb-2">
                     <label class="form-label" for="country">Country</label><br>
-                    <select class="form-control selectpicker countrypicker" th:field="*{country}" th:disabled="*{customerId != null}" required></select>
+                    <select class="form-control" th:field="*{country}" th:disabled="*{customerId != null}" required>
+                    	<option value="null" hidden>Select country...</option>
+						<option value="Germany">Germany</option>
+						<option value="Austria">Austria</option>
+						<option value="Switzerland">Switzerland</option>
+						<option value="United Kingdom">United Kingdom</option>
+                    </select>
                 </div>
             </div>
             <div class="col-6">
@@ -106,7 +112,7 @@
                 </div>
                 <div class="form-row mb-2">
                     <label for="categoryList">Add Category</label><br>
-
+					
                     <button type="button" class="btn btn-secondary addCategoryBtn">+</button>
                 </div>
                 <div class="form-row mb-2">
@@ -164,7 +170,7 @@
             </select>
         </div>
         <div class="col">
-            <input class="form-control categoryAmounts" type="number" placeholder="number of rooms" required>
+            <input class="form-control categoryAmounts" type="number" min="1" oninput="this.value = Math.abs(this.value)" placeholder="number of rooms" required>
         </div>
     </div>
 </body>
