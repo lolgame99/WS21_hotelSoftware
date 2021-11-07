@@ -38,6 +38,11 @@ public class Booking {
 		if (checkInDate.compareTo(checkOutDate) >= 0) {
 			throw new InvalidBookingException("Booking could not be created <br> Check-out-Date can't be before Check-in Date");
 		}
+		
+		//Pruefen, ob Check-in-Date vor heute liegt
+		if (checkInDate.compareTo(LocalDate.now()) < 0) {
+			throw new InvalidBookingException("Booking could not be created <br> Check-in-Date can't be in the past");
+		}
 
 		// Pruefen, ob mind. ein Kunde
 		if (guestCount <= 0) {

@@ -37,12 +37,12 @@ public class TestData implements ApplicationRunner {
 		String[] categoryUUID = {UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase()};
 		String[] bookingUUID = {UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase()};
 		
-		customerRepository.addCustomer(new Customer(customerUUID[0], "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Deutschland"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
-		customerRepository.addCustomer(new Customer(customerUUID[1], "Michelle", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Deutschland"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
-		customerRepository.addCustomer(new Customer(customerUUID[2], "Ursula", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Deutschland"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
-		customerRepository.addCustomer(new Customer(customerUUID[3], "Erling", "Haaland", LocalDate.of(2000, 5, 28), new Address("Marktplatz", "21", "Dortmund", "44135 ", "Deutschland"), "Haaland.goat@rhyta.com", "+495863126628", Gender.MALE));
+		customerRepository.addCustomer(new Customer(customerUUID[0], "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
+		customerRepository.addCustomer(new Customer(customerUUID[1], "Michelle", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Germany"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
+		customerRepository.addCustomer(new Customer(customerUUID[2], "Ursula", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Germany"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
+		customerRepository.addCustomer(new Customer(customerUUID[3], "Erling", "Haaland", LocalDate.of(2000, 5, 28), new Address("Marktplatz", "21", "Dortmund", "44135 ", "Germany"), "Haaland.goat@rhyta.com", "+495863126628", Gender.MALE));
 		customerRepository.addCustomer(new Customer(customerUUID[4], "Cristiano", "Ronaldo", LocalDate.of(1985, 2, 5), new Address("Oxford Street", "12", "Manchester", "M1", "United Kingdom"), "CristianoRonaldo@rhyta.com", "+449497823332", Gender.MALE));
-		customerRepository.addCustomer(new Customer(customerUUID[5], "Conchita", "Wurst", LocalDate.of(1994, 10, 11), new Address("Wurst Strasse", "3", "Wien", "1010", "Österreich"), "Conchita@wurst.com", "+436642135879", Gender.DIVERSE));
+		customerRepository.addCustomer(new Customer(customerUUID[5], "Conchita", "Wurst", LocalDate.of(1994, 10, 11), new Address("Wurst Strasse", "3", "Wien", "1010", "Austria"), "Conchita@wurst.com", "+436642135879", Gender.DIVERSE));
 
 		
 		roomCategoryRepository.addRoomCategory(new RoomCategory(categoryUUID[0], "Single Room", 1));
@@ -53,7 +53,7 @@ public class TestData implements ApplicationRunner {
 		
 		bookingRepository.addBooking(new Booking(
 				bookingUUID[0],
-				LocalDate.now().plusDays(2),
+				LocalDate.now(),
 				LocalDate.now().plusDays(7),
 				"5555555555554444",
 				customerRepository.getCustomerById(customerUUID[0]).get(),
@@ -63,7 +63,7 @@ public class TestData implements ApplicationRunner {
 
 		bookingRepository.addBooking(new Booking(
 				bookingUUID[1],
-				LocalDate.now().plusDays(2),
+				LocalDate.now(),
 				LocalDate.now().plusDays(10),
 				"5555555555554444",
 				customerRepository.getCustomerById(customerUUID[1]).get(),
@@ -74,7 +74,7 @@ public class TestData implements ApplicationRunner {
 
 		bookingRepository.addBooking(new Booking(
 				bookingUUID[2],
-				LocalDate.now().plusDays(9),
+				LocalDate.now().plusDays(7),
 				LocalDate.now().plusDays(16),
 				"5555555555554444",
 				customerRepository.getCustomerById(customerUUID[2]).get(),
@@ -85,7 +85,7 @@ public class TestData implements ApplicationRunner {
 		
 		bookingRepository.addBooking(new Booking(
 				bookingUUID[3],
-				LocalDate.now().plusDays(3),
+				LocalDate.now().plusDays(1),
 				LocalDate.now().plusDays(7),
 				"5555555555554444",
 				customerRepository.getCustomerById(customerUUID[3]).get(),
@@ -108,7 +108,7 @@ public class TestData implements ApplicationRunner {
 		
 		bookingRepository.addBooking(new Booking(
 				bookingUUID[5],
-				LocalDate.now().plusDays(3),
+				LocalDate.now().plusDays(2),
 				LocalDate.now().plusDays(4),
 				"5555555555554444",
 				customerRepository.getCustomerById(customerUUID[5]).get(),
