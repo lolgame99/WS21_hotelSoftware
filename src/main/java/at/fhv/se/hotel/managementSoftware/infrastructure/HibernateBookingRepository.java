@@ -3,6 +3,7 @@ package at.fhv.se.hotel.managementSoftware.infrastructure;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -40,6 +41,18 @@ public class HibernateBookingRepository implements BookingRepository{
 	@Override
 	public String nextIdentity() {
 		return UUID.randomUUID().toString().toUpperCase();
+	}
+
+	@Override
+	public Optional<Booking> getBookingById(String id) {
+		Optional<Booking> booking = Optional.empty();
+		for (Booking b : bookings) {
+			if (b.getBookingId().equals(id)) {
+				booking = Optional.of(b);
+			}
+		}
+		
+		return booking;
 	}
 
 }
