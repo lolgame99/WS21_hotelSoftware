@@ -7,14 +7,13 @@ public class Stay {
 	private String stayId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
-	private int numberOfAdults;
-	private int numberOfChildren;
+	private int numberOfGuests;
 	private String creditCardNumber; 
 	private String bookingId;
 	private String customerId;
 	private String guestId;
 
-	public Stay(String stayId, LocalDate checkInDate, LocalDate checkOutDate,
+	public Stay(String stayId, LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests,
 			String creditCardNumber, String bookingId, String customerId, String guestId)
 	{
 		this.stayId = stayId;
@@ -24,14 +23,7 @@ public class Stay {
 		this.bookingId = bookingId; 
 		this.customerId = customerId;
 		this.guestId = guestId;
-	}
-
-	public void addNumberOfAdults(int numberOfAdults) {
-		this.numberOfAdults = numberOfAdults;
-	}
-	
-	public void addNumberOfChildren(int numberOfChildren) {
-		this.numberOfChildren = numberOfChildren;
+		this.numberOfGuests = numberOfGuests;
 	}
 	
 	public String getStayId() {
@@ -57,21 +49,14 @@ public class Stay {
 	public String getCustomerId() {
 		return customerId;
 	}
-
-	public int getNumberOfAdults() {
-		return numberOfAdults;
-	}
-
-	public int getNumberOfChildren() {
-		return numberOfChildren;
-	}
 	
 	public String getGuestId() {
 		return guestId;
 	}
-	
-	
-	
+
+	public int getNumberOfGuests() {
+		return numberOfGuests;
+	}
 	
 }
 
