@@ -14,16 +14,21 @@ public class Stay {
 	private String guestId;
 
 	public Stay(String stayId, LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests,
-			String creditCardNumber, String bookingId, String customerId, String guestId)
+			String creditCardNumber, String customerId, String guestId)
 	{
 		this.stayId = stayId;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate; 
 		this.creditCardNumber = creditCardNumber;
-		this.bookingId = bookingId; 
 		this.customerId = customerId;
 		this.guestId = guestId;
 		this.numberOfGuests = numberOfGuests;
+	}
+	
+	public void addBookingId(String bookingId) {
+		if(bookingId == null) {
+			this.bookingId = bookingId;
+		}
 	}
 	
 	public String getStayId() {
