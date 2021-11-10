@@ -12,9 +12,10 @@ public class Stay {
 	private String creditCardNumber; 
 	private String bookingId;
 	private String customerId;
+	private String guestId;
 
 	public Stay(String stayId, LocalDate checkInDate, LocalDate checkOutDate,
-			String creditCardNumber, String bookingId, String customerId)
+			String creditCardNumber, String bookingId, String customerId, String guestId)
 	{
 		this.stayId = stayId;
 		this.checkInDate = checkInDate;
@@ -22,6 +23,7 @@ public class Stay {
 		this.creditCardNumber = creditCardNumber;
 		this.bookingId = bookingId; 
 		this.customerId = customerId;
+		this.guestId = guestId;
 	}
 
 	public void addNumberOfAdults(int numberOfAdults) {
@@ -62,6 +64,10 @@ public class Stay {
 
 	public int getNumberOfChildren() {
 		return numberOfChildren;
+	}
+	
+	public String getGuestId() {
+		return guestId;
 	}
 	
 	
