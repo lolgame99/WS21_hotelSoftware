@@ -8,7 +8,7 @@ import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 
 public class Booking {
-	private String bookingId;
+	private BookingId bookingId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private String creditCardNumber;
@@ -17,8 +17,8 @@ public class Booking {
 	private BookingStatus bookingStatus;
 
 	private HashMap<RoomCategory, Integer> categoryCount;
-
-	public Booking(String bookingId, LocalDate checkInDate, LocalDate checkOutDate, String creditCardNumber,
+	
+	public Booking(BookingId bookingId, LocalDate checkInDate, LocalDate checkOutDate, String creditCardNumber,
 			Customer customer, int guestCount, BookingStatus bookingStatus, HashMap<RoomCategory, Integer> categoryCount) throws InvalidBookingException{
 		super();
 		this.categoryCount = categoryCount;
@@ -56,7 +56,7 @@ public class Booking {
 		
 	}
 
-	public String getBookingId() {
+	public BookingId getBookingId() {
 		return bookingId;
 	}
 

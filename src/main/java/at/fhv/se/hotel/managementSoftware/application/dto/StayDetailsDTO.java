@@ -6,9 +6,10 @@ import java.util.Objects;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
+import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 
 public class StayDetailsDTO {
-	private String stayId;
+	private StayId stayId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private int numberOfGuests;
@@ -31,7 +32,7 @@ public class StayDetailsDTO {
             this.instance = new StayDetailsDTO();
         }
 
-        public Builder withId(String id) {
+        public Builder withId(StayId id) {
             this.instance.stayId = id;
             return this;
         }

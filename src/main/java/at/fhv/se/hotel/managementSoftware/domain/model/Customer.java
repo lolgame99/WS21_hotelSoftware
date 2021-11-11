@@ -3,10 +3,11 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 import java.time.LocalDate;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
+import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
 public class Customer {
 	
-	private String customerId;
+	private CustomerId customerId;
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -18,9 +19,7 @@ public class Customer {
 	private String phoneNumber;
 	private Gender gender;
 	
-	private Address billingAddress;
-	
-	public Customer(String customerId, String firstName, String lastName, LocalDate birthdate, Address address, String email,
+	public Customer(CustomerId customerId, String firstName, String lastName, LocalDate birthdate, Address address, String email,
 			String phoneNumber, Gender gender) {
 		super();
 		this.customerId = customerId;
@@ -33,15 +32,12 @@ public class Customer {
 		this.gender = gender;
 	}
 	
-	public void setBillingAddress(Address billingAddress) {
-		this.billingAddress = billingAddress;
-	}
 	
 	public void addMiddleName(String middlename) {
 		this.middleName = middlename;
 	}
 
-	public String getCustomerId() {
+	public CustomerId getCustomerId() {
 		return customerId;
 	}
 
@@ -63,10 +59,6 @@ public class Customer {
 
 	public Address getAddress() {
 		return address;
-	}
-	
-	public Address getBillingAddress() {
-		return billingAddress;
 	}
 
 	public String getEmail() {

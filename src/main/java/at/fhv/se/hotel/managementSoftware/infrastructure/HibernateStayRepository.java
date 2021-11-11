@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
+import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
 
 @Component
@@ -38,8 +39,8 @@ public class HibernateStayRepository implements StayRepository{
 	}
 
 	@Override
-	public String nextIdentity() {
-		return UUID.randomUUID().toString().toUpperCase();
+	public StayId nextIdentity() {
+		return new StayId(UUID.randomUUID().toString().toUpperCase());
 	}
 	
 }

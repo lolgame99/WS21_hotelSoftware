@@ -158,7 +158,7 @@
                     <ul class="list-group customerList">
                         <!-- Dynamically load all customer -->
                         <li class="list-group-item" th:each="n : ${customers}">
-                        	<a th:href="@{/booking(customerId=${n.customerId})}" th:text="${n.firstName}+' '+${n.lastName}"></a>
+                        	<a th:href="@{/booking(customerId=${n.customerId.getId()})}" th:text="${n.firstName}+' '+${n.lastName}"></a>
                         </li>
                     </ul>
 
@@ -173,7 +173,7 @@
     <div class="categoryEntryEmpty d-none form-row row mb-1">
         <div class="col">
             <select class="form-control categoryValues" required>
-                <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID}"></option>
+                <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}"></option>
             </select>
         </div>
         <div class="col">

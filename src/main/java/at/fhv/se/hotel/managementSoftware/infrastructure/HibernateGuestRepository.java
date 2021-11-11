@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
+import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.GuestRepository;
 
 @Component
@@ -20,10 +21,10 @@ public class HibernateGuestRepository implements GuestRepository{
 	}
 
 	@Override
-	public Optional<Guest> getGuestByStayId(String id) {
+	public Optional<Guest> getGuestByStayId(StayId id) {
 		Optional<Guest> guest = Optional.empty();
 		for (Guest g : guests) {
-			if (g.getStayId().equals(id)) {
+			if (g.getStayId().getId().equals(id.getId())) {
 				guest = Optional.of(g);
 			}
 		}

@@ -4,18 +4,24 @@ import java.time.LocalDate;
 
 public class Stay {
 	
-	private String stayId;
+	private StayId stayId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private int numberOfGuests;
 	private String creditCardNumber; 
-	private String bookingId;
-	private String customerId;
-	private String guestId;
+	private BookingId bookingId;
+	private CustomerId customerId;
+	private GuestId guestId;
 
-	public Stay(String stayId, LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests,
-			String creditCardNumber, String customerId, String guestId)
-	{
+	public static Stay createForBooking(StayId stayId, Booking booking, GuestId guestId) {
+		Stay stay = new Stay(stayId, booking.getCheckInDate(), booking.getCheckOutDate(),
+				booking.getGuestCount(), booking.getCreditCardNumber(), booking.getCustomer().getCustomerId(), guestId);
+		stay.addBookingId(booking.getBookingId());
+		return stay;
+	}
+	
+	private Stay(StayId stayId, LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests,
+			String creditCardNumber, CustomerId customerId, GuestId guestId){
 		this.stayId = stayId;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate; 
@@ -25,13 +31,13 @@ public class Stay {
 		this.numberOfGuests = numberOfGuests;
 	}
 	
-	public void addBookingId(String bookingId) {
+	private void addBookingId(BookingId bookingId) {
 		if(bookingId == null) {
 			this.bookingId = bookingId;
 		}
 	}
 	
-	public String getStayId() {
+	public StayId getStayId() {
 		return stayId;
 	}
 
@@ -47,19 +53,19 @@ public class Stay {
 		return creditCardNumber;
 	}
 
-	public String getBookingId() {
+	public BookingId getBookingId() {
 		return bookingId;
 	}
 
-	public String getCustomerId() {
+	public CustomerId getCustomerId() {
 		return customerId;
 	}
 	
-	public String getGuestId() {
+	public GuestId getGuestId() {
 		return guestId;
 	}
 
-	public int getNumberOfGuests() {
+	public int getGuestCount() {
 		return numberOfGuests;
 	}
 	

@@ -2,8 +2,10 @@ package at.fhv.se.hotel.managementSoftware.application.dto;
 
 import java.util.Objects;
 
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
+
 public class RoomCategoryDTO {
-	private String categoryID;
+	private RoomCategoryId categoryID;
 	private String name;
 	private String description;
 	private int bedNumber;
@@ -12,7 +14,7 @@ public class RoomCategoryDTO {
 		return new Builder();
 	}
 
-	public String getCategoryID() {
+	public RoomCategoryId getCategoryID() {
 		return categoryID;
 	}
 
@@ -38,7 +40,7 @@ public class RoomCategoryDTO {
             this.instance = new RoomCategoryDTO();
         }
 
-        public Builder withId(String id) {
+        public Builder withId(RoomCategoryId id) {
             this.instance.categoryID = id;
             return this;
         }

@@ -46,7 +46,7 @@ public class StayServiceImpl implements StayService{
 					.withCreditCardNumber(s.getCreditCardNumber())
 					.withCustomer(customerRepository.getCustomerById(s.getCustomerId()).get())
 					.withGuest(guestRepository.getGuestByStayId(s.getStayId()).get())
-					.withNumberOfGuests(s.getNumberOfGuests());
+					.withNumberOfGuests(s.getGuestCount());
 			 
 			Optional<Booking> booking = bookingRepository.getBookingById(s.getBookingId());
 			if (booking.isPresent()) {
@@ -73,7 +73,7 @@ public class StayServiceImpl implements StayService{
 					.withCreditCardNumber(s.getCreditCardNumber())
 					.withCustomer(customerRepository.getCustomerById(s.getCustomerId()).get())
 					.withGuest(guestRepository.getGuestByStayId(s.getStayId()).get())
-					.withNumberOfGuests(s.getNumberOfGuests());
+					.withNumberOfGuests(s.getGuestCount());
 			 
 			Optional<Booking> booking = bookingRepository.getBookingById(s.getBookingId());
 			if (booking.isPresent()) {

@@ -2,6 +2,7 @@ package at.fhv.se.hotel.managementSoftware;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,16 @@ import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
-import at.fhv.se.hotel.managementSoftware.domain.model.Address;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
+import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
+import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
 @Component
 public class TestData implements ApplicationRunner {
@@ -33,9 +37,18 @@ public class TestData implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		String[] customerUUID = {UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(), UUID.randomUUID().toString().toUpperCase(), UUID.randomUUID().toString().toUpperCase(), UUID.randomUUID().toString().toUpperCase(), UUID.randomUUID().toString().toUpperCase()};
-		String[] categoryUUID = {UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase()};
-		String[] bookingUUID = {UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase(),UUID.randomUUID().toString().toUpperCase()};
+		CustomerId[] customerUUID = new CustomerId[6];
+		for (int i = 0; i < customerUUID.length; i++) {
+			customerUUID[i] = new CustomerId(UUID.randomUUID().toString().toUpperCase());
+		}
+		RoomCategoryId[] categoryUUID = new RoomCategoryId[3];
+		for (int i = 0; i < categoryUUID.length; i++) {
+			categoryUUID[i] = new RoomCategoryId(UUID.randomUUID().toString().toUpperCase());
+		}
+		BookingId[] bookingUUID = new BookingId[6];
+		for (int i = 0; i < bookingUUID.length; i++) {
+			bookingUUID[i] = new BookingId(UUID.randomUUID().toString().toUpperCase());
+		}
 		
 		customerRepository.addCustomer(new Customer(customerUUID[0], "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
 		customerRepository.addCustomer(new Customer(customerUUID[1], "Michelle", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Germany"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
@@ -48,7 +61,6 @@ public class TestData implements ApplicationRunner {
 		roomCategoryRepository.addRoomCategory(new RoomCategory(categoryUUID[0], "Single Room", 1));
 		roomCategoryRepository.addRoomCategory(new RoomCategory(categoryUUID[1], "Double Room", 2));
 		roomCategoryRepository.addRoomCategory(new RoomCategory(categoryUUID[2], "Family Suite", 4));
-		
 		
 		
 		bookingRepository.addBooking(new Booking(

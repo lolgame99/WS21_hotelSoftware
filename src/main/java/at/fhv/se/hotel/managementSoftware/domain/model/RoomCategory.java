@@ -1,13 +1,13 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
 public class RoomCategory {
-	private String categoryID;
+	private RoomCategoryId categoryID;
 	private String categoryName;
 	private String categoryDescription;
 	private int bedNumber;
 	
 	
-	public RoomCategory(String categoryID, String categoryName, int bedNumber) {
+	public RoomCategory(RoomCategoryId categoryID, String categoryName, int bedNumber) {
 		this.categoryID = categoryID;
 		this.categoryName = categoryName;
 		this.bedNumber = bedNumber;
@@ -19,7 +19,7 @@ public class RoomCategory {
 		this.categoryDescription = categoryDescription;
 	}
 
-	public String getCategoryID() {
+	public RoomCategoryId getCategoryID() {
 		return categoryID;
 	}
 

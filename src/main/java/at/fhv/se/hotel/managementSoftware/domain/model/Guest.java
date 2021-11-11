@@ -2,13 +2,13 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 
 public class Guest {
 	
-	private String guestId;
+	private GuestId guestId;
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
-	private String stayId;
+	private StayId stayId;
 	
-	public Guest(String guestId, String firstName, String lastName, String phoneNumber, String stayId)
+	public Guest(GuestId guestId, String firstName, String lastName, String phoneNumber, StayId stayId)
 	{
 		this.guestId = guestId;
 		this.firstName = firstName;
@@ -17,7 +17,7 @@ public class Guest {
 		this.stayId = stayId;
 	}
 
-	public String getGuestId() {
+	public GuestId getGuestId() {
 		return guestId;
 	}
 
@@ -25,7 +25,7 @@ public class Guest {
 		return phoneNumber;
 	}
 
-	public String getStayId() {
+	public StayId getStayId() {
 		return stayId;
 	}
 

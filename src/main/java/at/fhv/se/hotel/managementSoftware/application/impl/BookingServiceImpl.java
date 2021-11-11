@@ -17,13 +17,15 @@ import at.fhv.se.hotel.managementSoftware.application.api.BookingService;
 import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
-import at.fhv.se.hotel.managementSoftware.domain.model.Address;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
+import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 import at.fhv.se.hotel.managementSoftware.view.forms.BookingData;
 
 @Component
@@ -93,7 +95,7 @@ public class BookingServiceImpl implements BookingService{
 
 	@Override
 	public void addBookingFromData(BookingData bookingData) throws InvalidBookingException {
-		Optional<Customer> customer = customerRepository.getCustomerById(bookingData.getCustomerId());
+		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(bookingData.getCustomerId()));
 		Boolean customerCreated = customer.isEmpty();
 		if(customerCreated) {
 			customer = Optional.of(new Customer(
@@ -110,11 +112,11 @@ public class BookingServiceImpl implements BookingService{
 		
 		HashMap<RoomCategory, Integer> categoryCount = new HashMap<RoomCategory, Integer>();
 		for (int i = 0; i < bookingData.getCategoryValues().size(); i++) {
-			if(categoryCount.containsKey(roomCategoryRepository.getRoomCategoryById(bookingData.getCategoryValues().get(i).toString()).get())) {
+			if(categoryCount.containsKey(roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get())) {
 				throw new InvalidBookingException("Booking could not be created <br> The same category can't be selected more than once");
 			}
 			categoryCount.put(
-					roomCategoryRepository.getRoomCategoryById(bookingData.getCategoryValues().get(i).toString()).get(), 
+					roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get(), 
 					bookingData.getCategoryAmounts().get(i));
 		}
 		Booking booking = new Booking(

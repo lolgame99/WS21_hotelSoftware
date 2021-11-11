@@ -3,11 +3,12 @@ package at.fhv.se.hotel.managementSoftware.application.dto;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 
 
 public class BookingOverviewDTO {
-	private String bookingId;
+	private BookingId bookingId;
 	private LocalDate checkInDate;
 	private int roomCount;
 	private int guestCount;
@@ -18,7 +19,7 @@ public class BookingOverviewDTO {
 		return new Builder();
 	}
 			
-	public String getBookingId() {
+	public BookingId getBookingId() {
 		return bookingId;
 	}
 
@@ -48,7 +49,7 @@ public class BookingOverviewDTO {
             this.instance = new BookingOverviewDTO();
         }
 
-        public Builder withId(String id) {
+        public Builder withId(BookingId id) {
             this.instance.bookingId = id;
             return this;
         }
