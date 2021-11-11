@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -87,7 +88,7 @@ public class BookingViewController {
 	public ModelAndView createBookingPost(@ModelAttribute BookingData form, Model model, HttpServletRequest request) {
 		try {
 			bookingService.addBookingFromData(form, dateStringConverter(form.getCheckInDate()), dateStringConverter(form.getCheckOutDate()), dateStringConverter(form.getBirthdate()));
-		} catch (InvalidBookingException e) {
+		} catch (Exception e) {
 			request.setAttribute("msg", e.getMessage());
 			return new ModelAndView("forward:"+ERROR_URL);
 		}

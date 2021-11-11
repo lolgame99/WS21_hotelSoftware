@@ -12,5 +12,5 @@ public interface BookingService {
 	public List<BookingOverviewDTO> getAllBookings();
 	public List<BookingOverviewDTO> getBookingsByDate(LocalDate date);
 	public void addBooking(Booking booking);
-	public void addBookingFromData(BookingData bookingData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate, LocalDate convertedBirthDate) throws InvalidBookingException;
+	public void addBookingFromData(BookingData bookingData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate, LocalDate convertedBirthDate) throws Exception;
 }

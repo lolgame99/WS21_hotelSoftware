@@ -1,8 +1,10 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
 public class Customer {
@@ -24,7 +26,11 @@ public class Customer {
 	}
 	
 	public static Customer create(CustomerId customerId, String firstName, String lastName, LocalDate birthdate, Address address, String email,
-			String phoneNumber, Gender gender) {
+			String phoneNumber, Gender gender) throws InvalidCustomerException {
+		if (ChronoUnit.YEARS.between(birthdate, LocalDate.now()) < 18) {
+			throw new InvalidCustomerException("Customer could not be created <br> Customer has to be atleast 18 years old ");
+		}
+		
 		Customer customer = new Customer();
 		customer.customerId = customerId;
 		customer.firstName = firstName;
