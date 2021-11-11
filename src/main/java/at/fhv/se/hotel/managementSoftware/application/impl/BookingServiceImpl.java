@@ -54,7 +54,7 @@ public class BookingServiceImpl implements BookingService{
 			bookingDTOs.add(BookingOverviewDTO.builder()
 					.withId(b.getBookingId())
 					.withCheckInDate(b.getCheckInDate())
-					.withCustomer(b.getCustomer())
+					.withCustomer(customerRepository.getCustomerById(b.getCustomerId()).get())
 					.withGuestCount(b.getGuestCount())
 					.withRoomCount(totalRoomCount)
 					.build()
@@ -78,7 +78,7 @@ public class BookingServiceImpl implements BookingService{
 			bookingDTOs.add(BookingOverviewDTO.builder()
 					.withId(b.getBookingId())
 					.withCheckInDate(b.getCheckInDate())
-					.withCustomer(b.getCustomer())
+					.withCustomer(customerRepository.getCustomerById(b.getCustomerId()).get())
 					.withGuestCount(b.getGuestCount())
 					.withRoomCount(totalRoomCount)
 					.build()
@@ -124,7 +124,7 @@ public class BookingServiceImpl implements BookingService{
 				dateStringConverter(bookingData.getCheckInDate()),
 				dateStringConverter(bookingData.getCheckOutDate()),
 				bookingData.getCreditCardNumber(),
-				customer.get(),
+				customer.get().getCustomerId(),
 				bookingData.getGuestCount(),
 				BookingStatus.PENDING,
 				categoryCount);

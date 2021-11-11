@@ -15,7 +15,7 @@ public class Stay {
 
 	public static Stay createForBooking(StayId stayId, Booking booking, GuestId guestId) {
 		Stay stay = new Stay(stayId, booking.getCheckInDate(), booking.getCheckOutDate(),
-				booking.getGuestCount(), booking.getCreditCardNumber(), booking.getCustomer().getCustomerId(), guestId);
+				booking.getGuestCount(), booking.getCreditCardNumber(), booking.getCustomerId(), guestId);
 		stay.addBookingId(booking.getBookingId());
 		return stay;
 	}

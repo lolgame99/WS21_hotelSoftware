@@ -68,7 +68,7 @@ public class TestData implements ApplicationRunner {
 				LocalDate.now(),
 				LocalDate.now().plusDays(7),
 				"5555555555554444",
-				customerRepository.getCustomerById(customerUUID[0]).get(),
+				customerUUID[0],
 				2,
 				BookingStatus.CONFIRMED,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(),1);}})); 
@@ -78,7 +78,7 @@ public class TestData implements ApplicationRunner {
 				LocalDate.now(),
 				LocalDate.now().plusDays(10),
 				"5555555555554444",
-				customerRepository.getCustomerById(customerUUID[1]).get(),
+				customerUUID[1],
 				6,
 				BookingStatus.PENDING,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 1);
@@ -89,7 +89,7 @@ public class TestData implements ApplicationRunner {
 				LocalDate.now().plusDays(7),
 				LocalDate.now().plusDays(16),
 				"5555555555554444",
-				customerRepository.getCustomerById(customerUUID[2]).get(),
+				customerUUID[2],
 				2,
 				BookingStatus.PAID,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 2);}}
@@ -100,7 +100,7 @@ public class TestData implements ApplicationRunner {
 				LocalDate.now().plusDays(1),
 				LocalDate.now().plusDays(7),
 				"5555555555554444",
-				customerRepository.getCustomerById(customerUUID[3]).get(),
+				customerUUID[3],
 				3,
 				BookingStatus.CONFIRMED,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 2);}}
@@ -111,7 +111,7 @@ public class TestData implements ApplicationRunner {
 				LocalDate.now().plusDays(9),
 				LocalDate.now().plusDays(10),
 				"5555555555554444",
-				customerRepository.getCustomerById(customerUUID[4]).get(),
+				customerUUID[4],
 				8,
 				BookingStatus.PAID,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(), 2);
@@ -123,7 +123,7 @@ public class TestData implements ApplicationRunner {
 				LocalDate.now().plusDays(2),
 				LocalDate.now().plusDays(4),
 				"5555555555554444",
-				customerRepository.getCustomerById(customerUUID[5]).get(),
+				customerUUID[5],
 				1,
 				BookingStatus.PENDING,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 1);}}
