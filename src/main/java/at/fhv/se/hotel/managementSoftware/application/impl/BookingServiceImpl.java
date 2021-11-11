@@ -94,7 +94,7 @@ public class BookingServiceImpl implements BookingService{
 	}
 
 	@Override
-	public void addBookingFromData(BookingData bookingData) throws InvalidBookingException {
+	public void addBookingFromData(BookingData bookingData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate, LocalDate convertedBirthDate) throws InvalidBookingException {
 		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(bookingData.getCustomerId()));
 		Boolean customerCreated = customer.isEmpty();
 		if(customerCreated) {
@@ -102,7 +102,7 @@ public class BookingServiceImpl implements BookingService{
 					customerRepository.nextIdentity(),
 					bookingData.getFirstName(),
 					bookingData.getLastName(),
-					dateStringConverter(bookingData.getBirthdate()),
+					convertedBirthDate,
 					new Address(bookingData.getStreetName(),bookingData.getStreetNumber(),bookingData.getCity(),bookingData.getPostcode(),bookingData.getCountry()),
 					bookingData.getEmail(),
 					bookingData.getPhoneNumber(),
@@ -121,8 +121,8 @@ public class BookingServiceImpl implements BookingService{
 		}
 		Booking booking = new Booking(
 				bookingRepository.nextIdentity(),
-				dateStringConverter(bookingData.getCheckInDate()),
-				dateStringConverter(bookingData.getCheckOutDate()),
+				convertedCheckInDate,
+				convertedCheckOutDate,
 				bookingData.getCreditCardNumber(),
 				customer.get().getCustomerId(),
 				bookingData.getGuestCount(),
@@ -135,23 +135,7 @@ public class BookingServiceImpl implements BookingService{
 		}
 		bookingRepository.addBooking(booking);
 		
-		
-		
 	}
 	
-	/* Splits Date String into Array for further processing
-	 * splitArray[0] = year
-	 * splitArray[1] = month
-	 * splitArray[2] = day
-	 */
-	public LocalDate dateStringConverter(String date) {
-		String[] splitStringArray = null;
-		int[] splitIntArray = new int[3];
-		splitStringArray = date.split("-");
-		for (int i = 0; i < splitStringArray.length; i++) {
-			splitIntArray[i] = Integer.parseInt(splitStringArray[i]);
-		}	
-		return LocalDate.of(splitIntArray[0], splitIntArray[1], splitIntArray[2]);
-	}
 	
 }
