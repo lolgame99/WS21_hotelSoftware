@@ -98,7 +98,7 @@ public class BookingServiceImpl implements BookingService{
 		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(bookingData.getCustomerId()));
 		Boolean customerCreated = customer.isEmpty();
 		if(customerCreated) {
-			customer = Optional.of(new Customer(
+			customer = Optional.of(Customer.create(
 					customerRepository.nextIdentity(),
 					bookingData.getFirstName(),
 					bookingData.getLastName(),
@@ -108,6 +108,9 @@ public class BookingServiceImpl implements BookingService{
 					bookingData.getPhoneNumber(),
 					bookingData.getGender()
 					));
+			if (bookingData.getMiddleName() != null) {
+				customer.get().addMiddleName(bookingData.getMiddleName());
+			}
 		}
 		
 		HashMap<RoomCategory, Integer> categoryCount = new HashMap<RoomCategory, Integer>();
@@ -119,7 +122,7 @@ public class BookingServiceImpl implements BookingService{
 					roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get(), 
 					bookingData.getCategoryAmounts().get(i));
 		}
-		Booking booking = new Booking(
+		Booking booking = Booking.create(
 				bookingRepository.nextIdentity(),
 				convertedCheckInDate,
 				convertedCheckOutDate,

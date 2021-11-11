@@ -8,13 +8,17 @@ public class Guest {
 	private String phoneNumber;
 	private StayId stayId;
 	
-	public Guest(GuestId guestId, String firstName, String lastName, String phoneNumber, StayId stayId)
-	{
-		this.guestId = guestId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.phoneNumber = phoneNumber;
-		this.stayId = stayId;
+	private Guest() {
+	}
+
+	public static Guest create(GuestId guestId, String firstName, String lastName, String number, StayId stayId) {
+		Guest guest = new Guest();
+		guest.guestId = guestId;
+		guest.firstName = firstName;
+		guest.lastName = lastName;
+		guest.phoneNumber = number;
+		guest.stayId = stayId;
+		return guest;
 	}
 
 	public GuestId getGuestId() {

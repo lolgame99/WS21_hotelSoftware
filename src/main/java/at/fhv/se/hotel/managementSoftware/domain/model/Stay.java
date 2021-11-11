@@ -7,34 +7,38 @@ public class Stay {
 	private StayId stayId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
-	private int numberOfGuests;
+	private int guestCount;
 	private String creditCardNumber; 
 	private BookingId bookingId;
 	private CustomerId customerId;
 	private GuestId guestId;
 
-	public static Stay createForBooking(StayId stayId, Booking booking, GuestId guestId) {
-		Stay stay = new Stay(stayId, booking.getCheckInDate(), booking.getCheckOutDate(),
-				booking.getGuestCount(), booking.getCreditCardNumber(), booking.getCustomerId(), guestId);
-		stay.addBookingId(booking.getBookingId());
+	private Stay() {		
+	}
+	
+	public static Stay createFromBooking(StayId stayId, Booking booking, GuestId guestId) {
+		Stay stay = new Stay();
+		stay.stayId = stayId;
+		stay.checkInDate = booking.getCheckInDate();
+		stay.checkOutDate = booking.getCheckOutDate();
+		stay.guestCount = booking.getGuestCount();
+		stay.creditCardNumber = booking.getCreditCardNumber();
+		stay.bookingId = booking.getBookingId();
+		stay.customerId = booking.getCustomerId();
+		stay.guestId = guestId;
 		return stay;
 	}
 	
-	private Stay(StayId stayId, LocalDate checkInDate, LocalDate checkOutDate, int numberOfGuests,
-			String creditCardNumber, CustomerId customerId, GuestId guestId){
-		this.stayId = stayId;
-		this.checkInDate = checkInDate;
-		this.checkOutDate = checkOutDate; 
-		this.creditCardNumber = creditCardNumber;
-		this.customerId = customerId;
-		this.guestId = guestId;
-		this.numberOfGuests = numberOfGuests;
-	}
-	
-	private void addBookingId(BookingId bookingId) {
-		if(bookingId == null) {
-			this.bookingId = bookingId;
-		}
+	public static Stay createForWalkIn(StayId stayId, LocalDate checkInDate, LocalDate checkOutDate, int guestCount, String creditCardNumber, CustomerId customerId, GuestId guestId) {
+		Stay stay = new Stay();
+		stay.stayId = stayId;
+		stay.checkInDate = checkInDate;
+		stay.checkOutDate = checkOutDate;
+		stay.guestCount = guestCount;
+		stay.creditCardNumber = creditCardNumber;
+		stay.customerId = customerId;
+		stay.guestId = guestId;
+		return stay;
 	}
 	
 	public StayId getStayId() {
@@ -66,7 +70,7 @@ public class Stay {
 	}
 
 	public int getGuestCount() {
-		return numberOfGuests;
+		return guestCount;
 	}
 	
 }

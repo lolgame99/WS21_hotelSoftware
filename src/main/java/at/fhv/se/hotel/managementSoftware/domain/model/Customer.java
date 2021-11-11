@@ -19,22 +19,28 @@ public class Customer {
 	private String phoneNumber;
 	private Gender gender;
 	
-	public Customer(CustomerId customerId, String firstName, String lastName, LocalDate birthdate, Address address, String email,
-			String phoneNumber, Gender gender) {
-		super();
-		this.customerId = customerId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.birthdate = birthdate;
-		this.address = address;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.gender = gender;
+	private Customer() {
+		
 	}
 	
+	public static Customer create(CustomerId customerId, String firstName, String lastName, LocalDate birthdate, Address address, String email,
+			String phoneNumber, Gender gender) {
+		Customer customer = new Customer();
+		customer.customerId = customerId;
+		customer.firstName = firstName;
+		customer.lastName = lastName;
+		customer.birthdate = birthdate;
+		customer.address = address;
+		customer.email = email;
+		customer.phoneNumber = phoneNumber;
+		customer.gender = gender;
+		return customer;
+	}	
 	
 	public void addMiddleName(String middlename) {
-		this.middleName = middlename;
+		if (middlename == null) {
+			this.middleName = middlename;
+		}	
 	}
 
 	public CustomerId getCustomerId() {

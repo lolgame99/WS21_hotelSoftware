@@ -6,17 +6,24 @@ public class RoomCategory {
 	private String categoryDescription;
 	private int bedNumber;
 	
-	
-	public RoomCategory(RoomCategoryId categoryID, String categoryName, int bedNumber) {
-		this.categoryID = categoryID;
-		this.categoryName = categoryName;
-		this.bedNumber = bedNumber;
-		
+	private RoomCategory() {
 	}
 	
-	//wenn nicht optional, dann in Constructor
-	public void addCategoryDescription(String categoryDescription) {
-		this.categoryDescription = categoryDescription;
+	public static RoomCategory createWithoutDescription(RoomCategoryId categoryID, String categoryName, int bedNumber) {
+		RoomCategory category = new RoomCategory();
+		category.categoryID = categoryID;
+		category.categoryName = categoryName;
+		category.bedNumber = bedNumber;
+		return category;
+	}
+	
+	public static RoomCategory createWithDescription(RoomCategoryId categoryID, String categoryName, int bedNumber, String desc) {
+		RoomCategory category = new RoomCategory();
+		category.categoryID = categoryID;
+		category.categoryName = categoryName;
+		category.bedNumber = bedNumber;
+		category.categoryDescription = desc;
+		return category;
 	}
 
 	public RoomCategoryId getCategoryID() {

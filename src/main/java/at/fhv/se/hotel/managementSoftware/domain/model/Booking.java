@@ -17,22 +17,11 @@ public class Booking {
 
 	private HashMap<RoomCategory, Integer> categoryCount;
 	
-	public Booking(BookingId bookingId, LocalDate checkInDate, LocalDate checkOutDate, String creditCardNumber,
-			CustomerId customerId, int guestCount, BookingStatus bookingStatus, HashMap<RoomCategory, Integer> categoryCount) throws InvalidBookingException{
-		super();
-		this.categoryCount = categoryCount;
-		this.bookingId = bookingId;
-		this.checkInDate = checkInDate;
-		this.checkOutDate = checkOutDate;
-		this.creditCardNumber = creditCardNumber;
-		this.customerId = customerId;
-		this.guestCount = guestCount;
-		this.bookingStatus = bookingStatus;
-		
-		validate();
+	private Booking() {
 	}
 	
-	private void validate() throws InvalidBookingException{
+	public static Booking create(BookingId bookingId, LocalDate checkInDate, LocalDate checkOutDate, String creditCardNumber,
+			CustomerId customerId, int guestCount, BookingStatus bookingStatus, HashMap<RoomCategory, Integer> categoryCount) throws InvalidBookingException{
 		// Pruefen, ob Check-in-Date vor Check-out-Date liegt
 		if (checkInDate.compareTo(checkOutDate) >= 0) {
 			throw new InvalidBookingException("Booking could not be created <br> Check-out-Date can't be before Check-in Date");
@@ -51,8 +40,28 @@ public class Booking {
 		//Pruefen ob mind. eine Raumkategory in Hashmap
 		if(categoryCount.isEmpty()) {
 			throw new InvalidBookingException("Booking could not be created <br> Atleast 1 roomcategory has to be selected");
-		}		
+		}
 		
+		//Pruefen ob genug Betten für Anzahl von Gaesten
+		Integer bedSum = 0;
+		for (HashMap.Entry<RoomCategory, Integer> entry: categoryCount.entrySet()) {
+			bedSum += entry.getKey().getBedNumber() * entry.getValue();
+		}
+		if (bedSum < guestCount) {
+			throw new InvalidBookingException("Booking could not be created <br> Too many guests for the selected number of rooms");
+		}
+		
+		Booking booking = new Booking();
+		booking.bookingId = bookingId;
+		booking.checkInDate = checkInDate;
+		booking.checkOutDate = checkOutDate;
+		booking.creditCardNumber = creditCardNumber;
+		booking.customerId = customerId;
+		booking.guestCount = guestCount;
+		booking.bookingStatus = bookingStatus;
+		booking.categoryCount = categoryCount;
+		
+		return booking;
 	}
 
 	public BookingId getBookingId() {
