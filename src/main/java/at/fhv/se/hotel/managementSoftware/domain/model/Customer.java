@@ -38,7 +38,7 @@ public class Customer {
 	}	
 	
 	public void addMiddleName(String middlename) {
-		if (middlename == null) {
+		if (this.middleName == null) {
 			this.middleName = middlename;
 		}	
 	}
