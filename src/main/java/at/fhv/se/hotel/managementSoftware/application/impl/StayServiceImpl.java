@@ -17,6 +17,7 @@ import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.GuestRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
+import at.fhv.se.hotel.managementSoftware.view.forms.StayData;
 
 @Component
 public class StayServiceImpl implements StayService{
@@ -85,6 +86,13 @@ public class StayServiceImpl implements StayService{
 		}
 			
 		return stayDTOs;
+	}
+
+	@Override
+	public void addStayFromData(StayData stayData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate,
+			LocalDate convertedBirthDate) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
