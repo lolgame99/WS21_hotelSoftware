@@ -2,6 +2,7 @@ package at.fhv.se.hotel.managementSoftware.application.dto;
 
 import java.util.Objects;
 
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 
 public class RoomCategoryDTO {
@@ -10,8 +11,16 @@ public class RoomCategoryDTO {
 	private String description;
 	private int bedNumber;
 	
-	public static Builder builder() {
-		return new Builder();
+	private RoomCategoryDTO() {
+	}
+	
+	public static RoomCategoryDTO createFromCategory(RoomCategory category) {
+		RoomCategoryDTO dto = new RoomCategoryDTO();
+		dto.categoryID = category.getCategoryID();
+		dto.name = category.getCategoryName();
+		dto.bedNumber = category.getBedNumber();
+		dto.description = category.getCategoryDescription();
+		return dto;
 	}
 
 	public RoomCategoryId getCategoryID() {
@@ -28,45 +37,6 @@ public class RoomCategoryDTO {
 
 	public int getBedNumber() {
 		return bedNumber;
-	}
-	
-	private RoomCategoryDTO() {
-	}
-	
-	public static class Builder{
-		private RoomCategoryDTO instance;
-
-        private Builder() {
-            this.instance = new RoomCategoryDTO();
-        }
-
-        public Builder withId(RoomCategoryId id) {
-            this.instance.categoryID = id;
-            return this;
-        }
-
-        public Builder withName(String name) {
-            this.instance.name = name;
-            return this;
-        } 
-        
-        public Builder withDescription(String desc) {
-            this.instance.description = desc;
-            return this;
-        }
-        
-        public Builder withBedNumber(int number) {
-            this.instance.bedNumber = number;
-            return this;
-        }
-
-
-        public RoomCategoryDTO build() {
-            Objects.requireNonNull(this.instance.categoryID, "categoryID must be set in RoomCategoryDTO");
-            Objects.requireNonNull(this.instance.name, "name must be set in RoomCategoryDTO");
-            Objects.requireNonNull(this.instance.bedNumber, "bedNumber must be set in RoomCategoryDTO");
-            return this.instance;
-        }
 	}
 	
 }

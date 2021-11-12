@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +23,6 @@ import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
-import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 import at.fhv.se.hotel.managementSoftware.view.forms.BookingData;
 
 @Controller

@@ -3,22 +3,22 @@ package at.fhv.se.hotel.managementSoftware.application.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-
-import javax.management.loading.PrivateClassLoader;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.application.api.BookingService;
+import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
+import at.fhv.se.hotel.managementSoftware.application.dto.BookingDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
+import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
+import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
-import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
+import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
@@ -40,6 +40,9 @@ public class BookingServiceImpl implements BookingService{
 	
 	@Autowired
 	private RoomCategoryRepository roomCategoryRepository;
+	
+	@Autowired
+	private CustomerService customerService;
 
 	@Override
 	public List<BookingOverviewDTO> getAllBookings() {
@@ -47,19 +50,8 @@ public class BookingServiceImpl implements BookingService{
 		List<BookingOverviewDTO> bookingDTOs= new ArrayList<BookingOverviewDTO>();
 		
 		for (Booking b : bookings) {
-			int totalRoomCount = 0;
-			for(int categoryCount : b.getCategoryCount().values()) {
-				totalRoomCount += categoryCount;
-			}
-			
-			bookingDTOs.add(BookingOverviewDTO.builder()
-					.withId(b.getBookingId())
-					.withCheckInDate(b.getCheckInDate())
-					.withCustomer(customerRepository.getCustomerById(b.getCustomerId()).get())
-					.withGuestCount(b.getGuestCount())
-					.withRoomCount(totalRoomCount)
-					.build()
-					);
+			Optional<CustomerOverviewDTO> customer = customerService.getCustomerOverviewById(b.getCustomerId().getId());
+			bookingDTOs.add(BookingOverviewDTO.createFromBooking(b, customer.get()));
 		}
 		
 		return bookingDTOs;
@@ -71,19 +63,8 @@ public class BookingServiceImpl implements BookingService{
 		List<BookingOverviewDTO> bookingDTOs= new ArrayList<BookingOverviewDTO>();
 		
 		for (Booking b : bookings) {
-			int totalRoomCount = 0;
-			for(int categoryCount : b.getCategoryCount().values()) {
-				totalRoomCount += categoryCount;
-			}
-			
-			bookingDTOs.add(BookingOverviewDTO.builder()
-					.withId(b.getBookingId())
-					.withCheckInDate(b.getCheckInDate())
-					.withCustomer(customerRepository.getCustomerById(b.getCustomerId()).get())
-					.withGuestCount(b.getGuestCount())
-					.withRoomCount(totalRoomCount)
-					.build()
-					);
+			Optional<CustomerOverviewDTO> customer = customerService.getCustomerOverviewById(b.getCustomerId().getId());
+			bookingDTOs.add(BookingOverviewDTO.createFromBooking(b, customer.get()));
 		}
 		
 		return bookingDTOs;
@@ -130,7 +111,7 @@ public class BookingServiceImpl implements BookingService{
 				bookingData.getCreditCardNumber(),
 				customer.get().getCustomerId(),
 				bookingData.getGuestCount(),
-				BookingStatus.PENDING,
+				BookingStatus.PAID,
 				categoryCount);
 		
 		
@@ -139,6 +120,17 @@ public class BookingServiceImpl implements BookingService{
 		}
 		bookingRepository.addBooking(booking);
 		
+	}
+
+	@Override
+	public Optional<BookingDetailsDTO> getBookingDetailsById(String id) {
+		Optional<Booking> booking = bookingRepository.getBookingById(new BookingId(id));
+		Optional<BookingDetailsDTO> dto = Optional.empty();
+		if (booking.isPresent()) {
+			Optional<CustomerDetailsDTO> customer = customerService.getCustomerDetailsById(booking.get().getCustomerId().getId());
+			dto = Optional.of(BookingDetailsDTO.createFromBooking(booking.get(), customer.get()));
+		}
+		return dto;
 	}
 	
 	

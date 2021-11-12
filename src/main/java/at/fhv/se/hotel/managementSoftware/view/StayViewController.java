@@ -19,13 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomCategoryService;
 import at.fhv.se.hotel.managementSoftware.application.api.StayService;
-import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.StayDetailsDTO;
-import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
-import at.fhv.se.hotel.managementSoftware.view.forms.BookingData;
 import at.fhv.se.hotel.managementSoftware.view.forms.StayData;
 
 @Controller

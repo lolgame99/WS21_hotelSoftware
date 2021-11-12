@@ -4,6 +4,7 @@ package at.fhv.se.hotel.managementSoftware.application.dto;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 
 
@@ -14,8 +15,18 @@ public class CustomerOverviewDTO {
 	private String lastName;
 	private LocalDate birthdate;
 	
-	public static Builder builder() {
-		return new Builder();
+	private CustomerOverviewDTO() {
+	}
+	
+	public static CustomerOverviewDTO createFromCustomer(Customer customer) {
+		CustomerOverviewDTO dto = new CustomerOverviewDTO();
+		dto.customerId = customer.getCustomerId();
+		dto.firstName = customer.getFirstName();
+		dto.lastName = customer.getLastName();
+		dto.birthdate = customer.getBirthdate();
+		dto.middleName = customer.getMiddleName();
+		
+		return dto;
 	}
 
 	public CustomerId getCustomerId() {
@@ -38,48 +49,4 @@ public class CustomerOverviewDTO {
 		return birthdate;
 	}
 	
-	private CustomerOverviewDTO() {
-	}
-	
-	public static class Builder{
-		private CustomerOverviewDTO instance;
-
-        private Builder() {
-            this.instance = new CustomerOverviewDTO();
-        }
-
-        public Builder withId(CustomerId id) {
-            this.instance.customerId = id;
-            return this;
-        }
-
-        public Builder withFirstName(String firstName) {
-            this.instance.firstName = firstName;
-            return this;
-        } 
-        
-        public Builder withLastName(String lastName) {
-            this.instance.lastName = lastName;
-            return this;
-        } 
-        
-        public Builder withMiddleName(String middleName) {
-            this.instance.middleName = middleName;
-            return this;
-        } 
-        
-        public Builder withBirthdate(LocalDate birthdate) {
-        	this.instance.birthdate = birthdate;
-        	return this;
-        }
-
-
-        public CustomerOverviewDTO build() {
-            Objects.requireNonNull(this.instance.customerId, "customerId must be set in CustomerOverviewDTO");
-            Objects.requireNonNull(this.instance.firstName, "firstName must be set in CustomerOverviewDTO");
-            Objects.requireNonNull(this.instance.lastName, "lastName must be set in CustomerOverviewDTO");
-            Objects.requireNonNull(this.instance.birthdate, "birthdate must be set in CustomerOverviewDTO");
-            return this.instance;
-        }
-	}
 }
