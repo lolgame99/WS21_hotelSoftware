@@ -1,25 +1,32 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
 public class RoomCategory {
-	private String categoryID;
+	private RoomCategoryId categoryID;
 	private String categoryName;
 	private String categoryDescription;
 	private int bedNumber;
 	
-	
-	public RoomCategory(String categoryID, String categoryName, int bedNumber) {
-		this.categoryID = categoryID;
-		this.categoryName = categoryName;
-		this.bedNumber = bedNumber;
-		
+	private RoomCategory() {
 	}
 	
-	//wenn nicht optional, dann in Constructor
-	public void addCategoryDescription(String categoryDescription) {
-		this.categoryDescription = categoryDescription;
+	public static RoomCategory createWithoutDescription(RoomCategoryId categoryID, String categoryName, int bedNumber) {
+		RoomCategory category = new RoomCategory();
+		category.categoryID = categoryID;
+		category.categoryName = categoryName;
+		category.bedNumber = bedNumber;
+		return category;
+	}
+	
+	public static RoomCategory createWithDescription(RoomCategoryId categoryID, String categoryName, int bedNumber, String desc) {
+		RoomCategory category = new RoomCategory();
+		category.categoryID = categoryID;
+		category.categoryName = categoryName;
+		category.bedNumber = bedNumber;
+		category.categoryDescription = desc;
+		return category;
 	}
 
-	public String getCategoryID() {
+	public RoomCategoryId getCategoryID() {
 		return categoryID;
 	}
 

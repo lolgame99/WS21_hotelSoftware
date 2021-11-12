@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomCategoryService;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
 
 @Component
@@ -36,7 +37,7 @@ public class RoomCategoryImpl implements RoomCategoryService{
 
 	@Override
 	public Optional<RoomCategoryDTO> getRoomCategoryById(String id) {
-		Optional<RoomCategory> roomCategory = roomCategoryRepository.getRoomCategoryById(id);
+		Optional<RoomCategory> roomCategory = roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(id));
 		Optional<RoomCategoryDTO> roomCategoryDTO = Optional.empty();
 		
 		if (roomCategory.isPresent()) {

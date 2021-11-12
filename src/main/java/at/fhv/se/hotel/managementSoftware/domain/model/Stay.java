@@ -1,0 +1,77 @@
+package at.fhv.se.hotel.managementSoftware.domain.model;
+
+import java.time.LocalDate;
+
+public class Stay {
+	
+	private StayId stayId;
+	private LocalDate checkInDate;
+	private LocalDate checkOutDate;
+	private int guestCount;
+	private String creditCardNumber; 
+	private BookingId bookingId;
+	private CustomerId customerId;
+	private GuestId guestId;
+
+	private Stay() {		
+	}
+	
+	public static Stay createFromBooking(StayId stayId, Booking booking, GuestId guestId) {
+		Stay stay = new Stay();
+		stay.stayId = stayId;
+		stay.checkInDate = booking.getCheckInDate();
+		stay.checkOutDate = booking.getCheckOutDate();
+		stay.guestCount = booking.getGuestCount();
+		stay.creditCardNumber = booking.getCreditCardNumber();
+		stay.bookingId = booking.getBookingId();
+		stay.customerId = booking.getCustomerId();
+		stay.guestId = guestId;
+		return stay;
+	}
+	
+	public static Stay createForWalkIn(StayId stayId, LocalDate checkInDate, LocalDate checkOutDate, int guestCount, String creditCardNumber, CustomerId customerId, GuestId guestId) {
+		Stay stay = new Stay();
+		stay.stayId = stayId;
+		stay.checkInDate = checkInDate;
+		stay.checkOutDate = checkOutDate;
+		stay.guestCount = guestCount;
+		stay.creditCardNumber = creditCardNumber;
+		stay.customerId = customerId;
+		stay.guestId = guestId;
+		return stay;
+	}
+	
+	public StayId getStayId() {
+		return stayId;
+	}
+
+	public LocalDate getCheckInDate() {
+		return checkInDate;
+	}
+
+	public LocalDate getCheckOutDate() {
+		return checkOutDate;
+	}
+
+	public String getCreditCardNumber() {
+		return creditCardNumber;
+	}
+
+	public BookingId getBookingId() {
+		return bookingId;
+	}
+
+	public CustomerId getCustomerId() {
+		return customerId;
+	}
+	
+	public GuestId getGuestId() {
+		return guestId;
+	}
+
+	public int getGuestCount() {
+		return guestCount;
+	}
+	
+}
+

@@ -4,10 +4,11 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
-import at.fhv.se.hotel.managementSoftware.domain.model.Address;
+import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
+import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
 public class CustomerDetailsDTO {
-	private String customerId;
+	private CustomerId customerId;
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -18,8 +19,6 @@ public class CustomerDetailsDTO {
 	private String email;
 	private String phoneNumber;
 	private Gender gender;
-	
-	private Address billingAddress;
 	
 	private CustomerDetailsDTO() {
 	}
@@ -35,7 +34,7 @@ public class CustomerDetailsDTO {
             this.instance = new CustomerDetailsDTO();
         }
 
-        public Builder withId(String id) {
+        public Builder withId(CustomerId id) {
             this.instance.customerId = id;
             return this;
         }
@@ -79,11 +78,6 @@ public class CustomerDetailsDTO {
         	this.instance.gender = gender;
         	return this;
         }
-        
-        public Builder withBillingAddress(Address address) {
-        	this.instance.billingAddress = address;
-        	return this;
-        }
 
         public CustomerDetailsDTO build() {
             Objects.requireNonNull(this.instance.customerId, "customerId must be set in CustomerDetailsDTO");
@@ -98,7 +92,7 @@ public class CustomerDetailsDTO {
         }
 	}
 
-	public String getCustomerId() {
+	public CustomerId getCustomerId() {
 		return customerId;
 	}
 
@@ -133,10 +127,5 @@ public class CustomerDetailsDTO {
 	public Gender getGender() {
 		return gender;
 	}
-
-	public Address getBillingAddress() {
-		return billingAddress;
-	}
-	
 	
 }

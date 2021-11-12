@@ -4,9 +4,11 @@ package at.fhv.se.hotel.managementSoftware.application.dto;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
+
 
 public class CustomerOverviewDTO {
-	private String customerId;
+	private CustomerId customerId;
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -16,7 +18,7 @@ public class CustomerOverviewDTO {
 		return new Builder();
 	}
 
-	public String getCustomerId() {
+	public CustomerId getCustomerId() {
 		return customerId;
 	}
 
@@ -46,7 +48,7 @@ public class CustomerOverviewDTO {
             this.instance = new CustomerOverviewDTO();
         }
 
-        public Builder withId(String id) {
+        public Builder withId(CustomerId id) {
             this.instance.customerId = id;
             return this;
         }

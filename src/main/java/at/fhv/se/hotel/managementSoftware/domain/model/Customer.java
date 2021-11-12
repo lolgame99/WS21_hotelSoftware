@@ -1,12 +1,15 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
+import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
 public class Customer {
 	
-	private String customerId;
+	private CustomerId customerId;
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -18,30 +21,35 @@ public class Customer {
 	private String phoneNumber;
 	private Gender gender;
 	
-	private Address billingAddress;
-	
-	public Customer(String customerId, String firstName, String lastName, LocalDate birthdate, Address address, String email,
-			String phoneNumber, Gender gender) {
-		super();
-		this.customerId = customerId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.birthdate = birthdate;
-		this.address = address;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.gender = gender;
+	private Customer() {
+		
 	}
 	
-	public void setBillingAddress(Address billingAddress) {
-		this.billingAddress = billingAddress;
-	}
+	public static Customer create(CustomerId customerId, String firstName, String lastName, LocalDate birthdate, Address address, String email,
+			String phoneNumber, Gender gender) throws InvalidCustomerException {
+		if (ChronoUnit.YEARS.between(birthdate, LocalDate.now()) < 18) {
+			throw new InvalidCustomerException("Customer could not be created <br> Customer has to be atleast 18 years old ");
+		}
+		
+		Customer customer = new Customer();
+		customer.customerId = customerId;
+		customer.firstName = firstName;
+		customer.lastName = lastName;
+		customer.birthdate = birthdate;
+		customer.address = address;
+		customer.email = email;
+		customer.phoneNumber = phoneNumber;
+		customer.gender = gender;
+		return customer;
+	}	
 	
 	public void addMiddleName(String middlename) {
-		this.middleName = middlename;
+		if (this.middleName == null) {
+			this.middleName = middlename;
+		}	
 	}
 
-	public String getCustomerId() {
+	public CustomerId getCustomerId() {
 		return customerId;
 	}
 
@@ -63,10 +71,6 @@ public class Customer {
 
 	public Address getAddress() {
 		return address;
-	}
-	
-	public Address getBillingAddress() {
-		return billingAddress;
 	}
 
 	public String getEmail() {

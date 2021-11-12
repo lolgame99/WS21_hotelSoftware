@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 
 @Component
@@ -21,10 +22,10 @@ public class HibernateCustomerRepository implements CustomerRepository{
 	}
 
 	@Override
-	public Optional<Customer> getCustomerById(String id) {
+	public Optional<Customer> getCustomerById(CustomerId id) {
 		Optional<Customer> customer = Optional.empty();
 		for (Customer cus : customers) {
-			if(cus.getCustomerId().equals(id)) {
+			if(cus.getCustomerId().getId().equals(id.getId())) {
 				customer = Optional.of(cus);
 			}
 		}
@@ -38,8 +39,8 @@ public class HibernateCustomerRepository implements CustomerRepository{
 	}
 
 	@Override
-	public String nextIdentity() {
-		return UUID.randomUUID().toString().toUpperCase();
+	public CustomerId nextIdentity() {
+		return new CustomerId(UUID.randomUUID().toString().toUpperCase());
 	}
 
 }
