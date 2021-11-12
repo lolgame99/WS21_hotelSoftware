@@ -13,6 +13,7 @@ public class BookingDetailsDTO {
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private String creditCardNumber;
+	private String creditCardValid;
 	private CustomerDetailsDTO customer;
 	private int guestCount;
 	private BookingStatus bookingStatus;
@@ -32,6 +33,7 @@ public class BookingDetailsDTO {
 		dto.guestCount = booking.getGuestCount();
 		dto.bookingStatus = booking.getBookingStatus();
 		dto.categoryCount = booking.getCategoryCount();
+		dto.creditCardValid = booking.getCreditCardValid();
 		return dto;
 	}
 
@@ -67,5 +69,8 @@ public class BookingDetailsDTO {
 		return categoryCount;
 	}
 
+	public String getCreditCardValid() {
+		return creditCardValid;
+	}
 	
 }

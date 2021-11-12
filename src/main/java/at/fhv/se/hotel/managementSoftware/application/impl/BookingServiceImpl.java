@@ -109,6 +109,7 @@ public class BookingServiceImpl implements BookingService{
 				convertedCheckInDate,
 				convertedCheckOutDate,
 				bookingData.getCreditCardNumber(),
+				bookingData.getCreditCardValid(),
 				customer.get().getCustomerId(),
 				bookingData.getGuestCount(),
 				BookingStatus.PAID,
