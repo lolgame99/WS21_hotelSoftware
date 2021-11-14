@@ -2,24 +2,24 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 
 import java.time.LocalDate;
 
-public class RoomAssigment {
+public class RoomAssignment {
 	private LocalDate assignedFrom;
 	private LocalDate assignedTo;
 	private Room roomNumber;
 	private StayId stayId;
 	
-	private RoomAssigment() {
+	private RoomAssignment() {
 		
 	}
 	
-	private RoomAssigment checkRoomAvailability(Room roomNumber, Stay stay) {
-		RoomAssigment roomAssigment = new RoomAssigment();
-		roomAssigment.assignedFrom = stay.getCheckInDate();
-		roomAssigment.assignedTo = stay.getCheckOutDate();
-		roomAssigment.roomNumber = roomNumber;
-		roomAssigment.stayId = stay.getStayId();
+	private RoomAssignment checkRoomAvailability(Room roomNumber, Stay stay) {
+		RoomAssignment roomAssignment = new RoomAssignment();
+		roomAssignment.assignedFrom = stay.getCheckInDate();
+		roomAssignment.assignedTo = stay.getCheckOutDate();
+		roomAssignment.roomNumber = roomNumber;
+		roomAssignment.stayId = stay.getStayId();
 		
-		return roomAssigment;
+		return roomAssignment;
 	}
 
 	public LocalDate getAssignedFrom() {
