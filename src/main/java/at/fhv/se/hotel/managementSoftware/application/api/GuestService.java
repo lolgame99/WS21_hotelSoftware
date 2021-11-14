@@ -7,6 +7,6 @@ import at.fhv.se.hotel.managementSoftware.application.dto.GuestDetailsDTO;
 
 public interface GuestService {
 	public List<GuestDetailsDTO> getAllGuests();
-	public Optional<GuestDetailsDTO> getGuestByStayId(String id);
+	public Optional<GuestDetailsDTO> getGuestById(String id);
 	
 }

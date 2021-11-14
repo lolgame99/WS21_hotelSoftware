@@ -16,11 +16,16 @@ import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
+import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
+import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
+import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.GuestRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
 @Component
@@ -34,6 +39,12 @@ public class TestData implements ApplicationRunner {
 
 	@Autowired
 	private RoomCategoryRepository roomCategoryRepository;
+	
+	@Autowired
+	private StayRepository stayRepository;
+	
+	@Autowired
+	private GuestRepository guestRepository;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -49,6 +60,10 @@ public class TestData implements ApplicationRunner {
 		for (int i = 0; i < bookingUUID.length; i++) {
 			bookingUUID[i] = new BookingId(UUID.randomUUID().toString().toUpperCase());
 		}
+		GuestId[] guestUUID = new GuestId[4];
+		for (int i = 0; i < guestUUID.length; i++) {
+			guestUUID[i] = new GuestId(UUID.randomUUID().toString().toUpperCase());
+		}
 		
 		customerRepository.addCustomer(Customer.create(customerUUID[0], "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
 		customerRepository.addCustomer(Customer.create(customerUUID[1], "Michelle", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Germany"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
@@ -57,6 +72,10 @@ public class TestData implements ApplicationRunner {
 		customerRepository.addCustomer(Customer.create(customerUUID[4], "Cristiano", "Ronaldo", LocalDate.of(1985, 2, 5), new Address("Oxford Street", "12", "Manchester", "M1", "United Kingdom"), "CristianoRonaldo@rhyta.com", "+449497823332", Gender.MALE));
 		customerRepository.addCustomer(Customer.create(customerUUID[5], "Conchita", "Wurst", LocalDate.of(1994, 10, 11), new Address("Wurst Strasse", "3", "Wien", "1010", "Austria"), "Conchita@wurst.com", "+436642135879", Gender.DIVERSE));
 
+		guestRepository.addGuest(Guest.createFromCustomer(guestUUID[0], customerRepository.getCustomerById(customerUUID[4]).get()));
+		guestRepository.addGuest(Guest.createFromCustomer(guestUUID[1], customerRepository.getCustomerById(customerUUID[3]).get()));
+		guestRepository.addGuest(Guest.create(guestUUID[2], "Dieter", "Neumann", "+498465126628"));
+		guestRepository.addGuest(Guest.create(guestUUID[3], "Franziska", "Nachbauer", "+438465184868"));
 		
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[0], "Single Room", 1));
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[1], "Double Room", 2));
@@ -135,6 +154,46 @@ public class TestData implements ApplicationRunner {
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 1);}}
 				));
 		
+		
+		stayRepository.addStay(Stay.createForWalkIn(
+				stayRepository.nextIdentity(),
+				LocalDate.now(),
+				LocalDate.now().plusDays(7),
+				1,
+				"5555555555554444",
+				customerUUID[4],
+				guestUUID[0])
+				);
+		
+		stayRepository.addStay(Stay.createForWalkIn(
+				stayRepository.nextIdentity(),
+				LocalDate.now(),
+				LocalDate.now().plusDays(5),
+				1,
+				"5555555555554444",
+				customerUUID[3],
+				guestUUID[1])
+				);
+		
+		stayRepository.addStay(Stay.createForWalkIn(
+				stayRepository.nextIdentity(),
+				LocalDate.now().plusDays(1),
+				LocalDate.now().plusDays(10),
+				3,
+				"5555555555554444",
+				customerUUID[1],
+				guestUUID[2])
+				);
+		
+		stayRepository.addStay(Stay.createForWalkIn(
+				stayRepository.nextIdentity(),
+				LocalDate.now().plusDays(2),
+				LocalDate.now().plusDays(14),
+				3,
+				"5555555555554444",
+				customerUUID[2],
+				guestUUID[3])
+				);
 		
 	}
 

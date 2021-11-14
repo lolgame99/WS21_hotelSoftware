@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import at.fhv.se.hotel.managementSoftware.application.api.GuestService;
 import at.fhv.se.hotel.managementSoftware.application.dto.GuestDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
+import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.GuestRepository;
 
@@ -30,8 +31,8 @@ public class GuestServiceImpl implements GuestService{
 	}
 
 	@Override
-	public Optional<GuestDetailsDTO> getGuestByStayId(String id) {
-		Optional<Guest> guest = guestRepository.getGuestByStayId(new StayId(id));
+	public Optional<GuestDetailsDTO> getGuestById(String id) {
+		Optional<Guest> guest = guestRepository.getGuestById(new GuestId(id));
 		Optional<GuestDetailsDTO> dto = Optional.empty();
 		if (guest.isPresent()) {
 			dto = Optional.of(GuestDetailsDTO.createFromGuest(guest.get()));

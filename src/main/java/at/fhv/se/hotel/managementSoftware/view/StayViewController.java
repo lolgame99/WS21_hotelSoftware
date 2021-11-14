@@ -51,10 +51,10 @@ public class StayViewController {
 	@GetMapping(OVERVIEW_STAY_URL)
     public String currentStays(@RequestParam(value = "date", required = false) String date, Model model) {		
 		List<StayDetailsDTO> stayOverviews = new ArrayList<>();
-		if(date != null) {
+		if(date != null && date != "") {
 			stayOverviews = stayService.getCurrentStays(dateStringConverter(date));
 		}else {
-			stayOverviews = stayService.getCurrentStays(LocalDate.now());
+			stayOverviews = stayService.getAllStays();
 		}
 		
         model.addAttribute("stays", stayOverviews);

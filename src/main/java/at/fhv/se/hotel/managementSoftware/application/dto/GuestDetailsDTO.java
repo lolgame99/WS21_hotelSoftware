@@ -9,7 +9,6 @@ public class GuestDetailsDTO {
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
-	private StayId stayId;
 	
 	private GuestDetailsDTO() {
 	}
@@ -20,7 +19,6 @@ public class GuestDetailsDTO {
 		dto.firstName = guest.getFirstName();
 		dto.lastName = guest.getLastName();
 		dto.phoneNumber = guest.getPhoneNumber();
-		dto.stayId = guest.getStayId();
 		return dto;
 	}
 
@@ -38,10 +36,6 @@ public class GuestDetailsDTO {
 
 	public String getPhoneNumber() {
 		return phoneNumber;
-	}
-
-	public StayId getStayId() {
-		return stayId;
 	}
 	
 	

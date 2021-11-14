@@ -44,7 +44,7 @@ public class StayServiceImpl implements StayService{
 		for (Stay s : stays) {
 			BookingDetailsDTO booking = null;
 			CustomerDetailsDTO customer = customerService.getCustomerDetailsById(s.getCustomerId().getId()).get();
-			GuestDetailsDTO guest = guestService.getGuestByStayId(s.getStayId().getId()).get();
+			GuestDetailsDTO guest = guestService.getGuestById(s.getGuestId().getId()).get();
 			if(s.getBookingId() != null) {
 				booking = bookingService.getBookingDetailsById(s.getBookingId().getId()).get();
 			}
@@ -62,7 +62,7 @@ public class StayServiceImpl implements StayService{
 		for (Stay s : stays) {
 			BookingDetailsDTO booking = null;
 			CustomerDetailsDTO customer = customerService.getCustomerDetailsById(s.getCustomerId().getId()).get();
-			GuestDetailsDTO guest = guestService.getGuestByStayId(s.getStayId().getId()).get();
+			GuestDetailsDTO guest = guestService.getGuestById(s.getGuestId().getId()).get();
 			if(s.getBookingId() != null) {
 				booking = bookingService.getBookingDetailsById(s.getBookingId().getId()).get();
 			}
