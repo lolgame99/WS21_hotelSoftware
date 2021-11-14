@@ -17,7 +17,7 @@ public class RoomAssigment {
 		roomAssigment.assignedFrom = stay.getCheckInDate();
 		roomAssigment.assignedTo = stay.getCheckOutDate();
 		roomAssigment.roomNumber = roomNumber;
-	//	roomAssigment.stayId = stayId.;
+		roomAssigment.stayId = stay.getStayId();
 		
 		return roomAssigment;
 	}
