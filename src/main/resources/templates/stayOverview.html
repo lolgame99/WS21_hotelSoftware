@@ -55,7 +55,7 @@
   		</thead>
   		<tbody class="stayOverview">
 		    <tr th:each="m : ${stays}">
-		      <td class="text-center" th:text="${m.guest.firstName}+' '+${n.guest.lastName}"></td>
+		      <td class="text-center" th:text="${m.guest.firstName}+' '+${m.guest.lastName}"></td>
 		      <td class="text-center" >coming soon</td>
 		      <td class="text-center" >coming soon</td>
 		      <td class="text-center" th:text="${m.checkInDate}"></td>
