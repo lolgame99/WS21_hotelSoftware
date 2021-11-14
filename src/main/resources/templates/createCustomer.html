@@ -29,12 +29,12 @@
         </ul>
     </header>
      <div class="content container my-3">
-        <p class="fs-3">Edit Booking</p>
+        <p class="fs-3">Create customer</p>
         <form class="new_booking row" action="#" th:object="${form}" th:action="@{/booking}" method="post">
         	<input class="form-control d-none" type="text" th:field="*{customerId}">
             <div class="col">
-                <p class="fs-5">Customer information</p>
-                <div class="form-row row my-2">
+                <p class="fs-5">Company information</p>
+				 <div class="form-row row my-2">
                     <div class="col">
                         <label class="form-label" for="firstName">First name</label><br>
                         <input class="form-control" type="text" th:field="*{firstName}" th:disabled="*{customerId != null}" required>
@@ -48,18 +48,12 @@
                         <input class="form-control" type="text" th:field="*{lastName}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
-                <div class="form-row row mb-2">
-                    <div class="col">
-                        <label class="form-label" for="gender">Gender</label><br>
-                        <select class="form-control" th:field="*{gender}" th:disabled="*{customerId != null}" required>
-			                <option th:each="n : ${T(at.fhv.se.hotel.managementSoftware.domain.enums.Gender).values()}" th:text="${n.displayValue}" th:value="${n}" ></option>
-			            </select>
+				<div class="form-row row my-2">
+					<div class="col">
+                        <label class="form-label" for="nameCompany">Name of company</label><br>
+                        <input class="form-control" type="text" th:field="*{firstName}" th:disabled="*{customerId != null}" required>
                     </div>
-                    <div class="col">
-                        <label class="form-label" for="birthdate">Birthdate</label><br>
-                        <input class="form-control" type="date" th:field="*{birthdate}" th:disabled="*{customerId != null}" required>
-                    </div>
-                </div>
+				</div>
                 <div class="form-row row mb-2">
                     <div class="col">
                         <label class="form-label" for="email">Email</label><br>
