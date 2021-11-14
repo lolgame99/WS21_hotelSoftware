@@ -28,11 +28,16 @@ public class StayData {
 	private String postcode;
 	private String country;
 	
+	private String bookingId;
 	private String checkInDate;
 	private String checkOutDate;
 	private int guestCount;
 	private String creditCardNumber;
 	private String creditCardValid;
+	
+	private String guestFirstName;
+	private String guestLastName;
+	private String guestPhoneNumber;
 	
 	private List<String> categoryValues= new ArrayList<String>();
 	private List<String> roomValues= new ArrayList<String>();
@@ -57,6 +62,7 @@ public class StayData {
 	}
 	
 	public void addExistingBooking(BookingDetailsDTO existingBooking) {
+		this.bookingId = existingBooking.getBookingId().getId();
 		this.addExistingCustomer(existingBooking.getCustomer());
 		this.checkInDate = existingBooking.getCheckInDate().toString();
 		this.checkOutDate = existingBooking.getCheckOutDate().toString();
@@ -66,6 +72,39 @@ public class StayData {
 	}
 	
 	
+	
+	public String getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(String bookingId) {
+		this.bookingId = bookingId;
+	}
+
+	public String getGuestFirstName() {
+		return guestFirstName;
+	}
+
+	public void setGuestFirstName(String guestFirstName) {
+		this.guestFirstName = guestFirstName;
+	}
+
+	public String getGuestLastName() {
+		return guestLastName;
+	}
+
+	public void setGuestLastName(String guestLastName) {
+		this.guestLastName = guestLastName;
+	}
+
+	public String getGuestPhoneNumber() {
+		return guestPhoneNumber;
+	}
+
+	public void setGuestPhoneNumber(String guestPhoneNumber) {
+		this.guestPhoneNumber = guestPhoneNumber;
+	}
+
 	public String getCustomerId() {
 		return customerId;
 	}

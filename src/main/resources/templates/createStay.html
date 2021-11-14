@@ -28,8 +28,9 @@
     </header>
      <div class="content container my-3">
         <p class="fs-3">Create Stay</p>
-        <form class="new_booking row" action="#" th:object="${form}" th:action="@{/booking}" method="post">
+        <form class="new_stay row" action="#" th:object="${form}" th:action="@{/stay/create}" method="post">
         	<input class="form-control d-none" type="text" th:field="*{customerId}">
+        	<input class="form-control d-none" type="text" th:field="*{bookingId}">
             <div class="col-6">
                 <p class="fs-5">Customer information</p>
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#customerSelection">Add existing customer</button>
@@ -106,11 +107,11 @@
                 <div class="form-row row mb-2">
                     <div class="col">
                         <label class="form-label" for="check-in">Check-in Date</label><br>
-                        <input class="form-control" type="date" th:field="*{checkInDate}" required>
+                        <input class="form-control" type="date" th:field="*{checkInDate}" th:disabled="*{bookingId != null}" required>
                     </div>
                     <div class="col">
                         <label class="form-label" for="check-out">Check-out Date</label><br>
-                        <input class="form-control" type="date" th:field="*{checkOutDate}" required>
+                        <input class="form-control" type="date" th:field="*{checkOutDate}" th:disabled="*{bookingId != null}" required>
                     </div>
                 </div>
                 <div class="form-row mb-2">
@@ -120,16 +121,16 @@
                 </div>
                 <div class="form-row mb-2">
                     <label class="form-label" for="guestCount">Number of Guests</label><br>
-                    <input class="form-control" type="number" th:field="*{guestCount}" required>
+                    <input class="form-control" type="number" th:field="*{guestCount}" th:disabled="*{bookingId != null}" required>
                 </div>
                 <div class="form-row row mb-2">
                     <div class="col-9">
                         <label class="form-label" for="creditCardNumber">Credit card number</label><br>
-                        <input class="form-control" type="text" id="creditCardNumber" th:field="*{creditCardNumber}" placeholder="4242 4242 4242 4242" required>
+                        <input class="form-control" type="text" id="creditCardNumber" th:field="*{creditCardNumber}" th:disabled="*{bookingId != null}" placeholder="4242 4242 4242 4242" required>
                     </div>
                     <div class="col-3">
                         <label class="form-label" for="creditCardNumber">Valid until</label><br>
-                        <input class="form-control" type="text" id="creditCardExpiration" th:field="*{creditCardValid}" placeholder="MM/YY" required>
+                        <input class="form-control" type="text" id="creditCardExpiration" th:field="*{creditCardValid}" th:disabled="*{bookingId != null}" placeholder="MM/YY" required>
                     </div>
                 </div>
             </div>
@@ -154,7 +155,8 @@
                     <ul class="list-group customerList">
                         <!-- Dynamically load all customer -->
                         <li class="list-group-item" th:each="n : ${customers}">
-                        	<a th:href="@{/booking(customerId=${n.customerId})}" th:text="${n.firstName}+' '+${n.lastName}"></a>
+                        	<a th:if="${n.middleName != null}" th:href="@{/stay/create(customerId=${n.customerId.getId()})}" th:text="${n.firstName}+' '+${n.middleName}+' '+${n.lastName}"></a>
+                        	<a th:if="${n.middleName == null}" th:href="@{/stay/create(customerId=${n.customerId.getId()})}" th:text="${n.firstName}+' '+${n.lastName}"></a>
                         </li>
                     </ul>
 

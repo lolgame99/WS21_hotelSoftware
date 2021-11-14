@@ -101,7 +101,7 @@ public class StayViewController {
 			request.setAttribute("msg", e.getMessage());
 			return new ModelAndView("forward:"+ERROR_URL);
 		}
-		return new ModelAndView("redirect:" + OVERVIEW_STAY_VIEW);
+		return new ModelAndView("redirect:" + OVERVIEW_STAY_URL);
 	}
 	
 	/* Splits Date String into Array for further processing
