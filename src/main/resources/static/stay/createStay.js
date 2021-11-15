@@ -29,6 +29,7 @@ $(document).ready(function(){
 	        $(".guest").each(function () {
             	$(this).removeClass("d-none");
 				$(this).find("input").prop('required',true);
+				$(this).find("#guestMiddleName").prop('required',false);
         	});
 	    }
 	    else if (this.value == "sameAsCustomer") {

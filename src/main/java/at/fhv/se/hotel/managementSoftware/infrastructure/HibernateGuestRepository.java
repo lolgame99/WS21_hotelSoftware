@@ -3,9 +3,11 @@ package at.fhv.se.hotel.managementSoftware.infrastructure;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
+import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
 import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
@@ -38,4 +40,8 @@ public class HibernateGuestRepository implements GuestRepository{
 		
 	}
 
+	@Override
+	public GuestId nextIdentity() {
+		return new GuestId(UUID.randomUUID().toString().toUpperCase());
+	}
 }

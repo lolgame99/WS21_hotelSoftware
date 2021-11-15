@@ -96,9 +96,10 @@ public class StayViewController {
 	@PostMapping(CREATE_STAY_URL)
 	public ModelAndView createBookingPost(@ModelAttribute StayData form, Model model, HttpServletRequest request) {
 		try {
-			stayService.addStayFromData(form, dateStringConverter(form.getCheckInDate()), dateStringConverter(form.getCheckOutDate()), dateStringConverter(form.getBirthdate()));
+			stayService.addStayFromData(form, LocalDate.now(), dateStringConverter(form.getCheckOutDate()), dateStringConverter(form.getBirthdate()));
 		} catch (Exception e) {
 			request.setAttribute("msg", e.getMessage());
+			System.out.println(e.getMessage());
 			return new ModelAndView("forward:"+ERROR_URL);
 		}
 		return new ModelAndView("redirect:" + OVERVIEW_STAY_URL);

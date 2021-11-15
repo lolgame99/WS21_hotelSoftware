@@ -11,4 +11,5 @@ public interface GuestRepository {
 	public List<Guest> getAllGuests();
 	public Optional<Guest> getGuestById(GuestId id);
 	public void addGuest(Guest guest);
+	public GuestId nextIdentity();
 }

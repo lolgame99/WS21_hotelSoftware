@@ -21,6 +21,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
+import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
@@ -94,6 +95,8 @@ public class StayServiceImpl implements StayService{
 			LocalDate convertedBirthDate) throws Exception{
 		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(stayData.getCustomerId()));
 		Optional<Booking> booking = bookingRepository.getBookingById(new BookingId(stayData.getBookingId()));
+		Guest guest = null;
+		
 		Boolean customerCreated = customer.isEmpty();
 		Stay stay = null;
 		if(customerCreated) {
@@ -112,8 +115,18 @@ public class StayServiceImpl implements StayService{
 			}
 		}
 		
+		if(stayData.getGuest().equals("newGuest")) {
+			guest = Guest.create(guestRepository.nextIdentity(), stayData.getGuestFirstName(), stayData.getGuestLastName(), stayData.getGuestPhoneNumber());
+			if (stayData.getGuestMiddleName() != null) {
+				guest.addMiddleName(stayData.getGuestMiddleName());
+			}
+		}else{
+			guest = Guest.createFromCustomer(guestRepository.nextIdentity(), customer.get());
+		}
+		guestRepository.addGuest(guest);
+		
 		if(booking.isPresent()) {
-			stay = Stay.createFromBooking(stayRepository.nextIdentity(), booking.get(), guestRepository.getAllGuests().get(0).getGuestId());
+			stay = Stay.createFromBooking(stayRepository.nextIdentity(), booking.get(), guest.getGuestId());
 		}else {
 			stay = Stay.createForWalkIn(
 					stayRepository.nextIdentity(),
@@ -122,7 +135,7 @@ public class StayServiceImpl implements StayService{
 					stayData.getGuestCount(),
 					stayData.getCreditCardNumber(),
 					customer.get().getCustomerId(),
-					guestRepository.getAllGuests().get(0).getGuestId()
+					guest.getGuestId()
 					);
 		}
 		 
