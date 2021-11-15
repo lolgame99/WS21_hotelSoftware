@@ -4,6 +4,7 @@ public class Guest {
 	
 	private GuestId guestId;
 	private String firstName;
+	private String middleName;
 	private String lastName;
 	private String phoneNumber;
 	
@@ -27,6 +28,13 @@ public class Guest {
 		guest.phoneNumber = customer.getPhoneNumber();
 		return guest;
 	}
+	
+	public Guest addMiddleName(String name) {
+		if(this.middleName == null) {
+			this.middleName = name;
+		}
+		return this;
+	}
 
 	public GuestId getGuestId() {
 		return guestId;
@@ -42,6 +50,10 @@ public class Guest {
 
 	public String getLastName() {
 		return lastName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
 	}
 
 	

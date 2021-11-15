@@ -7,6 +7,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 public class GuestDetailsDTO {
 	private GuestId guestId;
 	private String firstName;
+	private String middleName;
 	private String lastName;
 	private String phoneNumber;
 	
@@ -17,6 +18,7 @@ public class GuestDetailsDTO {
 		GuestDetailsDTO dto = new GuestDetailsDTO();
 		dto.guestId = guest.getGuestId();
 		dto.firstName = guest.getFirstName();
+		dto.middleName = guest.getMiddleName();
 		dto.lastName = guest.getLastName();
 		dto.phoneNumber = guest.getPhoneNumber();
 		return dto;
@@ -36,6 +38,10 @@ public class GuestDetailsDTO {
 
 	public String getPhoneNumber() {
 		return phoneNumber;
+	}
+
+	public String getMiddleName() {
+		return middleName;
 	}
 	
 	

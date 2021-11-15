@@ -35,7 +35,9 @@ public class StayData {
 	private String creditCardNumber;
 	private String creditCardValid;
 	
+	private String guest;
 	private String guestFirstName;
+	private String guestMiddleName;
 	private String guestLastName;
 	private String guestPhoneNumber;
 	
@@ -267,4 +269,23 @@ public class StayData {
 	public void setRoomValues(List<String> roomValues) {
 		this.roomValues = roomValues;
 	}
+
+	public String getGuestMiddleName() {
+		return guestMiddleName;
+	}
+
+	public void setGuestMiddleName(String guestMiddleName) {
+		this.guestMiddleName = guestMiddleName;
+	}
+
+	public String getGuest() {
+		return guest;
+	}
+
+	public void setGuest(String guest) {
+		this.guest = guest;
+	}
+	
+	
+	
 }

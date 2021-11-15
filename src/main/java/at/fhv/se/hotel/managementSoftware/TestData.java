@@ -75,7 +75,7 @@ public class TestData implements ApplicationRunner {
 		guestRepository.addGuest(Guest.createFromCustomer(guestUUID[0], customerRepository.getCustomerById(customerUUID[4]).get()));
 		guestRepository.addGuest(Guest.createFromCustomer(guestUUID[1], customerRepository.getCustomerById(customerUUID[3]).get()));
 		guestRepository.addGuest(Guest.create(guestUUID[2], "Dieter", "Neumann", "+498465126628"));
-		guestRepository.addGuest(Guest.create(guestUUID[3], "Franziska", "Nachbauer", "+438465184868"));
+		guestRepository.addGuest(Guest.create(guestUUID[3], "Franziska", "Nachbauer", "+438465184868").addMiddleName("Leonie"));
 		
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[0], "Single Room", 1));
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[1], "Double Room", 2));
