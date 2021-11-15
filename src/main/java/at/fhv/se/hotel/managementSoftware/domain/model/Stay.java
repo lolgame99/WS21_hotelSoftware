@@ -2,6 +2,9 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 
 import java.time.LocalDate;
 
+
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException;
+
 public class Stay {
 	
 	private StayId stayId;
@@ -17,6 +20,7 @@ public class Stay {
 	}
 	
 	public static Stay createFromBooking(StayId stayId, Booking booking, GuestId guestId) {
+
 		Stay stay = new Stay();
 		stay.stayId = stayId;
 		stay.checkInDate = booking.getCheckInDate();
@@ -29,7 +33,25 @@ public class Stay {
 		return stay;
 	}
 	
-	public static Stay createForWalkIn(StayId stayId, LocalDate checkInDate, LocalDate checkOutDate, int guestCount, String creditCardNumber, CustomerId customerId, GuestId guestId) {
+	public static Stay createForWalkIn(StayId stayId, LocalDate checkInDate, LocalDate checkOutDate, int guestCount, String creditCardNumber, CustomerId customerId, GuestId guestId) throws InvalidStayException {
+		
+		
+		// Pruefen, ob Check-in-Date vor Check-out-Date liegt
+		if (checkInDate.compareTo(checkOutDate) >= 0) {
+			throw new InvalidStayException("Stay could not be created <br> Check-out-Date can't be before Check-in Date");
+		}
+				
+		//Pruefen, ob Check-in-Date vor heute liegt
+		if (checkInDate.compareTo(LocalDate.now()) < 0) {
+			throw new InvalidStayException("Stay could not be created <br> Check-in-Date can't be in the past");
+		}
+
+		// Pruefen, ob mind. ein Kunde
+		if (guestCount <= 0) {
+			throw new InvalidStayException("Stay could not be created <br> Booking requires atleast 1 guest");
+		}
+				
+		
 		Stay stay = new Stay();
 		stay.stayId = stayId;
 		stay.checkInDate = checkInDate;

@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
+import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
@@ -54,6 +55,17 @@ public class HibernateBookingRepository implements BookingRepository{
 		}
 		
 		return booking;
+	}
+
+	@Override
+	public List<Booking> getReadyBookingsByCheckInDate(LocalDate date) {
+		List<Booking> readyBookings = getBookingsByCheckInDate(date);
+		for (Booking b : readyBookings) {
+			if (b.getBookingStatus() == BookingStatus.PENDING || b.getBookingStatus() == BookingStatus.CONFIRMED || b.getBookingStatus() == BookingStatus.CANCELLED) {
+				readyBookings.remove(b);
+			}
+		}
+		return readyBookings;
 	}
 
 }

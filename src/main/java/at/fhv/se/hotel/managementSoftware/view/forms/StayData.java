@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import at.fhv.se.hotel.managementSoftware.application.dto.BookingDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
@@ -27,14 +28,21 @@ public class StayData {
 	private String postcode;
 	private String country;
 	
+	private String bookingId;
 	private String checkInDate;
 	private String checkOutDate;
 	private int guestCount;
 	private String creditCardNumber;
 	private String creditCardValid;
 	
+	private String guest;
+	private String guestFirstName;
+	private String guestMiddleName;
+	private String guestLastName;
+	private String guestPhoneNumber;
+	
 	private List<String> categoryValues= new ArrayList<String>();
-	private List<Integer> categoryAmounts= new ArrayList<Integer>();
+	private List<String> roomValues= new ArrayList<String>();
 
 	public StayData() {
 	}
@@ -55,7 +63,50 @@ public class StayData {
 		this.country = existingCustomer.getAddress().getCountry();
 	}
 	
+	public void addExistingBooking(BookingDetailsDTO existingBooking) {
+		this.bookingId = existingBooking.getBookingId().getId();
+		this.addExistingCustomer(existingBooking.getCustomer());
+		this.checkInDate = existingBooking.getCheckInDate().toString();
+		this.checkOutDate = existingBooking.getCheckOutDate().toString();
+		this.guestCount = existingBooking.getGuestCount();
+		this.creditCardNumber = existingBooking.getCreditCardNumber();
+		this.creditCardValid = existingBooking.getCreditCardValid();
+	}
 	
+	
+	
+	public String getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(String bookingId) {
+		this.bookingId = bookingId;
+	}
+
+	public String getGuestFirstName() {
+		return guestFirstName;
+	}
+
+	public void setGuestFirstName(String guestFirstName) {
+		this.guestFirstName = guestFirstName;
+	}
+
+	public String getGuestLastName() {
+		return guestLastName;
+	}
+
+	public void setGuestLastName(String guestLastName) {
+		this.guestLastName = guestLastName;
+	}
+
+	public String getGuestPhoneNumber() {
+		return guestPhoneNumber;
+	}
+
+	public void setGuestPhoneNumber(String guestPhoneNumber) {
+		this.guestPhoneNumber = guestPhoneNumber;
+	}
+
 	public String getCustomerId() {
 		return customerId;
 	}
@@ -74,17 +125,6 @@ public class StayData {
 	public void setCategoryValues(List<String> categoryValues) {
 		this.categoryValues = categoryValues;
 	}
-
-
-	public List<Integer> getCategoryAmounts() {
-		return categoryAmounts;
-	}
-
-
-	public void setCategoryAmounts(List<Integer> categoryAmounts) {
-		this.categoryAmounts = categoryAmounts;
-	}
-
 
 	public String getCreditCardValid() {
 		return creditCardValid;
@@ -220,6 +260,32 @@ public class StayData {
 
 	public void setCreditCardNumber(String creditCardNumber) {
 		this.creditCardNumber = creditCardNumber;
-	}	
+	}
 
+	public List<String> getRoomValues() {
+		return roomValues;
+	}
+
+	public void setRoomValues(List<String> roomValues) {
+		this.roomValues = roomValues;
+	}
+
+	public String getGuestMiddleName() {
+		return guestMiddleName;
+	}
+
+	public void setGuestMiddleName(String guestMiddleName) {
+		this.guestMiddleName = guestMiddleName;
+	}
+
+	public String getGuest() {
+		return guest;
+	}
+
+	public void setGuest(String guest) {
+		this.guest = guest;
+	}
+	
+	
+	
 }

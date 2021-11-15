@@ -43,10 +43,11 @@ public class Customer {
 		return customer;
 	}	
 	
-	public void addMiddleName(String middlename) {
+	public Customer addMiddleName(String middlename) {
 		if (this.middleName == null) {
 			this.middleName = middlename;
-		}	
+		}
+		return this;
 	}
 
 	public CustomerId getCustomerId() {

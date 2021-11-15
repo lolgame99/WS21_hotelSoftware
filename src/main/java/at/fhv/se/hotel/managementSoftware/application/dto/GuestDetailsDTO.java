@@ -7,9 +7,9 @@ import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 public class GuestDetailsDTO {
 	private GuestId guestId;
 	private String firstName;
+	private String middleName;
 	private String lastName;
 	private String phoneNumber;
-	private StayId stayId;
 	
 	private GuestDetailsDTO() {
 	}
@@ -18,9 +18,9 @@ public class GuestDetailsDTO {
 		GuestDetailsDTO dto = new GuestDetailsDTO();
 		dto.guestId = guest.getGuestId();
 		dto.firstName = guest.getFirstName();
+		dto.middleName = guest.getMiddleName();
 		dto.lastName = guest.getLastName();
 		dto.phoneNumber = guest.getPhoneNumber();
-		dto.stayId = guest.getStayId();
 		return dto;
 	}
 
@@ -40,8 +40,8 @@ public class GuestDetailsDTO {
 		return phoneNumber;
 	}
 
-	public StayId getStayId() {
-		return stayId;
+	public String getMiddleName() {
+		return middleName;
 	}
 	
 	

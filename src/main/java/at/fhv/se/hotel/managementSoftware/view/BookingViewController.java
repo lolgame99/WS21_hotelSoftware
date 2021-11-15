@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +23,6 @@ import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
-import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 import at.fhv.se.hotel.managementSoftware.view.forms.BookingData;
 
 @Controller
@@ -51,9 +49,9 @@ public class BookingViewController {
     public String customer(@RequestParam(value = "date", required = false) String date, Model model) {		
 		List<BookingOverviewDTO> bookingOverviews = new ArrayList<>();
 		if(date != null) {
-			bookingOverviews = bookingService.getBookingsByDate(dateStringConverter(date));
+			bookingOverviews = bookingService.getReadyBookingsByDate(dateStringConverter(date));
 		}else {
-			bookingOverviews = bookingService.getBookingsByDate(LocalDate.now());
+			bookingOverviews = bookingService.getReadyBookingsByDate(LocalDate.now());
 		}
 		
         model.addAttribute("bookings", bookingOverviews);

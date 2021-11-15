@@ -26,13 +26,7 @@ public class CustomerServiceImpl implements CustomerService{
 		List<Customer> customer = customerRepository.getAllCustomers();
 		
 		for (Customer cus : customer) {
-			customerDTOs.add(CustomerOverviewDTO.builder()
-					.withFirstName(cus.getFirstName())
-					.withLastName(cus.getLastName())
-					.withMiddleName(cus.getMiddleName())
-					.withId(cus.getCustomerId())
-					.withBirthdate(cus.getBirthdate())
-					.build());
+			customerDTOs.add(CustomerOverviewDTO.createFromCustomer(cus));
 		}
 		
 		
@@ -45,13 +39,7 @@ public class CustomerServiceImpl implements CustomerService{
 		Optional<CustomerOverviewDTO> customerDTO = Optional.empty();
 		
 		if (customer.isPresent()) {
-			customerDTO = Optional.of(CustomerOverviewDTO.builder()
-					.withFirstName(customer.get().getFirstName())
-					.withLastName(customer.get().getLastName())
-					.withMiddleName(customer.get().getMiddleName())
-					.withId(customer.get().getCustomerId())
-					.withBirthdate(customer.get().getBirthdate())
-					.build());
+			customerDTO = Optional.of(CustomerOverviewDTO.createFromCustomer(customer.get()));
 		}
 		
 		return customerDTO;
@@ -63,17 +51,7 @@ public class CustomerServiceImpl implements CustomerService{
 		Optional<CustomerDetailsDTO> customerDTO = Optional.empty();
 		
 		if (customer.isPresent()) {
-			customerDTO = Optional.of(CustomerDetailsDTO.builder()
-					.withFirstName(customer.get().getFirstName())
-					.withLastName(customer.get().getLastName())
-					.withMiddleName(customer.get().getMiddleName())
-					.withId(customer.get().getCustomerId())
-					.withBirthdate(customer.get().getBirthdate())
-					.withAddress(customer.get().getAddress())
-					.withEmail(customer.get().getEmail())
-					.withPhoneNumber(customer.get().getPhoneNumber())
-					.withGender(customer.get().getGender())
-					.build());
+			customerDTO = Optional.of(CustomerDetailsDTO.createFromCustomer(customer.get()));
 		}
 		
 		return customerDTO;

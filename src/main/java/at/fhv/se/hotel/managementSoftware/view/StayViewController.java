@@ -16,16 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import at.fhv.se.hotel.managementSoftware.application.api.BookingService;
 import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomCategoryService;
 import at.fhv.se.hotel.managementSoftware.application.api.StayService;
-import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
+import at.fhv.se.hotel.managementSoftware.application.dto.BookingDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.StayDetailsDTO;
-import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
-import at.fhv.se.hotel.managementSoftware.view.forms.BookingData;
 import at.fhv.se.hotel.managementSoftware.view.forms.StayData;
 
 @Controller
@@ -44,15 +43,18 @@ public class StayViewController {
 	private CustomerService customerService;
 	
 	@Autowired
+	private BookingService bookingService;
+	
+	@Autowired
 	private RoomCategoryService roomCategoryService;
 	
 	@GetMapping(OVERVIEW_STAY_URL)
-    public String customer(@RequestParam(value = "date", required = false) String date, Model model) {		
+    public String currentStays(@RequestParam(value = "date", required = false) String date, Model model) {		
 		List<StayDetailsDTO> stayOverviews = new ArrayList<>();
-		if(date != null) {
+		if(date != null && date != "") {
 			stayOverviews = stayService.getCurrentStays(dateStringConverter(date));
 		}else {
-			stayOverviews = stayService.getCurrentStays(LocalDate.now());
+			stayOverviews = stayService.getAllStays();
 		}
 		
         model.addAttribute("stays", stayOverviews);
@@ -60,7 +62,7 @@ public class StayViewController {
     }
 	
 	@GetMapping(CREATE_STAY_URL)
-	public String createBooking(@RequestParam(value = "customerId", required = false) String customerId,
+	public String createStay(@RequestParam(value = "customerId", required = false) String customerId,
 			@RequestParam(value = "bookingId", required = false) String bookingId, Model model) {
 		final StayData form = new StayData();
 		
@@ -68,6 +70,13 @@ public class StayViewController {
 			Optional<CustomerDetailsDTO> existingCustomer = customerService.getCustomerDetailsById(customerId);
 			if (existingCustomer.isPresent()) {
 				form.addExistingCustomer(existingCustomer.get());
+			}
+		}
+		
+		if(bookingId != null) {
+			Optional<BookingDetailsDTO> existingBooking = bookingService.getBookingDetailsById(bookingId);
+			if (existingBooking.isPresent()) {
+				form.addExistingBooking(existingBooking.get());
 			}
 		}
 		model.addAttribute("form", form);
@@ -87,12 +96,13 @@ public class StayViewController {
 	@PostMapping(CREATE_STAY_URL)
 	public ModelAndView createBookingPost(@ModelAttribute StayData form, Model model, HttpServletRequest request) {
 		try {
-			stayService.addStayFromData(form, dateStringConverter(form.getCheckInDate()), dateStringConverter(form.getCheckOutDate()), dateStringConverter(form.getBirthdate()));
+			stayService.addStayFromData(form, LocalDate.now(), dateStringConverter(form.getCheckOutDate()), dateStringConverter(form.getBirthdate()));
 		} catch (Exception e) {
 			request.setAttribute("msg", e.getMessage());
+			System.out.println(e.getMessage());
 			return new ModelAndView("forward:"+ERROR_URL);
 		}
-		return new ModelAndView("redirect:" + OVERVIEW_STAY_VIEW);
+		return new ModelAndView("redirect:" + OVERVIEW_STAY_URL);
 	}
 	
 	/* Splits Date String into Array for further processing

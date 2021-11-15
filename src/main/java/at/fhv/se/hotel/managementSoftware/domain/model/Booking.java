@@ -11,6 +11,7 @@ public class Booking {
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private String creditCardNumber;
+	private String creditCardValid;
 	private CustomerId customerId;
 	private int guestCount;
 	private BookingStatus bookingStatus;
@@ -20,7 +21,7 @@ public class Booking {
 	private Booking() {
 	}
 	
-	public static Booking create(BookingId bookingId, LocalDate checkInDate, LocalDate checkOutDate, String creditCardNumber,
+	public static Booking create(BookingId bookingId, LocalDate checkInDate, LocalDate checkOutDate, String creditCardNumber, String creditCardValid,
 			CustomerId customerId, int guestCount, BookingStatus bookingStatus, HashMap<RoomCategory, Integer> categoryCount) throws InvalidBookingException{
 		// Pruefen, ob Check-in-Date vor Check-out-Date liegt
 		if (checkInDate.compareTo(checkOutDate) >= 0) {
@@ -60,6 +61,7 @@ public class Booking {
 		booking.guestCount = guestCount;
 		booking.bookingStatus = bookingStatus;
 		booking.categoryCount = categoryCount;
+		booking.creditCardValid = creditCardValid;
 		
 		return booking;
 	}
@@ -94,6 +96,14 @@ public class Booking {
 
 	public BookingStatus getBookingStatus() {
 		return bookingStatus;
+	}
+
+	public String getCreditCardValid() {
+		return creditCardValid;
+	}
+	
+	public void checkedIn() {
+		this.bookingStatus = BookingStatus.ARRIVED;
 	}
 
 }

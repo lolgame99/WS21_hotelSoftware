@@ -25,12 +25,7 @@ public class RoomCategoryImpl implements RoomCategoryService{
 		List<RoomCategoryDTO> roomCategoryDTOs = new ArrayList<RoomCategoryDTO>();
 		
 		for (RoomCategory cat : roomCategories) {
-			roomCategoryDTOs.add(RoomCategoryDTO.builder()
-					.withId(cat.getCategoryID())
-					.withName(cat.getCategoryName())
-					.withDescription(cat.getCategoryDescription())
-					.withBedNumber(cat.getBedNumber())
-					.build());
+			roomCategoryDTOs.add(RoomCategoryDTO.createFromCategory(cat));
 		}
 		return roomCategoryDTOs;
 	}
@@ -41,12 +36,7 @@ public class RoomCategoryImpl implements RoomCategoryService{
 		Optional<RoomCategoryDTO> roomCategoryDTO = Optional.empty();
 		
 		if (roomCategory.isPresent()) {
-			roomCategoryDTO = Optional.of(RoomCategoryDTO.builder()
-					.withId(roomCategory.get().getCategoryID())
-					.withName(roomCategory.get().getCategoryName())
-					.withDescription(roomCategory.get().getCategoryDescription())
-					.withBedNumber(roomCategory.get().getBedNumber())
-					.build());
+			roomCategoryDTO = Optional.of(RoomCategoryDTO.createFromCategory(roomCategory.get()));
 		}
 		return roomCategoryDTO;
 	}

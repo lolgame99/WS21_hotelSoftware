@@ -25,7 +25,7 @@ public class HibernateStayRepository implements StayRepository{
 	public List<Stay> getCurrentStays(LocalDate date) {
 		List<Stay> currentStay = new ArrayList<Stay>();
 		for (Stay s : stays) {
-			if(s.getCheckInDate().compareTo(date) >= 0 && s.getCheckOutDate().compareTo(date) <= 0) {
+			if(s.getCheckInDate().compareTo(date) <= 0 && s.getCheckOutDate().compareTo(date) >= 0) {
 				currentStay.add(s);
 			}
 		}

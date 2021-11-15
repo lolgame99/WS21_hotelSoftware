@@ -11,6 +11,7 @@ public interface BookingRepository {
 	public List<Booking> getAllBookings();
 	public Optional<Booking> getBookingById(BookingId id);
 	public List<Booking> getBookingsByCheckInDate(LocalDate date);
+	public List<Booking> getReadyBookingsByCheckInDate(LocalDate date);
 	public void addBooking(Booking booking);
 	public BookingId nextIdentity();
 }

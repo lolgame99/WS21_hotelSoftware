@@ -54,10 +54,11 @@
         </thead>
       <tbody class="bookingTable">
         <tr th:each="n : ${bookings}">
-          <td class="text-center"th:inline="text">[[${n.customer.firstName}+' '+${n.customer.lastName}]]<br><small th:text="${#temporals.format(n.customer.birthdate, 'dd-MM-yyyy')}"></small></td>
+          <td th:if="${n.customer.middleName  == null}" class="text-center"th:inline="text">[[${n.customer.firstName}+' '+${n.customer.lastName}]]<br><small th:text="${#temporals.format(n.customer.birthdate, 'dd-MM-yyyy')}"></small></td>
+          <td th:if="${n.customer.middleName  != null}" class="text-center"th:inline="text">[[${n.customer.firstName}+' '+${n.customer.middleName}+ ' '+${n.customer.lastName}]]<br><small th:text="${#temporals.format(n.customer.birthdate, 'dd-MM-yyyy')}"></small></td>
           <td class="text-center" th:text="${n.guestCount}"></td>
           <td class="text-center" th:text="${n.roomCount}"></td>
-          <td class="text-center"><input class="form-check-input" type="checkbox" id="confirmed" name="confirmed" value""></td>
+          <td class="text-center"><input class="form-check-input arrivedBtn" type="checkbox" id="confirmed" name="confirmed" th:checked="${n.bookingStatus} == ARRIVED" th:disabled="${n.bookingStatus} == ARRIVED" th:attr="data-bookingId=${n.bookingId.getId()}"></td>
           <td class="text-center"><a href="#">Edit</a> <a href="#" data-bs-toggle="modal" data-bs-target="#deleteBooking">Delete</a></td>
         </tr>
       </tbody>
