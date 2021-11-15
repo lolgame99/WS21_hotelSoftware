@@ -90,7 +90,7 @@ public class TestData implements ApplicationRunner {
 				"11/10",
 				customerUUID[0],
 				2,
-				BookingStatus.CONFIRMED,
+				BookingStatus.ARRIVED,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(),1);}})); 
 
 		bookingRepository.addBooking(Booking.create(
@@ -101,7 +101,7 @@ public class TestData implements ApplicationRunner {
 				"11/10",
 				customerUUID[1],
 				6,
-				BookingStatus.PENDING,
+				BookingStatus.PAID,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 1);
 					put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(), 1);}}));
 
@@ -125,7 +125,7 @@ public class TestData implements ApplicationRunner {
 				"11/21",
 				customerUUID[3],
 				3,
-				BookingStatus.CONFIRMED,
+				BookingStatus.PAID,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 3);}}
 				));
 		
@@ -150,7 +150,7 @@ public class TestData implements ApplicationRunner {
 				"11/10",
 				customerUUID[5],
 				1,
-				BookingStatus.PENDING,
+				BookingStatus.PAID,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 1);}}
 				));
 		

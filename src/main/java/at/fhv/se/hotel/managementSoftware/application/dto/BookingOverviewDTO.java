@@ -1,5 +1,6 @@
 package at.fhv.se.hotel.managementSoftware.application.dto;
 
+import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 
@@ -9,6 +10,7 @@ public class BookingOverviewDTO {
 	private int roomCount;
 	private int guestCount;
 	private CustomerOverviewDTO customer;
+	private String bookingStatus;
 	
 	private BookingOverviewDTO() {
 	}
@@ -24,6 +26,7 @@ public class BookingOverviewDTO {
 		dto.roomCount = totalRoomCount;
 		dto.guestCount = booking.getGuestCount();
 		dto.customer = customer;
+		dto.bookingStatus = booking.getBookingStatus().toString();
 		return dto;
 	}
 			
@@ -41,5 +44,11 @@ public class BookingOverviewDTO {
 
 	public CustomerOverviewDTO getCustomer() {
 		return customer;
-	}	
+	}
+
+	public String getBookingStatus() {
+		return bookingStatus;
+	}
+	
+	
 }

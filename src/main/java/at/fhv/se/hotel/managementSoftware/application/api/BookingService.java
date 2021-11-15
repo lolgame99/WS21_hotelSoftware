@@ -13,6 +13,7 @@ import at.fhv.se.hotel.managementSoftware.view.forms.BookingData;
 public interface BookingService {
 	public List<BookingOverviewDTO> getAllBookings();
 	public List<BookingOverviewDTO> getBookingsByDate(LocalDate date);
+	public List<BookingOverviewDTO> getReadyBookingsByDate(LocalDate date);
 	public Optional<BookingDetailsDTO> getBookingDetailsById(String id);
 	public void addBooking(Booking booking);
 	public void addBookingFromData(BookingData bookingData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate, LocalDate convertedBirthDate) throws Exception;

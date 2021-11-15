@@ -133,6 +133,19 @@ public class BookingServiceImpl implements BookingService{
 		}
 		return dto;
 	}
+
+	@Override
+	public List<BookingOverviewDTO> getReadyBookingsByDate(LocalDate date) {
+		List<Booking> bookings = bookingRepository.getReadyBookingsByCheckInDate(date);
+		List<BookingOverviewDTO> bookingDTOs= new ArrayList<BookingOverviewDTO>();
+		
+		for (Booking b : bookings) {
+			Optional<CustomerOverviewDTO> customer = customerService.getCustomerOverviewById(b.getCustomerId().getId());
+			bookingDTOs.add(BookingOverviewDTO.createFromBooking(b, customer.get()));
+		}
+		
+		return bookingDTOs;
+	}
 	
 	
 }
