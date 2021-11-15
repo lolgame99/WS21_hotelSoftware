@@ -101,5 +101,9 @@ public class Booking {
 	public String getCreditCardValid() {
 		return creditCardValid;
 	}
+	
+	public void checkedIn() {
+		this.bookingStatus = BookingStatus.ARRIVED;
+	}
 
 }

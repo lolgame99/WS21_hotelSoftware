@@ -28,5 +28,11 @@ $(document).ready(function(){
 		var baseUrl = window.location.href.split("?")[0];
 		$(location).attr('href',baseUrl+"?date="+$(this).val());
 	});
+	
+	$(".arrivedBtn").change(function() {
+		var baseUrl = window.location.href.split("?")[0];
+		baseUrl += "/stay/create"
+		$(location).attr('href',baseUrl+"?bookingId="+$(this).data("bookingid"));
+	});
 
 });

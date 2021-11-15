@@ -127,6 +127,7 @@ public class StayServiceImpl implements StayService{
 		
 		if(booking.isPresent()) {
 			stay = Stay.createFromBooking(stayRepository.nextIdentity(), booking.get(), guest.getGuestId());
+			booking.get().checkedIn();
 		}else {
 			stay = Stay.createForWalkIn(
 					stayRepository.nextIdentity(),
