@@ -12,7 +12,7 @@ public class RoomAssignment {
 		
 	}
 	
-	private RoomAssignment checkRoomAvailability(Room roomNumber, Stay stay) {
+	private RoomAssignment createRoom(Room roomNumber, Stay stay) {
 		RoomAssignment roomAssignment = new RoomAssignment();
 		roomAssignment.assignedFrom = stay.getCheckInDate();
 		roomAssignment.assignedTo = stay.getCheckOutDate();
