@@ -11,6 +11,7 @@ import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 
 @Component
@@ -25,13 +26,7 @@ public class CustomerServiceImpl implements CustomerService{
 		List<Customer> customer = customerRepository.getAllCustomers();
 		
 		for (Customer cus : customer) {
-			customerDTOs.add(CustomerOverviewDTO.builder()
-					.withFirstName(cus.getFirstName())
-					.withLastName(cus.getLastName())
-					.withMiddleName(cus.getMiddleName())
-					.withId(cus.getCustomerId())
-					.withBirthdate(cus.getBirthdate())
-					.build());
+			customerDTOs.add(CustomerOverviewDTO.createFromCustomer(cus));
 		}
 		
 		
@@ -40,17 +35,11 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Optional<CustomerOverviewDTO> getCustomerOverviewById(String id) {
-		Optional<Customer> customer = customerRepository.getCustomerById(id);
+		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(id));
 		Optional<CustomerOverviewDTO> customerDTO = Optional.empty();
 		
 		if (customer.isPresent()) {
-			customerDTO = Optional.of(CustomerOverviewDTO.builder()
-					.withFirstName(customer.get().getFirstName())
-					.withLastName(customer.get().getLastName())
-					.withMiddleName(customer.get().getMiddleName())
-					.withId(customer.get().getCustomerId())
-					.withBirthdate(customer.get().getBirthdate())
-					.build());
+			customerDTO = Optional.of(CustomerOverviewDTO.createFromCustomer(customer.get()));
 		}
 		
 		return customerDTO;
@@ -58,22 +47,11 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Optional<CustomerDetailsDTO> getCustomerDetailsById(String id) {
-		Optional<Customer> customer = customerRepository.getCustomerById(id);
+		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(id));
 		Optional<CustomerDetailsDTO> customerDTO = Optional.empty();
 		
 		if (customer.isPresent()) {
-			customerDTO = Optional.of(CustomerDetailsDTO.builder()
-					.withFirstName(customer.get().getFirstName())
-					.withLastName(customer.get().getLastName())
-					.withMiddleName(customer.get().getMiddleName())
-					.withId(customer.get().getCustomerId())
-					.withBirthdate(customer.get().getBirthdate())
-					.withAddress(customer.get().getAddress())
-					.withEmail(customer.get().getEmail())
-					.withPhoneNumber(customer.get().getPhoneNumber())
-					.withGender(customer.get().getGender())
-					.withBillingAddress(customer.get().getBillingAddress())
-					.build());
+			customerDTO = Optional.of(CustomerDetailsDTO.createFromCustomer(customer.get()));
 		}
 		
 		return customerDTO;

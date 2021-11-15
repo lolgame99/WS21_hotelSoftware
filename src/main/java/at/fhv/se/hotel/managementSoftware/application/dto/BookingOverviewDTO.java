@@ -1,29 +1,37 @@
 package at.fhv.se.hotel.managementSoftware.application.dto;
 
-import java.time.LocalDate;
-import java.util.Objects;
-
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
+import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
+import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 
 
 public class BookingOverviewDTO {
-	private String bookingId;
-	private LocalDate checkInDate;
+	private BookingId bookingId;
 	private int roomCount;
 	private int guestCount;
-	private Customer customer;
+	private CustomerOverviewDTO customer;
+	private String bookingStatus;
 	
+	private BookingOverviewDTO() {
+	}
 	
-	public static Builder builder() {
-		return new Builder();
+	public static BookingOverviewDTO createFromBooking(Booking booking, CustomerOverviewDTO customer) {
+		int totalRoomCount = 0;
+		for(int categoryCount : booking.getCategoryCount().values()) {
+			totalRoomCount += categoryCount;
+		}
+		
+		BookingOverviewDTO dto = new BookingOverviewDTO();
+		dto.bookingId = booking.getBookingId();
+		dto.roomCount = totalRoomCount;
+		dto.guestCount = booking.getGuestCount();
+		dto.customer = customer;
+		dto.bookingStatus = booking.getBookingStatus().toString();
+		return dto;
 	}
 			
-	public String getBookingId() {
+	public BookingId getBookingId() {
 		return bookingId;
-	}
-
-	public LocalDate getCheckInDate() {
-		return checkInDate;
 	}
 
 	public int getRoomCount() {
@@ -34,51 +42,13 @@ public class BookingOverviewDTO {
 		return guestCount;
 	}
 
-	public Customer getCustomer() {
+	public CustomerOverviewDTO getCustomer() {
 		return customer;
 	}
-	
-	private BookingOverviewDTO() {
+
+	public String getBookingStatus() {
+		return bookingStatus;
 	}
 	
-	public static class Builder{
-		private BookingOverviewDTO instance;
-
-        private Builder() {
-            this.instance = new BookingOverviewDTO();
-        }
-
-        public Builder withId(String id) {
-            this.instance.bookingId = id;
-            return this;
-        }
-
-        public Builder withCheckInDate(LocalDate date) {
-            this.instance.checkInDate = date;
-            return this;
-        } 
-        
-        public Builder withGuestCount(int count) {
-        	this.instance.guestCount  = count;
-        	return this;
-        }
-        
-        public Builder withRoomCount(int count) {
-        	this.instance.roomCount  = count;
-        	return this;
-        }
-        
-        public Builder withCustomer(Customer customer) {
-        	this.instance.customer = customer;
-        	return this;
-        }
-
-        public BookingOverviewDTO build() {
-            Objects.requireNonNull(this.instance.checkInDate, "checkInDate must be set in BookingOverviewDTO");
-            Objects.requireNonNull(this.instance.bookingId, "bookingId must be set in BookingOverviewDTO");
-            Objects.requireNonNull(this.instance.customer, "customer must be set in BookingOverviewDTO");
-            Objects.requireNonNull(this.instance.guestCount, "guestCount must be set in BookingOverviewDTO");
-            return this.instance;
-        }
-	}
+	
 }

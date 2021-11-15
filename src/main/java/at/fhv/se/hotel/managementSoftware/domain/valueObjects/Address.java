@@ -1,4 +1,4 @@
-package at.fhv.se.hotel.managementSoftware.domain.model;
+package at.fhv.se.hotel.managementSoftware.domain.valueObjects;
 
 public class Address {
 	private String streetName;
