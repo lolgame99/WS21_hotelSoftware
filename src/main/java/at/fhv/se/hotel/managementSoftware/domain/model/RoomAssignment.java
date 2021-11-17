@@ -12,7 +12,7 @@ public class RoomAssignment {
 		
 	}
 	
-	public RoomAssignment createRoom(Room roomNumber, Stay stay) {
+	public static RoomAssignment create(Room roomNumber, Stay stay) {
 		RoomAssignment roomAssignment = new RoomAssignment();
 		roomAssignment.assignedFrom = stay.getCheckInDate();
 		roomAssignment.assignedTo = stay.getCheckOutDate();

@@ -12,19 +12,25 @@ import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
+import at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
 import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
+import at.fhv.se.hotel.managementSoftware.domain.model.Room;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
+import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.GuestRepository;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
@@ -45,6 +51,12 @@ public class TestData implements ApplicationRunner {
 	
 	@Autowired
 	private GuestRepository guestRepository;
+	
+	@Autowired
+	private RoomAssignmentRepository roomAssignmentRepository;
+	
+	@Autowired
+	private RoomRepository roomRepository;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -63,6 +75,11 @@ public class TestData implements ApplicationRunner {
 		GuestId[] guestUUID = new GuestId[4];
 		for (int i = 0; i < guestUUID.length; i++) {
 			guestUUID[i] = new GuestId(UUID.randomUUID().toString().toUpperCase());
+		}
+		
+		StayId[] stayUUID = new StayId[4];
+		for (int i = 0; i < stayUUID.length; i++) {
+			stayUUID[i] = new StayId(UUID.randomUUID().toString().toUpperCase());
 		}
 		
 		customerRepository.addCustomer(Customer.create(customerUUID[0], "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
@@ -156,27 +173,27 @@ public class TestData implements ApplicationRunner {
 		
 		
 		stayRepository.addStay(Stay.createForWalkIn(
-				stayRepository.nextIdentity(),
+				stayUUID[0],
 				LocalDate.now(),
 				LocalDate.now().plusDays(7),
-				1,
+				7,
 				"5555555555554444",
 				customerUUID[4],
 				guestUUID[0])
 				);
 		
 		stayRepository.addStay(Stay.createForWalkIn(
-				stayRepository.nextIdentity(),
-				LocalDate.now(),
+				stayUUID[1],
+				LocalDate.now().plusDays(2),
 				LocalDate.now().plusDays(5),
-				1,
+				4,
 				"5555555555554444",
 				customerUUID[3],
 				guestUUID[1])
 				);
 		
 		stayRepository.addStay(Stay.createForWalkIn(
-				stayRepository.nextIdentity(),
+				stayUUID[2],
 				LocalDate.now().plusDays(1),
 				LocalDate.now().plusDays(10),
 				3,
@@ -185,15 +202,18 @@ public class TestData implements ApplicationRunner {
 				guestUUID[2])
 				);
 		
-		stayRepository.addStay(Stay.createForWalkIn(
-				stayRepository.nextIdentity(),
-				LocalDate.now().plusDays(2),
-				LocalDate.now().plusDays(14),
-				3,
-				"5555555555554444",
-				customerUUID[2],
-				guestUUID[3])
-				);
+		stayRepository.addStay(Stay.createFromBooking(stayUUID[3], bookingRepository.getBookingById(bookingUUID[0]).get(), guestUUID[0]));
+	
+		roomRepository.addRoom(Room.create(101, RoomStatus.AVAILABLE, categoryUUID[0]));
+		roomRepository.addRoom(Room.create(102, RoomStatus.AVAILABLE, categoryUUID[0]));
+		roomRepository.addRoom(Room.create(201, RoomStatus.AVAILABLE, categoryUUID[1]));
+		roomRepository.addRoom(Room.create(202, RoomStatus.AVAILABLE, categoryUUID[1]));
+		roomRepository.addRoom(Room.create(301, RoomStatus.AVAILABLE, categoryUUID[2]));
+		roomRepository.addRoom(Room.create(302, RoomStatus.AVAILABLE, categoryUUID[2]));
+		
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(101).get(), stayRepository.getStayById(stayUUID[3]).get()));
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(202).get(), stayRepository.getStayById(stayUUID[0]).get()));
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(301).get(), stayRepository.getStayById(stayUUID[1]).get()));
 		
 	}
 

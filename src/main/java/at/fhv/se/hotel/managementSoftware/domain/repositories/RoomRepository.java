@@ -11,4 +11,5 @@ public interface RoomRepository {
 	public List<Room> getAllRooms();
 	public List<Room> getAllRoomsByRoomCategory(RoomCategoryId id);
 	public Optional<Room> getRoomByNumber(int number);
+	public void addRoom(Room room);
 }

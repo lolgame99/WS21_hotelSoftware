@@ -11,5 +11,6 @@ import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 public interface RoomAssignmentRepository {
 	public List<RoomAssignment> getAllRoomAssignments();
 	public List<RoomAssignment> getAllRoomAssignmentsBetweenDates(LocalDate date1, LocalDate date2);
-	public Optional<RoomAssignment> getRoomAssignmentByStayId(StayId id);
+	public List<RoomAssignment> getRoomAssignmentsByStayId(StayId id);
+	public void addRoomAssignment(RoomAssignment ra);
  }

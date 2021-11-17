@@ -8,18 +8,15 @@ public class RoomDTO {
 	private int roomNumber;
 	private RoomStatus roomStatus;
 	private RoomCategoryDTO roomCategory;
-	private RoomAssignmentDTO roomAssignment;
 	
-	private RoomDTO() {
-		
+	private RoomDTO() {	
 	}
 	
-	public static RoomDTO createFromRoom(Room room, RoomCategoryDTO roomCategory, RoomAssignmentDTO roomAssignment) {
+	public static RoomDTO createFromRoom(Room room, RoomCategoryDTO roomCategory) {
 		RoomDTO dto = new RoomDTO();
 		dto.roomNumber = room.getRoomNumber();
 		dto.roomStatus = room.getRoomStatus();
 		dto.roomCategory = roomCategory;
-		dto.roomAssignment = roomAssignment;
 		
 		return dto;
 		
@@ -35,16 +32,6 @@ public class RoomDTO {
 
 	public RoomCategoryDTO getRoomCategory() {
 		return roomCategory;
-	}
-
-	public RoomAssignmentDTO getRoomAssignment() {
-		return roomAssignment;
-	}
-
-	
-	
-	
-	
-	
+	}		
 
 }

@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Room;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
 
+@Component
 public class HibernateRoomRepository implements RoomRepository {
 	
 	List<Room> rooms = new ArrayList<Room>();
@@ -39,6 +41,11 @@ public class HibernateRoomRepository implements RoomRepository {
 			}
 		}
 		return room;
+	}
+
+	@Override
+	public void addRoom(Room room) {
+		rooms.add(room);		
 	}
 	
 }
