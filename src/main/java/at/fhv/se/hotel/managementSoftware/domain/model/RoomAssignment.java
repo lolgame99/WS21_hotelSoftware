@@ -5,18 +5,18 @@ import java.time.LocalDate;
 public class RoomAssignment {
 	private LocalDate assignedFrom;
 	private LocalDate assignedTo;
-	private Room roomNumber;
+	private int roomNumber;
 	private StayId stayId;
 	
 	private RoomAssignment() {
 		
 	}
 	
-	private RoomAssignment createRoom(Room roomNumber, Stay stay) {
+	public RoomAssignment createRoom(Room roomNumber, Stay stay) {
 		RoomAssignment roomAssignment = new RoomAssignment();
 		roomAssignment.assignedFrom = stay.getCheckInDate();
 		roomAssignment.assignedTo = stay.getCheckOutDate();
-		roomAssignment.roomNumber = roomNumber;
+		roomAssignment.roomNumber = roomNumber.getRoomNumber();
 		roomAssignment.stayId = stay.getStayId();
 		
 		return roomAssignment;
@@ -30,7 +30,7 @@ public class RoomAssignment {
 		return assignedTo;
 	}
 
-	public Room getRoomNumber() {
+	public int getRoomNumber() {
 		return roomNumber;
 	}
 
