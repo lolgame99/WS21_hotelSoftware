@@ -11,6 +11,14 @@ public class Room {
 	public Room() {
 	}
 	
+	public static Room create(int number, RoomStatus status, RoomCategoryId catId) {
+		Room room = new Room();
+		room.roomNumber = number;
+		room.roomStatus = status;
+		room.categoryId = catId;
+		return room;
+	}
+	
 	public static Room changeRoomStatus(int roomNumber, RoomStatus roomStatus, RoomCategoryId categoryId){
 		Room room = new Room();
 		room.roomNumber = roomNumber;
