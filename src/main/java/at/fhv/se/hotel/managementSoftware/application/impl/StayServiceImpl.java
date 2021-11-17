@@ -23,6 +23,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
+import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.GuestRepository;
@@ -147,6 +148,18 @@ public class StayServiceImpl implements StayService{
 		}
 		stayRepository.addStay(stay);
 		
+	}
+
+	@Override
+	public Optional<StayDetailsDTO> getStayById(String id) {
+		Optional<StayDetailsDTO> dto = Optional.empty();
+		Optional<Stay> stay = stayRepository.getStayById(new StayId(id));
+		dto = Optional.of(StayDetailsDTO.createFromStay(stay.get(),
+				bookingService.getBookingDetailsById(stay.get().getBookingId().getId()).get(),
+				customerService.getCustomerDetailsById(stay.get().getCustomerId().getId()).get(),
+				guestService.getGuestById(stay.get().getGuestId().getId()).get()));
+		
+		return dto;
 	}
 
 }
