@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -166,7 +167,7 @@ public class StayServiceImpl implements StayService{
 			Optional<Room> room = roomRepository.getRoomByNumber(new RoomId(stayData.getRoomNumbers().get(i)));
 			if (room.isEmpty()) {
 				throw new InvalidRoomAssignmentException("RoomAssignment could not be created <br> Room with number "+stayData.getRoomNumbers().get(i)+" does not exist");
-			} else if (stayData.getRoomNumbers().size() != stayData.getRoomNumbers().stream().distinct().toList().size()) {
+			} else if (stayData.getRoomNumbers().size() != stayData.getRoomNumbers().stream().distinct().collect(Collectors.toList()).size()) {
 				throw new InvalidRoomAssignmentException("RoomAssignment could not be created <br> Room with number"+stayData.getRoomNumbers().get(i)+" can't be allocated twice");
 			}
 			
