@@ -114,17 +114,17 @@
                         <input class="form-control" type="date" th:field="*{checkOutDate}" th:disabled="*{bookingId != null}" required>
                     </div>
                 </div>
-                <div class="form-row mb-2">
+                <div class="form-row mb-2 roomSelection">
                     <label for="categoryList">Add Rooms</label><br>
                     <th:block th:each="cat, catStat : *{categoryValues}">
                     	<div class="roomEntry form-row row mb-1" th:each="i: ${#numbers.sequence(0, form.categoryCount[catStat.index]-1)}">
 	                   		<div class="col">
-					            <select class="form-control categoryValues" required th:disabled="*{bookingId != null}">
+					            <select class="form-control roomCategorys" required th:disabled="*{bookingId != null}">
 					              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}" th:selected="${n.categoryID.getId() == cat}"></option>
 					            </select>
 					        </div>
 					        <div class="col">
-					        	<input class="form-control" type="text" required>
+					        	<input class="form-control roomNumber" type="text" required>
 					        </div>
 					    </div>
                     </th:block>
@@ -186,7 +186,7 @@
 			            </select>
 			        </div>
 			        <div class="col">
-			        	<input class="form-control" type="number" th:field="*{guestFirstName}" required>
+			        	<input class="form-control roomNumber" type="text" required>
 			        </div>
 			    </div>
              	<button type="submit" class="btn btn-primary">Create Stay</button>
@@ -225,12 +225,12 @@
 	<!-- ToDo: Edit Roomnumber -->
     <div class="roomEntryEmpty d-none form-row row mb-1">
         <div class="col">
-            <select class="form-control categoryValues" required>
+            <select class="form-control roomCategorys" required>
               <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}"></option>
             </select>
         </div>
         <div class="col">
-        	<input class="form-control" type="number" required>
+        	<input class="form-control roomNumber" type="text" required>
         </div>
     </div>
     

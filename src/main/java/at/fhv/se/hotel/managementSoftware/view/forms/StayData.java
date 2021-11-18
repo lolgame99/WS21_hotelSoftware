@@ -44,6 +44,9 @@ public class StayData {
 	
 	private List<String> categoryValues= new ArrayList<String>();
 	private List<String> categoryCount= new ArrayList<String>();
+	
+	private List<String> roomCategorys = new ArrayList<String>();
+	private List<String> roomNumbers = new ArrayList<String>();
 
 	public StayData() {
 	}
