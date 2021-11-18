@@ -6,10 +6,11 @@ import java.util.Optional;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Room;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 
 public interface RoomRepository {
 	public List<Room> getAllRooms();
 	public List<Room> getAllRoomsByRoomCategory(RoomCategoryId id);
-	public Optional<Room> getRoomByNumber(int number);
+	public Optional<Room> getRoomByNumber(RoomId number);
 	public void addRoom(Room room);
 }

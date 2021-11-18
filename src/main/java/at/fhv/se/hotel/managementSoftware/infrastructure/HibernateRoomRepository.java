@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Room;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
 
 @Component
@@ -33,10 +34,10 @@ public class HibernateRoomRepository implements RoomRepository {
 	}
 
 	@Override
-	public Optional<Room> getRoomByNumber(int number) {
+	public Optional<Room> getRoomByNumber(RoomId number) {
 		Optional<Room> room = Optional.empty();
 		for (Room r : getAllRooms()) {
-			if (r.getRoomNumber() == number) {
+			if (r.getRoomNumber().getId().equals(number.getId())) {
 				room = Optional.of(r);
 			}
 		}

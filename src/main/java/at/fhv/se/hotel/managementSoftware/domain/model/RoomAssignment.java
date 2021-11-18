@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class RoomAssignment {
 	private LocalDate assignedFrom;
 	private LocalDate assignedTo;
-	private int roomNumber;
+	private RoomId roomNumber;
 	private StayId stayId;
 	
 	private RoomAssignment() {
@@ -30,7 +30,7 @@ public class RoomAssignment {
 		return assignedTo;
 	}
 
-	public int getRoomNumber() {
+	public RoomId getRoomNumber() {
 		return roomNumber;
 	}
 

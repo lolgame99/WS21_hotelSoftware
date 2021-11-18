@@ -2,10 +2,11 @@ package at.fhv.se.hotel.managementSoftware.application.dto;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus;
 import at.fhv.se.hotel.managementSoftware.domain.model.Room;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 
 
 public class RoomDTO {
-	private int roomNumber;
+	private RoomId roomNumber;
 	private RoomStatus roomStatus;
 	private RoomCategoryDTO roomCategory;
 	
@@ -22,7 +23,7 @@ public class RoomDTO {
 		
 	}
 
-	public int getRoomNumber() {
+	public RoomId getRoomNumber() {
 		return roomNumber;
 	}
 

@@ -23,6 +23,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.Room;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
@@ -204,16 +205,16 @@ public class TestData implements ApplicationRunner {
 		
 		stayRepository.addStay(Stay.createFromBooking(stayUUID[3], bookingRepository.getBookingById(bookingUUID[0]).get(), guestUUID[0]));
 	
-		roomRepository.addRoom(Room.create(101, RoomStatus.AVAILABLE, categoryUUID[0]));
-		roomRepository.addRoom(Room.create(102, RoomStatus.AVAILABLE, categoryUUID[0]));
-		roomRepository.addRoom(Room.create(201, RoomStatus.AVAILABLE, categoryUUID[1]));
-		roomRepository.addRoom(Room.create(202, RoomStatus.AVAILABLE, categoryUUID[1]));
-		roomRepository.addRoom(Room.create(301, RoomStatus.AVAILABLE, categoryUUID[2]));
-		roomRepository.addRoom(Room.create(302, RoomStatus.AVAILABLE, categoryUUID[2]));
+		roomRepository.addRoom(Room.create(new RoomId("101"), RoomStatus.AVAILABLE, categoryUUID[0]));
+		roomRepository.addRoom(Room.create(new RoomId("102"), RoomStatus.AVAILABLE, categoryUUID[0]));
+		roomRepository.addRoom(Room.create(new RoomId("201"), RoomStatus.AVAILABLE, categoryUUID[1]));
+		roomRepository.addRoom(Room.create(new RoomId("202"), RoomStatus.AVAILABLE, categoryUUID[1]));
+		roomRepository.addRoom(Room.create(new RoomId("301"), RoomStatus.AVAILABLE, categoryUUID[2]));
+		roomRepository.addRoom(Room.create(new RoomId("302"), RoomStatus.AVAILABLE, categoryUUID[2]));
 		
-		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(101).get(), stayRepository.getStayById(stayUUID[3]).get()));
-		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(202).get(), stayRepository.getStayById(stayUUID[0]).get()));
-		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(301).get(), stayRepository.getStayById(stayUUID[1]).get()));
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(new RoomId("101")).get(), stayRepository.getStayById(stayUUID[3]).get()));
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(new RoomId("202")).get(), stayRepository.getStayById(stayUUID[0]).get()));
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(new RoomId("301")).get(), stayRepository.getStayById(stayUUID[1]).get()));
 		
 	}
 

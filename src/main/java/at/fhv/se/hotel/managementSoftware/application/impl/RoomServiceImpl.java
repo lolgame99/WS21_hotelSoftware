@@ -14,6 +14,7 @@ import at.fhv.se.hotel.managementSoftware.application.dto.RoomDTO;
 import at.fhv.se.hotel.managementSoftware.domain.model.Room;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
 
@@ -54,9 +55,9 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public Optional<RoomDTO> getRoomByRoomNumber(int number) {
+	public Optional<RoomDTO> getRoomByRoomNumber(String number) {
 		Optional<RoomDTO> dto = Optional.empty();
-		Room room = roomRepository.getRoomByNumber(number).get();
+		Room room = roomRepository.getRoomByNumber(new RoomId(number)).get();
 		dto = Optional.of(RoomDTO.createFromRoom(room,roomCategoryService.getRoomCategoryById(room.getCategoryId().getId()).get()));
 		return dto;
 	}

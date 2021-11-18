@@ -4,14 +4,14 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 import at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus;
 
 public class Room {
-	private int roomNumber;
+	private RoomId roomNumber;
 	private RoomStatus roomStatus;
 	private RoomCategoryId categoryId;
 	
 	public Room() {
 	}
 	
-	public static Room create(int number, RoomStatus status, RoomCategoryId catId) {
+	public static Room create(RoomId number, RoomStatus status, RoomCategoryId catId) {
 		Room room = new Room();
 		room.roomNumber = number;
 		room.roomStatus = status;
@@ -19,7 +19,7 @@ public class Room {
 		return room;
 	}
 	
-	public static Room changeRoomStatus(int roomNumber, RoomStatus roomStatus, RoomCategoryId categoryId){
+	public static Room changeRoomStatus(RoomId roomNumber, RoomStatus roomStatus, RoomCategoryId categoryId){
 		Room room = new Room();
 		room.roomNumber = roomNumber;
 		room.roomStatus = roomStatus;
@@ -28,7 +28,7 @@ public class Room {
 		return room;
 	}
 
-	public int getRoomNumber() {
+	public RoomId getRoomNumber() {
 		return roomNumber;
 	}
 

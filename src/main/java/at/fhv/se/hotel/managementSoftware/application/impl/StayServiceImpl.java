@@ -27,6 +27,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.GuestRepository;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 import at.fhv.se.hotel.managementSoftware.view.forms.StayData;
@@ -54,6 +55,9 @@ public class StayServiceImpl implements StayService{
 	
 	@Autowired
 	private GuestRepository guestRepository;
+	
+	@Autowired
+	private RoomAssignmentRepository roomAssignmentRepository;
 	
 	@Override
 	public List<StayDetailsDTO> getAllStays() {
@@ -140,6 +144,7 @@ public class StayServiceImpl implements StayService{
 					guest.getGuestId()
 					);
 		}
+		
 		 
 		
 		
