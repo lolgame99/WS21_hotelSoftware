@@ -154,11 +154,11 @@ public class StayServiceImpl implements StayService{
 	public Optional<StayDetailsDTO> getStayById(String id) {
 		Optional<StayDetailsDTO> dto = Optional.empty();
 		Optional<Stay> stay = stayRepository.getStayById(new StayId(id));
-		dto = Optional.of(StayDetailsDTO.createFromStay(stay.get(),
-				bookingService.getBookingDetailsById(stay.get().getBookingId().getId()).get(),
-				customerService.getCustomerDetailsById(stay.get().getCustomerId().getId()).get(),
-				guestService.getGuestById(stay.get().getGuestId().getId()).get()));
-		
+		dto = stay.map(s -> StayDetailsDTO.createFromStay(s,
+				bookingService.getBookingDetailsById(s.getBookingId().getId()).get(),
+				customerService.getCustomerDetailsById(s.getCustomerId().getId()).get(),
+				guestService.getGuestById(s.getGuestId().getId()).get()));
+				
 		return dto;
 	}
 

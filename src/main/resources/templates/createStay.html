@@ -116,8 +116,20 @@
                 </div>
                 <div class="form-row mb-2">
                     <label for="categoryList">Add Rooms</label><br>
-                    <button type="button" class="btn btn-secondary addCategoryBtn">+</button>
-                    <button type="button" class="btn btn-secondary removeCategoryBtn">-</button>
+                    <th:block th:each="cat, catStat : *{categoryValues}">
+                    	<div class="roomEntry form-row row mb-1" th:each="i: ${#numbers.sequence(0, form.categoryCount[catStat.index]-1)}">
+	                   		<div class="col">
+					            <select class="form-control categoryValues" required th:disabled="*{bookingId != null}">
+					              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}" th:selected="${n.categoryID.getId() == cat}"></option>
+					            </select>
+					        </div>
+					        <div class="col">
+					        	<input class="form-control" type="text" required>
+					        </div>
+					    </div>
+                    </th:block>
+                    <button type="button" class="btn btn-secondary addCategoryBtn" th:if="*{bookingId == null}">+</button>
+                    <button type="button" class="btn btn-secondary removeCategoryBtn" th:if="*{bookingId == null}">-</button>
                 </div>
                 <div class="form-row mb-2">
                     <label class="form-label" for="guestCount">Number of Guests</label><br>
@@ -167,6 +179,16 @@
             </div>
             
             <div class="col">
+	            <div class="roomEntry d-none form-row row mb-1" th:each="m : ${stays}">
+			        <div class="col">
+			            <select class="form-control categoryValues" required>
+			              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}"></option>
+			            </select>
+			        </div>
+			        <div class="col">
+			        	<input class="form-control" type="number" th:field="*{guestFirstName}" required>
+			        </div>
+			    </div>
              	<button type="submit" class="btn btn-primary">Create Stay</button>
                 <button type="button" class="btn btn-secondary resetBtn">Reset</button>
             </div>
@@ -201,22 +223,16 @@
     </div>
 
 	<!-- ToDo: Edit Roomnumber -->
-    <div class="categoryEntryEmpty d-none form-row row mb-1">
+    <div class="roomEntryEmpty d-none form-row row mb-1">
         <div class="col">
             <select class="form-control categoryValues" required>
-              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID}"></option>
+              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}"></option>
             </select>
         </div>
         <div class="col">
-            <input class="form-control categoryAmounts" type="number" min="1" oninput="this.value = Math.abs(this.value)" placeholder="number of rooms" required>
-        	<select class="form-control roomNumber" required>
-        	<option>Room Number</option>
-        	<option>125</option>
-        	<option>132</option>
-        	<option>134</option>
-        	<option>155</option>
-        	</select>
+        	<input class="form-control" type="number" required>
         </div>
     </div>
+    
 </body>
 </html>

@@ -119,7 +119,7 @@ public class TestData implements ApplicationRunner {
 				customerUUID[1],
 				6,
 				BookingStatus.PAID,
-				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 1);
+				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 2);
 					put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(), 1);}}));
 
 		bookingRepository.addBooking(Booking.create(
