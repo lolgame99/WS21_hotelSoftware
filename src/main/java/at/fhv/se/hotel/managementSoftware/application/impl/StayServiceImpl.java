@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import at.fhv.se.hotel.managementSoftware.application.api.BookingService;
 import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.api.GuestService;
+import at.fhv.se.hotel.managementSoftware.application.api.RoomAssignmentService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomService;
 import at.fhv.se.hotel.managementSoftware.application.api.StayService;
 import at.fhv.se.hotel.managementSoftware.application.dto.BookingDetailsDTO;
@@ -72,6 +73,9 @@ public class StayServiceImpl implements StayService{
 	@Autowired
 	private RoomService roomService;
 	
+	@Autowired
+	private RoomAssignmentService roomAssignmentService;
+	
 	@Override
 	public List<StayDetailsDTO> getAllStays() {
 		List<Stay> stays = stayRepository.getAllStays();
@@ -84,7 +88,7 @@ public class StayServiceImpl implements StayService{
 			if(s.getBookingId() != null) {
 				booking = bookingService.getBookingDetailsById(s.getBookingId().getId()).get();
 			}
-			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest));				
+			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId())));				
 		}
 			
 		return stayDTOs;
@@ -102,7 +106,7 @@ public class StayServiceImpl implements StayService{
 			if(s.getBookingId() != null) {
 				booking = bookingService.getBookingDetailsById(s.getBookingId().getId()).get();
 			}
-			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest));		
+			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId())));		
 		}
 			
 		return stayDTOs;
@@ -191,7 +195,8 @@ public class StayServiceImpl implements StayService{
 		dto = stay.map(s -> StayDetailsDTO.createFromStay(s,
 				bookingService.getBookingDetailsById(s.getBookingId().getId()).get(),
 				customerService.getCustomerDetailsById(s.getCustomerId().getId()).get(),
-				guestService.getGuestById(s.getGuestId().getId()).get()));
+				guestService.getGuestById(s.getGuestId().getId()).get(),
+				roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId())));
 				
 		return dto;
 	}

@@ -1,6 +1,7 @@
 package at.fhv.se.hotel.managementSoftware.application.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
@@ -18,11 +19,12 @@ public class StayDetailsDTO {
 	private BookingDetailsDTO booking;
 	private CustomerDetailsDTO customer;
 	private GuestDetailsDTO guest;
+	private List<RoomAssignmentDTO> roomAssignments;
 	
 	private StayDetailsDTO() {
 	}
 	
-	public static StayDetailsDTO createFromStay(Stay stay, BookingDetailsDTO booking, CustomerDetailsDTO customer, GuestDetailsDTO guest) {
+	public static StayDetailsDTO createFromStay(Stay stay, BookingDetailsDTO booking, CustomerDetailsDTO customer, GuestDetailsDTO guest, List<RoomAssignmentDTO> assignments) {
 		StayDetailsDTO dto = new StayDetailsDTO();
 		dto.stayId = stay.getStayId();
 		dto.checkInDate = stay.getCheckInDate();
@@ -32,6 +34,7 @@ public class StayDetailsDTO {
 		dto.booking = booking;
 		dto.customer = customer;
 		dto.guest = guest;
+		dto.roomAssignments = assignments;
 		return dto;
 	}
 
