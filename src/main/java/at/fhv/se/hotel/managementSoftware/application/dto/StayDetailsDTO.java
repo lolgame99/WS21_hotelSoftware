@@ -70,4 +70,14 @@ public class StayDetailsDTO {
 	public GuestDetailsDTO getGuest() {
 		return guest;
 	}
+
+	public int getGuestCount() {
+		return guestCount;
+	}
+
+	public List<RoomAssignmentDTO> getRoomAssignments() {
+		return roomAssignments;
+	}
+	
+	
 }

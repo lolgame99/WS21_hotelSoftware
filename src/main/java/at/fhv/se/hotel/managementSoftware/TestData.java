@@ -74,7 +74,7 @@ public class TestData implements ApplicationRunner {
 		for (int i = 0; i < bookingUUID.length; i++) {
 			bookingUUID[i] = new BookingId(UUID.randomUUID().toString().toUpperCase());
 		}
-		GuestId[] guestUUID = new GuestId[4];
+		GuestId[] guestUUID = new GuestId[2];
 		for (int i = 0; i < guestUUID.length; i++) {
 			guestUUID[i] = new GuestId(UUID.randomUUID().toString().toUpperCase());
 		}
@@ -175,17 +175,16 @@ public class TestData implements ApplicationRunner {
 		stayRepository.addStay(Stay.createForWalkIn(
 				stayUUID[0],
 				LocalDate.now(),
-				LocalDate.now().plusDays(7),
+				LocalDate.now().plusDays(14),
 				7,
 				"5555555555554444",
 				customerUUID[4],
-				guestUUID[0])
+				guestUUID[1])
 				);
 	
 		
 		
 		stayRepository.addStay(Stay.createFromBooking(stayUUID[1], bookingRepository.getBookingById(bookingUUID[0]).get(), guestUUID[0]));
-		List<Stay> test = stayRepository.getAllStays();
 		roomRepository.addRoom(Room.create(new RoomId("101"), RoomStatus.AVAILABLE, categoryUUID[0]));
 		roomRepository.addRoom(Room.create(new RoomId("102"), RoomStatus.AVAILABLE, categoryUUID[0]));
 		roomRepository.addRoom(Room.create(new RoomId("201"), RoomStatus.OCCUPIED, categoryUUID[1]));

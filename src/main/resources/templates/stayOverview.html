@@ -54,8 +54,8 @@
                 </tr>
             </thead>
             <tbody class="stayOverview">
-                <th:block th:each="s : ${stays}">
-                	<tr data-bs-toggle="collapse" href="#multiCollapseExample1">
+                <th:block th:each="s, itemStat : ${stays}">
+                	<tr data-bs-toggle="collapse" th:href="@{#multiCollapseExample__${itemStat.index}__}">
 	                    <td class="text-center" th:text="${s.guest.firstName}+' '+${s.guest.lastName}"></td>
 	                    <td class="text-center" th:text="${s.checkInDate}"></td>
 	                    <td class="text-center" th:text="${s.checkOutDate}"></td>
@@ -63,32 +63,33 @@
 	                </tr>
 	                <tr>
 	                    <td colspan="5" style="padding: 0 !important;">
-	                        <div class="collapse multi-collapse container" id="multiCollapseExample1">
+	                        <div class="collapse multi-collapse container" th:id="@{multiCollapseExample__${itemStat.index}__}">
 	                            <div class="card card-body row" style="flex-direction: row;">
 	                                <div class="col-1">
 	                                    <span class="fw-bold">Rooms:</span>
 	                                    <ul class="list-group list-group-flush">
-	                                        <li class="list-group-item">101</li>
-	                                        <li class="list-group-item">201</li>
+	                                    	<th:block th:each="ra : ${s.roomAssignments}">
+	                                    		 <li class="list-group-item" th:text="${ra.room.roomNumber.getId()}"></li>
+	                                    	</th:block>
 	                                    </ul>
 	                                </div>
 	                                <div class="col">
 	                                    <span class="fw-bold">Guest phone number:</span>
-	                                    <p>-459541233</p>
+	                                    <p th:text="${s.guest.phoneNumber}"></p>
 	                                    <span class="fw-bold">Number of guests:</span>
-	                                    <p>2</p>
+	                                    <p th:text="${s.guestCount}"></p>
 	                                </div>
 	                                <div class="col">
 	                                    <span class="fw-bold">Customer Info:</span><br>
-	                                    <span>Name: <span>Benjamin Mayer</span></span><br>
-	                                    <span>Phone Number:<span>+43555846565</span></span><br>
-	                                    <span>Email: <span>test@email.com</span></span><br>
+	                                    <span>Name: <span  th:text="${s.customer.firstName}+' '+${s.customer.lastName}"></span></span><br>
+	                                    <span>Phone Number:<span th:text="${s.customer.phoneNumber}"></span></span><br>
+	                                    <span>Email: <span th:text="${s.customer.email}"></span></span><br>
 	                                </div>
 	                                <div class="col">
 	                                    <span class="fw-bold">Address:</span><br>
-	                                    <span>Bahnhofstraße</span> <span>41</span><br>
-	                                    <span>41550</span> <span>Berlin</span><br>
-	                                    <span>Germany</span><br>
+	                                    <span th:text="${s.customer.address.streetName}"></span> <span th:text="${s.customer.address.streetNumber}"></span><br>
+	                                    <span th:text="${s.customer.address.postCode}"></span> <span th:text="${s.customer.address.city}"></span><br>
+	                                    <span th:text="${s.customer.address.country}"></span><br>
 	                                </div>
 	                            </div>
 	                        </div>
