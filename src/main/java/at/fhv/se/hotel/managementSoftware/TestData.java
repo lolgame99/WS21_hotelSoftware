@@ -212,9 +212,9 @@ public class TestData implements ApplicationRunner {
 		roomRepository.addRoom(Room.create(new RoomId("301"), RoomStatus.AVAILABLE, categoryUUID[2]));
 		roomRepository.addRoom(Room.create(new RoomId("302"), RoomStatus.AVAILABLE, categoryUUID[2]));
 		
-		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(new RoomId("101")).get(), stayRepository.getStayById(stayUUID[3]).get()));
-		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(new RoomId("202")).get(), stayRepository.getStayById(stayUUID[0]).get()));
-		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomRepository.getRoomByNumber(new RoomId("301")).get(), stayRepository.getStayById(stayUUID[1]).get()));
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId("101"), stayRepository.getStayById(stayUUID[3]).get()));
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId("202"), stayRepository.getStayById(stayUUID[0]).get()));
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId("301"), stayRepository.getStayById(stayUUID[1]).get()));
 		
 	}
 

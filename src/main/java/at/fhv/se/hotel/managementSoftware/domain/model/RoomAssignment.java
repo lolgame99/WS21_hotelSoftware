@@ -12,11 +12,11 @@ public class RoomAssignment {
 		
 	}
 	
-	public static RoomAssignment create(Room roomNumber, Stay stay) {
+	public static RoomAssignment create(RoomId roomNumber, Stay stay) {
 		RoomAssignment roomAssignment = new RoomAssignment();
 		roomAssignment.assignedFrom = stay.getCheckInDate();
 		roomAssignment.assignedTo = stay.getCheckOutDate();
-		roomAssignment.roomNumber = roomNumber.getRoomNumber();
+		roomAssignment.roomNumber = roomNumber;
 		roomAssignment.stayId = stay.getStayId();
 		
 		return roomAssignment;

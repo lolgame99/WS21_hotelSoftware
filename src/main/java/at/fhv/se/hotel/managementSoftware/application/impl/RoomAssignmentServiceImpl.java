@@ -13,6 +13,7 @@ import at.fhv.se.hotel.managementSoftware.application.dto.RoomAssignmentDTO;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
 
 @Component
 public class RoomAssignmentServiceImpl implements RoomAssignmentService {

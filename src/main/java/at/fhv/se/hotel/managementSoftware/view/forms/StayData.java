@@ -82,6 +82,11 @@ public class StayData {
 		for (Integer integer : existingBooking.getCategoryCount().values()) {
 			categoryCount.add(integer.toString());
 		}
+		for (int i = 0; i < categoryValues.size(); i++) {
+			for (int j = 0; j < Integer.parseInt(categoryCount.get(i)); j++) {
+				roomCategorys.add(categoryValues.get(i));
+			}
+		}
 	}
 	
 	
@@ -295,6 +300,22 @@ public class StayData {
 
 	public void setCategoryCount(List<String> categoryCount) {
 		this.categoryCount = categoryCount;
+	}
+
+	public List<String> getRoomCategorys() {
+		return roomCategorys;
+	}
+
+	public void setRoomCategorys(List<String> roomCategorys) {
+		this.roomCategorys = roomCategorys;
+	}
+
+	public List<String> getRoomNumbers() {
+		return roomNumbers;
+	}
+
+	public void setRoomNumbers(List<String> roomNumbers) {
+		this.roomNumbers = roomNumbers;
 	}
 	
 	

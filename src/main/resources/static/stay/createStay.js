@@ -10,10 +10,6 @@ $(document).ready(function(){
 	$('input[name=checkInDate]').prop('disabled',true);
 		
 	if($(".roomSelection").find(".roomCategorys").length > 0){
-		$(".roomSelection").find(".roomCategorys").each(function(){
-			$(this).attr("name","roomCategorys["+ categoryCounter+"]");
-			categoryCounter++;
-		});
 		categoryCounter = 0;
 		$(".roomSelection").find(".roomNumber").each(function(){
 			$(this).attr("name","roomNumbers["+ categoryCounter+"]");
@@ -33,7 +29,7 @@ $(document).ready(function(){
 
 	$(".removeCategoryBtn").click(function(){
 		categoryCounter--;
-        $(".categoryEntry").last().remove();
+        $(".roomEntry").last().remove();
     });
 
 	$("input[type=radio][name=guest]").change(function() {

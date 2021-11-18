@@ -11,23 +11,30 @@ import org.springframework.stereotype.Component;
 import at.fhv.se.hotel.managementSoftware.application.api.BookingService;
 import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.api.GuestService;
+import at.fhv.se.hotel.managementSoftware.application.api.RoomService;
 import at.fhv.se.hotel.managementSoftware.application.api.StayService;
 import at.fhv.se.hotel.managementSoftware.application.dto.BookingDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.GuestDetailsDTO;
+import at.fhv.se.hotel.managementSoftware.application.dto.RoomDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.StayDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidRoomAssignmentException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
+import at.fhv.se.hotel.managementSoftware.domain.model.Room;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.GuestRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 import at.fhv.se.hotel.managementSoftware.view.forms.StayData;
@@ -58,6 +65,12 @@ public class StayServiceImpl implements StayService{
 	
 	@Autowired
 	private RoomAssignmentRepository roomAssignmentRepository;
+		
+	@Autowired
+	private RoomRepository roomRepository;
+	
+	@Autowired
+	private RoomService roomService;
 	
 	@Override
 	public List<StayDetailsDTO> getAllStays() {
@@ -145,7 +158,23 @@ public class StayServiceImpl implements StayService{
 					);
 		}
 		
-		 
+		for (int i = 0; i < stayData.getRoomNumbers().size(); i++) {
+			Optional<Room> room = roomRepository.getRoomByNumber(new RoomId(stayData.getRoomNumbers().get(i)));
+			if (room.isEmpty()) {
+				throw new InvalidRoomAssignmentException("RoomAssignment could not be created <br> Room with number "+stayData.getRoomNumbers().get(i)+" does not exist");
+			} else if (stayData.getRoomNumbers().size() != stayData.getRoomNumbers().stream().distinct().toList().size()) {
+				throw new InvalidRoomAssignmentException("RoomAssignment could not be created <br> Room with number"+stayData.getRoomNumbers().get(i)+" can't be allocated twice");
+			}
+			/*
+			List<RoomAssignment> occupiedRooms = roomAssignmentRepository.getAllRoomAssignmentsBetweenDates(convertedCheckOutDate, convertedBirthDate);
+			for (RoomAssignment ra : occupiedRooms) {
+				if (ra.getRoomNumber().getId().equals(room.get().getRoomNumber().getId())) {
+					throw new InvalidRoomAssignmentException("RoomAssignment could not be created <br> Room with number "+stayData.getRoomNumbers().get(i)+" is already occupied");
+				}
+			}
+			*/
+			roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId(stayData.getRoomNumbers().get(i)), stay));
+		} 
 		
 		
 		if (customerCreated) {
