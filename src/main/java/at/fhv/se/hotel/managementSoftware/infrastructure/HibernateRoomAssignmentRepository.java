@@ -27,7 +27,7 @@ public class HibernateRoomAssignmentRepository implements RoomAssignmentReposito
 	public List<RoomAssignment> getAllRoomAssignmentsBetweenDates(LocalDate date1, LocalDate date2) {
 		List<RoomAssignment> roomAssignments = new ArrayList<RoomAssignment>();
 		for (RoomAssignment ra : getAllRoomAssignments()) {
-			if (ra.getAssignedFrom().minusDays(1).isBefore(date1) && ra.getAssignedTo().plusDays(1).isAfter(date2)) {
+			if (ra.getAssignedFrom().compareTo(date1) <= 0 && ra.getAssignedTo().compareTo(date2) >= 0) {
 				roomAssignments.add(ra);
 			}
 		}

@@ -165,14 +165,14 @@ public class StayServiceImpl implements StayService{
 			} else if (stayData.getRoomNumbers().size() != stayData.getRoomNumbers().stream().distinct().toList().size()) {
 				throw new InvalidRoomAssignmentException("RoomAssignment could not be created <br> Room with number"+stayData.getRoomNumbers().get(i)+" can't be allocated twice");
 			}
-			/*
-			List<RoomAssignment> occupiedRooms = roomAssignmentRepository.getAllRoomAssignmentsBetweenDates(convertedCheckOutDate, convertedBirthDate);
+			
+			List<RoomAssignment> occupiedRooms = roomAssignmentRepository.getAllRoomAssignmentsBetweenDates(stay.getCheckInDate(), stay.getCheckOutDate());
 			for (RoomAssignment ra : occupiedRooms) {
 				if (ra.getRoomNumber().getId().equals(room.get().getRoomNumber().getId())) {
 					throw new InvalidRoomAssignmentException("RoomAssignment could not be created <br> Room with number "+stayData.getRoomNumbers().get(i)+" is already occupied");
 				}
 			}
-			*/
+			
 			roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId(stayData.getRoomNumbers().get(i)), stay));
 		} 
 		
