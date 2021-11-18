@@ -3,6 +3,7 @@ package at.fhv.se.hotel.managementSoftware;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,10 +91,8 @@ public class TestData implements ApplicationRunner {
 		customerRepository.addCustomer(Customer.create(customerUUID[4], "Cristiano", "Ronaldo", LocalDate.of(1985, 2, 5), new Address("Oxford Street", "12", "Manchester", "M1", "United Kingdom"), "CristianoRonaldo@rhyta.com", "+449497823332", Gender.MALE));
 		customerRepository.addCustomer(Customer.create(customerUUID[5], "Conchita", "Wurst", LocalDate.of(1994, 10, 11), new Address("Wurst Strasse", "3", "Wien", "1010", "Austria"), "Conchita@wurst.com", "+436642135879", Gender.DIVERSE));
 
-		guestRepository.addGuest(Guest.createFromCustomer(guestUUID[0], customerRepository.getCustomerById(customerUUID[4]).get()));
-		guestRepository.addGuest(Guest.createFromCustomer(guestUUID[1], customerRepository.getCustomerById(customerUUID[3]).get()));
-		guestRepository.addGuest(Guest.create(guestUUID[2], "Dieter", "Neumann", "+498465126628"));
-		guestRepository.addGuest(Guest.create(guestUUID[3], "Franziska", "Nachbauer", "+438465184868").addMiddleName("Leonie"));
+		guestRepository.addGuest(Guest.createFromCustomer(guestUUID[0], customerRepository.getCustomerById(customerUUID[0]).get()));
+		guestRepository.addGuest(Guest.create(guestUUID[1], "Franziska", "Nachbauer", "+438465184868").addMiddleName("Leonie"));
 		
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[0], "Single Room", 1));
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[1], "Double Room", 2));
@@ -182,39 +181,21 @@ public class TestData implements ApplicationRunner {
 				customerUUID[4],
 				guestUUID[0])
 				);
-		
-		stayRepository.addStay(Stay.createForWalkIn(
-				stayUUID[1],
-				LocalDate.now().plusDays(2),
-				LocalDate.now().plusDays(5),
-				4,
-				"5555555555554444",
-				customerUUID[3],
-				guestUUID[1])
-				);
-		
-		stayRepository.addStay(Stay.createForWalkIn(
-				stayUUID[2],
-				LocalDate.now().plusDays(1),
-				LocalDate.now().plusDays(10),
-				3,
-				"5555555555554444",
-				customerUUID[1],
-				guestUUID[2])
-				);
-		
-		stayRepository.addStay(Stay.createFromBooking(stayUUID[3], bookingRepository.getBookingById(bookingUUID[0]).get(), guestUUID[0]));
 	
+		
+		
+		stayRepository.addStay(Stay.createFromBooking(stayUUID[1], bookingRepository.getBookingById(bookingUUID[0]).get(), guestUUID[0]));
+		List<Stay> test = stayRepository.getAllStays();
 		roomRepository.addRoom(Room.create(new RoomId("101"), RoomStatus.AVAILABLE, categoryUUID[0]));
 		roomRepository.addRoom(Room.create(new RoomId("102"), RoomStatus.AVAILABLE, categoryUUID[0]));
-		roomRepository.addRoom(Room.create(new RoomId("201"), RoomStatus.AVAILABLE, categoryUUID[1]));
+		roomRepository.addRoom(Room.create(new RoomId("201"), RoomStatus.OCCUPIED, categoryUUID[1]));
 		roomRepository.addRoom(Room.create(new RoomId("202"), RoomStatus.AVAILABLE, categoryUUID[1]));
-		roomRepository.addRoom(Room.create(new RoomId("301"), RoomStatus.AVAILABLE, categoryUUID[2]));
-		roomRepository.addRoom(Room.create(new RoomId("302"), RoomStatus.AVAILABLE, categoryUUID[2]));
+		roomRepository.addRoom(Room.create(new RoomId("301"), RoomStatus.OCCUPIED, categoryUUID[2]));
+		roomRepository.addRoom(Room.create(new RoomId("302"), RoomStatus.OCCUPIED, categoryUUID[2]));
 		
-		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId("101"), stayRepository.getStayById(stayUUID[3]).get()));
-		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId("202"), stayRepository.getStayById(stayUUID[0]).get()));
-		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId("301"), stayRepository.getStayById(stayUUID[1]).get()));
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId("301"), stayRepository.getStayById(stayUUID[0]).get()));
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId("302"), stayRepository.getStayById(stayUUID[0]).get()));
+		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId("201"), stayRepository.getStayById(stayUUID[1]).get()));
 		
 	}
 

@@ -33,7 +33,7 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 		List<RoomAssignment> roomAssignment = roomAssignmentRepository.getAllRoomAssignments();
 		
 		for (RoomAssignment ra : roomAssignment) {		
-			roomAssignmentDTOs.add(RoomAssignmentDTO.createFromRoomAssignment(ra, stayService.getStayById(ra.getStayId().getId()).get(), roomService.getRoomByRoomNumber(ra.getRoomNumber().getId()).get()));
+			roomAssignmentDTOs.add(RoomAssignmentDTO.createFromRoomAssignment(ra,  roomService.getRoomByRoomNumber(ra.getRoomNumber().getId()).get()));
 		}
 		
 		return roomAssignmentDTOs;
@@ -45,7 +45,7 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 		List<RoomAssignment> roomAssignment = roomAssignmentRepository.getRoomAssignmentsByStayId(new StayId(id));
 		
 		for (RoomAssignment ra : roomAssignment) {		
-			roomAssignmentDTOs.add(RoomAssignmentDTO.createFromRoomAssignment(ra, stayService.getStayById(ra.getStayId().getId()).get(), roomService.getRoomByRoomNumber(ra.getRoomNumber().getId()).get()));
+			roomAssignmentDTOs.add(RoomAssignmentDTO.createFromRoomAssignment(ra,  roomService.getRoomByRoomNumber(ra.getRoomNumber().getId()).get()));
 		}
 		
 		return roomAssignmentDTOs;

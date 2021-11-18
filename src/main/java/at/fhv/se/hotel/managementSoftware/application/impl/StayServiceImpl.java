@@ -83,11 +83,11 @@ public class StayServiceImpl implements StayService{
 		List<StayDetailsDTO> stayDTOs = new ArrayList<StayDetailsDTO>();
 		
 		for (Stay s : stays) {
-			BookingDetailsDTO booking = null;
+			Optional<BookingDetailsDTO> booking = Optional.empty();
 			CustomerDetailsDTO customer = customerService.getCustomerDetailsById(s.getCustomerId().getId()).get();
 			GuestDetailsDTO guest = guestService.getGuestById(s.getGuestId().getId()).get();
 			if(s.getBookingId() != null) {
-				booking = bookingService.getBookingDetailsById(s.getBookingId().getId()).get();
+				booking = bookingService.getBookingDetailsById(s.getBookingId().getId());
 			}
 			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId())));				
 		}
@@ -101,11 +101,11 @@ public class StayServiceImpl implements StayService{
 		List<StayDetailsDTO> stayDTOs = new ArrayList<StayDetailsDTO>();
 		
 		for (Stay s : stays) {
-			BookingDetailsDTO booking = null;
+			Optional<BookingDetailsDTO> booking = Optional.empty();
 			CustomerDetailsDTO customer = customerService.getCustomerDetailsById(s.getCustomerId().getId()).get();
 			GuestDetailsDTO guest = guestService.getGuestById(s.getGuestId().getId()).get();
 			if(s.getBookingId() != null) {
-				booking = bookingService.getBookingDetailsById(s.getBookingId().getId()).get();
+				booking = bookingService.getBookingDetailsById(s.getBookingId().getId());
 			}
 			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId())));		
 		}
@@ -193,11 +193,18 @@ public class StayServiceImpl implements StayService{
 	public Optional<StayDetailsDTO> getStayById(String id) {
 		Optional<StayDetailsDTO> dto = Optional.empty();
 		Optional<Stay> stay = stayRepository.getStayById(new StayId(id));
-		dto = stay.map(s -> StayDetailsDTO.createFromStay(s,
-				bookingService.getBookingDetailsById(s.getBookingId().getId()).get(),
-				customerService.getCustomerDetailsById(s.getCustomerId().getId()).get(),
-				guestService.getGuestById(s.getGuestId().getId()).get(),
-				roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId())));
+		Optional<BookingDetailsDTO> booking = Optional.empty();
+		if(stay.get().getBookingId() != null) {
+			 booking = bookingService.getBookingDetailsById(stay.get().getBookingId().getId());
+		}
+
+		dto = Optional.of(StayDetailsDTO.createFromStay(stay.get(),
+				booking,
+				customerService.getCustomerDetailsById(stay.get().getCustomerId().getId()).get(),
+				guestService.getGuestById(stay.get().getGuestId().getId()).get(),
+				roomAssignmentService.getRoomAssignmentsByStayId(stay.get().getStayId())));
+		
+		
 				
 		return dto;
 	}

@@ -4,6 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Stay Overview</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -44,25 +45,58 @@
         </div>
       </div>
     <table id="stayoverview" class="table table-sm table-hover">
-    	<thead>
-   			 <tr>
-			      <th class="text-center" scope="col">Guest Name</th>
-			      <th class="text-center" scope="col">Room Category</th>
-			      <th class="text-center" scope="col">Room Number</th>
-			      <th class="text-center" scope="col">Check-In Date</th>
-			      <th class="text-center" scope="col">Check-Out Date</th>
-    		</tr>
-  		</thead>
-  		<tbody class="stayOverview">
-		    <tr th:each="m : ${stays}">
-		      <td class="text-center" th:text="${m.guest.firstName}+' '+${m.guest.lastName}"></td>
-		      <td class="text-center" >coming soon</td>
-		      <td class="text-center" >coming soon</td>
-		      <td class="text-center" th:text="${m.checkInDate}"></td>
-		      <td class="text-center" th:text="${m.checkOutDate}"></td>
-		    </tr>
-  		</tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">Guest Name</th>
+                    <th class="text-center" scope="col">Check-In Date</th>
+                    <th class="text-center" scope="col">Check-Out Date</th>
+                    <th><a href="#" class="btn btn-default btn-sm d-none"><i class="bi bi-eye-fill"></i></a></th>
+                </tr>
+            </thead>
+            <tbody class="stayOverview">
+                <th:block th:each="s : ${stays}">
+                	<tr data-bs-toggle="collapse" href="#multiCollapseExample1">
+	                    <td class="text-center" th:text="${s.guest.firstName}+' '+${s.guest.lastName}"></td>
+	                    <td class="text-center" th:text="${s.checkInDate}"></td>
+	                    <td class="text-center" th:text="${s.checkOutDate}"></td>
+	                    <td><a href="#" class="btn btn-default btn-sm"><i class="bi bi-eye-fill"></i></a></td>
+	                </tr>
+	                <tr>
+	                    <td colspan="5" style="padding: 0 !important;">
+	                        <div class="collapse multi-collapse container" id="multiCollapseExample1">
+	                            <div class="card card-body row" style="flex-direction: row;">
+	                                <div class="col-1">
+	                                    <span class="fw-bold">Rooms:</span>
+	                                    <ul class="list-group list-group-flush">
+	                                        <li class="list-group-item">101</li>
+	                                        <li class="list-group-item">201</li>
+	                                    </ul>
+	                                </div>
+	                                <div class="col">
+	                                    <span class="fw-bold">Guest phone number:</span>
+	                                    <p>-459541233</p>
+	                                    <span class="fw-bold">Number of guests:</span>
+	                                    <p>2</p>
+	                                </div>
+	                                <div class="col">
+	                                    <span class="fw-bold">Customer Info:</span><br>
+	                                    <span>Name: <span>Benjamin Mayer</span></span><br>
+	                                    <span>Phone Number:<span>+43555846565</span></span><br>
+	                                    <span>Email: <span>test@email.com</span></span><br>
+	                                </div>
+	                                <div class="col">
+	                                    <span class="fw-bold">Address:</span><br>
+	                                    <span>Bahnhofstraße</span> <span>41</span><br>
+	                                    <span>41550</span> <span>Berlin</span><br>
+	                                    <span>Germany</span><br>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </td>
+	                </tr>
+                </th:block>
+            </tbody>
+        </table>
     </div>
     
 </body>
