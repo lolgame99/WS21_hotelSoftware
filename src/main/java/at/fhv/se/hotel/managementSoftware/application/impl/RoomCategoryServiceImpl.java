@@ -10,10 +10,11 @@ import org.springframework.stereotype.Component;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomCategoryService;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
 
 @Component
-public class RoomCategoryImpl implements RoomCategoryService{
+public class RoomCategoryServiceImpl implements RoomCategoryService{
 
 	@Autowired
 	private RoomCategoryRepository roomCategoryRepository;
@@ -24,28 +25,18 @@ public class RoomCategoryImpl implements RoomCategoryService{
 		List<RoomCategoryDTO> roomCategoryDTOs = new ArrayList<RoomCategoryDTO>();
 		
 		for (RoomCategory cat : roomCategories) {
-			roomCategoryDTOs.add(RoomCategoryDTO.builder()
-					.withId(cat.getCategoryID())
-					.withName(cat.getCategoryName())
-					.withDescription(cat.getCategoryDescription())
-					.withBedNumber(cat.getBedNumber())
-					.build());
+			roomCategoryDTOs.add(RoomCategoryDTO.createFromCategory(cat));
 		}
 		return roomCategoryDTOs;
 	}
 
 	@Override
 	public Optional<RoomCategoryDTO> getRoomCategoryById(String id) {
-		Optional<RoomCategory> roomCategory = roomCategoryRepository.getRoomCategoryById(id);
+		Optional<RoomCategory> roomCategory = roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(id));
 		Optional<RoomCategoryDTO> roomCategoryDTO = Optional.empty();
 		
 		if (roomCategory.isPresent()) {
-			roomCategoryDTO = Optional.of(RoomCategoryDTO.builder()
-					.withId(roomCategory.get().getCategoryID())
-					.withName(roomCategory.get().getCategoryName())
-					.withDescription(roomCategory.get().getCategoryDescription())
-					.withBedNumber(roomCategory.get().getBedNumber())
-					.build());
+			roomCategoryDTO = Optional.of(RoomCategoryDTO.createFromCategory(roomCategory.get()));
 		}
 		return roomCategoryDTO;
 	}

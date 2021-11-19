@@ -7,6 +7,8 @@ import java.util.List;
 
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
+import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 
 public class BookingData {
 	private String customerId;
@@ -38,7 +40,7 @@ public class BookingData {
 	}
 	
 	public void addExistingCustomer(CustomerDetailsDTO existingCustomer) {
-		this.customerId = existingCustomer.getCustomerId();
+		this.customerId = existingCustomer.getCustomerId().getId();
 		this.firstName = existingCustomer.getFirstName();
 		this.middleName = existingCustomer.getMiddleName();
 		this.lastName = existingCustomer.getLastName();
