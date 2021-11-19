@@ -13,7 +13,7 @@
 <body>
 	<header class="d-flex justify-content-center py-3 bg-light">
         <ul class="nav nav-pills">
-            <li class="nav-item"><a href="/" class="nav-link active">Dashboard</a></li>
+            <li class="nav-item"><a href="/" class="nav-link">Dashboard</a></li>
             <li class="nav-item"><a href="/booking" class="nav-link">Create Booking</a></li>
             <li class="nav-item dropdown">
             	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stay</a>
@@ -28,7 +28,7 @@
     </header>
      <div class="content container my-3">
         <p class="fs-3">Edit Booking</p>
-        <form class="new_booking row" action="#" th:object="${form}" th:action="@{/booking}" method="post">
+        <form class="new_booking row" action="#" th:object="${form}" th:action="@{/editBooking}" method="post">
         	<input class="form-control d-none" type="text" th:field="*{customerId}">
             <div class="col-6">
                 <p class="fs-5">Customer information</p>
@@ -114,15 +114,14 @@
                 </div>
                 <div class="form-row mb-2">
                     <label for="categoryList">Edit Category</label><br>
-                     <div class="categoryEntry form-row row mb-1" th:each="i: ${#numbers.sequence(0, form.categoryValues.size()-1)}">
+                     <div class="categoryEntry form-row row mb-1" th:each="cat, itemStat: ${form.categoryValues}">
 	                   		<div class="col">
 					            <select class="form-control roomCategorys" required>
-					              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}" th:selected="${n.categoryID.getId() == form.categoryValues[i]}"></option>
+					              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}" th:selected="${n.categoryID.getId() == cat}"></option>
 					            </select>
-					        
 					        </div>
 					        <div class="col">
-					        	<input class="form-control categoryAmounts" th:field="*{categoryAmounts[i]}" type="text" required>
+					        	<input class="form-control categoryAmounts" th:field="${form.categoryAmounts[__${itemStat.index}__]}" type="text" required>
 					        </div>
 					 </div>
                 </div>
