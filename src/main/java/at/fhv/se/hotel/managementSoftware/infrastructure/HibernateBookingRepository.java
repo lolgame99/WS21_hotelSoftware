@@ -68,4 +68,13 @@ public class HibernateBookingRepository implements BookingRepository{
 		return readyBookings;
 	}
 
+	@Override
+	public void deleteBookingById(BookingId id) {
+		for (Booking b : bookings) {
+			if (b.getBookingId().getId().equals(id.getId())) {
+				bookings.remove(b);
+			}
+		}
+	}
+
 }

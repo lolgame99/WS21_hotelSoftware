@@ -146,6 +146,30 @@ public class BookingServiceImpl implements BookingService{
 		
 		return bookingDTOs;
 	}
+
+	@Override
+	public void updateBooking(BookingData bookingData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate,
+			LocalDate convertedBirthDate) throws Exception {
+		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(bookingData.getCustomerId()));
+		if (convertedBirthDate == null) {
+			convertedBirthDate = customer.get().getBirthdate();
+		}
+		CustomerId oldCustomerId = customer.get().getCustomerId();
+		customer = Optional.of(Customer.create(
+				customerRepository.nextIdentity(),
+				bookingData.getFirstName(),
+				bookingData.getLastName(),
+				convertedBirthDate,
+				new Address(bookingData.getStreetName(),bookingData.getStreetNumber(),bookingData.getCity(),bookingData.getPostcode(),bookingData.getCountry()),
+				bookingData.getEmail(),
+				bookingData.getPhoneNumber(),
+				bookingData.getGender()
+				));
+		if (bookingData.getMiddleName() != null) {
+			customer.get().addMiddleName(bookingData.getMiddleName());
+		}
+		
+	}
 	
 	
 }

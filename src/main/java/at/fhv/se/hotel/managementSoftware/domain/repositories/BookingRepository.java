@@ -13,5 +13,6 @@ public interface BookingRepository {
 	public List<Booking> getBookingsByCheckInDate(LocalDate date);
 	public List<Booking> getReadyBookingsByCheckInDate(LocalDate date);
 	public void addBooking(Booking booking);
+	public void deleteBookingById(BookingId id);
 	public BookingId nextIdentity();
 }

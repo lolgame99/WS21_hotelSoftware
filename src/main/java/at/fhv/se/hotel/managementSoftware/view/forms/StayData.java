@@ -77,14 +77,14 @@ public class StayData {
 		this.creditCardValid = existingBooking.getCreditCardValid();
 		
 		for (RoomCategory cat : existingBooking.getCategoryCount().keySet()) {
-			categoryValues.add(cat.getCategoryID().getId());
+			this.categoryValues.add(cat.getCategoryID().getId());
 		}
 		for (Integer integer : existingBooking.getCategoryCount().values()) {
-			categoryCount.add(integer.toString());
+			this.categoryCount.add(integer.toString());
 		}
 		for (int i = 0; i < categoryValues.size(); i++) {
 			for (int j = 0; j < Integer.parseInt(categoryCount.get(i)); j++) {
-				roomCategorys.add(categoryValues.get(i));
+				this.roomCategorys.add(categoryValues.get(i));
 			}
 		}
 	}

@@ -17,4 +17,5 @@ public interface BookingService {
 	public Optional<BookingDetailsDTO> getBookingDetailsById(String id);
 	public void addBooking(Booking booking);
 	public void addBookingFromData(BookingData bookingData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate, LocalDate convertedBirthDate) throws Exception;
+	public void updateBooking(BookingData bookingData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate, LocalDate convertedBirthDate) throws Exception;
 }

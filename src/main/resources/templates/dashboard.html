@@ -61,7 +61,7 @@
 	          <td class="text-center" th:text="${n.guestCount}"></td>
 	          <td class="text-center" th:text="${n.roomCount}"></td>
 	          <td class="text-center"><input class="form-check-input arrivedBtn" type="checkbox" id="confirmed" name="confirmed" th:checked="${n.bookingStatus.toString()} == ARRIVED" th:disabled="${n.bookingStatus.toString()} == ARRIVED" th:attr="data-bookingId=${n.bookingId.getId()}"></td>
-	          <td class="text-center"><a href="#" class="btn btn-default btn-sm" data-bs-toggle="collapse" th:href="@{#multiCollapseExample__${itemStat.index}__}"><i class="bi bi-eye-fill"></i></a><a href="#" class="btn btn-default btn-sm"><i class="bi bi-gear-fill"></i></a></td>
+	          <td class="text-center"><a href="#" class="btn btn-default btn-sm" data-bs-toggle="collapse" th:href="@{#multiCollapseExample__${itemStat.index}__}"><i class="bi bi-eye-fill"></i></a><a th:href="@{/editBooking?bookingId=__${n.bookingId.getId()}__}" class="btn btn-default btn-sm"><i class="bi bi-gear-fill"></i></a></td>
 	        </tr>
 	        <tr>
 	        	<td th:if="${n.customer.middleName  == null}" class="text-center d-none" th:inline="text">[[${n.customer.firstName}+' '+${n.customer.lastName}]]<br><small th:text="${#temporals.format(n.customer.birthdate, 'dd-MM-yyyy')}"></small></td>

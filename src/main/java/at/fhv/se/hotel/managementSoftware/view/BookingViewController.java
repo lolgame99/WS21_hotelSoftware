@@ -31,11 +31,13 @@ public class BookingViewController {
 	
 	
 	private static final String CREATE_BOOKING_URL = "/booking";
+	private static final String EDIT_BOOKING_URL = "/editBooking";
 	private static final String DASHBOARD_URL ="/";
 	private static final String ERROR_URL = "/error";
 	
 	private static final String DASHBOARD_VIEW ="dashboard";
 	private static final String CREATE_BOOKING_VIEW ="createBooking";
+	private static final String EDIT_BOOKING_VIEW ="editBooking";
 	private static final String ERROR_VIEW ="error";
 	
 
@@ -77,9 +79,22 @@ public class BookingViewController {
 		List<CustomerOverviewDTO> customers = customerService.getAllCustomersOverview();
 		model.addAttribute("customers", customers);
 		
-		
-		
 		return CREATE_BOOKING_VIEW;
+	}
+	
+	@GetMapping(EDIT_BOOKING_URL)
+	public String editBooking(@RequestParam(value = "bookingId", required = true) String bookingId, Model model) {
+		final BookingData form = new BookingData();	
+		Optional<BookingDetailsDTO> existingBooking = bookingService.getBookingDetailsById(bookingId);
+		if (existingBooking.isPresent()) {
+			form.addExistingBooking(existingBooking.get());
+		}
+		model.addAttribute("form", form);
+		
+		List<RoomCategoryDTO> roomCategories = roomCategoryService.getAllRoomCategoriesDTO();
+		model.addAttribute("roomCategories", roomCategories);	
+		
+		return EDIT_BOOKING_VIEW;
 	}
 	
 	

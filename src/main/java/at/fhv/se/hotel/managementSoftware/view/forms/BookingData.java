@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.hibernate.tool.schema.internal.exec.ScriptSourceInputNonExistentImpl;
+
+import at.fhv.se.hotel.managementSoftware.application.dto.BookingDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 
 public class BookingData {
@@ -53,6 +57,21 @@ public class BookingData {
 		this.city = existingCustomer.getAddress().getCity();
 		this.postcode = existingCustomer.getAddress().getPostCode();
 		this.country = existingCustomer.getAddress().getCountry();
+	}
+	
+	public void addExistingBooking(BookingDetailsDTO existingBooking) {
+		addExistingCustomer(existingBooking.getCustomer());
+		this.checkInDate = existingBooking.getCheckInDate().toString();
+		this.checkOutDate = existingBooking.getCheckOutDate().toString();
+		this.guestCount = existingBooking.getGuestCount();
+		this.creditCardNumber = existingBooking.getCreditCardNumber();
+		this.creditCardValid = existingBooking.getCreditCardValid();
+		for (RoomCategory cat : existingBooking.getCategoryCount().keySet()) {
+			this.categoryValues.add(cat.getCategoryID().getId());
+		}
+		for (Integer integer : existingBooking.getCategoryCount().values()) {
+			this.categoryAmounts.add(integer);
+		}
 	}
 	
 	public String getCustomerId() {
