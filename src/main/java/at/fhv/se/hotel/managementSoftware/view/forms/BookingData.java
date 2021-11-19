@@ -10,6 +10,7 @@ import org.hibernate.tool.schema.internal.exec.ScriptSourceInputNonExistentImpl;
 import at.fhv.se.hotel.managementSoftware.application.dto.BookingDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
+import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
@@ -31,6 +32,7 @@ public class BookingData {
 	private String postcode;
 	private String country;
 	
+	private String bookingId;
 	private String checkInDate;
 	private String checkOutDate;
 	private int guestCount;
@@ -72,6 +74,7 @@ public class BookingData {
 		for (Integer integer : existingBooking.getCategoryCount().values()) {
 			this.categoryAmounts.add(integer);
 		}
+		this.bookingId = existingBooking.getBookingId().getId(); 
 	}
 	
 	public String getCustomerId() {
@@ -238,6 +241,15 @@ public class BookingData {
 
 	public void setCreditCardNumber(String creditCardNumber) {
 		this.creditCardNumber = creditCardNumber;
+	}
+
+	public String getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(String bookingId) {
+		this.bookingId = bookingId;
 	}	
 
+	
 }

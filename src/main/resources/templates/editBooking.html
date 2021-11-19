@@ -30,6 +30,7 @@
         <p class="fs-3">Edit Booking</p>
         <form class="new_booking row" action="#" th:object="${form}" th:action="@{/editBooking}" method="post">
         	<input class="form-control d-none" type="text" th:field="*{customerId}">
+        	<input class="form-control d-none" type="text" th:field="*{bookingId}">
             <div class="col-6">
                 <p class="fs-5">Customer information</p>
                 <div class="form-row row my-2">
@@ -116,8 +117,8 @@
                     <label for="categoryList">Edit Category</label><br>
                      <div class="categoryEntry form-row row mb-1" th:each="cat, itemStat: ${form.categoryValues}">
 	                   		<div class="col">
-					            <select class="form-control roomCategorys" required>
-					              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}" th:selected="${n.categoryID.getId() == cat}"></option>
+					            <select class="form-control roomCategorys" th:field="${form.categoryValues[__${itemStat.index}__]}" required>
+					              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}"></option>
 					            </select>
 					        </div>
 					        <div class="col">

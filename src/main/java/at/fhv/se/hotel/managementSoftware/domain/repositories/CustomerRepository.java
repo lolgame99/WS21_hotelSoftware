@@ -13,4 +13,5 @@ public interface CustomerRepository {
 	public Optional<Customer> getCustomerById(CustomerId id);
 	public void addCustomer(Customer customer);
 	public CustomerId nextIdentity();
+	public void deleteCustomerById(CustomerId id);
 }

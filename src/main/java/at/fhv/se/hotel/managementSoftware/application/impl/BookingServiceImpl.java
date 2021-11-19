@@ -90,7 +90,7 @@ public class BookingServiceImpl implements BookingService{
 					bookingData.getPhoneNumber(),
 					bookingData.getGender()
 					));
-			if (bookingData.getMiddleName() != null) {
+			if (bookingData.getMiddleName() != "") {
 				customer.get().addMiddleName(bookingData.getMiddleName());
 			}
 		}
@@ -150,13 +150,10 @@ public class BookingServiceImpl implements BookingService{
 	@Override
 	public void updateBooking(BookingData bookingData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate,
 			LocalDate convertedBirthDate) throws Exception {
-		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(bookingData.getCustomerId()));
-		if (convertedBirthDate == null) {
-			convertedBirthDate = customer.get().getBirthdate();
-		}
-		CustomerId oldCustomerId = customer.get().getCustomerId();
-		customer = Optional.of(Customer.create(
-				customerRepository.nextIdentity(),
+		CustomerId oldCustomerId = new CustomerId(bookingData.getCustomerId());
+		customerRepository.deleteCustomerById(oldCustomerId);
+		Customer customer = Customer.create(
+				oldCustomerId,
 				bookingData.getFirstName(),
 				bookingData.getLastName(),
 				convertedBirthDate,
@@ -164,11 +161,36 @@ public class BookingServiceImpl implements BookingService{
 				bookingData.getEmail(),
 				bookingData.getPhoneNumber(),
 				bookingData.getGender()
-				));
-		if (bookingData.getMiddleName() != null) {
-			customer.get().addMiddleName(bookingData.getMiddleName());
+				);
+		if (bookingData.getMiddleName() != "") {
+			customer.addMiddleName(bookingData.getMiddleName());
 		}
 		
+		HashMap<RoomCategory, Integer> categoryCount = new HashMap<RoomCategory, Integer>();
+		for (int i = 0; i < bookingData.getCategoryValues().size(); i++) {
+			if(categoryCount.containsKey(roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get())) {
+				throw new InvalidBookingException("Booking could not be created <br> The same category can't be selected more than once");
+			}
+			categoryCount.put(
+					roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get(), 
+					bookingData.getCategoryAmounts().get(i));
+		}
+		
+		BookingId oldBookingId = new BookingId(bookingData.getBookingId());
+		bookingRepository.deleteBookingById(oldBookingId);
+		Booking booking = Booking.create(
+				oldBookingId,
+				convertedCheckInDate,
+				convertedCheckOutDate,
+				bookingData.getCreditCardNumber(),
+				bookingData.getCreditCardValid(),
+				oldCustomerId,
+				bookingData.getGuestCount(),
+				BookingStatus.PAID,
+				categoryCount);
+		
+		customerRepository.addCustomer(customer);
+		bookingRepository.addBooking(booking);
 	}
 	
 	

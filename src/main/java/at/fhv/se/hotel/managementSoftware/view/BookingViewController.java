@@ -82,6 +82,17 @@ public class BookingViewController {
 		return CREATE_BOOKING_VIEW;
 	}
 	
+	@PostMapping(CREATE_BOOKING_URL)
+	public ModelAndView createBookingPost(@ModelAttribute BookingData form, Model model, HttpServletRequest request) {
+		try {
+			bookingService.addBookingFromData(form, dateStringConverter(form.getCheckInDate()), dateStringConverter(form.getCheckOutDate()), dateStringConverter(form.getBirthdate()));
+		} catch (Exception e) {
+			request.setAttribute("msg", e.getMessage());
+			return new ModelAndView("forward:"+ERROR_URL);
+		}
+		return new ModelAndView("redirect:" + DASHBOARD_URL);
+	}
+	
 	@GetMapping(EDIT_BOOKING_URL)
 	public String editBooking(@RequestParam(value = "bookingId", required = true) String bookingId, Model model) {
 		final BookingData form = new BookingData();	
@@ -97,15 +108,15 @@ public class BookingViewController {
 		return EDIT_BOOKING_VIEW;
 	}
 	
-	
-	@PostMapping(CREATE_BOOKING_URL)
-	public ModelAndView createBookingPost(@ModelAttribute BookingData form, Model model, HttpServletRequest request) {
+	@PostMapping(EDIT_BOOKING_URL)
+	public ModelAndView editBookingPost(@ModelAttribute BookingData form, Model model, HttpServletRequest request) {
 		try {
-			bookingService.addBookingFromData(form, dateStringConverter(form.getCheckInDate()), dateStringConverter(form.getCheckOutDate()), dateStringConverter(form.getBirthdate()));
+			bookingService.updateBooking(form, dateStringConverter(form.getCheckInDate()), dateStringConverter(form.getCheckOutDate()), dateStringConverter(form.getBirthdate()));
 		} catch (Exception e) {
 			request.setAttribute("msg", e.getMessage());
 			return new ModelAndView("forward:"+ERROR_URL);
 		}
+		
 		return new ModelAndView("redirect:" + DASHBOARD_URL);
 	}
 	
