@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
@@ -16,7 +17,13 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="/" class="nav-link active">Dashboard</a></li>
             <li class="nav-item"><a href="/booking" class="nav-link">Create Booking</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Customer</a></li>
+            <li class="nav-item dropdown">
+            	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stay</a>
+            	<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            		<li><a class="dropdown-item" href="/stay/create">Create Stay</a>
+            		<li><a class="dropdown-item" href="/stay">Overview</a>
+            	</ul>
+            </li>
             <li class="nav-item"><a href="#" class="nav-link">Rooms</a></li>
             <li class="nav-item"><a href="#" class="nav-link">Bill</a></li>
         </ul>
@@ -47,31 +54,45 @@
           </tr>
         </thead>
       <tbody class="bookingTable">
-        <tr th:each="n : ${bookings}">
-          <td class="text-center"th:inline="text">[[${n.customer.firstName}+' '+${n.customer.lastName}]]<br><small th:text="${#temporals.format(n.customer.birthdate, 'dd-MM-yyyy')}"></small></td>
-          <td class="text-center" th:text="${n.guestCount}"></td>
-          <td class="text-center" th:text="${n.roomCount}"></td>
-          <td class="text-center"><input class="form-check-input" type="checkbox" id="confirmed" name="confirmed" value""></td>
-          <td class="text-center"><a href="#">Edit</a> <a href="#" data-bs-toggle="modal" data-bs-target="#deleteBooking">Delete</a></td>
-        </tr>
+      	<th:block th:each="n,itemStat: ${bookings}">
+      		<tr>
+	          <td th:if="${n.customer.middleName  == null}" class="text-center"th:inline="text">[[${n.customer.firstName}+' '+${n.customer.lastName}]]<br><small th:text="${#temporals.format(n.customer.birthdate, 'dd-MM-yyyy')}"></small></td>
+	          <td th:if="${n.customer.middleName  != null}" class="text-center"th:inline="text">[[${n.customer.firstName}+' '+${n.customer.middleName}+ ' '+${n.customer.lastName}]]<br><small th:text="${#temporals.format(n.customer.birthdate, 'dd-MM-yyyy')}"></small></td>
+	          <td class="text-center" th:text="${n.guestCount}"></td>
+	          <td class="text-center" th:text="${n.roomCount}"></td>
+	          <td class="text-center"><input class="form-check-input arrivedBtn" type="checkbox" id="confirmed" name="confirmed" th:checked="${n.bookingStatus.toString()} == ARRIVED" th:disabled="${n.bookingStatus.toString()} == ARRIVED" th:attr="data-bookingId=${n.bookingId.getId()}"></td>
+	          <td class="text-center"><a href="#" class="btn btn-default btn-sm" data-bs-toggle="collapse" th:href="@{#multiCollapseExample__${itemStat.index}__}"><i class="bi bi-eye-fill"></i></a><a th:href="@{/editBooking?bookingId=__${n.bookingId.getId()}__}" class="btn btn-default btn-sm"><i class="bi bi-gear-fill"></i></a></td>
+	        </tr>
+	        <tr>
+	        	<td th:if="${n.customer.middleName  == null}" class="text-center d-none" th:inline="text">[[${n.customer.firstName}+' '+${n.customer.lastName}]]<br><small th:text="${#temporals.format(n.customer.birthdate, 'dd-MM-yyyy')}"></small></td>
+	          <td th:if="${n.customer.middleName  != null}" class="text-center d-none" th:inline="text">[[${n.customer.firstName}+' '+${n.customer.middleName}+ ' '+${n.customer.lastName}]]<br><small th:text="${#temporals.format(n.customer.birthdate, 'dd-MM-yyyy')}"></small></td>
+	        	<td colspan="5" style="padding: 0 !important;">
+	             <div class="collapse multi-collapse container" th:id="@{multiCollapseExample__${itemStat.index}__}">
+	                 <div class="card card-body row" style="flex-direction: row;">
+	                 	<div class="col">
+	                         <span class="fw-bold">Address:</span><br>
+	                         <span th:text="${n.customer.address.streetName}"></span> <span th:text="${n.customer.address.streetNumber}"></span><br>
+	                         <span th:text="${n.customer.address.postCode}"></span> <span th:text="${n.customer.address.city}"></span><br>
+	                         <span th:text="${n.customer.address.country}"></span><br>
+	                     </div>
+	                     <div class="col">
+	                         <span class="fw-bold">Rooms Category:</span>
+	                         <ul class="list-group list-group-flush">
+	                         	<th:block th:each="cc : ${n.categoryCount}">
+	                         		 <li class="list-group-item" th:text="${cc.key.categoryName}+': '+${cc.value.toString()}"></li>
+	                         	</th:block>
+	                         </ul>
+	                     </div>
+	                     <div class="col">
+	                         <span class="fw-bold">Credit card number:</span>
+	                         <p th:text="${n.creditCardNumber}"></p>
+	                     </div>
+	                 </div>
+	             </div>
+	         	</td>
+		     </tr>
+      	</th:block>
       </tbody>
-    </div>
-
-    <div class="modal fade" id="deleteBooking" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteBooking">Confirm</h5>
-                </div>
-                <div class="modal-body">
-                  <p>Are your sure you want to delete this booking?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
-                </div>
-            </div>
-        </div>
     </div>
   </body>
 </html>

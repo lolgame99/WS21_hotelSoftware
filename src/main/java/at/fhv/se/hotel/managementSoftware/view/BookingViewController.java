@@ -19,11 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 import at.fhv.se.hotel.managementSoftware.application.api.BookingService;
 import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomCategoryService;
+import at.fhv.se.hotel.managementSoftware.application.dto.BookingDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
-import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 import at.fhv.se.hotel.managementSoftware.view.forms.BookingData;
 
 @Controller
@@ -31,11 +31,13 @@ public class BookingViewController {
 	
 	
 	private static final String CREATE_BOOKING_URL = "/booking";
+	private static final String EDIT_BOOKING_URL = "/editBooking";
 	private static final String DASHBOARD_URL ="/";
 	private static final String ERROR_URL = "/error";
 	
 	private static final String DASHBOARD_VIEW ="dashboard";
 	private static final String CREATE_BOOKING_VIEW ="createBooking";
+	private static final String EDIT_BOOKING_VIEW ="editBooking";
 	private static final String ERROR_VIEW ="error";
 	
 
@@ -48,11 +50,11 @@ public class BookingViewController {
 	
 	@GetMapping(DASHBOARD_URL)
     public String customer(@RequestParam(value = "date", required = false) String date, Model model) {		
-		List<BookingOverviewDTO> bookingOverviews = new ArrayList<>();
+		List<BookingDetailsDTO> bookingOverviews = new ArrayList<>();
 		if(date != null) {
-			bookingOverviews = bookingService.getBookingsByDate(bookingService.dateStringConverter(date));
+			bookingOverviews = bookingService.getReadyBookingsByDate(dateStringConverter(date));
 		}else {
-			bookingOverviews = bookingService.getBookingsByDate(LocalDate.now());
+			bookingOverviews = bookingService.getReadyBookingsByDate(LocalDate.now());
 		}
 		
         model.addAttribute("bookings", bookingOverviews);
@@ -77,20 +79,44 @@ public class BookingViewController {
 		List<CustomerOverviewDTO> customers = customerService.getAllCustomersOverview();
 		model.addAttribute("customers", customers);
 		
-		
-		
 		return CREATE_BOOKING_VIEW;
 	}
-	
 	
 	@PostMapping(CREATE_BOOKING_URL)
 	public ModelAndView createBookingPost(@ModelAttribute BookingData form, Model model, HttpServletRequest request) {
 		try {
-			bookingService.addBookingFromData(form);
-		} catch (InvalidBookingException e) {
+			bookingService.addBookingFromData(form, dateStringConverter(form.getCheckInDate()), dateStringConverter(form.getCheckOutDate()), dateStringConverter(form.getBirthdate()));
+		} catch (Exception e) {
 			request.setAttribute("msg", e.getMessage());
 			return new ModelAndView("forward:"+ERROR_URL);
 		}
+		return new ModelAndView("redirect:" + DASHBOARD_URL);
+	}
+	
+	@GetMapping(EDIT_BOOKING_URL)
+	public String editBooking(@RequestParam(value = "bookingId", required = true) String bookingId, Model model) {
+		final BookingData form = new BookingData();	
+		Optional<BookingDetailsDTO> existingBooking = bookingService.getBookingDetailsById(bookingId);
+		if (existingBooking.isPresent()) {
+			form.addExistingBooking(existingBooking.get());
+		}
+		model.addAttribute("form", form);
+		
+		List<RoomCategoryDTO> roomCategories = roomCategoryService.getAllRoomCategoriesDTO();
+		model.addAttribute("roomCategories", roomCategories);	
+		
+		return EDIT_BOOKING_VIEW;
+	}
+	
+	@PostMapping(EDIT_BOOKING_URL)
+	public ModelAndView editBookingPost(@ModelAttribute BookingData form, Model model, HttpServletRequest request) {
+		try {
+			bookingService.updateBooking(form, dateStringConverter(form.getCheckInDate()), dateStringConverter(form.getCheckOutDate()), dateStringConverter(form.getBirthdate()));
+		} catch (Exception e) {
+			request.setAttribute("msg", e.getMessage());
+			return new ModelAndView("forward:"+ERROR_URL);
+		}
+		
 		return new ModelAndView("redirect:" + DASHBOARD_URL);
 	}
 	
@@ -100,5 +126,26 @@ public class BookingViewController {
 		model.addAttribute("msg", msg);
         return ERROR_VIEW;
     }
+	
+	/* Splits Date String into Array for further processing
+	 * splitArray[0] = year
+	 * splitArray[1] = month
+	 * splitArray[2] = day
+	 */
+	private LocalDate dateStringConverter(String date) {
+		String[] splitStringArray = null;
+		int[] splitIntArray = new int[3];
+		if (date != null) {
+			splitStringArray = date.split("-");
+			for (int i = 0; i < splitStringArray.length; i++) {
+				splitIntArray[i] = Integer.parseInt(splitStringArray[i]);
+			}
+			return LocalDate.of(splitIntArray[0], splitIntArray[1], splitIntArray[2]);
+		}else {
+			return null;
+		}
+		
+		
+	}
 	  
 }

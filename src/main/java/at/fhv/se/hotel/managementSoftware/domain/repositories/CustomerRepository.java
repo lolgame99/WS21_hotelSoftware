@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
+import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 
 
 public interface CustomerRepository {
 	public List<Customer> getAllCustomers();
-	public Optional<Customer> getCustomerById(String id);
+	public Optional<Customer> getCustomerById(CustomerId id);
 	public void addCustomer(Customer customer);
-	public String nextIdentity();
+	public CustomerId nextIdentity();
+	public void deleteCustomerById(CustomerId id);
 }
