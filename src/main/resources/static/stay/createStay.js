@@ -1,27 +1,35 @@
 $(document).ready(function(){
-	var categoryCounter = 0;
+	let categoryCounter = 0;
 	
-	var now = new Date();
-	var day = ("0" + now.getDate()).slice(-2);
-	var month = ("0" + (now.getMonth() + 1)).slice(-2);
-	var today = now.getFullYear()+"-"+(month)+"-"+(day);
+	let now = new Date();
+	let day = ("0" + now.getDate()).slice(-2);
+	let month = ("0" + (now.getMonth() + 1)).slice(-2);
+	let today = now.getFullYear()+"-"+(month)+"-"+(day);
 	
 	$('input[name=checkInDate]').val(today);
 	$('input[name=checkInDate]').prop('disabled',true);
+		
+	if($(".roomSelection").find(".roomCategorys").length > 0){
+		categoryCounter = 0;
+		$(".roomSelection").find(".roomNumber").each(function(){
+			$(this).attr("name","roomNumbers["+ categoryCounter+"]");
+			categoryCounter++;
+		});
+	}
 	
     $(".addCategoryBtn").click(function(){
-        var newCategoryEntry = $('.categoryEntryEmpty').clone();
-        newCategoryEntry.removeClass("categoryEntryEmpty d-none");
-		newCategoryEntry.addClass("categoryEntry");
-		newCategoryEntry.find(".categoryAmounts")[0].setAttribute("name","categoryAmounts["+ categoryCounter+"]");
-		newCategoryEntry.find(".categoryValues")[0].setAttribute("name","categoryValues["+ categoryCounter+"]");
-        $(this).before(newCategoryEntry);
+        let newCategoryEntry = $('.roomEntryEmpty').clone();
+        newCategoryEntry.removeClass("roomEntryEmpty d-none");
+		newCategoryEntry.addClass("roomEntry");
+		newCategoryEntry.find(".roomCategorys")[0].setAttribute("name","roomCategorys["+ categoryCounter+"]");
+		newCategoryEntry.find(".roomNumber")[0].setAttribute("name","roomNumbers["+ categoryCounter+"]");
+       	$(this).before(newCategoryEntry);
 		categoryCounter++;
     });
 
 	$(".removeCategoryBtn").click(function(){
 		categoryCounter--;
-        $(".categoryEntry").last().remove();
+        $(".roomEntry").last().remove();
     });
 
 	$("input[type=radio][name=guest]").change(function() {

@@ -1,7 +1,9 @@
 package at.fhv.se.hotel.managementSoftware.application.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
@@ -15,14 +17,15 @@ public class StayDetailsDTO {
 	private LocalDate checkOutDate;
 	private int guestCount;
 	private String creditCardNumber; 
-	private BookingDetailsDTO booking;
+	private Optional<BookingDetailsDTO> booking;
 	private CustomerDetailsDTO customer;
 	private GuestDetailsDTO guest;
+	private List<RoomAssignmentDTO> roomAssignments;
 	
 	private StayDetailsDTO() {
 	}
 	
-	public static StayDetailsDTO createFromStay(Stay stay, BookingDetailsDTO booking, CustomerDetailsDTO customer, GuestDetailsDTO guest) {
+	public static StayDetailsDTO createFromStay(Stay stay, Optional<BookingDetailsDTO> booking, CustomerDetailsDTO customer, GuestDetailsDTO guest, List<RoomAssignmentDTO> assignments) {
 		StayDetailsDTO dto = new StayDetailsDTO();
 		dto.stayId = stay.getStayId();
 		dto.checkInDate = stay.getCheckInDate();
@@ -32,6 +35,7 @@ public class StayDetailsDTO {
 		dto.booking = booking;
 		dto.customer = customer;
 		dto.guest = guest;
+		dto.roomAssignments = assignments;
 		return dto;
 	}
 
@@ -55,7 +59,7 @@ public class StayDetailsDTO {
 		return creditCardNumber;
 	}
 
-	public BookingDetailsDTO getBooking() {
+	public Optional<BookingDetailsDTO> getBooking() {
 		return booking;
 	}
 
@@ -66,4 +70,14 @@ public class StayDetailsDTO {
 	public GuestDetailsDTO getGuest() {
 		return guest;
 	}
+
+	public int getGuestCount() {
+		return guestCount;
+	}
+
+	public List<RoomAssignmentDTO> getRoomAssignments() {
+		return roomAssignments;
+	}
+	
+	
 }

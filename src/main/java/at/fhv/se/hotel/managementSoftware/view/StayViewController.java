@@ -80,6 +80,7 @@ public class StayViewController {
 			}
 		}
 		model.addAttribute("form", form);
+		model.addAttribute("counter", 0);
 		
 		List<RoomCategoryDTO> roomCategories = roomCategoryService.getAllRoomCategoriesDTO();
 		model.addAttribute("roomCategories", roomCategories);

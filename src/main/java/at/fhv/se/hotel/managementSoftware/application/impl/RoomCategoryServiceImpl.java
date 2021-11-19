@@ -14,7 +14,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
 
 @Component
-public class RoomCategoryImpl implements RoomCategoryService{
+public class RoomCategoryServiceImpl implements RoomCategoryService{
 
 	@Autowired
 	private RoomCategoryRepository roomCategoryRepository;

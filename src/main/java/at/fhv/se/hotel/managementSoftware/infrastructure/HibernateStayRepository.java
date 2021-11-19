@@ -3,6 +3,7 @@ package at.fhv.se.hotel.managementSoftware.infrastructure;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -41,6 +42,17 @@ public class HibernateStayRepository implements StayRepository{
 	@Override
 	public StayId nextIdentity() {
 		return new StayId(UUID.randomUUID().toString().toUpperCase());
+	}
+
+	@Override
+	public Optional<Stay> getStayById(StayId id) {
+		Optional<Stay> stay = Optional.empty();
+		for (Stay s : stays) {
+			if (s.getStayId().getId().equals(id.getId())) {
+				stay = Optional.of(s);
+			}
+		}
+		return stay;
 	}
 	
 }

@@ -31,7 +31,7 @@ $(document).ready(function(){
 	
 	$(".arrivedBtn").change(function() {
 		var baseUrl = window.location.href.split("?")[0];
-		baseUrl += "/stay/create"
+		baseUrl += "stay/create"
 		$(location).attr('href',baseUrl+"?bookingId="+$(this).data("bookingid"));
 	});
 

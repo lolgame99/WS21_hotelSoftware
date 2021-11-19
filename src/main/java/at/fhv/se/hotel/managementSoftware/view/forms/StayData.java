@@ -9,6 +9,7 @@ import at.fhv.se.hotel.managementSoftware.application.dto.BookingDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 
 public class StayData {
@@ -42,7 +43,10 @@ public class StayData {
 	private String guestPhoneNumber;
 	
 	private List<String> categoryValues= new ArrayList<String>();
-	private List<String> roomValues= new ArrayList<String>();
+	private List<String> categoryCount= new ArrayList<String>();
+	
+	private List<String> roomCategorys = new ArrayList<String>();
+	private List<String> roomNumbers = new ArrayList<String>();
 
 	public StayData() {
 	}
@@ -71,6 +75,18 @@ public class StayData {
 		this.guestCount = existingBooking.getGuestCount();
 		this.creditCardNumber = existingBooking.getCreditCardNumber();
 		this.creditCardValid = existingBooking.getCreditCardValid();
+		
+		for (RoomCategory cat : existingBooking.getCategoryCount().keySet()) {
+			categoryValues.add(cat.getCategoryID().getId());
+		}
+		for (Integer integer : existingBooking.getCategoryCount().values()) {
+			categoryCount.add(integer.toString());
+		}
+		for (int i = 0; i < categoryValues.size(); i++) {
+			for (int j = 0; j < Integer.parseInt(categoryCount.get(i)); j++) {
+				roomCategorys.add(categoryValues.get(i));
+			}
+		}
 	}
 	
 	
@@ -262,14 +278,6 @@ public class StayData {
 		this.creditCardNumber = creditCardNumber;
 	}
 
-	public List<String> getRoomValues() {
-		return roomValues;
-	}
-
-	public void setRoomValues(List<String> roomValues) {
-		this.roomValues = roomValues;
-	}
-
 	public String getGuestMiddleName() {
 		return guestMiddleName;
 	}
@@ -284,6 +292,30 @@ public class StayData {
 
 	public void setGuest(String guest) {
 		this.guest = guest;
+	}
+
+	public List<String> getCategoryCount() {
+		return categoryCount;
+	}
+
+	public void setCategoryCount(List<String> categoryCount) {
+		this.categoryCount = categoryCount;
+	}
+
+	public List<String> getRoomCategorys() {
+		return roomCategorys;
+	}
+
+	public void setRoomCategorys(List<String> roomCategorys) {
+		this.roomCategorys = roomCategorys;
+	}
+
+	public List<String> getRoomNumbers() {
+		return roomNumbers;
+	}
+
+	public void setRoomNumbers(List<String> roomNumbers) {
+		this.roomNumbers = roomNumbers;
 	}
 	
 	
