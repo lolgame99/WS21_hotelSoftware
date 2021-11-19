@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import at.fhv.se.hotel.managementSoftware.application.api.BookingService;
 import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomCategoryService;
+import at.fhv.se.hotel.managementSoftware.application.dto.BookingDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.BookingOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
@@ -47,7 +48,7 @@ public class BookingViewController {
 	
 	@GetMapping(DASHBOARD_URL)
     public String customer(@RequestParam(value = "date", required = false) String date, Model model) {		
-		List<BookingOverviewDTO> bookingOverviews = new ArrayList<>();
+		List<BookingDetailsDTO> bookingOverviews = new ArrayList<>();
 		if(date != null) {
 			bookingOverviews = bookingService.getReadyBookingsByDate(dateStringConverter(date));
 		}else {
