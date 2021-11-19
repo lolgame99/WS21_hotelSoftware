@@ -43,4 +43,15 @@ public class HibernateCustomerRepository implements CustomerRepository{
 		return new CustomerId(UUID.randomUUID().toString().toUpperCase());
 	}
 
+	@Override
+	public void deleteCustomerById(CustomerId id) {
+		Customer toDelete = null;
+		for (Customer cus : customers) {
+			if(cus.getCustomerId().getId().equals(id.getId())) {
+				toDelete = cus;
+			}
+		}
+		customers.remove(toDelete);
+	}
+
 }

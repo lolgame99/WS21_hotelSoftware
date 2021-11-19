@@ -17,6 +17,7 @@ public class BookingDetailsDTO {
 	private CustomerDetailsDTO customer;
 	private int guestCount;
 	private BookingStatus bookingStatus;
+	private int roomCount;
 
 	private HashMap<RoomCategory, Integer> categoryCount;
 	
@@ -24,7 +25,13 @@ public class BookingDetailsDTO {
 	}
 	
 	public static BookingDetailsDTO createFromBooking(Booking booking, CustomerDetailsDTO customer) {
+		int totalRoomCount = 0;
+		for(int categoryCount : booking.getCategoryCount().values()) {
+			totalRoomCount += categoryCount;
+		}
+		
 		BookingDetailsDTO dto = new BookingDetailsDTO();
+		dto.roomCount = totalRoomCount;
 		dto.bookingId = booking.getBookingId();
 		dto.checkInDate = booking.getCheckInDate();
 		dto.checkOutDate = booking.getCheckOutDate();
@@ -72,5 +79,10 @@ public class BookingDetailsDTO {
 	public String getCreditCardValid() {
 		return creditCardValid;
 	}
+
+	public int getRoomCount() {
+		return roomCount;
+	}
+	
 	
 }

@@ -7,13 +7,13 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	<script src="createBooking.js" type="text/javascript"></script>
+	<script src="js/createBooking.js" type="text/javascript"></script>
 </head>
 
 <body>
 	<header class="d-flex justify-content-center py-3 bg-light">
         <ul class="nav nav-pills">
-            <li class="nav-item"><a href="/" class="nav-link active">Dashboard</a></li>
+            <li class="nav-item"><a href="/" class="nav-link">Dashboard</a></li>
             <li class="nav-item"><a href="/booking" class="nav-link">Create Booking</a></li>
             <li class="nav-item dropdown">
             	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stay</a>
@@ -28,71 +28,71 @@
     </header>
      <div class="content container my-3">
         <p class="fs-3">Edit Booking</p>
-        <form class="new_booking row" action="#" th:object="${form}" th:action="@{/booking}" method="post">
+        <form class="new_booking row" action="#" th:object="${form}" th:action="@{/editBooking}" method="post">
         	<input class="form-control d-none" type="text" th:field="*{customerId}">
+        	<input class="form-control d-none" type="text" th:field="*{bookingId}">
             <div class="col-6">
                 <p class="fs-5">Customer information</p>
-                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#customerSelection">Add existing customer</button>
                 <div class="form-row row my-2">
                     <div class="col">
                         <label class="form-label" for="firstName">First name</label><br>
-                        <input class="form-control" type="text" th:field="*{firstName}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{firstName}" required>
                     </div>
                     <div class="col">
                         <label class="form-label" for="middleName">Middle name</label><br>
-                        <input class="form-control" type="text" th:field="*{middleName}" th:disabled="*{customerId != null}">
+                        <input class="form-control" type="text" th:field="*{middleName}" >
                     </div>
                     <div class="col">
                         <label class="form-label" for="lastName">Last name</label><br>
-                        <input class="form-control" type="text" th:field="*{lastName}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{lastName}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
                     <div class="col">
                         <label class="form-label" for="gender">Gender</label><br>
-                        <select class="form-control" th:field="*{gender}" th:disabled="*{customerId != null}" required>
+                        <select class="form-control" th:field="*{gender}"  required>
 			                <option th:each="n : ${T(at.fhv.se.hotel.managementSoftware.domain.enums.Gender).values()}" th:text="${n.displayValue}" th:value="${n}" ></option>
 			            </select>
                     </div>
                     <div class="col">
                         <label class="form-label" for="birthdate">Birthdate</label><br>
-                        <input class="form-control" type="date" th:field="*{birthdate}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="date" th:field="*{birthdate}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
                     <div class="col">
                         <label class="form-label" for="email">Email</label><br>
-                        <input class="form-control" type="text" th:field="*{email}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{email}" required>
                     </div>
                     <div class="col">
                         <label class="form-label" for="phoneNumber">Phone number</label><br>
-                        <input class="form-control" type="text" th:field="*{phoneNumber}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{phoneNumber}" required>
                     </div>
                 </div>
                 <hr>
                 <div class="form-row row mb-2">
                     <div class="col-8">
                         <label class="form-label" for="streetName">Street name</label><br>
-                        <input class="form-control" type="text" th:field="*{streetName}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{streetName}" required>
                     </div>
                     <div class="col-4">
                         <label class="form-label" for="streetNumber">Street number</label><br>
-                        <input class="form-control" type="text" th:field="*{streetNumber}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{streetNumber}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
                     <div class="col-8">
                         <label class="form-label" for="city">City</label><br>
-                        <input class="form-control" type="text" th:field="*{city}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{city}" required>
                     </div>
                     <div class="col-4">
                         <label class="form-label" for="postcode">Postcode</label><br>
-                        <input class="form-control" type="text" th:field="*{postcode}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{postcode}" required>
                     </div>
                 </div>
                 <div class="form-row mb-2">
                     <label class="form-label" for="country">Country</label><br>
-                    <select class="form-control" th:field="*{country}" th:disabled="*{customerId != null}" required>
+                    <select class="form-control" th:field="*{country}" required>
                     	<option value="null" hidden>Select country...</option>
 						<option value="Germany">Germany</option>
 						<option value="Austria">Austria</option>
@@ -115,8 +115,18 @@
                 </div>
                 <div class="form-row mb-2">
                     <label for="categoryList">Edit Category</label><br>
-                    <button type="button" class="btn btn-secondary addCategoryBtn">+</button>
-                    <button type="button" class="btn btn-secondary removeCategoryBtn">-</button>
+                     <div class="categoryEntry form-row row mb-1" th:each="cat, itemStat: ${form.categoryValues}">
+	                   		<div class="col">
+					            <select class="form-control roomCategorys" th:field="${form.categoryValues[__${itemStat.index}__]}" required>
+					              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}"></option>
+					            </select>
+					        </div>
+					        <div class="col">
+					        	<input class="form-control categoryAmounts" th:field="${form.categoryAmounts[__${itemStat.index}__]}" type="text" required>
+					        </div>
+					 </div>
+					 <button type="button" class="btn btn-secondary addCategoryBtn">+</button>
+                     <button type="button" class="btn btn-secondary removeCategoryBtn">-</button>
                 </div>
                 <div class="form-row mb-2">
                     <label class="form-label" for="guestCount">Number of Guests</label><br>
@@ -132,6 +142,12 @@
                         <input class="form-control" type="text" id="creditCardExpiration" th:field="*{creditCardValid}" placeholder="MM/YY" required>
                     </div>
             	</div>
+            	<div class="form-row mb-2">
+                	<label class="form-label" for="bookingStatus">Booking Status</label><br>
+                	<select class="form-control" th:field="*{bookingStatus}"  required>
+			        	<option th:each="n : ${T(at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus).values()}" th:text="${n.displayValue}" th:value="${n}" ></option>
+			        </select>
+                </div>
             
           
             </div>
@@ -143,7 +159,7 @@
     </div>
   
 
-    <!-- Customer Selection Modal -->
+   <!--  <!-- Customer Selection Modal 
     <div class="modal fade" id="customerSelection" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -154,7 +170,7 @@
                 <div class="modal-body">
                     <input class="form-control mb-3" type="text" id="customerSearch" placeholder="search here...">
                     <ul class="list-group customerList">
-                        <!-- Dynamically load all customer -->
+                        Dynamically load all customer
                         <li class="list-group-item" th:each="n : ${customers}">
                         	<a th:href="@{/booking(customerId=${n.customerId})}" th:text="${n.firstName}+' '+${n.lastName}"></a>
                         </li>
@@ -166,7 +182,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 	
     <div class="categoryEntryEmpty d-none form-row row mb-1">

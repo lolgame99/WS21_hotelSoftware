@@ -1,5 +1,6 @@
 $(document).ready(function(){
-	var categoryCounter = 0;
+	var categoryCounter = 0 + $(".categoryEntry").length;
+	
 	
     $(".addCategoryBtn").click(function(){
         var newCategoryEntry = $('.categoryEntryEmpty').clone();
