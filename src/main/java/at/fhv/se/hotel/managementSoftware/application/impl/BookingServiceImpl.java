@@ -186,7 +186,7 @@ public class BookingServiceImpl implements BookingService{
 				bookingData.getCreditCardValid(),
 				oldCustomerId,
 				bookingData.getGuestCount(),
-				BookingStatus.PAID,
+				bookingData.getBookingStatus(),
 				categoryCount);
 		
 		customerRepository.addCustomer(customer);

@@ -9,6 +9,7 @@ import org.hibernate.tool.schema.internal.exec.ScriptSourceInputNonExistentImpl;
 
 import at.fhv.se.hotel.managementSoftware.application.dto.BookingDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
+import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
@@ -33,6 +34,7 @@ public class BookingData {
 	private String country;
 	
 	private String bookingId;
+	private BookingStatus bookingStatus;
 	private String checkInDate;
 	private String checkOutDate;
 	private int guestCount;
@@ -74,7 +76,8 @@ public class BookingData {
 		for (Integer integer : existingBooking.getCategoryCount().values()) {
 			this.categoryAmounts.add(integer);
 		}
-		this.bookingId = existingBooking.getBookingId().getId(); 
+		this.bookingId = existingBooking.getBookingId().getId();
+		this.bookingStatus = existingBooking.getBookingStatus();
 	}
 	
 	public String getCustomerId() {
@@ -249,7 +252,16 @@ public class BookingData {
 
 	public void setBookingId(String bookingId) {
 		this.bookingId = bookingId;
-	}	
+	}
 
+	public BookingStatus getBookingStatus() {
+		return bookingStatus;
+	}
+
+	public void setBookingStatus(BookingStatus bookingStatus) {
+		this.bookingStatus = bookingStatus;
+	}	
+	
+	
 	
 }
