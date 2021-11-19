@@ -36,63 +36,63 @@
                 <div class="form-row row my-2">
                     <div class="col">
                         <label class="form-label" for="firstName">First name</label><br>
-                        <input class="form-control" type="text" th:field="*{firstName}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{firstName}" required>
                     </div>
                     <div class="col">
                         <label class="form-label" for="middleName">Middle name</label><br>
-                        <input class="form-control" type="text" th:field="*{middleName}" th:disabled="*{customerId != null}">
+                        <input class="form-control" type="text" th:field="*{middleName}" >
                     </div>
                     <div class="col">
                         <label class="form-label" for="lastName">Last name</label><br>
-                        <input class="form-control" type="text" th:field="*{lastName}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{lastName}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
                     <div class="col">
                         <label class="form-label" for="gender">Gender</label><br>
-                        <select class="form-control" th:field="*{gender}" th:disabled="*{customerId != null}" required>
+                        <select class="form-control" th:field="*{gender}"  required>
 			                <option th:each="n : ${T(at.fhv.se.hotel.managementSoftware.domain.enums.Gender).values()}" th:text="${n.displayValue}" th:value="${n}" ></option>
 			            </select>
                     </div>
                     <div class="col">
                         <label class="form-label" for="birthdate">Birthdate</label><br>
-                        <input class="form-control" type="date" th:field="*{birthdate}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="date" th:field="*{birthdate}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
                     <div class="col">
                         <label class="form-label" for="email">Email</label><br>
-                        <input class="form-control" type="text" th:field="*{email}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{email}" required>
                     </div>
                     <div class="col">
                         <label class="form-label" for="phoneNumber">Phone number</label><br>
-                        <input class="form-control" type="text" th:field="*{phoneNumber}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{phoneNumber}" required>
                     </div>
                 </div>
                 <hr>
                 <div class="form-row row mb-2">
                     <div class="col-8">
                         <label class="form-label" for="streetName">Street name</label><br>
-                        <input class="form-control" type="text" th:field="*{streetName}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{streetName}" required>
                     </div>
                     <div class="col-4">
                         <label class="form-label" for="streetNumber">Street number</label><br>
-                        <input class="form-control" type="text" th:field="*{streetNumber}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{streetNumber}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
                     <div class="col-8">
                         <label class="form-label" for="city">City</label><br>
-                        <input class="form-control" type="text" th:field="*{city}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{city}" required>
                     </div>
                     <div class="col-4">
                         <label class="form-label" for="postcode">Postcode</label><br>
-                        <input class="form-control" type="text" th:field="*{postcode}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="text" th:field="*{postcode}" required>
                     </div>
                 </div>
                 <div class="form-row mb-2">
                     <label class="form-label" for="country">Country</label><br>
-                    <select class="form-control" th:field="*{country}" th:disabled="*{customerId != null}" required>
+                    <select class="form-control" th:field="*{country}" required>
                     	<option value="null" hidden>Select country...</option>
 						<option value="Germany">Germany</option>
 						<option value="Austria">Austria</option>
