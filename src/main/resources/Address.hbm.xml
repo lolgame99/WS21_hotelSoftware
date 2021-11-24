@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field" default-cascade="all">
+	<class name="at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address" table="address" lazy="true">
+		<cache usage="read-write"/>
+		<id name="id" type="int" column="id" unsaved-value="-1">
+            <generator class="increment"/>
+        </id>
+		
+		<property name = "streetName" column = "street" type = "string"/>
+		<property name = "streetNumber" column = "street_number" type = "string"/>
+		<property name = "city" column = "city" type = "string"/>
+		<property name = "postCode" column = "postcode" type = "string"/>
+		<property name = "country" column = "country" type = "string"/>
+		
+	</class>
+</hibernate-mapping>

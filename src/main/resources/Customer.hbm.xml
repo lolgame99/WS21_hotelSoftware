@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field" default-cascade="all">
+	<class name="at.fhv.se.hotel.managementSoftware.domain.model.Customer" table="customer" lazy="true">
+		<cache usage="read-write"/>
+		<composite-id name="customerId" class="at.fhv.se.hotel.managementSoftware.domain.model.CustomerId">
+			<key-property name = "id" column = "id" type = "string"/>
+		</composite-id>
+		
+		<property name = "firstName" column = "first_name" type = "string"/>
+		<property name = "middleName" column = "middle_name" type = "string"/>
+		<property name = "lastName" column = "last_name" type = "string"/>
+		<property name = "birthdate" column = "birthdate" type = "string"/>
+		<property name = "email" column = "email" type = "string"/>
+		<property name = "phoneNumber" column = "phone_number" type = "string"/>
+		<property name= "gender" column="gender">
+			<type name="org.hibernate.type.EnumType">
+		    	<param name="enumClass">at.fhv.se.hotel.managementSoftware.domain.enums.Gender</param>
+			</type>       
+		</property>
+		<component name="address" class="at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address">
+            <property name="streetName" column="street" type="java.lang.String"/>
+            <property name="streetNumber" column="street_number" type="java.lang.String"/>
+            <property name="postCode" column="postcode" type="java.lang.String"/>
+            <property name="city" column="city" type="java.lang.String"/>
+            <property name="country" column="country" type="java.lang.String"/>
+        </component>
+	</class>
+</hibernate-mapping>

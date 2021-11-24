@@ -1,8 +1,12 @@
 package at.fhv.se.hotel.managementSoftware.infrastructure;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
@@ -12,41 +16,39 @@ import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
 
 @Component
+@Transactional
 public class HibernateRoomRepository implements RoomRepository {
 	
-	List<Room> rooms = new ArrayList<Room>();
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Override
 	public List<Room> getAllRooms() {
-		return rooms;
+		TypedQuery<Room> query = em.createQuery("SELECT rc FROM room r", Room.class);
+        return query.getResultList();
 	}
 
 	@Override
 	public List<Room> getAllRoomsByRoomCategory(RoomCategoryId id) {
-		List<Room> categoryRooms = new ArrayList<Room>();
-		
-		for (Room room : getAllRooms()) {
-			if (room.getCategoryId().getId().equals(id.getId())) {
-				categoryRooms.add(room);
-			}
-		}
-		return categoryRooms;
+		TypedQuery<Room> query = em.createQuery("SELECT r FROM room r WHERE r.categoryId = :id", Room.class)
+				.setParameter("id", id);
+        return query.getResultList();
 	}
 
 	@Override
 	public Optional<Room> getRoomByNumber(RoomId number) {
-		Optional<Room> room = Optional.empty();
-		for (Room r : getAllRooms()) {
-			if (r.getRoomNumber().getId().equals(number.getId())) {
-				room = Optional.of(r);
-			}
+		TypedQuery<Room> query = em.createQuery("SELECT r FROM room r WHERE r.id = :id", Room.class)
+				.setParameter("id", number);
+		List<Room> result = query.getResultList();
+		if(result.size() != 1) {
+			return Optional.empty();
 		}
-		return room;
+        return Optional.of(result.get(0));
 	}
 
 	@Override
 	public void addRoom(Room room) {
-		rooms.add(room);		
+		em.persist(room);	
 	}
 	
 }

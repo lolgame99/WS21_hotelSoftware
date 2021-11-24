@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field" default-cascade="all">
+	<class name="at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory" table="room_category" lazy="true">
+		<cache usage="read-write"/>
+		<composite-id name="categoryID" class="at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId">
+            <key-property name = "id" column = "id" type = "string"/>
+        </composite-id>
+		
+		<property name = "categoryName" column = "name" type = "string"/>
+		<property name = "categoryDescription" column = "description" type = "string"/>
+		<property name = "bedNumber" column = "bed_number" type = "int"/>
+		
+	</class>
+</hibernate-mapping>

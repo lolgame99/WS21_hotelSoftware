@@ -1,7 +1,12 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
-public class RoomCategoryId {
+import java.io.Serializable;
+
+public class RoomCategoryId implements Serializable {
 	private String id;
+	
+	public RoomCategoryId() {
+	}
 	
 	public RoomCategoryId(String id) {
 		this.id = id;

@@ -185,7 +185,7 @@ public class TestData implements ApplicationRunner {
 		
 		
 		stayRepository.addStay(Stay.createFromBooking(stayUUID[1], bookingRepository.getBookingById(bookingUUID[0]).get(), guestUUID[0]));
-		roomRepository.addRoom(Room.create(new RoomId("101"), RoomStatus.AVAILABLE, categoryUUID[0]));
+		roomRepository.addRoom(Room.create(new RoomId("101"), RoomStatus.AVAILABLE, new RoomCategoryId("1")));
 		roomRepository.addRoom(Room.create(new RoomId("102"), RoomStatus.AVAILABLE, categoryUUID[0]));
 		roomRepository.addRoom(Room.create(new RoomId("103"), RoomStatus.AVAILABLE, categoryUUID[0]));
 		roomRepository.addRoom(Room.create(new RoomId("104"), RoomStatus.AVAILABLE, categoryUUID[0]));

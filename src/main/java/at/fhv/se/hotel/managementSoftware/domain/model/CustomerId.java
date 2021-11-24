@@ -1,6 +1,8 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
-public class CustomerId {
+import java.io.Serializable;
+
+public class CustomerId implements Serializable{
 	private String id;
 	
 	public CustomerId(String id) {
