@@ -7,7 +7,7 @@ public class RoomCategory {
 	private String categoryDescription;
 	private int bedNumber;
 	
-	private RoomCategory() {
+	public RoomCategory() {
 	}
 	
 	public static RoomCategory createWithoutDescription(RoomCategoryId categoryID, String categoryName, int bedNumber) {

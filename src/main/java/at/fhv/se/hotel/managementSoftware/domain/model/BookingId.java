@@ -3,6 +3,9 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 public class BookingId {
 	private String id;
 	
+	private BookingId() {
+	}
+	
 	public BookingId(String id) {
 		this.id = id;
 	}
