@@ -10,6 +10,142 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	<script src="js/stayOverview.js" type="text/javascript"></script>
 </head>
-
-
+<body>
+	<header class="d-flex justify-content-center py-3 bg-light">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link">Dashboard</a></li>
+            <li class="nav-item"><a href="/booking" class="nav-link">Create Booking</a></li>
+            <li class="nav-item dropdown">
+            	<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stay</a>
+            	<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            		<li><a class="dropdown-item" href="/stay/create">Create Stay</a>
+            		<li><a class="dropdown-item" href="/stay">Overview</a>
+            	</ul>
+            </li>
+            <li class="nav-item"><a href="#" class="nav-link">Rooms</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Bill</a></li>
+        </ul>
+	</header>
+     <div class="card">
+         <div class="card-header p-4">
+             <div>
+                 <h3 class="mb-0">Invoice #BBB10234</h3>
+                 Date: 24.11.2021
+             </div>
+         </div>
+         <div class="card-body">
+             <div class="row mb-4">
+                 <div class="col-sm-6 ">
+                     <h3 class="text-dark mb-1">Yusuf Cetinkaya</h3>
+                     <div>Austria</div>
+                     <div>6973 Höchst</div>
+                     <div>Rheinstraße 51</div>
+                     <div>Email: yce5586@students.fhv.at</div>
+                     <div>Phone: +43 660 5051818</div>
+                 </div>
+             </div>
+             <div class="table-responsive-sm">
+                 <table class="table table-striped">
+                     <thead>
+                         <tr>
+                             <th class="text-center">#</th>
+                             <th class="text-left">Item</th>
+                             <th>Description</th>
+                             <th class="text-end">Price</th>
+                             <th class="text-center">Qty</th>
+                             <th class="text-center">VAT</th>
+                             <th class="text-end">Total</th>
+                             <th class="text-center">Paid</th>
+                             <th class="text-center"></th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <tr>
+                             <td class="text-center">1</td>
+                             <td class="text-start">Doubleroom</td>
+                             <td class="text-start">Doubleroom Roomnumber 211; 10 days</td>
+                             <td class="text-end">€200.00</td>
+                             <td class="text-center">1</td>
+                             <td class="text-center">20%</td>
+                             <td class="text-end">€2000.00</td>
+                             <td class="text-center"><input type="checkbox" id="paid" name="paid"></td>
+                             <td class="text-center">Pay</td>
+                         </tr>
+                         <tr>
+                             <td class="text-center">2</td>
+                             <td class="text-start">Basic service adult</td>
+                             <td class="text-start">Service included with the room for adult</td>
+                             <td class="text-end">€500.00</td>
+                             <td class="text-center">2</td>
+                             <td class="text-center">10%</td>
+                             <td class="text-end text-end">€1000.00</td>
+                             <td class="text-center"><input type="checkbox" id="paid" name="paid"></td>
+                             <td class="text-center">Pay</td>
+                         </tr>
+                         <tr>
+                             <td class="text-center">3</td>
+                             <td class="text-start">Massage</td>
+                             <td class="text-start">Additional service: massage</td>
+                             <td class="text-end">€25.00</td>
+                             <td class="text-center">2</td>
+                             <td class="text-center">20%</td>
+                             <td class="text-end text-end">€50.00</td>
+                             <td class="text-center"><input type="checkbox" id="paid" name="paid"></td>
+                             <td class="text-center">Pay</td>
+                         </tr>
+                         <tr>
+                             <td class="text-center">4</td>
+                             <td class="text-start">Red vine</td>
+                             <td class="text-start">vino rocho de ano 1912</td>
+                             <td class="text-end">€10.00</td>
+                             <td class="text-center">4</td>
+                             <td class="text-center">20%</td>
+                             <td class="text-end text-end">€40.00</td>
+                             <td class="text-center"><input type="checkbox" id="paid" name="paid"></td>
+                             <td class="text-center">Pay</td>
+                         </tr>
+                     </tbody>
+                 </table>
+             </div>
+             <div class="row">
+             <div class="col-lg-4 col-sm-5 ml-auto"></div>
+             <div class="col-lg-4 col-sm-5 ml-auto"></div>
+                 <div class="col-lg-4 col-sm-5 ml-auto text-end">
+                     <table class="table table-clear">
+                         <tbody>
+                         	<thead>
+                         		<tr>
+                         			<td class="start">
+       
+                                 	</td>
+                                 	<td class="start">
+                                    	 <strong class="text-dark">Price without VAT</strong>
+                                 	</td>
+                                 	<td class="start">
+                                    	 <strong class="text-dark">Price with VAT</strong>
+                                 	</td>
+                             	</tr>
+                         	</thead>
+                     <tbody>
+                            <tr>
+                         			<td class="start">
+                                    	 <strong class="text-dark">Total:</strong>
+                                 	</td>
+                                 	<td class="end">
+                                    	 450.34€
+                                 	</td>
+                                 	<td class="end">
+                                    	 340.23€
+                                 	</td>
+                            </tr>
+                   	</tbody>
+                     </table>
+                 </div>
+             </div>
+         </div>
+         <div class="card-footer bg-white">
+             <p class="mb-0">Hierher kommen die Buttons</p>
+         </div>
+     </div>
+</body>
 </html>
