@@ -1,8 +1,12 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
+
+import java.time.LocalDate;
+import java.util.List;
+
+import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceLineDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentType;
 
 public class Invoice {
@@ -10,23 +14,21 @@ public class Invoice {
 	    private LocalDate date;
 	    private BigDecimal price;
 	    private PaymentType advancePayment;
-	    private InvoiceLine description;
-		private InvoiceLine name;
-		private InvoiceLine line;
+	    private List<InvoiceLine> invoiceLine;
+	    
 	    
 	    private Invoice() {
 	        
 	    }
 	    
-	    public static Invoice createFromInvoice(InvoiceId invoiceId, LocalDate date, BigDecimal price, PaymentType advancePayment, InvoiceLine description, InvoiceLine name, InvoiceLine line) {
+	    
+	    public static Invoice createFromInvoice(InvoiceId invoiceId, LocalDate date, BigDecimal price, PaymentType advancePayment, List<InvoiceLine> invoiceLine) {
 	        Invoice invoice = new Invoice();
 	        invoice.invoiceId = invoiceId;
 	        invoice.date = date;
 	        invoice.price = price;
 	        invoice.advancePayment = advancePayment;
-	        invoice.description = description;
-	        invoice.name = name;
-	        invoice.line = line;
+	        invoice.invoiceLine = invoiceLine;
 	        return invoice;
 	    }
 
@@ -46,22 +48,9 @@ public class Invoice {
 	        return advancePayment;
 	    }
 
-		public InvoiceLine getDescription() {
-			return description;
-		}
 
-		public InvoiceLine getName() {
-			return name;
+		public List<InvoiceLine> getInvoiceLine() {
+			return invoiceLine;
 		}
-
-		public InvoiceLine getLine() {
-			return line;
-		}
-
-		
-	    
-	    
-	    
-}
-	
+}	
 
