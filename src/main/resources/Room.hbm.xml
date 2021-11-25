@@ -3,10 +3,13 @@
 
 <hibernate-mapping default-access="field" default-cascade="all">
 	<class name="at.fhv.se.hotel.managementSoftware.domain.model.Room" table="room" lazy="true">
-		<cache usage="read-write"/>
-		<composite-id name="roomNumber" class="at.fhv.se.hotel.managementSoftware.domain.model.RoomId">
-			<key-property name = "id" column = "id" type = "string"/>
-		</composite-id>
+		<cache usage="read-write"/>	
+		<id name="id" type="java.lang.Long" column="id" unsaved-value="null">
+            <generator class="native"/>
+        </id>
+        <component name="roomNumber" class="at.fhv.se.hotel.managementSoftware.domain.model.RoomId">
+            <property name="id" column="roomNumber" type="java.lang.String"/>           
+        </component>
 		
 		<property name="roomStatus" column="status">
 			<type name="org.hibernate.type.EnumType">
@@ -14,9 +17,7 @@
 			</type>       
 		</property>
 		<component name="categoryId" class="at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId">
-            <property name="id" column="categoryId" type="java.lang.String"/>
-            
+            <property name="id" column="categoryId" type="java.lang.String"/>           
         </component>
-        <many-to-one name="" cascade="all"/>
 	</class>
 </hibernate-mapping>

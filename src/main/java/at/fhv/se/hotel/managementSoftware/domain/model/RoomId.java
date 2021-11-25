@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class RoomId implements Serializable{
 	private String id;
 	
-	public RoomId() {
+	private RoomId() {
 	}
 	
 	public RoomId(String id) {

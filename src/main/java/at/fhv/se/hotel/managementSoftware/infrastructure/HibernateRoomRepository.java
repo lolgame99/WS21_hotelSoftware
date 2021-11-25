@@ -24,20 +24,20 @@ public class HibernateRoomRepository implements RoomRepository {
 	
 	@Override
 	public List<Room> getAllRooms() {
-		TypedQuery<Room> query = em.createQuery("SELECT rc FROM room r", Room.class);
+		TypedQuery<Room> query = em.createQuery("SELECT r FROM Room r", Room.class);
         return query.getResultList();
 	}
 
 	@Override
 	public List<Room> getAllRoomsByRoomCategory(RoomCategoryId id) {
-		TypedQuery<Room> query = em.createQuery("SELECT r FROM room r WHERE r.categoryId = :id", Room.class)
+		TypedQuery<Room> query = em.createQuery("SELECT r FROM Room r WHERE r.categoryId = :id", Room.class)
 				.setParameter("id", id);
         return query.getResultList();
 	}
 
 	@Override
 	public Optional<Room> getRoomByNumber(RoomId number) {
-		TypedQuery<Room> query = em.createQuery("SELECT r FROM room r WHERE r.id = :id", Room.class)
+		TypedQuery<Room> query = em.createQuery("SELECT r FROM Room r WHERE r.roomNumber = :id", Room.class)
 				.setParameter("id", number);
 		List<Room> result = query.getResultList();
 		if(result.size() != 1) {
@@ -48,7 +48,7 @@ public class HibernateRoomRepository implements RoomRepository {
 
 	@Override
 	public void addRoom(Room room) {
-		em.persist(room);	
+		em.merge(room);	
 	}
 	
 }

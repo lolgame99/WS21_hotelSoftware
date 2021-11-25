@@ -5,6 +5,9 @@ import java.io.Serializable;
 public class CustomerId implements Serializable{
 	private String id;
 	
+	private CustomerId() {
+	}
+	
 	public CustomerId(String id) {
 		this.id = id;
 	}

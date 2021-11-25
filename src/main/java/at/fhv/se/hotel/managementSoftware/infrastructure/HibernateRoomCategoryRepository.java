@@ -30,7 +30,7 @@ public class HibernateRoomCategoryRepository implements RoomCategoryRepository{
 
 	@Override
 	public Optional<RoomCategory> getRoomCategoryById(RoomCategoryId id) {
-		TypedQuery<RoomCategory> query = em.createQuery("SELECT rc FROM RoomCategory rc WHERE rc.id = :id", RoomCategory.class)
+		TypedQuery<RoomCategory> query = em.createQuery("SELECT rc FROM RoomCategory rc WHERE rc.categoryId = :id", RoomCategory.class)
 				.setParameter("id", id);
 		List<RoomCategory> result = query.getResultList();
 		if(result.size() != 1) {
@@ -41,7 +41,7 @@ public class HibernateRoomCategoryRepository implements RoomCategoryRepository{
 
 	@Override
 	public void addRoomCategory(RoomCategory category) {
-		em.persist(category);	
+		em.merge(category);	
 	}
 
 	@Override

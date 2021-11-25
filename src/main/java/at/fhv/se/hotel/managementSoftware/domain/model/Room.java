@@ -4,11 +4,12 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 import at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus;
 
 public class Room {
+	private long id;
 	private RoomId roomNumber;
 	private RoomStatus roomStatus;
 	private RoomCategoryId categoryId;
 	
-	public Room() {
+	private Room() {
 	}
 	
 	public static Room create(RoomId number, RoomStatus status, RoomCategoryId catId) {
