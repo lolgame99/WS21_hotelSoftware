@@ -7,7 +7,6 @@ import java.util.List;
 import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentType;
 import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
-import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceLine;
 
 public class InvoiceDetailsDTO {
 	private InvoiceId invoiceId;
@@ -19,13 +18,13 @@ public class InvoiceDetailsDTO {
 	private InvoiceDetailsDTO() {
 	}
 	
-	public static InvoiceDetailsDTO createsFromInvoice(Invoice invoice) {
+	public static InvoiceDetailsDTO createsFromInvoice(Invoice invoice, InvoiceLineDetailsDTO invoiceLine) {
 		InvoiceDetailsDTO dto = new InvoiceDetailsDTO();
 		dto.invoiceId = invoice.getInvoiceId();
         dto.date = invoice.getDate();
         dto.price = invoice.getPrice();
         dto.advancePayment = invoice.getAdvancePayment();
-        dto.invoiceLine = invoice.getInvoiceLine();
+        dto.invoiceLine = (List<InvoiceLineDetailsDTO>) invoiceLine;
         
         return dto;
 	}

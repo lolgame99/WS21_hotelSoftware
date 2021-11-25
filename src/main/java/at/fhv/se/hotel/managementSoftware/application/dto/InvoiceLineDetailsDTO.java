@@ -1,6 +1,5 @@
 package at.fhv.se.hotel.managementSoftware.application.dto;
 
-import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceLine;
 
 public class InvoiceLineDetailsDTO {
