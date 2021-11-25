@@ -10,12 +10,12 @@
 		<component name="customerId" class="at.fhv.se.hotel.managementSoftware.domain.model.CustomerId">
 			<property name="id" column="customerId"/>
 		</component>
-		<property name = "firstName" column = "first_name" type = "java.lang.String"/>
-		<property name = "middleName" column = "middle_name" type = "java.lang.String"/>
-		<property name = "lastName" column = "last_name" type = "java.lang.String"/>
+		<property name = "firstName" column = "firstName" type = "java.lang.String"/>
+		<property name = "middleName" column = "middleName" type = "java.lang.String"/>
+		<property name = "lastName" column = "lastName" type = "java.lang.String"/>
 		<property name = "birthdate" column = "birthdate" type = "java.time.LocalDate"/>
 		<property name = "email" column = "email" type = "java.lang.String"/>
-		<property name = "phoneNumber" column = "phone_number" type = "java.lang.String"/>
+		<property name = "phoneNumber" column = "phoneNumber" type = "java.lang.String"/>
 		<property name= "gender" column="gender">
 			<type name="org.hibernate.type.EnumType">
 		    	<param name="enumClass">at.fhv.se.hotel.managementSoftware.domain.enums.Gender</param>
@@ -24,7 +24,7 @@
 		</property>
 		<component name="address" class="at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address">
             <property name="streetName" column="street" type="java.lang.String"/>
-            <property name="streetNumber" column="street_number" type="java.lang.String"/>
+            <property name="streetNumber" column="streetNumber" type="java.lang.String"/>
             <property name="postCode" column="postcode" type="java.lang.String"/>
             <property name="city" column="city" type="java.lang.String"/>
             <property name="country" column="country" type="java.lang.String"/>

@@ -56,6 +56,10 @@ public class Guest {
 		return middleName;
 	}
 
+	public long getId() {
+		return id;
+	}
+
 	
 	
 }
