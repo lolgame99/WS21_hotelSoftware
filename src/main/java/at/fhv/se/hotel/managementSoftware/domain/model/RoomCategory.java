@@ -27,7 +27,7 @@ public class RoomCategory {
 		return category;
 	}
 
-	public RoomCategoryId getCategoryID() {
+	public RoomCategoryId getCategoryId() {
 		return categoryId;
 	}
 
@@ -42,5 +42,11 @@ public class RoomCategory {
 	public int getBedNumber() {
 		return bedNumber;
 	}
+
+	public long getId() {
+		return id;
+	}
+	
+	
 
 }
