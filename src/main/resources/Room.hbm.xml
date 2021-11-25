@@ -16,8 +16,6 @@
 		    	<param name="enumClass">at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus</param>
 			</type>       
 		</property>
-		<component name="categoryId" class="at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId">
-            <property name="id" column="categoryId" type="java.lang.String"/>           
-        </component>
+		<many-to-one name="category" class="at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory"/>
 	</class>
 </hibernate-mapping>

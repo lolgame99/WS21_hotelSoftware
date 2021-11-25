@@ -7,24 +7,24 @@ public class Room {
 	private long id;
 	private RoomId roomNumber;
 	private RoomStatus roomStatus;
-	private RoomCategoryId categoryId;
+	private RoomCategory category;
 	
 	private Room() {
 	}
 	
-	public static Room create(RoomId number, RoomStatus status, RoomCategoryId catId) {
+	public static Room create(RoomId number, RoomStatus status, RoomCategory cat) {
 		Room room = new Room();
 		room.roomNumber = number;
 		room.roomStatus = status;
-		room.categoryId = catId;
+		room.category = cat;
 		return room;
 	}
 	
-	public static Room changeRoomStatus(RoomId roomNumber, RoomStatus roomStatus, RoomCategoryId categoryId){
+	public static Room changeRoomStatus(RoomId roomNumber, RoomStatus roomStatus, RoomCategory category){
 		Room room = new Room();
 		room.roomNumber = roomNumber;
 		room.roomStatus = roomStatus;
-		room.categoryId = categoryId;
+		room.category = category;
 		
 		return room;
 	}
@@ -37,8 +37,8 @@ public class Room {
 		return roomStatus;
 	}
 
-	public RoomCategoryId getCategoryId() {
-		return categoryId;
+	public RoomCategory getCategory() {
+		return category;
 	}
 	
 }
