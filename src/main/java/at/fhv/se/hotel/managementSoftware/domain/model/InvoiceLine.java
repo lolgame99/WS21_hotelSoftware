@@ -38,5 +38,4 @@ public class InvoiceLine {
 	public int getCount() {
 		return count;
 	}
-
 }

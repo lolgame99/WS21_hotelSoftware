@@ -14,7 +14,7 @@ public class Invoice {
 	    private LocalDate date;
 	    private BigDecimal price;
 	    private PaymentType advancePayment;
-	    private List<InvoiceLineDetailsDTO> invoiceLine;
+	    private List<InvoiceLine> invoiceLine;
 	    
 	    
 	    private Invoice() {
@@ -22,7 +22,7 @@ public class Invoice {
 	    }
 	    
 	    
-	    public static Invoice createFromInvoice(InvoiceId invoiceId, LocalDate date, BigDecimal price, PaymentType advancePayment, List<InvoiceLineDetailsDTO> invoiceLine) {
+	    public static Invoice createFromInvoice(InvoiceId invoiceId, LocalDate date, BigDecimal price, PaymentType advancePayment, List<InvoiceLine> invoiceLine) {
 	        Invoice invoice = new Invoice();
 	        invoice.invoiceId = invoiceId;
 	        invoice.date = date;
@@ -49,10 +49,8 @@ public class Invoice {
 	    }
 
 
-		public List<InvoiceLineDetailsDTO> getInvoiceLine() {
+		public List<InvoiceLine> getInvoiceLine() {
 			return invoiceLine;
 		}
-	    
-}
-	
+}	
 
