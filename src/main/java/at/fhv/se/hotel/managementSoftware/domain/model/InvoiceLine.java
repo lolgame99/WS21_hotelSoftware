@@ -1,7 +1,9 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
 public class InvoiceLine {
+	
 	private InvoiceId invoiceId;
+	private int count;
 	private String description;
 	private String name;
 	private String line;
@@ -12,9 +14,10 @@ public class InvoiceLine {
 		
 	}
 	
-	public static InvoiceLine createFromInvoiceLine(InvoiceId invoiceId, String description, String name, String line) {
+	public static InvoiceLine createFromInvoiceLine(InvoiceId invoiceId, int count, String description, String name, String line) {
 		InvoiceLine invoiceLine = new InvoiceLine();
 		invoiceLine.invoiceId = invoiceId;
+		invoiceLine.count = count;
 		invoiceLine.description = description;
 		invoiceLine.name = name;
 		invoiceLine.line = line;
@@ -33,6 +36,14 @@ public class InvoiceLine {
 	public String getLine() {
 		return line;
 	}
+
+	public int getCount() {
+		return count;
+	}
+
+	
+	
+	
 	
 	
 	
