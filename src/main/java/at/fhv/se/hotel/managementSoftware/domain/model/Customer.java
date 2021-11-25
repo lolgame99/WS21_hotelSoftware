@@ -8,7 +8,7 @@ import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerExcep
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
 public class Customer {
-	
+	private long id;
 	private CustomerId customerId;
 	private String firstName;
 	private String middleName;

@@ -3,6 +3,9 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 public class GuestId {
 	private String id;
 	
+	private GuestId() {
+	}
+	
 	public GuestId(String id) {
 		this.id = id;
 	}

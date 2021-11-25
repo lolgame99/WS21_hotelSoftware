@@ -173,7 +173,7 @@
     <div class="categoryEntryEmpty d-none form-row row mb-1">
         <div class="col">
             <select class="form-control categoryValues" required>
-                <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}"></option>
+                <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryId.getId()}"></option>
             </select>
         </div>
         <div class="col">

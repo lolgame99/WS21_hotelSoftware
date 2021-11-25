@@ -6,37 +6,42 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Component;
 
+import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
+import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
 
 @Component
+@Transactional
 public class HibernateStayRepository implements StayRepository{
 	
-	List<Stay> stays = new ArrayList<Stay>();
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Override
 	public List<Stay> getAllStays() {
-		return stays;
+		TypedQuery<Stay> query = em.createQuery("SELECT s FROM Stay s", Stay.class);
+        return query.getResultList();
 	}
 
 	@Override
 	public List<Stay> getCurrentStays(LocalDate date) {
-		List<Stay> currentStay = new ArrayList<Stay>();
-		for (Stay s : stays) {
-			if(s.getCheckInDate().compareTo(date) <= 0 && s.getCheckOutDate().compareTo(date) >= 0) {
-				currentStay.add(s);
-			}
-		}
-		
-		return currentStay;
+		TypedQuery<Stay> query = em.createQuery("SELECT s FROM Stay s WHERE checkInDate <= :date AND checkOutDate >= :date", Stay.class)
+				.setParameter("date", date);
+        return query.getResultList();
 	}
 
 	@Override
 	public void addStay(Stay stay) {
-		stays.add(stay);
+		em.merge(stay);
 	}
 
 	@Override
@@ -46,13 +51,13 @@ public class HibernateStayRepository implements StayRepository{
 
 	@Override
 	public Optional<Stay> getStayById(StayId id) {
-		Optional<Stay> stay = Optional.empty();
-		for (Stay s : stays) {
-			if (s.getStayId().getId().equals(id.getId())) {
-				stay = Optional.of(s);
-			}
+		TypedQuery<Stay> query = em.createQuery("SELECT s FROM Stay s WHERE s.stayId = :id", Stay.class)
+				.setParameter("id", id);
+		List<Stay> result = query.getResultList();
+		if(result.size() != 1) {
+			return Optional.empty();
 		}
-		return stay;
+        return Optional.of(result.get(0));
 	}
 	
 }

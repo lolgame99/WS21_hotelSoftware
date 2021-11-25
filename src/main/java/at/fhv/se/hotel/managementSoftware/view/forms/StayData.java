@@ -77,7 +77,7 @@ public class StayData {
 		this.creditCardValid = existingBooking.getCreditCardValid();
 		
 		for (RoomCategory cat : existingBooking.getCategoryCount().keySet()) {
-			this.categoryValues.add(cat.getCategoryID().getId());
+			this.categoryValues.add(cat.getCategoryId().getId());
 		}
 		for (Integer integer : existingBooking.getCategoryCount().values()) {
 			this.categoryCount.add(integer.toString());

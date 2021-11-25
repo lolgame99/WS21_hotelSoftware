@@ -36,7 +36,7 @@ public class RoomServiceImpl implements RoomService {
 		List<Room> rooms = roomRepository.getAllRooms();
 		
 		for (Room ro : rooms) {		
-			roomDTOs.add(RoomDTO.createFromRoom(ro,roomCategoryService.getRoomCategoryById(ro.getCategoryId().getId()).get()));
+			roomDTOs.add(RoomDTO.createFromRoom(ro,roomCategoryService.getRoomCategoryById(ro.getCategory().getCategoryId().getId()).get()));
 		}
 			
 		return roomDTOs;
@@ -48,7 +48,7 @@ public class RoomServiceImpl implements RoomService {
 		List<Room> rooms = roomRepository.getAllRoomsByRoomCategory(new RoomCategoryId(id));
 		
 		for (Room ro : rooms) {		
-			roomDTOs.add(RoomDTO.createFromRoom(ro,roomCategoryService.getRoomCategoryById(ro.getCategoryId().getId()).get()));
+			roomDTOs.add(RoomDTO.createFromRoom(ro,roomCategoryService.getRoomCategoryById(ro.getCategory().getCategoryId().getId()).get()));
 		}
 			
 		return roomDTOs;
@@ -58,7 +58,7 @@ public class RoomServiceImpl implements RoomService {
 	public Optional<RoomDTO> getRoomByRoomNumber(String number) {
 		Optional<RoomDTO> dto = Optional.empty();
 		Room room = roomRepository.getRoomByNumber(new RoomId(number)).get();
-		dto = Optional.of(RoomDTO.createFromRoom(room,roomCategoryService.getRoomCategoryById(room.getCategoryId().getId()).get()));
+		dto = Optional.of(RoomDTO.createFromRoom(room,roomCategoryService.getRoomCategoryById(room.getCategory().getCategoryId().getId()).get()));
 		return dto;
 	}
 
@@ -74,7 +74,7 @@ public class RoomServiceImpl implements RoomService {
 		}
 		rooms.removeAll(occupiedRooms);
 		for (Room r : rooms) {
-			dtos.add(RoomDTO.createFromRoom(r, roomCategoryService.getRoomCategoryById(r.getCategoryId().getId()).get()));
+			dtos.add(RoomDTO.createFromRoom(r, roomCategoryService.getRoomCategoryById(r.getCategory().getCategoryId().getId()).get()));
 		}
 		return dtos;
 	}
@@ -92,7 +92,7 @@ public class RoomServiceImpl implements RoomService {
 		
 		rooms.removeAll(occupiedRooms);
 		for (Room r : rooms) {
-			dtos.add(RoomDTO.createFromRoom(r, roomCategoryService.getRoomCategoryById(r.getCategoryId().getId()).get()));
+			dtos.add(RoomDTO.createFromRoom(r, roomCategoryService.getRoomCategoryById(r.getCategory().getCategoryId().getId()).get()));
 		}
 		return dtos;
 	}

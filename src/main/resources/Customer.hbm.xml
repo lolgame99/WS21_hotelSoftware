@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field" default-cascade="all">
+	<class name="at.fhv.se.hotel.managementSoftware.domain.model.Customer" table="customer" lazy="true">
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="id" unsaved-value="null">
+            <generator class="native"/>
+        </id>
+		<component name="customerId" class="at.fhv.se.hotel.managementSoftware.domain.model.CustomerId">
+			<property name="id" column="customerId"/>
+		</component>
+		<property name = "firstName" column = "firstName" type = "java.lang.String"/>
+		<property name = "middleName" column = "middleName" type = "java.lang.String"/>
+		<property name = "lastName" column = "lastName" type = "java.lang.String"/>
+		<property name = "birthdate" column = "birthdate" type = "java.time.LocalDate"/>
+		<property name = "email" column = "email" type = "java.lang.String"/>
+		<property name = "phoneNumber" column = "phoneNumber" type = "java.lang.String"/>
+		<property name= "gender" column="gender">
+			<type name="org.hibernate.type.EnumType">
+		    	<param name="enumClass">at.fhv.se.hotel.managementSoftware.domain.enums.Gender</param>
+		    	<param name="type">12</param>
+			</type>       
+		</property>
+		<component name="address" class="at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address">
+            <property name="streetName" column="street" type="java.lang.String"/>
+            <property name="streetNumber" column="streetNumber" type="java.lang.String"/>
+            <property name="postCode" column="postcode" type="java.lang.String"/>
+            <property name="city" column="city" type="java.lang.String"/>
+            <property name="country" column="country" type="java.lang.String"/>
+        </component>
+	</class>
+</hibernate-mapping>
