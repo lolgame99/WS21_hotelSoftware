@@ -18,13 +18,13 @@ public class InvoiceDetailsDTO {
 	private InvoiceDetailsDTO() {
 	}
 	
-	public static InvoiceDetailsDTO createsFromInvoice(Invoice invoice, InvoiceLineDetailsDTO invoiceLine) {
+	public static InvoiceDetailsDTO createsFromInvoice(Invoice invoice, List<InvoiceLineDetailsDTO> invoiceLine) {
 		InvoiceDetailsDTO dto = new InvoiceDetailsDTO();
 		dto.invoiceId = invoice.getInvoiceId();
         dto.date = invoice.getDate();
         dto.price = invoice.getPrice();
         dto.advancePayment = invoice.getAdvancePayment();
-        dto.invoiceLine = (List<InvoiceLineDetailsDTO>) invoiceLine;
+        dto.invoiceLine = invoiceLine;
         
         return dto;
 	}
