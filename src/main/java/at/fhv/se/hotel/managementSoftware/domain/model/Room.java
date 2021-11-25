@@ -19,15 +19,6 @@ public class Room {
 		room.category = cat;
 		return room;
 	}
-	
-	public static Room changeRoomStatus(RoomId roomNumber, RoomStatus roomStatus, RoomCategory category){
-		Room room = new Room();
-		room.roomNumber = roomNumber;
-		room.roomStatus = roomStatus;
-		room.category = category;
-		
-		return room;
-	}
 
 	public RoomId getRoomNumber() {
 		return roomNumber;

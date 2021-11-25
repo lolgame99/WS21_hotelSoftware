@@ -21,7 +21,7 @@ public class RoomCategoryTest {
 		RoomCategory roomCategory = RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber);
 		
 		//then
-		assertEquals(categoryId, roomCategory.getCategoryID());
+		assertEquals(categoryId, roomCategory.getCategoryId());
 		assertEquals(categoryName, roomCategory.getCategoryName());
 		assertEquals(bedNumber, roomCategory.getBedNumber());
 	}
@@ -38,7 +38,7 @@ public class RoomCategoryTest {
 		RoomCategory roomCategory = RoomCategory.createWithDescription(categoryId, categoryName, bedNumber, categoryDescription);
 		
 		//then
-		assertEquals(categoryId, roomCategory.getCategoryID());
+		assertEquals(categoryId, roomCategory.getCategoryId());
 		assertEquals(categoryName, roomCategory.getCategoryName());
 		assertEquals(bedNumber, roomCategory.getBedNumber());
 		assertEquals(categoryDescription, roomCategory.getCategoryDescription());
