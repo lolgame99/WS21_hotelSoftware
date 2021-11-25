@@ -14,7 +14,7 @@ public class InvoiceDetailsDTO {
 	private LocalDate date;
 	private BigDecimal price;
 	private PaymentType advancePayment;
-    private List<InvoiceLine> invoiceLine;
+    private List<InvoiceLineDetailsDTO> invoiceLine;
 	
 	private InvoiceDetailsDTO() {
 	}
@@ -46,7 +46,7 @@ public class InvoiceDetailsDTO {
 		return advancePayment;
 	}
 
-	public List<InvoiceLine> getInvoiceLine() {
+	public List<InvoiceLineDetailsDTO> getInvoiceLine() {
 		return invoiceLine;
 	}
 }

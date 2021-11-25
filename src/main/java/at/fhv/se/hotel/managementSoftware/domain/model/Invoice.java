@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceLineDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentType;
 
 public class Invoice {
@@ -13,7 +14,7 @@ public class Invoice {
 	    private LocalDate date;
 	    private BigDecimal price;
 	    private PaymentType advancePayment;
-	    private List<InvoiceLine> invoiceLine;
+	    private List<InvoiceLineDetailsDTO> invoiceLine;
 	    
 	    
 	    private Invoice() {
@@ -21,7 +22,7 @@ public class Invoice {
 	    }
 	    
 	    
-	    public static Invoice createFromInvoice(InvoiceId invoiceId, LocalDate date, BigDecimal price, PaymentType advancePayment, List<InvoiceLine> invoiceLine) {
+	    public static Invoice createFromInvoice(InvoiceId invoiceId, LocalDate date, BigDecimal price, PaymentType advancePayment, List<InvoiceLineDetailsDTO> invoiceLine) {
 	        Invoice invoice = new Invoice();
 	        invoice.invoiceId = invoiceId;
 	        invoice.date = date;
@@ -48,18 +49,9 @@ public class Invoice {
 	    }
 
 
-		public List<InvoiceLine> getInvoiceLine() {
+		public List<InvoiceLineDetailsDTO> getInvoiceLine() {
 			return invoiceLine;
 		}
-
-
-	
-
-		
-
-		
-	    
-	    
 	    
 }
 	
