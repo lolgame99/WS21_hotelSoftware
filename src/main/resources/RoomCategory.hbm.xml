@@ -12,7 +12,7 @@
 		</component>
 		<property name = "categoryName" column = "name" type = "java.lang.String"/>
 		<property name = "categoryDescription" column = "description" type = "java.lang.String"/>
-		<property name = "bedNumber" column = "bed_number" type = "int"/>
+		<property name = "bedNumber" column = "bedNumber" type = "int"/>
 		
 	</class>
 </hibernate-mapping>

@@ -3,13 +3,13 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 import java.time.LocalDate;
 
 public class RoomAssignment {
+	private long id;
 	private LocalDate assignedFrom;
 	private LocalDate assignedTo;
 	private RoomId roomNumber;
 	private StayId stayId;
 	
 	private RoomAssignment() {
-		
 	}
 	
 	public static RoomAssignment create(RoomId roomNumber, Stay stay) {
@@ -37,5 +37,10 @@ public class RoomAssignment {
 	public StayId getStayId() {
 		return stayId;
 	}
+
+	public long getId() {
+		return id;
+	}
+	
 	
 }
