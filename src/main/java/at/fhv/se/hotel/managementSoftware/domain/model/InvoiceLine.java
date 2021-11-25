@@ -1,13 +1,11 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
 public class InvoiceLine {
-	
 	private InvoiceId invoiceId;
 	private int count;
 	private String description;
 	private String name;
 	private String line;
-	
 	
 	
 	private InvoiceLine() {
@@ -40,15 +38,5 @@ public class InvoiceLine {
 	public int getCount() {
 		return count;
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
