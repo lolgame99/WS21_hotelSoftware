@@ -4,17 +4,13 @@ import java.math.BigDecimal;
 
 
 import java.time.LocalDate;
-import java.util.List;
-
-import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceLineDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentType;
 
 public class Invoice {
 	 	private InvoiceId invoiceId;
 	    private LocalDate date;
-	    private BigDecimal price;
-	    private PaymentType advancePayment;
-	    private List<InvoiceLine> invoiceLine;
+	    private BigDecimal sum;
+	    private PaymentType advancePayment;	    
 	    
 	    
 	    private Invoice() {
@@ -22,35 +18,33 @@ public class Invoice {
 	    }
 	    
 	    
-	    public static Invoice createFromInvoice(InvoiceId invoiceId, LocalDate date, BigDecimal price, PaymentType advancePayment, List<InvoiceLine> invoiceLine) {
+	    public static Invoice createFromInvoice(InvoiceId invoiceId, LocalDate date, BigDecimal sum, PaymentType advancePayment) {
 	        Invoice invoice = new Invoice();
 	        invoice.invoiceId = invoiceId;
 	        invoice.date = date;
-	        invoice.price = price;
+	        invoice.sum = sum;
 	        invoice.advancePayment = advancePayment;
-	        invoice.invoiceLine = invoiceLine;
 	        return invoice;
 	    }
 
-	    public InvoiceId getInvoiceId() {
-	        return invoiceId;
-	    }
 
-	    public LocalDate getDate() {
-	        return date;
-	    }
-
-	    public BigDecimal getPrice() {
-	        return price;
-	    }
-
-	    public PaymentType getAdvancePayment() {
-	        return advancePayment;
-	    }
+		public InvoiceId getInvoiceId() {
+			return invoiceId;
+		}
 
 
-		public List<InvoiceLine> getInvoiceLine() {
-			return invoiceLine;
+		public LocalDate getDate() {
+			return date;
+		}
+
+
+		public BigDecimal getSum() {
+			return sum;
+		}
+
+
+		public PaymentType getAdvancePayment() {
+			return advancePayment;
 		}
 }	
 
