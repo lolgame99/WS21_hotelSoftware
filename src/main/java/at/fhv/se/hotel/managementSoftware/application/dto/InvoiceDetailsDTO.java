@@ -11,7 +11,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
 public class InvoiceDetailsDTO {
 	private InvoiceId invoiceId;
 	private LocalDate date;
-	private BigDecimal price;
+	private BigDecimal sum;
 	private PaymentType advancePayment;
     private List<InvoiceLineDetailsDTO> invoiceLine;
 	
@@ -22,7 +22,7 @@ public class InvoiceDetailsDTO {
 		InvoiceDetailsDTO dto = new InvoiceDetailsDTO();
 		dto.invoiceId = invoice.getInvoiceId();
         dto.date = invoice.getDate();
-        dto.price = invoice.getPrice();
+        dto.sum = invoice.getSum();
         dto.advancePayment = invoice.getAdvancePayment();
         dto.invoiceLine = invoiceLine;
         
@@ -37,8 +37,8 @@ public class InvoiceDetailsDTO {
 		return date;
 	}
 
-	public BigDecimal getPrice() {
-		return price;
+	public BigDecimal getSum() {
+		return sum;
 	}
 
 	public PaymentType getAdvancePayment() {
@@ -48,4 +48,5 @@ public class InvoiceDetailsDTO {
 	public List<InvoiceLineDetailsDTO> getInvoiceLine() {
 		return invoiceLine;
 	}
+
 }

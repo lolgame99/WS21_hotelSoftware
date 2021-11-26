@@ -1,12 +1,14 @@
 package at.fhv.se.hotel.managementSoftware.application.dto;
 
+import java.math.BigDecimal;
+
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceLine;
 
 public class InvoiceLineDetailsDTO {
 	private int count;
 	private String description;
 	private String name;
-	private String line;
+	private BigDecimal price;
 	
 	private InvoiceLineDetailsDTO() {
 	}
@@ -16,7 +18,7 @@ public class InvoiceLineDetailsDTO {
 		dto.count = invoiceLine.getCount();
 		dto.description = invoiceLine.getDescription();
 		dto.name = invoiceLine.getName();
-		dto.line = invoiceLine.getLine();
+		dto.price = invoiceLine.getPrice();
 		
 		return dto;
 	}
@@ -33,7 +35,8 @@ public class InvoiceLineDetailsDTO {
 		return name;
 	}
 
-	public String getLine() {
-		return line;
+	public BigDecimal getPrice() {
+		return price;
 	}
+
 }
