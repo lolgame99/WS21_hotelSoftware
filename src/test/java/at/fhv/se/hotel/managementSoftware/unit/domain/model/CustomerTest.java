@@ -11,38 +11,61 @@ import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CustomerTest {
-
+	
 	@Test
 	void when_create_customer() throws InvalidCustomerException {
-		
 		//given
 		CustomerId customerId = new CustomerId("C1");
-		String firstName = "Johnny";
-		String lastName = "Doe";
-		LocalDate birthdate = LocalDate.of(1992, 7, 22);
+		String fName = "Yusuf";
+		String lName = "Cetinkaya";
+		LocalDate birthdate = LocalDate.of(1995, 5, 20);
 		Address address = new Address("Kornmarktplatz", "10", "Bregenz", "6900", "Austria");
-		String email = "JohnnyDoe@rhyta.com";
-		String phoneNumber = "+436648795210";
+		String email = "Yusuf@gmail.com";
+		String phoneNumber = "+432929219129";
 		Gender gender = Gender.MALE;
 		
 		//when
-		Customer customer = Customer.create(customerId, firstName, lastName, birthdate, address, email, phoneNumber, gender);
-		
+		Customer customer1 = Customer.create(customerId, fName, lName, birthdate, address, email, phoneNumber, gender);
+		Customer customer2 = Customer.create(new CustomerId("C2"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
 		//then
-		assertEquals(customerId, customer.getCustomerId());
-		assertEquals(firstName, customer.getFirstName());
-		assertEquals(lastName, customer.getLastName());
-		assertEquals(birthdate, customer.getBirthdate());
-		assertEquals(address, customer.getAddress());
-		assertEquals(email, customer.getEmail());
-		assertEquals(phoneNumber, customer.getPhoneNumber());
-		assertEquals(gender, customer.getGender());
-		
-		
+		assertEquals(customerId, customer1.getCustomerId());
+		assertEquals(fName, customer1.getFirstName());
+		assertEquals(lName, customer1.getLastName());
+		assertNotEquals(customer1, customer2);
 	}
+
+//	@Test
+//	void when_create_customer() throws InvalidCustomerException {
+//		
+//		//given
+//		CustomerId customerId = new CustomerId("C1");
+//		String firstName = "Johnny";
+//		String lastName = "Doe";
+//		LocalDate birthdate = LocalDate.of(1992, 7, 22);
+//		Address address = new Address("Kornmarktplatz", "10", "Bregenz", "6900", "Austria");
+//		String email = "JohnnyDoe@rhyta.com";
+//		String phoneNumber = "+436648795210";
+//		Gender gender = Gender.MALE;
+//		
+//		//when
+//		Customer customer = Customer.create(customerId, firstName, lastName, birthdate, address, email, phoneNumber, gender);
+//		
+//		//then
+//		assertEquals(customerId, customer.getCustomerId());
+//		assertEquals(firstName, customer.getFirstName());
+//		assertEquals(lastName, customer.getLastName());
+//		assertEquals(birthdate, customer.getBirthdate());
+//		assertEquals(address, customer.getAddress());
+//		assertEquals(email, customer.getEmail());
+//		assertEquals(phoneNumber, customer.getPhoneNumber());
+//		assertEquals(gender, customer.getGender());
+//		
+//		
+//	}
 	
 	@Test
 	void when_add_customer_middlename() throws InvalidCustomerException {
