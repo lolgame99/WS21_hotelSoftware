@@ -1,6 +1,7 @@
 package at.fhv.se.hotel.managementSoftware.unit.domain.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -59,18 +60,10 @@ public class StayTest {
 		CustomerId customerId = new CustomerId("122");
 		GuestId guestId = new GuestId("133");
 		
-		//when
-		Stay stay = Stay.createForWalkIn(stayId, checkInDate, checkOutDate, guestCount, creditCardNumber, customerId, guestId);
+		//when....then
+		assertThrows(InvalidStayException.class, () -> Stay.createForWalkIn(stayId, checkInDate, checkOutDate, guestCount, creditCardNumber, customerId, guestId));
 		
 		
-		//then
-		assertEquals(stayId, stay.getStayId());
-		assertEquals(checkInDate, stay.getCheckInDate());
-		assertEquals(checkOutDate, stay.getCheckOutDate());
-		assertEquals(guestCount, stay.getGuestCount());
-		assertEquals(creditCardNumber, stay.getCreditCardNumber());
-		assertEquals(customerId, stay.getCustomerId());
-		assertEquals(guestId, stay.getGuestId());
 	}
 	
 	@Test
@@ -85,18 +78,10 @@ public class StayTest {
 		CustomerId customerId = new CustomerId("122");
 		GuestId guestId = new GuestId("133");
 		
-		//when
-		Stay stay = Stay.createForWalkIn(stayId, checkInDate, checkOutDate, guestCount, creditCardNumber, customerId, guestId);
+		//when...then
+		assertThrows(InvalidStayException.class, () -> Stay.createForWalkIn(stayId, checkInDate, checkOutDate, guestCount, creditCardNumber, customerId, guestId));
+
 		
-		
-		//then
-		assertEquals(stayId, stay.getStayId());
-		assertEquals(checkInDate, stay.getCheckInDate());
-		assertEquals(checkOutDate, stay.getCheckOutDate());
-		assertEquals(guestCount, stay.getGuestCount());
-		assertEquals(creditCardNumber, stay.getCreditCardNumber());
-		assertEquals(customerId, stay.getCustomerId());
-		assertEquals(guestId, stay.getGuestId());
 	}
 	
 	@Test
@@ -111,45 +96,38 @@ public class StayTest {
 		CustomerId customerId = new CustomerId("122");
 		GuestId guestId = new GuestId("133");
 		
-		//when
-		Stay stay = Stay.createForWalkIn(stayId, checkInDate, checkOutDate, guestCount, creditCardNumber, customerId, guestId);
+		//when...then
+		assertThrows(InvalidStayException.class, () -> Stay.createForWalkIn(stayId, checkInDate, checkOutDate, guestCount, creditCardNumber, customerId, guestId));
 		
 		
-		//then
-		assertEquals(stayId, stay.getStayId());
-		assertEquals(checkInDate, stay.getCheckInDate());
-		assertEquals(checkOutDate, stay.getCheckOutDate());
-		assertEquals(guestCount, stay.getGuestCount());
-		assertEquals(creditCardNumber, stay.getCreditCardNumber());
-		assertEquals(customerId, stay.getCustomerId());
-		assertEquals(guestId, stay.getGuestId());
+		
 	}
 	
 	
-//	@Test
-//	void when_create_stay_from_booking() throws InvalidBookingException {
-//		//given from Stay
-//		StayId stayId = new StayId("123");
-//		LocalDate checkInDate = LocalDate.of(2021, 11, 24);
-//		LocalDate checkOutDate = LocalDate.of(2021, 11, 28);
-//		int guestCount = 3;
-//		String creditCardNumber = "0201133211";
-//		CustomerId customerId = new CustomerId("122");
-//		GuestId guestId = new GuestId("133");
-//		BookingId bookingId = new BookingId("B12");
-//
-//		//given from Booking
-//		String creditCardValid = "05/22";
-//		BookingStatus bookingStatus = BookingStatus.PAID;
-//		Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, null);
-//		HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
-//		categoryCount.put(null, 1);
-//		
-//		//when
-//		Stay stay = Stay.createFromBooking(stayId, booking, guestId);
-//		
-//		//then
-//	}
+	@Test
+	void when_create_stay_from_booking() throws InvalidBookingException {
+		//given from Stay
+		StayId stayId = new StayId("123");
+		LocalDate checkInDate = LocalDate.of(2021, 11, 24);
+		LocalDate checkOutDate = LocalDate.of(2021, 11, 28);
+		int guestCount = 3;
+		String creditCardNumber = "0201133211";
+		CustomerId customerId = new CustomerId("122");
+		GuestId guestId = new GuestId("133");
+		BookingId bookingId = new BookingId("B12");
+
+		//given from Booking
+		String creditCardValid = "05/22";
+		BookingStatus bookingStatus = BookingStatus.PAID;
+		Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, null);
+		HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+		categoryCount.put(null, 1);
+		
+		//when
+		Stay stay = Stay.createFromBooking(stayId, booking, guestId);
+		
+		//then
+	}
 	
 	
 
