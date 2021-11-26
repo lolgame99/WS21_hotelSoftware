@@ -14,7 +14,7 @@ public class Price {
 		
 	}
 	
-	public static Price createFromPrice(RoomCategoryId roomCategoryId, BigDecimal cost, LocalDate validFrom, LocalDate validTo) {
+	public static Price create(RoomCategoryId roomCategoryId, BigDecimal cost, LocalDate validFrom, LocalDate validTo) {
 		Price price = new Price();
 		price.roomCategoryId = roomCategoryId;
 		price.cost = cost;
