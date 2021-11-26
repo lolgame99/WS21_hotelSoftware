@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Room;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
@@ -29,9 +30,9 @@ public class HibernateRoomRepository implements RoomRepository {
 	}
 
 	@Override
-	public List<Room> getAllRoomsByRoomCategory(RoomCategoryId id) {
-		TypedQuery<Room> query = em.createQuery("SELECT r FROM Room r WHERE r.categoryId = :id", Room.class)
-				.setParameter("id", id);
+	public List<Room> getAllRoomsByRoomCategory(RoomCategory cat) {
+		TypedQuery<Room> query = em.createQuery("SELECT r FROM Room r WHERE r.category = :cat", Room.class)
+				.setParameter("cat", cat);
         return query.getResultList();
 	}
 
