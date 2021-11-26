@@ -16,6 +16,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
 
 @Component
@@ -26,6 +27,9 @@ public class RoomServiceImpl implements RoomService {
 	
 	@Autowired
 	private RoomAssignmentRepository roomAssignmentRepository;
+	
+	@Autowired
+	private RoomCategoryRepository roomcategoryRepository;
 	
 	@Autowired
 	private RoomCategoryService roomCategoryService;
@@ -45,7 +49,8 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public List<RoomDTO> getAllRoomsByRoomCategory(String id) {
 		List<RoomDTO> roomDTOs = new ArrayList<RoomDTO>();
-		List<Room> rooms = roomRepository.getAllRoomsByRoomCategory(new RoomCategoryId(id));
+		
+		List<Room> rooms = roomRepository.getAllRoomsByRoomCategory(roomcategoryRepository.getRoomCategoryById(new RoomCategoryId(id)).get());
 		
 		for (Room ro : rooms) {		
 			roomDTOs.add(RoomDTO.createFromRoom(ro,roomCategoryService.getRoomCategoryById(ro.getCategory().getCategoryId().getId()).get()));
@@ -83,7 +88,7 @@ public class RoomServiceImpl implements RoomService {
 	public List<RoomDTO> getFreeRoomsBetweenByRoomCategoryId(String id,LocalDate date1, LocalDate date2) {
 		List<RoomAssignment> roomAssignments = roomAssignmentRepository.getAllRoomAssignmentsBetweenDates(date1, date2);
 		List<Room> occupiedRooms  = new ArrayList<Room>();
-		List<Room> rooms = roomRepository.getAllRoomsByRoomCategory(new RoomCategoryId(id));
+		List<Room> rooms = roomRepository.getAllRoomsByRoomCategory(roomcategoryRepository.getRoomCategoryById(new RoomCategoryId(id)).get());
 		List<RoomDTO> dtos = new ArrayList<RoomDTO>();
 		
 		for (RoomAssignment ra : roomAssignments) {
