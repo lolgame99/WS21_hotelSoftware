@@ -85,7 +85,7 @@ public class StayTest {
 	}
 	
 	@Test
-	void when_guestCount_is_at_least_one() throws InvalidStayException {
+	void when_guestCount_is_not_at_least_one() throws InvalidStayException {
 		//given
 		StayId stayId = new StayId("123");
 		LocalDate checkInDate = LocalDate.now();
@@ -108,26 +108,46 @@ public class StayTest {
 	void when_create_stay_from_booking() throws InvalidBookingException {
 		//given from Stay
 		StayId stayId = new StayId("123");
-		LocalDate checkInDate = LocalDate.of(2021, 11, 24);
-		LocalDate checkOutDate = LocalDate.of(2021, 11, 28);
+		LocalDate checkInDate = LocalDate.now();
+		LocalDate checkOutDate = LocalDate.now().plusDays(7);
 		int guestCount = 3;
 		String creditCardNumber = "0201133211";
 		CustomerId customerId = new CustomerId("122");
 		GuestId guestId = new GuestId("133");
 		BookingId bookingId = new BookingId("B12");
-
+		
+		//given from RoomCategory
+		RoomCategoryId categoryId = new RoomCategoryId("1");
+		String categoryName = "Family Suite";
+		int bedNumber = 2;
+		HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+		
+		categoryCount.put(RoomCategory.createWithDescription(categoryId, categoryName, bedNumber, categoryName), 3);
+		
+		
 		//given from Booking
 		String creditCardValid = "05/22";
 		BookingStatus bookingStatus = BookingStatus.PAID;
-		Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, null);
-		HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
-		categoryCount.put(null, 1);
+		Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+
+	
+		
 		
 		//when
 		Stay stay = Stay.createFromBooking(stayId, booking, guestId);
 		
 		//then
+		assertEquals(stayId, stay.getStayId());
+		assertEquals(checkInDate, stay.getCheckInDate());
+		assertEquals(checkOutDate, stay.getCheckOutDate());
+		assertEquals(guestCount, stay.getGuestCount());
+		assertEquals(creditCardNumber, stay.getCreditCardNumber());
+		assertEquals(customerId, stay.getCustomerId());
+		assertEquals(guestId, stay.getGuestId());
+		assertEquals(bookingId, stay.getBookingId());
 	}
+	
+	
 	
 	
 
