@@ -45,7 +45,7 @@ public class Booking {
 			throw new InvalidBookingException("Booking could not be created <br> Atleast 1 roomcategory has to be selected");
 		}
 		
-		//Pruefen ob genug Betten für Anzahl von Gaesten
+		//Pruefen ob genug Betten fuer Anzahl von Gaesten
 		Integer bedSum = 0;
 		for (HashMap.Entry<RoomCategory, Integer> entry: categoryCount.entrySet()) {
 			bedSum += entry.getKey().getBedNumber() * entry.getValue();
