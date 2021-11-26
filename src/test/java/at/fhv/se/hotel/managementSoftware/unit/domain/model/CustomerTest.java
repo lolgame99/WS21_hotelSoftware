@@ -11,6 +11,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CustomerTest {
 
@@ -72,31 +73,19 @@ public class CustomerTest {
 	}
 	
 	@Test
-	void when_customer_is_under_18() throws InvalidCustomerException {
+	void when_customer_is_under_18() {
 		//given
 		CustomerId customerId = new CustomerId("C3");
 		String firstName = "Yusuf";
 		String middleName = "Emir";
 		String lastName = "Cetinkaya";
 		LocalDate birthdate = LocalDate.of(2010, 5, 30);
-		Address address = new Address("Teststraße", "10", "Höchst", "6973", "Austria");
+		Address address = new Address("Teststrasse", "10", "Hoechst", "6973", "Austria");
 		String email = "YusufEmir@rhyta.com";
 		String phoneNumber = "+436648795210";
 		Gender gender = Gender.MALE;
-		
-		//when
-		Customer customer = Customer.create(customerId, firstName, lastName, birthdate, address, email, phoneNumber, gender).addMiddleName(middleName);
 
-		//then
-		assertEquals(customerId, customer.getCustomerId());
-		assertEquals(firstName, customer.getFirstName());
-		assertEquals(middleName, customer.getMiddleName());
-		assertEquals(lastName, customer.getLastName());
-		assertEquals(birthdate, customer.getBirthdate());
-		assertEquals(address, customer.getAddress());
-		assertEquals(email, customer.getEmail());
-		assertEquals(phoneNumber, customer.getPhoneNumber());
-		assertEquals(gender, customer.getGender());
+		//when...then
+		assertThrows(InvalidCustomerException.class, () -> Customer.create(customerId, firstName, lastName, birthdate, address, email, phoneNumber, gender));
 	}
-	
 }
