@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
@@ -12,29 +17,32 @@ import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 
 @Component
+@Transactional
 public class HibernateCustomerRepository implements CustomerRepository{
 	
-	List<Customer> customers = new ArrayList<Customer>();
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
 	public List<Customer> getAllCustomers() {
-		return customers;
+		TypedQuery<Customer> query = em.createQuery("SELECT c FROM Customer c", Customer.class);
+        return query.getResultList();
 	}
 
 	@Override
 	public Optional<Customer> getCustomerById(CustomerId id) {
-		Optional<Customer> customer = Optional.empty();
-		for (Customer cus : customers) {
-			if(cus.getCustomerId().getId().equals(id.getId())) {
-				customer = Optional.of(cus);
-			}
+		TypedQuery<Customer> query = em.createQuery("SELECT c FROM Customer c WHERE c.customerId = :id", Customer.class)
+				.setParameter("id", id);
+		List<Customer> result = query.getResultList();
+		if(result.size() != 1) {
+			return Optional.empty();
 		}
-		return customer;
+        return Optional.of(result.get(0));
 	}
 
 	@Override
 	public void addCustomer(Customer customer) {
-		customers.add(customer);
+		em.merge(customer);
 		
 	}
 
@@ -45,13 +53,12 @@ public class HibernateCustomerRepository implements CustomerRepository{
 
 	@Override
 	public void deleteCustomerById(CustomerId id) {
-		Customer toDelete = null;
-		for (Customer cus : customers) {
-			if(cus.getCustomerId().getId().equals(id.getId())) {
-				toDelete = cus;
-			}
+		TypedQuery<Customer> query = em.createQuery("SELECT c FROM Customer c WHERE c.customerId = :id", Customer.class)
+				.setParameter("id", id);
+		List<Customer> result = query.getResultList();
+		if(result.size() == 1) {
+			em.remove(result.get(0));
 		}
-		customers.remove(toDelete);
 	}
 
 }

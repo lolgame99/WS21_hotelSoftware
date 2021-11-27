@@ -185,24 +185,24 @@ public class TestData implements ApplicationRunner {
 		
 		
 		stayRepository.addStay(Stay.createFromBooking(stayUUID[1], bookingRepository.getBookingById(bookingUUID[0]).get(), guestUUID[0]));
-		roomRepository.addRoom(Room.create(new RoomId("101"), RoomStatus.AVAILABLE, categoryUUID[0]));
-		roomRepository.addRoom(Room.create(new RoomId("102"), RoomStatus.AVAILABLE, categoryUUID[0]));
-		roomRepository.addRoom(Room.create(new RoomId("103"), RoomStatus.AVAILABLE, categoryUUID[0]));
-		roomRepository.addRoom(Room.create(new RoomId("104"), RoomStatus.AVAILABLE, categoryUUID[0]));
-		roomRepository.addRoom(Room.create(new RoomId("105"), RoomStatus.AVAILABLE, categoryUUID[0]));
-		roomRepository.addRoom(Room.create(new RoomId("106"), RoomStatus.AVAILABLE, categoryUUID[0]));
-		roomRepository.addRoom(Room.create(new RoomId("201"), RoomStatus.OCCUPIED, categoryUUID[1]));
-		roomRepository.addRoom(Room.create(new RoomId("202"), RoomStatus.AVAILABLE, categoryUUID[1]));
-		roomRepository.addRoom(Room.create(new RoomId("203"), RoomStatus.AVAILABLE, categoryUUID[1]));
-		roomRepository.addRoom(Room.create(new RoomId("204"), RoomStatus.AVAILABLE, categoryUUID[1]));
-		roomRepository.addRoom(Room.create(new RoomId("205"), RoomStatus.AVAILABLE, categoryUUID[1]));
-		roomRepository.addRoom(Room.create(new RoomId("206"), RoomStatus.AVAILABLE, categoryUUID[1]));
-		roomRepository.addRoom(Room.create(new RoomId("301"), RoomStatus.OCCUPIED, categoryUUID[2]));
-		roomRepository.addRoom(Room.create(new RoomId("302"), RoomStatus.OCCUPIED, categoryUUID[2]));
-		roomRepository.addRoom(Room.create(new RoomId("303"), RoomStatus.AVAILABLE, categoryUUID[2]));
-		roomRepository.addRoom(Room.create(new RoomId("304"), RoomStatus.AVAILABLE, categoryUUID[2]));
-		roomRepository.addRoom(Room.create(new RoomId("305"), RoomStatus.AVAILABLE, categoryUUID[2]));
-		roomRepository.addRoom(Room.create(new RoomId("306"), RoomStatus.AVAILABLE, categoryUUID[2]));
+		roomRepository.addRoom(Room.create(new RoomId("101"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("102"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("103"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("104"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("105"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("106"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("201"), RoomStatus.OCCUPIED, roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("202"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("203"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("204"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("205"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("206"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("301"), RoomStatus.OCCUPIED, roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("302"), RoomStatus.OCCUPIED, roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("303"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("304"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("305"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get()));
+		roomRepository.addRoom(Room.create(new RoomId("306"), RoomStatus.AVAILABLE, roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get()));
 		
 		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId("301"), stayRepository.getStayById(stayUUID[0]).get()));
 		roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId("302"), stayRepository.getStayById(stayUUID[0]).get()));

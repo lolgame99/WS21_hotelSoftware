@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field" default-cascade="all">
+	<class name="at.fhv.se.hotel.managementSoftware.domain.model.Guest" table="guest" lazy="true">
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="id" unsaved-value="null">
+            <generator class="native"/>
+        </id>
+		<component name="guestId" class="at.fhv.se.hotel.managementSoftware.domain.model.GuestId">
+			<property name="id" column="guestId"/>
+		</component>
+		<property name = "firstName" column = "firstName" type = "java.lang.String"/>
+		<property name = "middleName" column = "middleName" type = "java.lang.String"/>
+		<property name = "lastName" column = "lastName" type = "java.lang.String"/>
+		<property name = "phoneNumber" column = "phoneNumber" type = "java.lang.String"/>
+
+	</class>
+</hibernate-mapping>

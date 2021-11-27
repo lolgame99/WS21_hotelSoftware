@@ -1,7 +1,7 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
 public class Guest {
-	
+	private long id;
 	private GuestId guestId;
 	private String firstName;
 	private String middleName;
@@ -54,6 +54,10 @@ public class Guest {
 
 	public String getMiddleName() {
 		return middleName;
+	}
+
+	public long getId() {
+		return id;
 	}
 
 	

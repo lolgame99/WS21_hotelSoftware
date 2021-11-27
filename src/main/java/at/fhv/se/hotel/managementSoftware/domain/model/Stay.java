@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException;
 
 public class Stay {
-	
+	private long id;
 	private StayId stayId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;

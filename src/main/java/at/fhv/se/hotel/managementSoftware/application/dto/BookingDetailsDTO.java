@@ -2,6 +2,7 @@ package at.fhv.se.hotel.managementSoftware.application.dto;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Map;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
@@ -19,7 +20,7 @@ public class BookingDetailsDTO {
 	private BookingStatus bookingStatus;
 	private int roomCount;
 
-	private HashMap<RoomCategory, Integer> categoryCount;
+	private Map<RoomCategory, Integer> categoryCount;
 	
 	private BookingDetailsDTO(){
 	}
@@ -72,7 +73,7 @@ public class BookingDetailsDTO {
 		return bookingStatus;
 	}
 
-	public HashMap<RoomCategory, Integer> getCategoryCount() {
+	public Map<RoomCategory, Integer> getCategoryCount() {
 		return categoryCount;
 	}
 

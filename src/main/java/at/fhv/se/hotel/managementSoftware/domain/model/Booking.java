@@ -2,11 +2,13 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Map;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 
 public class Booking {
+	private long id;
 	private BookingId bookingId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
@@ -16,7 +18,7 @@ public class Booking {
 	private int guestCount;
 	private BookingStatus bookingStatus;
 
-	private HashMap<RoomCategory, Integer> categoryCount;
+	private Map<RoomCategory, Integer> categoryCount;
 	
 	private Booking() {
 	}
@@ -43,7 +45,7 @@ public class Booking {
 			throw new InvalidBookingException("Booking could not be created <br> Atleast 1 roomcategory has to be selected");
 		}
 		
-		//Pruefen ob genug Betten für Anzahl von Gaesten
+		//Pruefen ob genug Betten fuer Anzahl von Gaesten
 		Integer bedSum = 0;
 		for (HashMap.Entry<RoomCategory, Integer> entry: categoryCount.entrySet()) {
 			bedSum += entry.getKey().getBedNumber() * entry.getValue();
@@ -86,7 +88,7 @@ public class Booking {
 		return customerId;
 	}
 
-	public HashMap<RoomCategory, Integer> getCategoryCount() {
+	public Map<RoomCategory, Integer> getCategoryCount() {
 		return categoryCount;
 	}
 
@@ -106,4 +108,9 @@ public class Booking {
 		this.bookingStatus = BookingStatus.ARRIVED;
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	
 }

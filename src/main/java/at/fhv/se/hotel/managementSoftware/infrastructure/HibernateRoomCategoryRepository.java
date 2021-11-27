@@ -1,9 +1,13 @@
 package at.fhv.se.hotel.managementSoftware.infrastructure;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
@@ -12,29 +16,32 @@ import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
 
 @Component
+@Transactional
 public class HibernateRoomCategoryRepository implements RoomCategoryRepository{
 
-	List<RoomCategory> roomCategories = new ArrayList<RoomCategory>();
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Override
 	public List<RoomCategory> getAllRoomCategories() {
-		return roomCategories;
+		TypedQuery<RoomCategory> query = em.createQuery("SELECT rc FROM RoomCategory rc", RoomCategory.class);
+        return query.getResultList();
 	}
 
 	@Override
 	public Optional<RoomCategory> getRoomCategoryById(RoomCategoryId id) {
-		Optional<RoomCategory> category = Optional.empty();
-		for (RoomCategory cat : roomCategories) {
-			if(cat.getCategoryID().getId().equals(id.getId())) {
-				category = Optional.of(cat);
-			}
+		TypedQuery<RoomCategory> query = em.createQuery("SELECT rc FROM RoomCategory rc WHERE rc.categoryId = :id", RoomCategory.class)
+				.setParameter("id", id);
+		List<RoomCategory> result = query.getResultList();
+		if(result.size() != 1) {
+			return Optional.empty();
 		}
-		return category;
+        return Optional.of(result.get(0));
 	}
 
 	@Override
 	public void addRoomCategory(RoomCategory category) {
-		roomCategories.add(category);
+		em.merge(category);	
 	}
 
 	@Override
