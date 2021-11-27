@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Price {
+	private long id;
 	private RoomCategoryId roomCategoryId;
 	private BigDecimal cost;
 	private LocalDate validFrom;
 	private LocalDate validTo;
 	
 	
-	private Price() {
-		
+	private Price() {		
 	}
 	
 	public static Price create(RoomCategoryId roomCategoryId, BigDecimal cost, LocalDate validFrom, LocalDate validTo) {
@@ -40,5 +40,10 @@ public class Price {
 	public LocalDate getValidTo() {
 		return validTo;
 	}
+
+	public long getId() {
+		return id;
+	}
+	
 	
 }

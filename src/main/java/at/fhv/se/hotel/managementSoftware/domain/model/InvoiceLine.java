@@ -3,6 +3,7 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 import java.math.BigDecimal;
 
 public class InvoiceLine {
+	private long id;
 	private InvoiceId invoiceId;
 	private int count;
 	private String description;
@@ -43,5 +44,10 @@ public class InvoiceLine {
 	public BigDecimal getPrice() {
 		return price;
 	}
+
+	public long getId() {
+		return id;
+	}
+	
 	
 }

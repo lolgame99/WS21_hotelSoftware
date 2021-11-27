@@ -1,9 +1,9 @@
 package at.fhv.se.hotel.managementSoftware.domain.enums;
 
 public enum PaymentType {
-	CASH("cash"),
-	CREDIT_CARD("creditCard"),
-	INVOICE("invoice");
+	CASH("Cash"),
+	CREDIT_CARD("Credit card"),
+	INVOICE("Invoice");
 	
 	private final String displayPaymentType;
 	
