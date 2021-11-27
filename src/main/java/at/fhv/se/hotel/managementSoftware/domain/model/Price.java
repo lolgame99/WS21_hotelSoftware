@@ -21,7 +21,6 @@ public class Price {
 		price.validFrom = validFrom;
 		price.validTo = validTo;
 		
-		
 		return price;
 	}
 

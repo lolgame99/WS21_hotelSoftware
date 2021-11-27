@@ -1,5 +1,6 @@
 package at.fhv.se.hotel.managementSoftware;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,6 +21,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
 import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
+import at.fhv.se.hotel.managementSoftware.domain.model.Price;
 import at.fhv.se.hotel.managementSoftware.domain.model.Room;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
@@ -30,6 +32,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.GuestRepository;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.PriceRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
@@ -59,6 +62,9 @@ public class TestData implements ApplicationRunner {
 	
 	@Autowired
 	private RoomRepository roomRepository;
+	
+	@Autowired
+	private PriceRepository priceRepository;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -97,6 +103,10 @@ public class TestData implements ApplicationRunner {
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[0], "Single Room", 1));
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[1], "Double Room", 2));
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[2], "Family Suite", 4));
+		
+		priceRepository.addPrice(Price.create(categoryUUID[0], new BigDecimal(100.00), LocalDate.now(), LocalDate.now().plusMonths(6)));
+		priceRepository.addPrice(Price.create(categoryUUID[1], new BigDecimal(300.00), LocalDate.now(), LocalDate.now().plusMonths(6)));
+		priceRepository.addPrice(Price.create(categoryUUID[2], new BigDecimal(800.00), LocalDate.now(), LocalDate.now().plusMonths(6)));
 		
 		
 		bookingRepository.addBooking(Booking.create(
