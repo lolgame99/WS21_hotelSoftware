@@ -60,5 +60,7 @@ public class HibernateCustomerRepository implements CustomerRepository{
 			em.remove(result.get(0));
 		}
 	}
+	
+	
 
 }
