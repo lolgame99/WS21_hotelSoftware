@@ -89,7 +89,7 @@ public class StayServiceImpl implements StayService{
 			if(s.getBookingId() != null) {
 				booking = bookingService.getBookingDetailsById(s.getBookingId().getId());
 			}
-			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId())));				
+			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId().getId())));				
 		}
 			
 		return stayDTOs;
@@ -107,7 +107,7 @@ public class StayServiceImpl implements StayService{
 			if(s.getBookingId() != null) {
 				booking = bookingService.getBookingDetailsById(s.getBookingId().getId());
 			}
-			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId())));		
+			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId().getId())));		
 		}
 			
 		return stayDTOs;
@@ -202,7 +202,7 @@ public class StayServiceImpl implements StayService{
 				booking,
 				customerService.getCustomerDetailsById(stay.get().getCustomerId().getId()).get(),
 				guestService.getGuestById(stay.get().getGuestId().getId()).get(),
-				roomAssignmentService.getRoomAssignmentsByStayId(stay.get().getStayId())));
+				roomAssignmentService.getRoomAssignmentsByStayId(stay.get().getStayId().getId())));
 		
 		
 				

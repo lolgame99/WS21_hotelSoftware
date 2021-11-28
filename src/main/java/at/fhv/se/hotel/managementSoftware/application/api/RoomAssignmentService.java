@@ -7,5 +7,5 @@ import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 
 public interface RoomAssignmentService {
 	public List<RoomAssignmentDTO> getAllRoomAssignmentDTOs();
-	public List<RoomAssignmentDTO> getRoomAssignmentsByStayId(StayId id);
+	public List<RoomAssignmentDTO> getRoomAssignmentsByStayId(String id);
 }
