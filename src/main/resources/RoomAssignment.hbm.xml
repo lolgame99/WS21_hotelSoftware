@@ -16,5 +16,11 @@
         <component name="stayId" class="at.fhv.se.hotel.managementSoftware.domain.model.StayId">
             <property name="id" column="stayId" type="java.lang.String"/>           
         </component>
+        <property name= "paymentStatus" column="paymentStatus">
+			<type name="org.hibernate.type.EnumType">
+		    	<param name="enumClass">at.fhv.se.hotel.managementSoftware.domain.enums.PaymentStatus</param>
+		    	<param name="type">12</param>
+			</type>       
+		</property>
 	</class>
 </hibernate-mapping>
