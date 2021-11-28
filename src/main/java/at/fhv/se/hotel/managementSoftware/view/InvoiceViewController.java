@@ -36,7 +36,6 @@ public class InvoiceViewController {
 		Optional<StayDetailsDTO> stay = stayService.getStayById(id);
 		model.addAttribute("stay",stay);
 		
-		
 		return INVOICE_OVERVIEW_VIEW;
 	}
 	
