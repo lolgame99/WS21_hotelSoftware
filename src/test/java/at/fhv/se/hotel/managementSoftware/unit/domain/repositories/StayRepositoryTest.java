@@ -1,10 +1,10 @@
 package at.fhv.se.hotel.managementSoftware.unit.domain.repositories;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +20,8 @@ import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
@@ -34,47 +36,71 @@ public class StayRepositoryTest {
 	@Test
 	void when_create_stay_for_walk_in_guest_is_added() throws InvalidStayException {
 		//given
-		Stay stayExpected = Stay.createForWalkIn(new StayId("123"), LocalDate.now(), LocalDate.now().plusDays(14), 2, "1234 1234 1234 1234", new CustomerId("C6"), new GuestId("G6"));
+		Stay expectedStay = Stay.createForWalkIn(new StayId("123"), LocalDate.now(), LocalDate.now().plusDays(14), 2, "1234 1234 1234 1234", new CustomerId("C6"), new GuestId("G6"));
 		
 		//when
-		stayRepository.addStay(stayExpected);
-		Optional<Stay> stayActual = stayRepository.getStayById(stayExpected.getStayId());
+		stayRepository.addStay(expectedStay);
+		Optional<Stay> actualStay = stayRepository.getStayById(expectedStay.getStayId());
 		
 		//then
-		assertEquals(stayExpected.getStayId().getId(), stayActual.get().getStayId().getId());
-		assertEquals(stayExpected.getCheckInDate(), stayActual.get().getCheckInDate());
-		assertEquals(stayExpected.getCheckOutDate(), stayActual.get().getCheckOutDate());
-		assertEquals(stayExpected.getGuestCount(), stayActual.get().getGuestCount());
-		assertEquals(stayExpected.getCreditCardNumber(), stayActual.get().getCreditCardNumber());
-		assertEquals(stayExpected.getCustomerId().getId(), stayActual.get().getCustomerId().getId());
-		assertEquals(stayExpected.getGuestId().getId(), stayActual.get().getGuestId().getId());
+		assertEquals(expectedStay.getStayId().getId(), actualStay.get().getStayId().getId());
+		assertEquals(expectedStay.getCheckInDate(), actualStay.get().getCheckInDate());
+		assertEquals(expectedStay.getCheckOutDate(), actualStay.get().getCheckOutDate());
+		assertEquals(expectedStay.getGuestCount(), actualStay.get().getGuestCount());
+		assertEquals(expectedStay.getCreditCardNumber(), actualStay.get().getCreditCardNumber());
+		assertEquals(expectedStay.getCustomerId().getId(), actualStay.get().getCustomerId().getId());
+		assertEquals(expectedStay.getGuestId().getId(), actualStay.get().getGuestId().getId());
 	}
 	
 	@Test
-	void when_create_stay_from_booking_is_added() throws InvalidStayException {
+	void when_create_stay_from_booking_is_added() throws Exception {
 		//given
-		//Booking booking = new Booking(new BookingId("435"), LocalDate.now(), LocalDate.now().plusDays(14), "3829 2929 2223", "valid", new CustomerId("C2"), 6, BookingStatus.PAID, booking.getCategoryCount());
-		//Stay stayExpected = Stay.createFromBooking(new StayId("234"), booking, new GuestId("235"));
+		BookingId bookingId = new BookingId("asdf");
+		LocalDate checkInDate =  LocalDate.now();
+		LocalDate checkOutDate = LocalDate.now().plusDays(7);
+		String creditCardNumber = "1212121212";
+		String creditCardValid = "12/23";
+		CustomerId customerId = new CustomerId("asfg");
+		int guestCount = 4;
+		BookingStatus bookingStatus = BookingStatus.PAID;
 		
-		//Problem: beim new Booking erstellen, wegen Hashmap
+        RoomCategoryId categoryId = new RoomCategoryId("1");
+        String categoryName = "Family Suite";
+        int bedNumber = 2;
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        
+        categoryCount.put(RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber), 3);
+		Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+		
+		Stay expectedStay = Stay.createFromBooking(new StayId("234"), booking, new GuestId("235"));
+		
+		//when
+		stayRepository.addStay(expectedStay);
+		Optional<Stay> actualStay = stayRepository.getStayById(new StayId("234"));
+		
+		//then
+		assertEquals(expectedStay.getBookingId().getId(), actualStay.get().getBookingId().getId());
+		assertEquals(expectedStay.getStayId().getId(), actualStay.get().getStayId().getId());
+		assertEquals(expectedStay.getCheckInDate(), actualStay.get().getCheckInDate());
+		assertEquals(expectedStay.getCheckOutDate(), actualStay.get().getCheckOutDate());
+		assertEquals(expectedStay.getGuestCount(), actualStay.get().getGuestCount());
+		assertEquals(expectedStay.getCreditCardNumber(), actualStay.get().getCreditCardNumber());
+		assertEquals(expectedStay.getCustomerId().getId(), actualStay.get().getCustomerId().getId());
+		assertEquals(expectedStay.getGuestId().getId(), actualStay.get().getGuestId().getId());
+		
 	}
 	
 	@Test
 	void when_all_stays_are_loaded() {
 		//given
-		//String[] expectedStayIds = {"0", "1", "2", "3", "4"};
+		int expectedStayCount = 2;
 		
 		//when
-		String[] actualStayIds = new String[5];
 		List<Stay> stay = stayRepository.getAllStays();
-		for (int i = 0; i < stay.size(); i++) {
-			actualStayIds[i] = stay.get(i).getStayId().getId();
-		}
+		int actualStayCount = stay.size();
 		
 		//then
-		//assertArrayEquals(expectedStayIds, actualStayIds);
-		
-		//Problem: bei expectedStaysIds muss ich die UUID aufrufen oder herausfinden, weil sonst ein Fehler kommt, dass die Array-Indizes nicht übereinstimmen
+		assertEquals(expectedStayCount, actualStayCount);
 	}
 	
 	@Test
@@ -88,9 +114,20 @@ public class StayRepositoryTest {
 		//then
 		assertTrue(actualStay.isEmpty());
 	}
-	
+
 	@Test
-	void when_all_current_stays_are_loaded() {
+	void when_all_stays_are_loaded_return_current() throws InvalidStayException {
+		//given
+		Stay expectedStay = Stay.createForWalkIn(new StayId("123"), LocalDate.now(), LocalDate.now().plusDays(14), 2, "1234 1234 1234 1234", new CustomerId("C6"), new GuestId("G6"));
+		Stay unexpectedStay = Stay.createForWalkIn(new StayId("123"), LocalDate.now().plusDays(7), LocalDate.now().plusDays(14), 2, "1234 1234 1234 1234", new CustomerId("C6"), new GuestId("G6"));
 		
+		//when
+		stayRepository.addStay(unexpectedStay);
+		stayRepository.addStay(expectedStay);
+		
+		List<Stay> actualCurrentStays = stayRepository.getCurrentStays(LocalDate.now());
+		
+		//then
+		assertEquals(3, actualCurrentStays.size());
 	}
 }
