@@ -58,35 +58,56 @@ public class BookingRepositoryTest {
 	}
 	
 	@Test
-	void when_given_invalid_bookings_by_checkInDate_return_empty() {
-		//given
-		LocalDate fromDate = LocalDate.now();
-		
-		//when
-		//BookingId actualBooking = bookingRepository.getBookingById(fromDate);
-		
-		//then
-		//assertTrue(actualBooking.isEmpty());
-	}
-	
-	@Test
-	void when_given_booking_is_added_return_equal() throws InvalidBookingException {
+	void when_checkInDate_return_all() throws Exception {
 		//given
 		BookingId bookingId = new BookingId("asdf");
-		LocalDate checkInDate =  LocalDate.now();
-		LocalDate checkOutDate = LocalDate.now().plusDays(7);
+		LocalDate checkInDate =  LocalDate.now().plusDays(20);
+		LocalDate checkOutDate = LocalDate.now().plusDays(30);
 		String creditCardNumber = "1212121212";
 		String creditCardValid = "12/23";
 		CustomerId customerId = customerRepository.getAllCustomers().get(2).getCustomerId();
 		int guestCount = 4;
 		BookingStatus bookingStatus = BookingStatus.PAID;
 		
-		RoomCategoryId categoryId = roomCategoryRepository.getAllRoomCategories().get(2).getCategoryId();
-        String categoryName = "Family Suite";
-        int bedNumber = 4;
+		RoomCategory category = roomCategoryRepository.getAllRoomCategories().get(2);
         HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
         
-        categoryCount.put(RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber), 1);
+        categoryCount.put(category, 1);
+		
+		Booking expectedBooking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+		
+		//when
+		bookingRepository.addBooking(expectedBooking);
+		List<Booking> actualBooking = bookingRepository.getBookingsByCheckInDate(checkInDate);
+		
+		//then
+		assertEquals(expectedBooking.getBookingId().getId(), actualBooking.get(0).getBookingId().getId());
+		assertEquals(expectedBooking.getCheckInDate(), actualBooking.get(0).getCheckInDate());
+		assertEquals(expectedBooking.getCheckOutDate(), actualBooking.get(0).getCheckOutDate());
+		assertEquals(expectedBooking.getCreditCardNumber(), actualBooking.get(0).getCreditCardNumber());
+		assertEquals(expectedBooking.getCreditCardValid(), actualBooking.get(0).getCreditCardValid());
+		assertEquals(expectedBooking.getCustomerId().getId(), actualBooking.get(0).getCustomerId().getId());
+		assertEquals(expectedBooking.getGuestCount(), actualBooking.get(0).getGuestCount());
+		assertEquals(expectedBooking.getBookingStatus(), actualBooking.get(0).getBookingStatus());
+		assertEquals(expectedBooking.getCategoryCount(), actualBooking.get(0).getCategoryCount());
+	}
+	
+	@Test
+	void when_given_booking_is_added_return_equal() throws InvalidBookingException {
+		//given
+		BookingId bookingId = new BookingId("asdf");
+		LocalDate checkInDate =  LocalDate.now().plusDays(20);
+		LocalDate checkOutDate = LocalDate.now().plusDays(30);
+		String creditCardNumber = "1212121212";
+		String creditCardValid = "12/23";
+		CustomerId customerId = customerRepository.getAllCustomers().get(2).getCustomerId();
+		int guestCount = 4;
+		BookingStatus bookingStatus = BookingStatus.PAID;
+		
+		RoomCategory category = roomCategoryRepository.getAllRoomCategories().get(2);
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        
+        categoryCount.put(category, 1);
 		
 		Booking expectedBooking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
 		
@@ -95,12 +116,12 @@ public class BookingRepositoryTest {
 		Optional<Booking> actualBooking = bookingRepository.getBookingById(expectedBooking.getBookingId());
 		
 		//then
-		assertEquals(expectedBooking.getBookingId().getId(), actualBooking.get().getId());
+		assertEquals(expectedBooking.getBookingId().getId(), actualBooking.get().getBookingId().getId());
 		assertEquals(expectedBooking.getCheckInDate(), actualBooking.get().getCheckInDate());
 		assertEquals(expectedBooking.getCheckOutDate(), actualBooking.get().getCheckOutDate());
 		assertEquals(expectedBooking.getCreditCardNumber(), actualBooking.get().getCreditCardNumber());
 		assertEquals(expectedBooking.getCreditCardValid(), actualBooking.get().getCreditCardValid());
-		assertEquals(expectedBooking.getCustomerId(), actualBooking.get().getCustomerId());
+		assertEquals(expectedBooking.getCustomerId().getId(), actualBooking.get().getCustomerId().getId());
 		assertEquals(expectedBooking.getGuestCount(), actualBooking.get().getGuestCount());
 		assertEquals(expectedBooking.getBookingStatus(), actualBooking.get().getBookingStatus());
 		assertEquals(expectedBooking.getCategoryCount(), actualBooking.get().getCategoryCount());
@@ -120,29 +141,75 @@ public class BookingRepositoryTest {
 	}
 	
 	@Test
-	void when_given_invalid_readyBookings_by_checkInDate_return_empty() {
-
+	void when_given_readyBookings_by_checkInDate_return_equal() throws InvalidBookingException {
+		//given
+		BookingId bookingId = new BookingId("asdf");
+		LocalDate checkInDate =  LocalDate.now().plusDays(22);
+		LocalDate checkOutDate = LocalDate.now().plusDays(30);
+		String creditCardNumber = "1212121212";
+		String creditCardValid = "12/23";
+		CustomerId customerId = customerRepository.getAllCustomers().get(2).getCustomerId();
+		int guestCount = 4;
+		BookingStatus bookingStatus = BookingStatus.PAID;
+		
+		RoomCategory category = roomCategoryRepository.getAllRoomCategories().get(2);
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        
+        categoryCount.put(category, 1);
+		
+		Booking expectedBooking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+		Booking unexpectedBooking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, BookingStatus.PENDING, categoryCount);
+		
+		
+		//when
+		bookingRepository.addBooking(expectedBooking);
+		List<Booking> actualBooking = bookingRepository.getReadyBookingsByCheckInDate(checkInDate);
+		
+		//then
+		assertEquals(expectedBooking.getBookingId().getId(), actualBooking.get(0).getBookingId().getId());
+		assertEquals(expectedBooking.getCheckInDate(), actualBooking.get(0).getCheckInDate());
+		assertEquals(expectedBooking.getCheckOutDate(), actualBooking.get(0).getCheckOutDate());
+		assertEquals(expectedBooking.getCreditCardNumber(), actualBooking.get(0).getCreditCardNumber());
+		assertEquals(expectedBooking.getCreditCardValid(), actualBooking.get(0).getCreditCardValid());
+		assertEquals(expectedBooking.getCustomerId().getId(), actualBooking.get(0).getCustomerId().getId());
+		assertEquals(expectedBooking.getGuestCount(), actualBooking.get(0).getGuestCount());
+		assertEquals(expectedBooking.getBookingStatus(), actualBooking.get(0).getBookingStatus());
+		assertEquals(expectedBooking.getCategoryCount(), actualBooking.get(0).getCategoryCount());
 	}
 	
 	@Test
-	 void delete_bookingById_does_not_return_anything() throws InvalidCustomerException {
+	 void delete_bookingById_does_not_return_anything() throws Exception {
 		// given
-	    /*Booking bookingToDelete = new Booking();
+		BookingId bookingId = new BookingId("asdf");
+		LocalDate checkInDate =  LocalDate.now().plusDays(22);
+		LocalDate checkOutDate = LocalDate.now().plusDays(30);
+		String creditCardNumber = "1212121212";
+		String creditCardValid = "12/23";
+		CustomerId customerId = customerRepository.getAllCustomers().get(2).getCustomerId();
+		int guestCount = 4;
+		BookingStatus bookingStatus = BookingStatus.PAID;
+		
+		RoomCategory category = roomCategoryRepository.getAllRoomCategories().get(2);
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        
+        categoryCount.put(category, 1);
+		
+		Booking expectedBooking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
 	        
 	    //when
-	    bookingRepository.addBooking(bookingToDelete);
-	    bookingRepository.deleteBookingById(bookingToDelete.getCustomerId());
+	    bookingRepository.addBooking(expectedBooking);
+	    bookingRepository.deleteBookingById(expectedBooking.getBookingId());
 	    List<Booking> allBookings  = bookingRepository.getAllBookings();
 	    boolean isDeleted = true;
 	    
 	    for (int i = 0; i < allBookings.size(); i++) {
-			if (allBookings.get(i).getBookingId() == bookingToDelete.getBookingId()) {
+			if (allBookings.get(i).getBookingId().getId() == expectedBooking.getBookingId().getId()) {
 				isDeleted = false;
 			}
 		}
 	    
 	    //then
-	    assertTrue(isDeleted);*/
+	    assertTrue(isDeleted);
 	        
 	  }   
 	

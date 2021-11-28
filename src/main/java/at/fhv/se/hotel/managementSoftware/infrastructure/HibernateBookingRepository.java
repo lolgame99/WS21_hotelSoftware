@@ -35,7 +35,7 @@ public class HibernateBookingRepository implements BookingRepository{
 
 	@Override
 	public List<Booking> getBookingsByCheckInDate(LocalDate date) {
-		TypedQuery<Booking> query = em.createQuery("SELECT b FROM Booking b WHERE checkInDate = :date", Booking.class)
+		TypedQuery<Booking> query = em.createQuery("SELECT b FROM Booking b WHERE b.checkInDate = :date", Booking.class)
 				.setParameter("date", date);
         return query.getResultList();
 	}
