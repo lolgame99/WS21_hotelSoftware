@@ -55,11 +55,11 @@
             </thead>
             <tbody class="stayOverview">
                 <th:block th:each="s, itemStat : ${stays}">
-                	<tr data-bs-toggle="collapse" th:href="@{#multiCollapseExample__${itemStat.index}__}">
+                	<tr>
 	                    <td class="text-center" th:text="${s.guest.firstName}+' '+${s.guest.lastName}"></td>
 	                    <td class="text-center" th:text="${s.checkInDate}"></td>
 	                    <td class="text-center" th:text="${s.checkOutDate}"></td>
-	                    <td><a href="#" class="btn btn-default btn-sm"><i class="bi bi-eye-fill"></i></a></td>
+	                    <td><a class="btn btn-default btn-sm" data-bs-toggle="collapse" th:href="@{#multiCollapseExample__${itemStat.index}__}"><i class="bi bi-eye-fill"></i></a></td>
 	                </tr>
 	                <tr>
 	                    <td colspan="5" style="padding: 0 !important;">
