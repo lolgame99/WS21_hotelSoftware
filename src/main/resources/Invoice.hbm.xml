@@ -18,5 +18,8 @@
 		    	<param name="type">12</param>
 			</type>       
 		</property>
+		<component name="customerId" class="at.fhv.se.hotel.managementSoftware.domain.model.CustomerId">
+            <property name="id" column="customerId" type="java.lang.String"/>           
+        </component>
 	</class>
 </hibernate-mapping>

@@ -3,6 +3,9 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 public class InvoiceId {
 	private String id;
 	
+	private InvoiceId() {
+	}
+	
 	public InvoiceId(String id) {
 		this.id = id;
 	}
@@ -13,9 +16,5 @@ public class InvoiceId {
 
 	public String getId() {
 		return id;
-	}
-
-	
-	
-	
+	}	
 }

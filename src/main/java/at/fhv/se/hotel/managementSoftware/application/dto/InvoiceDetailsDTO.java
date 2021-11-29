@@ -13,17 +13,19 @@ public class InvoiceDetailsDTO {
 	private LocalDate date;
 	private BigDecimal sum;
 	private PaymentType advancePayment;
+	private CustomerDetailsDTO customer;
     private List<InvoiceLineDetailsDTO> invoiceLine;
 	
 	private InvoiceDetailsDTO() {
 	}
 	
-	public static InvoiceDetailsDTO createsFromInvoice(Invoice invoice, List<InvoiceLineDetailsDTO> invoiceLine) {
+	public static InvoiceDetailsDTO createsFromInvoice(Invoice invoice, List<InvoiceLineDetailsDTO> invoiceLine, CustomerDetailsDTO customer) {
 		InvoiceDetailsDTO dto = new InvoiceDetailsDTO();
 		dto.invoiceId = invoice.getInvoiceId();
         dto.date = invoice.getDate();
         dto.sum = invoice.getSum();
-        dto.advancePayment = invoice.getAdvancePayment();
+        dto.customer = customer;
+        dto.advancePayment = invoice.getPaymentType();
         dto.invoiceLine = invoiceLine;
         
         return dto;
@@ -47,6 +49,10 @@ public class InvoiceDetailsDTO {
 
 	public List<InvoiceLineDetailsDTO> getInvoiceLine() {
 		return invoiceLine;
+	}
+
+	public CustomerDetailsDTO getCustomer() {
+		return customer;
 	}
 
 }
