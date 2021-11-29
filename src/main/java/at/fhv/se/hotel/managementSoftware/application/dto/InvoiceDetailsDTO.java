@@ -7,14 +7,16 @@ import java.util.List;
 import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentType;
 import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
+import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 
 public class InvoiceDetailsDTO {
 	private InvoiceId invoiceId;
 	private LocalDate date;
 	private BigDecimal sum;
-	private PaymentType advancePayment;
+	private PaymentType paymentType;
 	private CustomerDetailsDTO customer;
     private List<InvoiceLineDetailsDTO> invoiceLine;
+    private StayId stayId;
 	
 	private InvoiceDetailsDTO() {
 	}
@@ -25,9 +27,9 @@ public class InvoiceDetailsDTO {
         dto.date = invoice.getDate();
         dto.sum = invoice.getSum();
         dto.customer = customer;
-        dto.advancePayment = invoice.getPaymentType();
+        dto.paymentType = invoice.getPaymentType();
         dto.invoiceLine = invoiceLine;
-        
+        dto.stayId = invoice.getStayId();
         return dto;
 	}
 
@@ -43,8 +45,8 @@ public class InvoiceDetailsDTO {
 		return sum;
 	}
 
-	public PaymentType getAdvancePayment() {
-		return advancePayment;
+	public PaymentType getPaymentType() {
+		return paymentType;
 	}
 
 	public List<InvoiceLineDetailsDTO> getInvoiceLine() {
@@ -53,6 +55,10 @@ public class InvoiceDetailsDTO {
 
 	public CustomerDetailsDTO getCustomer() {
 		return customer;
+	}
+
+	public StayId getStayId() {
+		return stayId;
 	}
 
 }
