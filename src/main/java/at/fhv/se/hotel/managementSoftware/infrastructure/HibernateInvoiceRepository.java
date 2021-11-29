@@ -33,7 +33,7 @@ public class HibernateInvoiceRepository implements InvoiceRepository{
 
 	@Override
 	public List<Invoice> getInvoicesByCustomerId(CustomerId id) {
-		TypedQuery<Invoice> query = em.createQuery("SELECT i FROM Invoice i WHERE i.customerId = :id", Invoice.class)
+		TypedQuery<Invoice> query = em.createQuery("SELECT i FROM Invoice i WHERE i.customer.customerId = :id", Invoice.class)
 				.setParameter("id", id);
 		return query.getResultList();
 	}

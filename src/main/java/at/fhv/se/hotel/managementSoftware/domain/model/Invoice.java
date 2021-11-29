@@ -12,19 +12,19 @@ public class Invoice {
     private LocalDate date;
     private BigDecimal sum;
     private PaymentType paymentType;
-    private CustomerId customerId;
+    private Customer customer;
     
     private Invoice() {   
     }
     
     
-    public static Invoice create(InvoiceId invoiceId, LocalDate date, BigDecimal sum, PaymentType advancePayment, CustomerId customerId) {
+    public static Invoice create(InvoiceId invoiceId, LocalDate date, BigDecimal sum, PaymentType advancePayment, Customer customer) {
         Invoice invoice = new Invoice();
         invoice.invoiceId = invoiceId;
         invoice.date = date;
         invoice.sum = sum;
         invoice.paymentType = advancePayment;
-        invoice.customerId = customerId;
+        invoice.customer = customer;
         return invoice;
     }
 
@@ -53,8 +53,8 @@ public class Invoice {
 	}
 
 
-	public CustomerId getCustomerId() {
-		return customerId;
+	public Customer getCustomer() {
+		return customer;
 	}
 	
 	
