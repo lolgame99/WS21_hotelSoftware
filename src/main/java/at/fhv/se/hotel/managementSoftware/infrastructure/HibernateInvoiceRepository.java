@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
+import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.InvoiceRepository;
 
 @Component
@@ -68,6 +69,13 @@ public class HibernateInvoiceRepository implements InvoiceRepository{
 	@Override
 	public void addInvoice(Invoice invoice) {
 		em.merge(invoice);	
+	}
+
+	@Override
+	public List<Invoice> getInvoicesByStayId(StayId id) {
+		TypedQuery<Invoice> query = em.createQuery("SELECT i FROM Invoice i WHERE i.stayId = :id", Invoice.class)
+				.setParameter("id", id);
+		return query.getResultList();
 	}
 
 }

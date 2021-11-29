@@ -42,5 +42,8 @@
 				</type>       
 			</property>
         </component>
+        <component name="stayId" class="at.fhv.se.hotel.managementSoftware.domain.model.StayId">
+            <property name="id" column="stayId" type="java.lang.String"/>           
+        </component>
 	</class>
 </hibernate-mapping>
