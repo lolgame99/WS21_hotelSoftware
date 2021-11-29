@@ -54,50 +54,19 @@
                          </tr>
                      </thead>
                      <tbody>
+                     <th:block th:each="n,itemStat: ${assignments}">
                          <tr>
                          	 <td class="text-center"><input type="checkbox" id="mark" name="mark" disabled></td>
                              <td class="text-center">1</td>
-                             <td class="text-start">Doubleroom</td>
-                             <td class="text-start">Doubleroom Roomnumber 211; 10 days</td>
-                             <td class="text-end">€200.00</td>
+                             <td class="text-start" th:text="${n.room.roomCategory.name}"></td>
+                             <td class="text-start" th:text="${n.room.roomCategory.description}"></td>
+                             <td class="text-end"  ></td>
                              <td class="text-center">1</td>
                              <td class="text-center">20%</td>
                              <td class="text-end">€2000.00</td>
-                             <td class="text-center">Paid</td>
+                             <td class="text-center"> <!-- th:text="${T(at.fhv.se.hotel.managementSoftware.domain.enums.PaymentStatus).displayServicePayment}" --></td>
                          </tr>
-                         <tr>
-                         	 <td class="text-center"><input type="checkbox" id="mark" name="mark" disabled></td>
-                             <td class="text-center">2</td>
-                             <td class="text-start">Basic service adult</td>
-                             <td class="text-start">Service included with the room for adult</td>
-                             <td class="text-end">€500.00</td>
-                             <td class="text-center">2</td>
-                             <td class="text-center">10%</td>
-                             <td class="text-end text-end">€1000.00</td>
-                             <td class="text-center">Paid</td>
-                         </tr>
-                         <tr>
-                         	 <td class="text-center"><input type="checkbox" id="mark" name="mark"></td>
-                             <td class="text-center">3</td>
-                             <td class="text-start">Massage</td>
-                             <td class="text-start">Additional service: massage</td>
-                             <td class="text-end">€25.00</td>
-                             <td class="text-center">2</td>
-                             <td class="text-center">20%</td>
-                             <td class="text-end text-end">€50.00</td>
-                             <td class="text-center">Unpaid</td>
-                         </tr>
-                         <tr>
-                         	 <td class="text-center"><input type="checkbox" id="mark" name="mark"></td>
-                             <td class="text-center">4</td>
-                             <td class="text-start">Red vine</td>
-                             <td class="text-start">vino rocho de ano 1912</td>
-                             <td class="text-end">€10.00</td>
-                             <td class="text-center">4</td>
-                             <td class="text-center">20%</td>
-                             <td class="text-end text-end">€40.00</td>
-                             <td class="text-center">Unpaid</td>
-                         </tr>
+                      </th:block>
                      </tbody>
                  </table>
              </div>
