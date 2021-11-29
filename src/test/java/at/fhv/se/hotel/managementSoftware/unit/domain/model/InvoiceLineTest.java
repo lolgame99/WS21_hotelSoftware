@@ -18,7 +18,7 @@ public class InvoiceLineTest {
 		String name = "Batuhan Akkus";
 		BigDecimal price = new BigDecimal(428);
 		
-	InvoiceLine invoiceLine = InvoiceLine.create(invoiceId, count, description, name, price);
+	InvoiceLine invoiceLine = InvoiceLine.create(invoiceId, count, name, description, price);
 	
 	assertEquals(invoiceId, invoiceLine.getInvoiceId());
 	assertEquals(count, invoiceLine.getCount());

@@ -11,11 +11,10 @@ public class InvoiceLine {
 	private BigDecimal price;
 	
 	
-	private InvoiceLine() {
-		
+	private InvoiceLine() {	
 	}
 	
-	public static InvoiceLine create(InvoiceId invoiceId, int count, String description, String name, BigDecimal price) {
+	public static InvoiceLine create(InvoiceId invoiceId, int count, String name, String description, BigDecimal price) {
 		InvoiceLine invoiceLine = new InvoiceLine();
 		invoiceLine.invoiceId = invoiceId;
 		invoiceLine.count = count;
