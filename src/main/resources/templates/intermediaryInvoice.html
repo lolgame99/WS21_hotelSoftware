@@ -29,12 +29,12 @@
      <div class="card">
          <div class="card-body">
              <div class="row mb-4">
-                 <div class="col-sm-6 ">
+                 <div class="col-sm-6">
                      <h3 class="text-dark mb-1">Yusuf Cetinkaya</h3>
                      <div>Austria</div>
                      <div>6973 Höchst</div>
                      <div>Rheinstraße 51</div>
-                     <div>Email: yce5586@students.fhv.at</div>
+                     <div>Email: test@test.at</div>
                      <div>Phone: +43 660 5051818</div>
                  </div>
              </div>
@@ -60,7 +60,7 @@
                              <td class="text-center">1</td>
                              <td class="text-start" th:text="${n.room.roomCategory.name}"></td>
                              <td class="text-start" th:text="${n.room.roomCategory.description}"></td>
-                             <td class="text-end"  ></td>
+                             <td class="text-end"   th:text="${n.room.roomCategory.currentPrice.cost}"></td>
                              <td class="text-center">1</td>
                              <td class="text-center">20%</td>
                              <td class="text-end">€2000.00</td>
