@@ -50,6 +50,7 @@
                     <th class="text-center" scope="col">Guest Name</th>
                     <th class="text-center" scope="col">Check-In Date</th>
                     <th class="text-center" scope="col">Check-Out Date</th>
+                    <th class="text-center" scope="col">Checked-Out</th>
                     <th class="text-center">
                     	<a href="#" class="btn btn-default btn-sm d-none"><i class="bi bi-eye-fill"></i></a>
                     	<a href="#" class="btn btn-default btn-sm d-none"><i class="bi bi-currency-dollar"></i></a>
@@ -62,6 +63,7 @@
 	                    <td class="text-center" th:text="${s.guest.firstName}+' '+${s.guest.lastName}"></td>
 	                    <td class="text-center" th:text="${s.checkInDate}"></td>
 	                    <td class="text-center" th:text="${s.checkOutDate}"></td>
+	                    <td class="text-center"><input class="form-check-input checkOutBtn" type="checkbox"></td>
 	                    <td class="text-center">
 	                    	<a class="btn btn-default btn-sm" data-bs-toggle="collapse" th:href="@{#multiCollapseExample__${itemStat.index}__}"><i class="bi bi-eye-fill"></i></a>
 	                    	<a th:href="@{/invoice(stayId=${s.stayId.getId()})}" class="btn btn-default btn-sm"><i class="bi bi-currency-dollar"></i></a>
