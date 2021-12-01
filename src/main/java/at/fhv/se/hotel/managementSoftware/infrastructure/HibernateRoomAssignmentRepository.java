@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,8 +14,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
 import at.fhv.se.hotel.managementSoftware.domain.model.Room;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignmentId;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
@@ -50,6 +53,22 @@ public class HibernateRoomAssignmentRepository implements RoomAssignmentReposito
 	@Override
 	public void addRoomAssignment(RoomAssignment ra) {
 		em.merge(ra);	
+	}
+
+	@Override
+	public RoomAssignmentId nextIdentity() {
+		return new RoomAssignmentId(UUID.randomUUID().toString().toUpperCase());
+	}
+
+	@Override
+	public Optional<RoomAssignment> getRoomAssignmentsById(RoomAssignmentId id) {
+		TypedQuery<RoomAssignment> query = em.createQuery("SELECT ra FROM RoomAssignment WHERE ra.roomAssignmentId = :id", RoomAssignment.class)
+				.setParameter("id", id);
+		List<RoomAssignment> result = query.getResultList();
+		if (result.size() != 1) {
+			return Optional.empty();
+		}
+		return Optional.of(result.get(0));
 	}
 	
 	

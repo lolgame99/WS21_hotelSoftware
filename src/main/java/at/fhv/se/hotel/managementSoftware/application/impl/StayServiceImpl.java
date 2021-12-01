@@ -178,7 +178,7 @@ public class StayServiceImpl implements StayService{
 				}
 			}
 			
-			roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId(stayData.getRoomNumbers().get(i)), stay));
+			roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomAssignmentRepository.nextIdentity(),new RoomId(stayData.getRoomNumbers().get(i)), stay));
 		} 
 		
 		
