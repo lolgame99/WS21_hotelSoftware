@@ -18,8 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import at.fhv.se.hotel.managementSoftware.application.api.InvoiceService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomAssignmentService;
 import at.fhv.se.hotel.managementSoftware.application.api.StayService;
+import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomAssignmentDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.StayDetailsDTO;
+import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
 import at.fhv.se.hotel.managementSoftware.view.forms.InvoiceData;
 import at.fhv.se.hotel.managementSoftware.view.forms.StayData;
 
@@ -54,16 +56,26 @@ public class InvoiceViewController {
 		return INVOICE_OVERVIEW_VIEW;
 	}
 	
+	@GetMapping(CREATE_INVOICE_URL)
+	public String createInvoiceGet(@RequestParam(value = "invoiceId", required = true) String id, Model model, HttpServletRequest request) {
+		InvoiceDetailsDTO invoice = invoiceService.getInvoiceByInvoiceId(id).get();
+		model.addAttribute("invoice",invoice);
+		return CREATE_INVOICE_VIEW;
+	}
+
+	
 	@PostMapping(CREATE_INVOICE_URL)
-	public String createInvoicePost(@ModelAttribute InvoiceData form, Model model, HttpServletRequest request) {
+	public ModelAndView createInvoicePost(@ModelAttribute InvoiceData form, Model model, HttpServletRequest request) {
+		InvoiceId id = null;
 		try {
 			form.validate();
-			invoiceService.addInvoiceFromData(form);
+			 id = invoiceService.addInvoiceFromData(form);
 		} catch (Exception e) {
 			request.setAttribute("msg", e.getMessage());
 			System.out.println(e.getMessage());
+			return new ModelAndView("forward:"+ERROR_URL);
 		}
-		return CREATE_INVOICE_VIEW;
+		return new ModelAndView("redirect:" + CREATE_INVOICE_URL+"?invoiceId="+id.getId());
 	}
 }
 
