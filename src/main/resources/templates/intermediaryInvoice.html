@@ -70,10 +70,14 @@
 	                     </tbody>
 	                 </table>
 	             </div>
-	             <label class="form-label" for="paymentType">Payment Type:</label><br>
-                 <select class="form-control col-sm-3" th:field="*{paymentType}" required>
-			     	<option th:each="n : ${T(at.fhv.se.hotel.managementSoftware.domain.enums.PaymentType).values()}" th:text="${n.displayPaymentType}" th:value="${n}" ></option>
-			     </select>
+	             <div class="row mb-4">
+	             	<div class="col-sm-2">
+	             		<label class="form-label" for="paymentType">Payment Type:</label><br>
+	                	<select class="form-control" th:field="*{paymentType}" required>
+				 			<option th:each="n : ${T(at.fhv.se.hotel.managementSoftware.domain.enums.PaymentType).values()}" th:text="${n.displayPaymentType}" th:value="${n}" ></option>
+				    	</select>
+	             	</div>
+	             </div>
 			     <input class="d-none" th:field="*{stayId}"/>
 			     <input class="d-none" th:field="*{customerId}"/>
 	             <button type="submit" class="btn btn-primary btn-sm">pay selected items</button>
