@@ -4,12 +4,14 @@ import java.time.LocalDate;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentStatus;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignmentId;
 
 public class RoomAssignmentDTO {
 	private LocalDate assignedFrom;
 	private LocalDate assignedTo;
 	private RoomDTO room;
 	private PaymentStatus paymentStatus;
+	private RoomAssignmentId roomAssignmentId;
 	
 	private RoomAssignmentDTO() {
 		
@@ -21,6 +23,7 @@ public class RoomAssignmentDTO {
 		dto.assignedTo = roomAssignment.getAssignedTo();
 		dto.room = room;
 		dto.paymentStatus = roomAssignment.getPaymentStatus();
+		dto.roomAssignmentId = roomAssignment.getRoomAssignmentId();
 		return dto;
 	}
 
@@ -40,4 +43,9 @@ public class RoomAssignmentDTO {
 		return paymentStatus;
 	}
 
+	public RoomAssignmentId getRoomAssignmentId() {
+		return roomAssignmentId;
+	}
+
+	
 }

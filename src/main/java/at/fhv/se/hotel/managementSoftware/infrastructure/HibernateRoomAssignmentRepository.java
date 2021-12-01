@@ -62,7 +62,7 @@ public class HibernateRoomAssignmentRepository implements RoomAssignmentReposito
 
 	@Override
 	public Optional<RoomAssignment> getRoomAssignmentsById(RoomAssignmentId id) {
-		TypedQuery<RoomAssignment> query = em.createQuery("SELECT ra FROM RoomAssignment WHERE ra.roomAssignmentId = :id", RoomAssignment.class)
+		TypedQuery<RoomAssignment> query = em.createQuery("SELECT ra FROM RoomAssignment ra WHERE ra.roomAssignmentId = :id", RoomAssignment.class)
 				.setParameter("id", id);
 		List<RoomAssignment> result = query.getResultList();
 		if (result.size() != 1) {

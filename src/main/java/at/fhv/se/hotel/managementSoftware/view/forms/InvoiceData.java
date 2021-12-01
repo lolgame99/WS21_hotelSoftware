@@ -35,7 +35,7 @@ public class InvoiceData {
 				validatedNames.add(names.get(i));
 				validatedDescriptions.add(descriptions.get(i));
 				validatedPrices.add(prices.get(i));
-				//validatedAssignmentIds.add(assignmentIds.get(i));
+				validatedAssignmentIds.add(assignmentIds.get(i));
 			}
 		}
 		

@@ -7,7 +7,7 @@ $(document).ready(function(){
 			$(this).find(".itemName").attr("name","names["+ categoryCounter+"]");
 			$(this).find(".itemDescription").attr("name","descriptions["+ categoryCounter+"]");
 			$(this).find(".itemPrice").attr("name","prices["+ categoryCounter+"]");
-			$(this).find(".itemStatus").attr("name","status["+ categoryCounter+"]");
+			$(this).find(".itemId").attr("name","assignmentIds["+ categoryCounter+"]");
 			categoryCounter++;
 		});
 	}

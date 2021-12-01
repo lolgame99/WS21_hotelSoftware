@@ -91,4 +91,23 @@ public class RoomAssignmentRepositoryTest {
 		assertEquals(expectedRooms, actualRooms);
 	
 	}
+	
+	@Test
+	void when_given_roomAssignmentId_return_equal() throws InvalidStayException {
+		//given
+		Stay stay = Stay.createForWalkIn(new StayId("1"), LocalDate.now(), LocalDate.now().plusDays(2), 2, "44774477", new CustomerId("1"), new GuestId("1"));
+		RoomAssignmentId id = new RoomAssignmentId("1");
+		RoomAssignment expectedAssignment = RoomAssignment.create(id, new RoomId("106"), stay);
+		
+		//when
+		roomAssignmentRepository.addRoomAssignment(expectedAssignment);
+		RoomAssignment actualAssignment = roomAssignmentRepository.getRoomAssignmentsById(id).get();
+		
+		//then
+		assertEquals(expectedAssignment.getStayId().getId(), actualAssignment.getStayId().getId());
+		assertEquals(expectedAssignment.getRoomNumber().getId(), actualAssignment.getRoomNumber().getId());
+		assertEquals(expectedAssignment.getAssignedFrom(), actualAssignment.getAssignedFrom());
+		assertEquals(expectedAssignment.getAssignedTo(), actualAssignment.getAssignedTo());
+	
+	}
 }

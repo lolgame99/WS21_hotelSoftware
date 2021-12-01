@@ -23,10 +23,13 @@ import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceLine;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignmentId;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.InvoiceLineRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.InvoiceRepository;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
 import at.fhv.se.hotel.managementSoftware.view.forms.InvoiceData;
 
 @Component
@@ -43,6 +46,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 	
 	@Autowired
 	private InvoiceLineService	invoiceLineService;
+	
+	@Autowired
+	private RoomAssignmentRepository roomAssignmentRepository;
 	
 	@Override
 	public List<InvoiceDetailsDTO> getAllInvoices() {
@@ -119,6 +125,11 @@ public class InvoiceServiceImpl implements InvoiceService{
 			}
 			
 		}
+		for (int i = 0; i < data.getAssignmentIds().size(); i++) {
+			Optional<RoomAssignment> ra = roomAssignmentRepository.getRoomAssignmentsById(new RoomAssignmentId(data.getAssignmentIds().get(i)));
+			ra.get().paid();
+		}
+		
 		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(data.getCustomerId()));
 		Invoice invoice = Invoice.create(invoiceId, LocalDate.now(), sum, data.getPaymentType(), customer.get(), new StayId(data.getStayId()));
 		invoiceRepository.addInvoice(invoice);

@@ -64,7 +64,7 @@
 	                             <td class="text-end"   th:text="${n.room.roomCategory.currentPrice.cost}*${n.assignedTo.compareTo(n.assignedFrom)}+' €'"></td><td class="d-none"><input type="text" class="d-none itemPrice" th:value="${n.room.roomCategory.currentPrice.cost}*${n.assignedTo.compareTo(n.assignedFrom)}"/></td>
 	                             <td class="text-end">20%</td>
 	                             <td class="text-end" th:text="${#numbers.formatDecimal(n.room.roomCategory.currentPrice.cost*n.assignedTo.compareTo(n.assignedFrom)*1.2,1,2)}+' €'"></td>
-	                             <td class="text-center" th:text="${n.paymentStatus.getdisplayServicePayment()}"></td><!--<td class="d-none"><input type="text" class="d-none itemId" th:value="${n.paymentStatus}"/></td>-->
+	                             <td class="text-center" th:text="${n.paymentStatus.getdisplayServicePayment()}"></td><td class="d-none"><input type="text" class="d-none itemId" th:value="${n.roomAssignmentId.getId()}"/></td>
 	                         </tr>
 	                      </th:block>
 	                     </tbody>
