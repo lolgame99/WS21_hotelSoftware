@@ -25,6 +25,10 @@ public class RoomAssignment {
 		
 		return roomAssignment;
 	}
+	
+	public void paid() {
+		this.paymentStatus = PaymentStatus.PAID;
+	}
 
 	public LocalDate getAssignedFrom() {
 		return assignedFrom;

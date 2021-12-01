@@ -36,8 +36,8 @@ public class RoomAssignmentDTO {
 		return room;
 	}
 
-	
-	
-	
+	public PaymentStatus getPaymentStatus() {
+		return paymentStatus;
+	}
 
 }

@@ -11,7 +11,7 @@ public class InvoiceLine {
 	private BigDecimal price;
 	
 	
-	private InvoiceLine() {	
+	public InvoiceLine() {	
 	}
 	
 	public static InvoiceLine create(InvoiceId invoiceId, int count, String name, String description, BigDecimal price) {

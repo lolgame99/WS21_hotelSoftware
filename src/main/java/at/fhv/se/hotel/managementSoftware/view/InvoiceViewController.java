@@ -1,18 +1,27 @@
 package at.fhv.se.hotel.managementSoftware.view;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import at.fhv.se.hotel.managementSoftware.application.api.InvoiceService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomAssignmentService;
 import at.fhv.se.hotel.managementSoftware.application.api.StayService;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomAssignmentDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.StayDetailsDTO;
+import at.fhv.se.hotel.managementSoftware.view.forms.InvoiceData;
+import at.fhv.se.hotel.managementSoftware.view.forms.StayData;
 
 @Controller
 public class InvoiceViewController {
@@ -29,19 +38,31 @@ public class InvoiceViewController {
 	@Autowired
 	private StayService stayService;
 	
+	@Autowired
+	private InvoiceService invoiceService;
+	
 	@GetMapping(INVOICE_OVERVIEW_URL)
 	public String invoiceOverview(@RequestParam(value = "stayId", required = true) String id, Model model) {
 		List<RoomAssignmentDTO> assignments = roomAssignmentService.getRoomAssignmentsByStayId(id);
 		model.addAttribute("assignments",assignments);
-		Optional<StayDetailsDTO> stay = stayService.getStayById(id);
+		StayDetailsDTO stay = stayService.getStayById(id).get();
 		model.addAttribute("stay",stay);
+		InvoiceData form = new InvoiceData();
+		form.addInfo(stay);
+		model.addAttribute("form", form);
 		
 		return INVOICE_OVERVIEW_VIEW;
 	}
 	
-	@GetMapping(CREATE_INVOICE_URL)
-	public String createInvoiceView(Model model) {			
-		//Add finished invoice to model
+	@PostMapping(CREATE_INVOICE_URL)
+	public String createInvoicePost(@ModelAttribute InvoiceData form, Model model, HttpServletRequest request) {
+		try {
+			form.validate();
+			invoiceService.addInvoiceFromData(form);
+		} catch (Exception e) {
+			request.setAttribute("msg", e.getMessage());
+			System.out.println(e.getMessage());
+		}
 		return CREATE_INVOICE_VIEW;
 	}
 }
