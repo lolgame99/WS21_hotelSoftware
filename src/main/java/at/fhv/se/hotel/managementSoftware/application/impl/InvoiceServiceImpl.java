@@ -18,6 +18,8 @@ import at.fhv.se.hotel.managementSoftware.application.api.InvoiceService;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceLineDetailsDTO;
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidInvoiceException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
@@ -99,7 +101,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 
 	@Override
-	public void addInvoiceFromData(InvoiceData data) {
+	public InvoiceId addInvoiceFromData(InvoiceData data) throws InvalidInvoiceException {
+		if (data.getAssignmentIds().size() == 0) {
+			throw new InvalidInvoiceException("Invoice could not be created <br> Atleast one position has to be selected");
+		}
 		InvoiceId invoiceId = new InvoiceId(invoiceRepository.nextIdentity());
 		BigDecimal sum = BigDecimal.ZERO;
 		for (int i = 0; i < data.getNames().size(); i++) {
@@ -133,6 +138,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(data.getCustomerId()));
 		Invoice invoice = Invoice.create(invoiceId, LocalDate.now(), sum, data.getPaymentType(), customer.get(), new StayId(data.getStayId()));
 		invoiceRepository.addInvoice(invoice);
+		return invoiceId;
 	}
 
 }
