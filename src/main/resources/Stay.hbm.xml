@@ -1,0 +1,34 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field" default-cascade="all">
+	<class name="at.fhv.se.hotel.managementSoftware.domain.model.Stay" table="stay" lazy="true">
+		<cache usage="read-write"/>	
+		<id name="id" type="java.lang.Long" column="id" unsaved-value="null">
+            <generator class="native"/>
+        </id>
+        <component name="stayId" class="at.fhv.se.hotel.managementSoftware.domain.model.StayId">
+            <property name="id" column="stayId" type="java.lang.String"/>           
+        </component>
+        <property name = "checkInDate" column = "checkInDate" type = "java.time.LocalDate"/>
+        <property name = "checkOutDate" column = "checkOutDate" type = "java.time.LocalDate"/>
+        <property name = "creditCardNumber" column = "creditCardNumber" type = "java.lang.String"/>
+        <property name = "guestCount" column = "guestCount" type = "int"/>
+		
+        <component name="customerId" class="at.fhv.se.hotel.managementSoftware.domain.model.CustomerId">
+            <property name="id" column="customerId" type="java.lang.String"/>           
+        </component>
+        <component name="bookingId" class="at.fhv.se.hotel.managementSoftware.domain.model.BookingId">
+            <property name="id" column="bookingId" type="java.lang.String"/>           
+        </component>
+        <component name="guestId" class="at.fhv.se.hotel.managementSoftware.domain.model.GuestId">
+            <property name="id" column="guestId" type="java.lang.String"/>           
+        </component>
+        <property name="status" column="status">
+			<type name="org.hibernate.type.EnumType">
+		    	<param name="enumClass">at.fhv.se.hotel.managementSoftware.domain.enums.StayStatus</param>
+		    	<param name="type">12</param>
+			</type>       
+		</property>
+	</class>
+</hibernate-mapping>

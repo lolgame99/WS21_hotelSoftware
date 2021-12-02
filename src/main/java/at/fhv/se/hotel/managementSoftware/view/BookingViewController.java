@@ -114,6 +114,7 @@ public class BookingViewController {
 			bookingService.updateBooking(form, dateStringConverter(form.getCheckInDate()), dateStringConverter(form.getCheckOutDate()), dateStringConverter(form.getBirthdate()));
 		} catch (Exception e) {
 			request.setAttribute("msg", e.getMessage());
+			System.out.println(e.getMessage());
 			return new ModelAndView("forward:"+ERROR_URL);
 		}
 		

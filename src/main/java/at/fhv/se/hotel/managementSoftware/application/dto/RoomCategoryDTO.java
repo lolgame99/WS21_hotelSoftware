@@ -6,25 +6,27 @@ import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 
 public class RoomCategoryDTO {
-	private RoomCategoryId categoryID;
+	private RoomCategoryId categoryId;
 	private String name;
 	private String description;
 	private int bedNumber;
+	private PriceDetailsDTO currentPrice;
 	
 	private RoomCategoryDTO() {
 	}
 	
-	public static RoomCategoryDTO createFromCategory(RoomCategory category) {
+	public static RoomCategoryDTO createFromCategory(RoomCategory category, PriceDetailsDTO price) {
 		RoomCategoryDTO dto = new RoomCategoryDTO();
-		dto.categoryID = category.getCategoryID();
+		dto.categoryId = category.getCategoryId();
 		dto.name = category.getCategoryName();
 		dto.bedNumber = category.getBedNumber();
 		dto.description = category.getCategoryDescription();
+		dto.currentPrice = price;
 		return dto;
 	}
 
-	public RoomCategoryId getCategoryID() {
-		return categoryID;
+	public RoomCategoryId getCategoryId() {
+		return categoryId;
 	}
 
 	public String getName() {
@@ -38,5 +40,10 @@ public class RoomCategoryDTO {
 	public int getBedNumber() {
 		return bedNumber;
 	}
+
+	public PriceDetailsDTO getCurrentPrice() {
+		return currentPrice;
+	}
+	
 	
 }

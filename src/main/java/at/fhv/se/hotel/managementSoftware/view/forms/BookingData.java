@@ -71,7 +71,7 @@ public class BookingData {
 		this.creditCardNumber = existingBooking.getCreditCardNumber();
 		this.creditCardValid = existingBooking.getCreditCardValid();
 		for (RoomCategory cat : existingBooking.getCategoryCount().keySet()) {
-			this.categoryValues.add(cat.getCategoryID().getId());
+			this.categoryValues.add(cat.getCategoryId().getId());
 		}
 		for (Integer integer : existingBooking.getCategoryCount().values()) {
 			this.categoryAmounts.add(integer);

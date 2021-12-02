@@ -2,11 +2,11 @@ package at.fhv.se.hotel.managementSoftware.domain.model;
 
 import java.time.LocalDate;
 
-
+import at.fhv.se.hotel.managementSoftware.domain.enums.StayStatus;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException;
 
 public class Stay {
-	
+	private long id;
 	private StayId stayId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
@@ -15,6 +15,7 @@ public class Stay {
 	private BookingId bookingId;
 	private CustomerId customerId;
 	private GuestId guestId;
+	private StayStatus status;
 
 	private Stay() {		
 	}
@@ -22,6 +23,7 @@ public class Stay {
 	public static Stay createFromBooking(StayId stayId, Booking booking, GuestId guestId) {
 
 		Stay stay = new Stay();
+		stay.status = StayStatus.CHECKEDIN;
 		stay.stayId = stayId;
 		stay.checkInDate = booking.getCheckInDate();
 		stay.checkOutDate = booking.getCheckOutDate();
@@ -53,6 +55,7 @@ public class Stay {
 				
 		
 		Stay stay = new Stay();
+		stay.status = StayStatus.CHECKEDIN;
 		stay.stayId = stayId;
 		stay.checkInDate = checkInDate;
 		stay.checkOutDate = checkOutDate;
@@ -61,6 +64,10 @@ public class Stay {
 		stay.customerId = customerId;
 		stay.guestId = guestId;
 		return stay;
+	}
+	
+	public void checkout() {
+		this.status = StayStatus.CHECKEDOUT;
 	}
 	
 	public StayId getStayId() {
@@ -94,6 +101,11 @@ public class Stay {
 	public int getGuestCount() {
 		return guestCount;
 	}
+
+	public StayStatus getStatus() {
+		return status;
+	}
+	
 	
 }
 

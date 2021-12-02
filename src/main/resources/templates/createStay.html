@@ -120,7 +120,7 @@
                     	<div class="roomEntry form-row row mb-1" th:each="i: ${#numbers.sequence(0, form.categoryCount[catStat.index]-1)}">
 	                   		<div class="col">
 					            <select class="form-control roomCategorys" required th:disabled="*{bookingId != null}">
-					              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}" th:selected="${n.categoryID.getId() == cat}"></option>
+					              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryId.getId()}" th:selected="${n.categoryId.getId() == cat}"></option>
 					            </select>
 					        </div>
 					        <div class="col">
@@ -182,7 +182,7 @@
 	            <div class="roomEntry d-none form-row row mb-1" th:each="m : ${stays}">
 			        <div class="col">
 			            <select class="form-control categoryValues" required>
-			              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}"></option>
+			              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryId.getId()}"></option>
 			            </select>
 			        </div>
 			        <div class="col">
@@ -226,7 +226,7 @@
     <div class="roomEntryEmpty d-none form-row row mb-1">
         <div class="col">
             <select class="form-control roomCategorys" required>
-              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryID.getId()}"></option>
+              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryId.getId()}"></option>
             </select>
         </div>
         <div class="col">

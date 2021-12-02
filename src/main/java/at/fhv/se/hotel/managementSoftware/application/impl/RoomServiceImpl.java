@@ -16,6 +16,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
 
 @Component
@@ -28,6 +29,9 @@ public class RoomServiceImpl implements RoomService {
 	private RoomAssignmentRepository roomAssignmentRepository;
 	
 	@Autowired
+	private RoomCategoryRepository roomcategoryRepository;
+	
+	@Autowired
 	private RoomCategoryService roomCategoryService;
 	
 	@Override
@@ -36,7 +40,7 @@ public class RoomServiceImpl implements RoomService {
 		List<Room> rooms = roomRepository.getAllRooms();
 		
 		for (Room ro : rooms) {		
-			roomDTOs.add(RoomDTO.createFromRoom(ro,roomCategoryService.getRoomCategoryById(ro.getCategoryId().getId()).get()));
+			roomDTOs.add(RoomDTO.createFromRoom(ro,roomCategoryService.getRoomCategoryById(ro.getCategory().getCategoryId().getId()).get()));
 		}
 			
 		return roomDTOs;
@@ -45,10 +49,11 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public List<RoomDTO> getAllRoomsByRoomCategory(String id) {
 		List<RoomDTO> roomDTOs = new ArrayList<RoomDTO>();
-		List<Room> rooms = roomRepository.getAllRoomsByRoomCategory(new RoomCategoryId(id));
+		
+		List<Room> rooms = roomRepository.getAllRoomsByRoomCategory(roomcategoryRepository.getRoomCategoryById(new RoomCategoryId(id)).get());
 		
 		for (Room ro : rooms) {		
-			roomDTOs.add(RoomDTO.createFromRoom(ro,roomCategoryService.getRoomCategoryById(ro.getCategoryId().getId()).get()));
+			roomDTOs.add(RoomDTO.createFromRoom(ro,roomCategoryService.getRoomCategoryById(ro.getCategory().getCategoryId().getId()).get()));
 		}
 			
 		return roomDTOs;
@@ -58,7 +63,7 @@ public class RoomServiceImpl implements RoomService {
 	public Optional<RoomDTO> getRoomByRoomNumber(String number) {
 		Optional<RoomDTO> dto = Optional.empty();
 		Room room = roomRepository.getRoomByNumber(new RoomId(number)).get();
-		dto = Optional.of(RoomDTO.createFromRoom(room,roomCategoryService.getRoomCategoryById(room.getCategoryId().getId()).get()));
+		dto = Optional.of(RoomDTO.createFromRoom(room,roomCategoryService.getRoomCategoryById(room.getCategory().getCategoryId().getId()).get()));
 		return dto;
 	}
 
@@ -74,7 +79,7 @@ public class RoomServiceImpl implements RoomService {
 		}
 		rooms.removeAll(occupiedRooms);
 		for (Room r : rooms) {
-			dtos.add(RoomDTO.createFromRoom(r, roomCategoryService.getRoomCategoryById(r.getCategoryId().getId()).get()));
+			dtos.add(RoomDTO.createFromRoom(r, roomCategoryService.getRoomCategoryById(r.getCategory().getCategoryId().getId()).get()));
 		}
 		return dtos;
 	}
@@ -83,7 +88,7 @@ public class RoomServiceImpl implements RoomService {
 	public List<RoomDTO> getFreeRoomsBetweenByRoomCategoryId(String id,LocalDate date1, LocalDate date2) {
 		List<RoomAssignment> roomAssignments = roomAssignmentRepository.getAllRoomAssignmentsBetweenDates(date1, date2);
 		List<Room> occupiedRooms  = new ArrayList<Room>();
-		List<Room> rooms = roomRepository.getAllRoomsByRoomCategory(new RoomCategoryId(id));
+		List<Room> rooms = roomRepository.getAllRoomsByRoomCategory(roomcategoryRepository.getRoomCategoryById(new RoomCategoryId(id)).get());
 		List<RoomDTO> dtos = new ArrayList<RoomDTO>();
 		
 		for (RoomAssignment ra : roomAssignments) {
@@ -92,7 +97,7 @@ public class RoomServiceImpl implements RoomService {
 		
 		rooms.removeAll(occupiedRooms);
 		for (Room r : rooms) {
-			dtos.add(RoomDTO.createFromRoom(r, roomCategoryService.getRoomCategoryById(r.getCategoryId().getId()).get()));
+			dtos.add(RoomDTO.createFromRoom(r, roomCategoryService.getRoomCategoryById(r.getCategory().getCategoryId().getId()).get()));
 		}
 		return dtos;
 	}
