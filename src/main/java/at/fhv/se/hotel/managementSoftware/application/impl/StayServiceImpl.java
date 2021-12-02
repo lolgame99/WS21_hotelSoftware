@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +23,9 @@ import at.fhv.se.hotel.managementSoftware.application.dto.GuestDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.StayDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
+import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentStatus;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidRoomAssignmentException;
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
@@ -89,7 +93,7 @@ public class StayServiceImpl implements StayService{
 			if(s.getBookingId() != null) {
 				booking = bookingService.getBookingDetailsById(s.getBookingId().getId());
 			}
-			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId())));				
+			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId().getId())));				
 		}
 			
 		return stayDTOs;
@@ -107,7 +111,7 @@ public class StayServiceImpl implements StayService{
 			if(s.getBookingId() != null) {
 				booking = bookingService.getBookingDetailsById(s.getBookingId().getId());
 			}
-			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId())));		
+			stayDTOs.add(StayDetailsDTO.createFromStay(s, booking, customer, guest, roomAssignmentService.getRoomAssignmentsByStayId(s.getStayId().getId())));		
 		}
 			
 		return stayDTOs;
@@ -178,7 +182,7 @@ public class StayServiceImpl implements StayService{
 				}
 			}
 			
-			roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(new RoomId(stayData.getRoomNumbers().get(i)), stay));
+			roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomAssignmentRepository.nextIdentity(),new RoomId(stayData.getRoomNumbers().get(i)), stay));
 		} 
 		
 		
@@ -202,11 +206,30 @@ public class StayServiceImpl implements StayService{
 				booking,
 				customerService.getCustomerDetailsById(stay.get().getCustomerId().getId()).get(),
 				guestService.getGuestById(stay.get().getGuestId().getId()).get(),
-				roomAssignmentService.getRoomAssignmentsByStayId(stay.get().getStayId())));
+				roomAssignmentService.getRoomAssignmentsByStayId(stay.get().getStayId().getId())));
 		
 		
 				
 		return dto;
+	}
+
+	@Override
+	@Transactional
+	public void checkoutStay(String id) throws InvalidStayException {
+		Optional<Stay> stay = stayRepository.getStayById(new StayId(id));
+		if (stay.isEmpty()) {
+			throw new InvalidStayException("Invalid StayId");
+		}
+
+		List<RoomAssignment> assignments = roomAssignmentRepository.getRoomAssignmentsByStayId(new StayId(id));
+		for (RoomAssignment roomAssignment : assignments) {
+			if (roomAssignment.getPaymentStatus() == PaymentStatus.UNPAID) {
+				throw new InvalidStayException("Please close all open positions first");
+			}
+		}
+		
+		stay.get().checkout();
+		
 	}
 
 }

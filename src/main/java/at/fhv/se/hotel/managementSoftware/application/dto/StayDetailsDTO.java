@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import at.fhv.se.hotel.managementSoftware.domain.enums.StayStatus;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
@@ -21,12 +22,14 @@ public class StayDetailsDTO {
 	private CustomerDetailsDTO customer;
 	private GuestDetailsDTO guest;
 	private List<RoomAssignmentDTO> roomAssignments;
+	private StayStatus status;
 	
 	private StayDetailsDTO() {
 	}
 	
 	public static StayDetailsDTO createFromStay(Stay stay, Optional<BookingDetailsDTO> booking, CustomerDetailsDTO customer, GuestDetailsDTO guest, List<RoomAssignmentDTO> assignments) {
 		StayDetailsDTO dto = new StayDetailsDTO();
+		dto.status = stay.getStatus();
 		dto.stayId = stay.getStayId();
 		dto.checkInDate = stay.getCheckInDate();
 		dto.checkOutDate = stay.getCheckOutDate();
@@ -77,6 +80,10 @@ public class StayDetailsDTO {
 
 	public List<RoomAssignmentDTO> getRoomAssignments() {
 		return roomAssignments;
+	}
+
+	public StayStatus getStatus() {
+		return status;
 	}
 	
 	

@@ -17,6 +17,7 @@ import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignmentId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
@@ -32,7 +33,7 @@ public class RoomAssignmentRepositoryTest {
 	void when_given_roomAssignment_is_added_return_equal() throws InvalidStayException {
 		//given
 		Stay stay = Stay.createForWalkIn(new StayId("1"), LocalDate.now(), LocalDate.now().plusDays(2), 2, "44774477", new CustomerId("1"), new GuestId("1"));
-		RoomAssignment expectedAssignment = RoomAssignment.create(new RoomId("106"), stay);
+		RoomAssignment expectedAssignment = RoomAssignment.create(new RoomAssignmentId("1"), new RoomId("106"), stay);
 		
 		//when
 		roomAssignmentRepository.addRoomAssignment(expectedAssignment);
@@ -88,6 +89,25 @@ public class RoomAssignmentRepositoryTest {
 		
 		//then
 		assertEquals(expectedRooms, actualRooms);
+	
+	}
+	
+	@Test
+	void when_given_roomAssignmentId_return_equal() throws InvalidStayException {
+		//given
+		Stay stay = Stay.createForWalkIn(new StayId("1"), LocalDate.now(), LocalDate.now().plusDays(2), 2, "44774477", new CustomerId("1"), new GuestId("1"));
+		RoomAssignmentId id = new RoomAssignmentId("1");
+		RoomAssignment expectedAssignment = RoomAssignment.create(id, new RoomId("106"), stay);
+		
+		//when
+		roomAssignmentRepository.addRoomAssignment(expectedAssignment);
+		RoomAssignment actualAssignment = roomAssignmentRepository.getRoomAssignmentsById(id).get();
+		
+		//then
+		assertEquals(expectedAssignment.getStayId().getId(), actualAssignment.getStayId().getId());
+		assertEquals(expectedAssignment.getRoomNumber().getId(), actualAssignment.getRoomNumber().getId());
+		assertEquals(expectedAssignment.getAssignedFrom(), actualAssignment.getAssignedFrom());
+		assertEquals(expectedAssignment.getAssignedTo(), actualAssignment.getAssignedTo());
 	
 	}
 }

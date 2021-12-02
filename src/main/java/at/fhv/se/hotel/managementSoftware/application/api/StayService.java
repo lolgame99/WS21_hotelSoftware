@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import at.fhv.se.hotel.managementSoftware.application.dto.StayDetailsDTO;
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException;
 import at.fhv.se.hotel.managementSoftware.view.forms.StayData;
 
 public interface StayService {
@@ -12,4 +13,5 @@ public interface StayService {
 	public List<StayDetailsDTO> getCurrentStays(LocalDate date);
 	public Optional<StayDetailsDTO> getStayById(String id);
 	public void addStayFromData(StayData stayData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate, LocalDate convertedBirthDate) throws Exception;
+	public void checkoutStay(String id) throws InvalidStayException;
 }

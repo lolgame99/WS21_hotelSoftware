@@ -10,16 +10,18 @@ public class RoomCategoryDTO {
 	private String name;
 	private String description;
 	private int bedNumber;
+	private PriceDetailsDTO currentPrice;
 	
 	private RoomCategoryDTO() {
 	}
 	
-	public static RoomCategoryDTO createFromCategory(RoomCategory category) {
+	public static RoomCategoryDTO createFromCategory(RoomCategory category, PriceDetailsDTO price) {
 		RoomCategoryDTO dto = new RoomCategoryDTO();
 		dto.categoryId = category.getCategoryId();
 		dto.name = category.getCategoryName();
 		dto.bedNumber = category.getBedNumber();
 		dto.description = category.getCategoryDescription();
+		dto.currentPrice = price;
 		return dto;
 	}
 
@@ -38,5 +40,10 @@ public class RoomCategoryDTO {
 	public int getBedNumber() {
 		return bedNumber;
 	}
+
+	public PriceDetailsDTO getCurrentPrice() {
+		return currentPrice;
+	}
+	
 	
 }

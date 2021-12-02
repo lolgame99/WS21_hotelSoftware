@@ -14,6 +14,7 @@
 		<property name="roomStatus" column="status">
 			<type name="org.hibernate.type.EnumType">
 		    	<param name="enumClass">at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus</param>
+		    	<param name="type">12</param>
 			</type>       
 		</property>
 		<many-to-one name="category" class="at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory"/>

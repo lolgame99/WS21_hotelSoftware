@@ -40,7 +40,7 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 	}
 
 	@Override
-	public List<RoomAssignmentDTO> getRoomAssignmentsByStayId(StayId id) {
+	public List<RoomAssignmentDTO> getRoomAssignmentsByStayId(String id) {
 		List<RoomAssignmentDTO> roomAssignmentDTOs = new ArrayList<RoomAssignmentDTO>();
 		List<RoomAssignment> roomAssignment = roomAssignmentRepository.getRoomAssignmentsByStayId(new StayId(id));
 		

@@ -11,6 +11,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignmentId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
@@ -38,7 +39,7 @@ public class RoomAssignmentTest {
 		
 		
 		//when
-		RoomAssignment roomAssignment = RoomAssignment.create(roomNumber, stay);
+		RoomAssignment roomAssignment = RoomAssignment.create(new RoomAssignmentId("1"), roomNumber, stay);
 		
 		//then
 		assertEquals(assignedFrom, roomAssignment.getAssignedFrom());
