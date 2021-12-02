@@ -62,8 +62,8 @@
 	                             <td class="text-start" th:text="'Room: '+${n.room.roomNumber.getId()}"></td><td class="d-none"><input type="text" class="d-none itemName" th:value="'Room: '+${n.room.roomNumber.getId()}"/></td>
 	                             <td class="text-start" th:text="${n.room.roomCategory.name}+' - '+ ${n.assignedTo.compareTo(n.assignedFrom)}+' Nights'"></td><td class="d-none"><input type="text" class="d-none itemDescription" th:value="${n.room.roomCategory.name}+' - '+ ${n.assignedTo.compareTo(n.assignedFrom)}+' Nights'"/></td>
 	                             <td class="text-end"   th:text="${n.room.roomCategory.currentPrice.cost}*${n.assignedTo.compareTo(n.assignedFrom)}+' €'"></td><td class="d-none"><input type="text" class="d-none itemPrice" th:value="${n.room.roomCategory.currentPrice.cost}*${n.assignedTo.compareTo(n.assignedFrom)}"/></td>
-	                             <td class="text-end">20%</td>
-	                             <td class="text-end" th:text="${#numbers.formatDecimal(n.room.roomCategory.currentPrice.cost*n.assignedTo.compareTo(n.assignedFrom)*1.2,1,2)}+' €'"></td>
+	                             <td class="text-end">10%</td>
+	                             <td class="text-end" th:text="${#numbers.formatDecimal(n.room.roomCategory.currentPrice.cost*n.assignedTo.compareTo(n.assignedFrom)*1.1,1,2)}+' €'"></td>
 	                             <td class="text-center" th:text="${n.paymentStatus.getdisplayServicePayment()}"></td><td class="d-none"><input type="text" class="d-none itemId" th:value="${n.roomAssignmentId.getId()}"/></td>
 	                         </tr>
 	                      </th:block>
@@ -80,7 +80,7 @@
 	             </div>
 			     <input class="d-none" th:field="*{stayId}"/>
 			     <input class="d-none" th:field="*{customerId}"/>
-	             <button type="submit" class="btn btn-primary btn-sm">pay selected items</button>
+	             <button type="submit" class="btn btn-primary">Pay selected items</button>
              </form>
          </div>
      </div>
