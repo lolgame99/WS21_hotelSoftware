@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -112,7 +113,7 @@ public class InvoiceRepositoryTest {
 	@Test
 	void when_nextIdentity_return_expected() {
 		//given
-		String[] expectedIds = {"21"+LocalDate.now().getMonthValue()+LocalDate.now().getDayOfMonth()+"01","21"+LocalDate.now().getMonthValue()+LocalDate.now().getDayOfMonth()+"02"};
+		String[] expectedIds = {LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"))+"01",LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"))+"02"};
 		
 		//when
 		String[] actualIds = new String[2];
