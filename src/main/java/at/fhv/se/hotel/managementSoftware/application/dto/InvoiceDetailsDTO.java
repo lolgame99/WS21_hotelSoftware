@@ -15,7 +15,7 @@ public class InvoiceDetailsDTO {
 	private BigDecimal sum;
 	private PaymentType paymentType;
 	private CustomerDetailsDTO customer;
-    private List<InvoiceLineDetailsDTO> invoiceLine;
+    private List<InvoiceLineDetailsDTO> invoiceLines;
     private StayId stayId;
 	
 	private InvoiceDetailsDTO() {
@@ -28,7 +28,7 @@ public class InvoiceDetailsDTO {
         dto.sum = invoice.getSum();
         dto.customer = customer;
         dto.paymentType = invoice.getPaymentType();
-        dto.invoiceLine = invoiceLine;
+        dto.invoiceLines = invoiceLine;
         dto.stayId = invoice.getStayId();
         return dto;
 	}
@@ -49,8 +49,8 @@ public class InvoiceDetailsDTO {
 		return paymentType;
 	}
 
-	public List<InvoiceLineDetailsDTO> getInvoiceLine() {
-		return invoiceLine;
+	public List<InvoiceLineDetailsDTO> getInvoiceLines() {
+		return invoiceLines;
 	}
 
 	public CustomerDetailsDTO getCustomer() {

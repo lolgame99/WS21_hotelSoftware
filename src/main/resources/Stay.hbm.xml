@@ -24,5 +24,11 @@
         <component name="guestId" class="at.fhv.se.hotel.managementSoftware.domain.model.GuestId">
             <property name="id" column="guestId" type="java.lang.String"/>           
         </component>
+        <property name="status" column="status">
+			<type name="org.hibernate.type.EnumType">
+		    	<param name="enumClass">at.fhv.se.hotel.managementSoftware.domain.enums.StayStatus</param>
+		    	<param name="type">12</param>
+			</type>       
+		</property>
 	</class>
 </hibernate-mapping>

@@ -64,7 +64,7 @@ public class InvoiceServiceTest {
 		
 		//then
 		assertEquals(1, dtos.size());
-		assertEquals(2, dtos.get(0).getInvoiceLine().size());
+		assertEquals(2, dtos.get(0).getInvoiceLines().size());
 		assertEquals(allInvoices.get(0).getCustomer().getCustomerId().getId(), dtos.get(0).getCustomer().getCustomerId().getId());
 		assertEquals(allInvoices.get(0).getDate(), dtos.get(0).getDate());
 		assertEquals(allInvoices.get(0).getInvoiceId().getId(), dtos.get(0).getInvoiceId().getId());
@@ -91,7 +91,7 @@ public class InvoiceServiceTest {
 		
 		//then
 		assertEquals(1, dtos.size());
-		assertEquals(2, dtos.get(0).getInvoiceLine().size());
+		assertEquals(2, dtos.get(0).getInvoiceLines().size());
 		assertEquals(allInvoices.get(0).getCustomer().getCustomerId().getId(), dtos.get(0).getCustomer().getCustomerId().getId());
 		assertEquals(allInvoices.get(0).getDate(), dtos.get(0).getDate());
 		assertEquals(allInvoices.get(0).getInvoiceId().getId(), dtos.get(0).getInvoiceId().getId());
@@ -118,7 +118,7 @@ public class InvoiceServiceTest {
 		
 		//then
 		assertEquals(1, dtos.size());
-		assertEquals(2, dtos.get(0).getInvoiceLine().size());
+		assertEquals(2, dtos.get(0).getInvoiceLines().size());
 		assertEquals(allInvoices.get(0).getCustomer().getCustomerId().getId(), dtos.get(0).getCustomer().getCustomerId().getId());
 		assertEquals(allInvoices.get(0).getDate(), dtos.get(0).getDate());
 		assertEquals(allInvoices.get(0).getInvoiceId().getId(), dtos.get(0).getInvoiceId().getId());
@@ -144,7 +144,7 @@ public class InvoiceServiceTest {
 		
 		//then
 		assertTrue(dto.isPresent());
-		assertEquals(2, dto.get().getInvoiceLine().size());
+		assertEquals(2, dto.get().getInvoiceLines().size());
 		assertEquals(invoice.get().getCustomer().getCustomerId().getId(), dto.get().getCustomer().getCustomerId().getId());
 		assertEquals(invoice.get().getDate(), dto.get().getDate());
 		assertEquals(invoice.get().getInvoiceId().getId(), dto.get().getInvoiceId().getId());
