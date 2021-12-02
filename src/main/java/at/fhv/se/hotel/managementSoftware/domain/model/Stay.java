@@ -66,6 +66,10 @@ public class Stay {
 		return stay;
 	}
 	
+	public void checkout() {
+		this.status = StayStatus.CHECKEDOUT;
+	}
+	
 	public StayId getStayId() {
 		return stayId;
 	}

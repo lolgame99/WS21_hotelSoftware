@@ -24,4 +24,22 @@ $(document).ready(function(){
 		$(location).attr('href',baseUrl+"?date="+$(this).val());
 	});
 
+	$(".checkOutBtn").change(function() {
+		var getUrl = window.location;
+		var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+		var checkbox = $(this);
+		$.ajax({
+			type: "POST",
+			url: baseUrl+"api/checkout?stayId="+checkbox.data("stayid"),
+			dataType : "json"
+		}).done(function( data ) {
+		    if(data.status == "ok"){
+				location.reload();
+			}else{
+				$(".errorMsg").html(data.message);
+				$(".alert").removeClass("d-none")
+				checkbox.prop("checked", false);
+			}
+		});
+	});
 });
