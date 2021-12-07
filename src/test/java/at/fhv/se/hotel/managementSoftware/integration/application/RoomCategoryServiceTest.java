@@ -26,8 +26,62 @@ public class RoomCategoryServiceTest {
 	@MockBean
 	private RoomCategoryRepository roomCategoryRepository;
 	
+	
+	//With Description
 	@Test
-	void when_getAll_roomCategories_returns_all() {
+	void when_getAll_roomCategories_withoutDesc_returns_all() {
+		
+		//given
+		List<RoomCategory> allCategories = new ArrayList<RoomCategory>();
+		
+		allCategories.add(RoomCategory.createWithoutDescription(new RoomCategoryId("AA"), "Vierbettzimmer", 4));
+		allCategories.add(RoomCategory.createWithoutDescription(new RoomCategoryId("BB"), "Fünfbettzimmer", 5));
+		allCategories.add(RoomCategory.createWithoutDescription(new RoomCategoryId("CC"), "Fussballmannschaftzimmer", 11));
+		
+		Mockito.when(roomCategoryRepository.getAllRoomCategories()).thenReturn(allCategories);
+		
+		//when
+		List<RoomCategoryDTO> dtos = roomCategoryService.getAllRoomCategoriesDTO();
+		
+		//then
+		assertEquals(3, dtos.size());
+		assertEquals(allCategories.get(0).getBedNumber(), dtos.get(0).getBedNumber());
+		assertEquals(allCategories.get(0).getCategoryDescription(), dtos.get(0).getDescription());
+		assertEquals(allCategories.get(0).getCategoryName(), dtos.get(0).getName());
+		assertEquals(allCategories.get(0).getCategoryId(), dtos.get(0).getCategoryId());
+		//allcategories -> id übrig
+		//dtos -> price übrig
+	}
+	
+	@Test
+	void when_given_roomCategoryId_withoutDesc_returns_roomCategoryId_roomCategories() {
+		
+		//given
+		List<RoomCategory> allRoomCategories = new ArrayList<RoomCategory>();
+		
+		allRoomCategories.add(RoomCategory.createWithoutDescription(new RoomCategoryId("AA"), "Vierbettzimmer", 4));
+		allRoomCategories.add(RoomCategory.createWithoutDescription(new RoomCategoryId("BB"), "Fünfbettzimmer", 5));
+		allRoomCategories.add(RoomCategory.createWithoutDescription(new RoomCategoryId("CC"), "Fussballmannschaftzimmer", 11));
+		
+		Mockito.doReturn(allRoomCategories).when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class)));
+		
+		//when
+		List<RoomCategoryDTO> dtos = roomCategoryService.getRoomCategoryById(allRoomCategories.get(0).getCategoryId().getId());
+		
+		//then
+		assertEquals(3, dtos.size());
+		assertEquals(allRoomCategories.get(0).getBedNumber(), dtos.get(0).getBedNumber());
+		assertEquals(allRoomCategories.get(0).getCategoryDescription(), dtos.get(0).getDescription());
+		assertEquals(allRoomCategories.get(0).getCategoryName(), dtos.get(0).getName());
+		assertEquals(allRoomCategories.get(0).getCategoryId(), dtos.get(0).getCategoryId());
+		//allcategories -> id übrig
+		//dtos -> price übrig
+	}
+	
+	
+	//Without Description
+	@Test
+	void when_getAll_roomCategories_withDesc_returns_all() {
 		
 		//given
 		List<RoomCategory> allCategories = new ArrayList<RoomCategory>();
@@ -52,7 +106,7 @@ public class RoomCategoryServiceTest {
 	}
 	
 	@Test
-	void when_given_roomCategoryId_returns_roomCategoryId_roomCategories() {
+	void when_given_roomCategoryId_withDesc_returns_roomCategoryId_roomCategories() {
 		
 		//given
 		List<RoomCategory> allRoomCategories = new ArrayList<RoomCategory>();
