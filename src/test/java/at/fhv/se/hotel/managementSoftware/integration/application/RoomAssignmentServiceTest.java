@@ -53,7 +53,6 @@ public class RoomAssignmentServiceTest {
 		Stay stay1 = Stay.createForWalkIn(stayId1, checkInDate1, checkOutDate1, guestCount1, creditCardNumber1, customerId1, guestId1);
 		allAssignments.add(RoomAssignment.create(new RoomAssignmentId("101"), new RoomId("112"), stay1));
 		
-		
 		StayId stayId2 = new StayId("1234");
 		LocalDate checkInDate2 = LocalDate.now();
 		LocalDate checkOutDate2 = LocalDate.now().plusDays(7);
@@ -116,7 +115,7 @@ public class RoomAssignmentServiceTest {
 		allRoomAssignments.add(RoomAssignment.create(new RoomAssignmentId("102"), new RoomId("113"), stay2));
 		
 		
-		//Mockito.when(roomAssignmentRepository.getRoomAssignmentsById(any(RoomAssignmentId.class))).thenReturn(allRoomAssignments);
+		Mockito.doReturn(allRoomAssignments).when(roomAssignmentRepository.getRoomAssignmentsById(any(RoomAssignmentId.class)));
 		
 		//when
 		List<RoomAssignmentDTO> dtos = roomAssignmentService.getRoomAssignmentsByStayId(allRoomAssignments.get(0).getRoomAssignmentId().getId());
