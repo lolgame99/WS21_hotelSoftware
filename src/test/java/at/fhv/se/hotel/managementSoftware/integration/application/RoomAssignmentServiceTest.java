@@ -39,37 +39,97 @@ public class RoomAssignmentServiceTest {
 	void when_getAll_roomAssignment_returns_all() throws InvalidStayException {
 		
 		//given
-		List<RoomAssignment> allLines = new ArrayList<RoomAssignment>();
+		List<RoomAssignment> allAssignments = new ArrayList<RoomAssignment>();
 		
-		StayId stayId = new StayId("123");
-		LocalDate checkInDate = LocalDate.now();
-		LocalDate checkOutDate = LocalDate.now().plusDays(7);
-		int guestCount = 3;
-		String creditCardNumber = "0201133211";
-		BookingId bookingId = new BookingId("B12");
-		CustomerId customerId = new CustomerId("122");
-		GuestId guestId = new GuestId("133");
+		StayId stayId1 = new StayId("123");
+		LocalDate checkInDate1 = LocalDate.now();
+		LocalDate checkOutDate1 = LocalDate.now().plusDays(7);
+		int guestCount1 = 3;
+		String creditCardNumber1 = "0201133211";
+		BookingId bookingId1 = new BookingId("B12");
+		CustomerId customerId1 = new CustomerId("122");
+		GuestId guestId1 = new GuestId("133");
 		
-		Stay stay = Stay.createForWalkIn(stayId, checkInDate, checkOutDate, guestCount, creditCardNumber, customerId, guestId);
+		Stay stay1 = Stay.createForWalkIn(stayId1, checkInDate1, checkOutDate1, guestCount1, creditCardNumber1, customerId1, guestId1);
+		allAssignments.add(RoomAssignment.create(new RoomAssignmentId("101"), new RoomId("112"), stay1));
 		
 		
-		allLines.add(RoomAssignment.create(new RoomAssignmentId("101"), new RoomId("112"), stay));
+		StayId stayId2 = new StayId("1234");
+		LocalDate checkInDate2 = LocalDate.now();
+		LocalDate checkOutDate2 = LocalDate.now().plusDays(7);
+		int guestCount2 = 3;
+		String creditCardNumber2 = "0201133211";
+		BookingId bookingId2 = new BookingId("B123");
+		CustomerId customerId2 = new CustomerId("1222");
+		GuestId guestId2 = new GuestId("1333");
 		
-		Mockito.when(roomAssignmentRepository.getAllRoomAssignments()).thenReturn(allLines);
+		Stay stay2 = Stay.createForWalkIn(stayId2, checkInDate2, checkOutDate2, guestCount2, creditCardNumber2, customerId2, guestId2);
+		allAssignments.add(RoomAssignment.create(new RoomAssignmentId("102"), new RoomId("113"), stay2));
+		
+		
+		Mockito.when(roomAssignmentRepository.getAllRoomAssignments()).thenReturn(allAssignments);
 		
 		//when
 		List<RoomAssignmentDTO> dtos = roomAssignmentService.getAllRoomAssignmentDTOs();
 		
 		//then
-		assertEquals(1, dtos.size());
-		assertEquals(allLines.get(0).getAssignedFrom(), dtos.get(0).getAssignedFrom());
-		assertEquals(allLines.get(0).getAssignedTo(), dtos.get(0).getAssignedTo());
-		assertEquals(allLines.get(0).getRoomAssignmentId(), dtos.get(0).getRoomAssignmentId());
-		assertEquals(allLines.get(0).getPaymentStatus(), dtos.get(0).getPaymentStatus());
-		assertEquals(allLines.get(0).getRoomNumber(), dtos.get(0).getRoom());
+		assertEquals(2, dtos.size());
+		assertEquals(allAssignments.get(0).getAssignedFrom(), dtos.get(0).getAssignedFrom());
+		assertEquals(allAssignments.get(0).getAssignedTo(), dtos.get(0).getAssignedTo());
+		assertEquals(allAssignments.get(0).getRoomAssignmentId(), dtos.get(0).getRoomAssignmentId());
+		assertEquals(allAssignments.get(0).getPaymentStatus(), dtos.get(0).getPaymentStatus());
+		assertEquals(allAssignments.get(0).getRoomNumber(), dtos.get(0).getRoom());
 		//getStayID		nicht bei dem dto vorhanden
 		//getId 		nicht bei dem dto vorhanden
 	}
 	
+	
+	@Test
+	void when_given_roomAssignmentId_return_roomAssignmentId_roomAssignments() throws InvalidStayException {
+		
+		//given
+		List<RoomAssignment> allRoomAssignments = new ArrayList<RoomAssignment>();
+		
+		StayId stayId1 = new StayId("123");
+		LocalDate checkInDate1 = LocalDate.now();
+		LocalDate checkOutDate1 = LocalDate.now().plusDays(7);
+		int guestCount1 = 3;
+		String creditCardNumber1 = "0201133211";
+		BookingId bookingId1 = new BookingId("B12");
+		CustomerId customerId1 = new CustomerId("122");
+		GuestId guestId1 = new GuestId("133");
+		
+		Stay stay1 = Stay.createForWalkIn(stayId1, checkInDate1, checkOutDate1, guestCount1, creditCardNumber1, customerId1, guestId1);
+		allRoomAssignments.add(RoomAssignment.create(new RoomAssignmentId("101"), new RoomId("112"), stay1));
+		
+		
+		StayId stayId2 = new StayId("1234");
+		LocalDate checkInDate2 = LocalDate.now();
+		LocalDate checkOutDate2 = LocalDate.now().plusDays(7);
+		int guestCount2 = 3;
+		String creditCardNumber2 = "0201133211";
+		BookingId bookingId2 = new BookingId("B123");
+		CustomerId customerId2 = new CustomerId("1222");
+		GuestId guestId2 = new GuestId("1333");
+		
+		Stay stay2 = Stay.createForWalkIn(stayId2, checkInDate2, checkOutDate2, guestCount2, creditCardNumber2, customerId2, guestId2);
+		allRoomAssignments.add(RoomAssignment.create(new RoomAssignmentId("102"), new RoomId("113"), stay2));
+		
+		
+		//Mockito.when(roomAssignmentRepository.getRoomAssignmentsById(any(RoomAssignmentId.class))).thenReturn(allRoomAssignments);
+		
+		//when
+		List<RoomAssignmentDTO> dtos = roomAssignmentService.getRoomAssignmentsByStayId(allRoomAssignments.get(0).getRoomAssignmentId().getId());
+		
+		//then
+		assertEquals(2, allRoomAssignments.size());
+		assertEquals(allRoomAssignments.get(0).getAssignedFrom(), dtos.get(0).getAssignedFrom());
+		assertEquals(allRoomAssignments.get(0).getAssignedTo(), dtos.get(0).getAssignedTo());
+		assertEquals(allRoomAssignments.get(0).getRoomAssignmentId(), dtos.get(0).getRoomAssignmentId());
+		assertEquals(allRoomAssignments.get(0).getPaymentStatus(), dtos.get(0).getPaymentStatus());
+		assertEquals(allRoomAssignments.get(0).getRoomNumber(), dtos.get(0).getRoom());
+		//getStayID		nicht bei dem dto vorhanden
+		//getId 		nicht bei dem dto vorhanden
+	}
 	
 }
