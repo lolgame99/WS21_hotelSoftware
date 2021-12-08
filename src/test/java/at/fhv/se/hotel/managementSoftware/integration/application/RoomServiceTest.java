@@ -3,6 +3,7 @@ package at.fhv.se.hotel.managementSoftware.integration.application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +17,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import at.fhv.se.hotel.managementSoftware.application.api.RoomCategoryService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomService;
+import at.fhv.se.hotel.managementSoftware.application.dto.PriceDetailsDTO;
+import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidRoomException;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
+import at.fhv.se.hotel.managementSoftware.domain.model.Price;
 import at.fhv.se.hotel.managementSoftware.domain.model.Room;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignmentId;
@@ -60,7 +64,12 @@ public class RoomServiceTest {
 		RoomCategory category = RoomCategory.createWithoutDescription(new RoomCategoryId("1"), "Test Category", 2);
 		List<Room> allRooms = new ArrayList<Room>();
 		allRooms.add(Room.create(new RoomId("1"), RoomStatus.AVAILABLE, category));
+		
 		Mockito.when(roomRepository.getAllRooms()).thenReturn(allRooms);
+		
+		PriceDetailsDTO priceDTO = PriceDetailsDTO.createFromPrice(Price.create(new RoomCategoryId("AA"), BigDecimal.valueOf(100), LocalDate.now().minusDays(1), LocalDate.now().plusMonths(3)));
+		Optional<RoomCategoryDTO> categoryDTO = Optional.of(RoomCategoryDTO.createFromCategory(category, priceDTO));
+		Mockito.when(roomCategoryService.getRoomCategoryById(any(String.class))).thenReturn(categoryDTO);
 		
 		//when
 		List<RoomDTO> dtos = roomService.getAllRoomDTOs();
@@ -116,15 +125,28 @@ public class RoomServiceTest {
 	@Test
 	public void when_get_all_free_rooms_between() throws Exception {
 		//given
+		LocalDate fromDate = LocalDate.now();
+		LocalDate toDate = LocalDate.now().plusWeeks(1);
+		
 		RoomCategory category = RoomCategory.createWithoutDescription(new RoomCategoryId("1"), "Test Category", 2);
 		List<Room> allRooms = new ArrayList<Room>();
-		allRooms.add(Room.create(new RoomId("1"), RoomStatus.AVAILABLE, category));
+		allRooms.add(Room.create(new RoomId("1"), RoomStatus.OCCUPIED, category));
+		allRooms.add(Room.create(new RoomId("2"), RoomStatus.AVAILABLE, category));
 		Mockito.when(roomRepository.getAllRooms()).thenReturn(allRooms);
-		Mockito.when(roomAssignmentRepository.getAllRoomAssignments().get(0).getAssignedFrom());
-		Mockito.when(roomAssignmentRepository.getAllRoomAssignments().get(0).getAssignedTo());
+		
+		Stay stay = Stay.createForWalkIn(new StayId("123"), LocalDate.now(), LocalDate.now().plusDays(7), 2, "1234 1234 1234 1234", new CustomerId("C6"), new GuestId("G6"));
+		List<RoomAssignment> roomAssignments =  new ArrayList<RoomAssignment>();
+		roomAssignments.add(RoomAssignment.create(new RoomAssignmentId("1"), allRooms.get(0).getRoomNumber(), stay));
+		Mockito.when(roomAssignmentRepository.getAllRoomAssignmentsBetweenDates(fromDate,toDate)).thenReturn(roomAssignments);
+		
+		PriceDetailsDTO priceDTO = PriceDetailsDTO.createFromPrice(Price.create(new RoomCategoryId("AA"), BigDecimal.valueOf(100), LocalDate.now().minusDays(1), LocalDate.now().plusMonths(3)));
+		Optional<RoomCategoryDTO> categoryDTO = Optional.of(RoomCategoryDTO.createFromCategory(category, priceDTO));
+		Mockito.when(roomCategoryService.getRoomCategoryById(any(String.class))).thenReturn(categoryDTO);
+		
+		Mockito.when(roomRepository.getRoomByNumber(roomAssignments.get(0).getRoomNumber())).thenReturn(Optional.of(allRooms.get(0)));
 		
 		//when
-		List<RoomDTO> dtos = roomService.getAllFreeRoomsBetween(roomAssignmentRepository.getAllRoomAssignments().get(0).getAssignedFrom(), roomAssignmentRepository.getAllRoomAssignments().get(0).getAssignedTo());
+		List<RoomDTO> dtos = roomService.getAllFreeRoomsBetween(fromDate, toDate);
 								
 		//then
 		assertEquals(allRooms.get(0).getRoomNumber().getId(), dtos.get(0).getRoomNumber().getId());
