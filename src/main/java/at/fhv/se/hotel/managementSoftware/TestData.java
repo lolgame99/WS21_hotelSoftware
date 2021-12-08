@@ -40,7 +40,7 @@ import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
-@Component
+//@Component
 public class TestData implements ApplicationRunner {
 
 	@Autowired
@@ -69,6 +69,7 @@ public class TestData implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+		
 		CustomerId[] customerUUID = new CustomerId[6];
 		for (int i = 0; i < customerUUID.length; i++) {
 			customerUUID[i] = new CustomerId(UUID.randomUUID().toString().toUpperCase());
