@@ -54,7 +54,24 @@ public class CustomerServiceTest {
 	}
 	
 	@Test
-	void when_given_customerId_return_Customer() throws InvalidCustomerException {
+	void when_given_customerId_return_CustomerOverview() throws InvalidCustomerException {
+		//given;
+		Optional<Customer> customer = Optional.of(Customer.create(new CustomerId("C1"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
+		Mockito.when(customerRepository.getCustomerById(any(CustomerId.class))).thenReturn(customer);
+		
+		//when
+		Optional<CustomerOverviewDTO> dto = customerService.getCustomerOverviewById(customer.get().getCustomerId().getId());
+		
+		//then
+		assertTrue(dto.isPresent());
+		assertEquals(customer.get().getCustomerId().getId(), dto.get().getCustomerId().getId());
+		assertEquals(customer.get().getFirstName(), dto.get().getFirstName());
+		assertEquals(customer.get().getLastName(), dto.get().getLastName());
+		assertEquals(customer.get().getBirthdate(), dto.get().getBirthdate());
+	}
+	
+	@Test
+	void when_given_customerId_return_CustomerDetails() throws InvalidCustomerException {
 		//given;
 		Optional<Customer> customer = Optional.of(Customer.create(new CustomerId("C1"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
 		Mockito.when(customerRepository.getCustomerById(any(CustomerId.class))).thenReturn(customer);
