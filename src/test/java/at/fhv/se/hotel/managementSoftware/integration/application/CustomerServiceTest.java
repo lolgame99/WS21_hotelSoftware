@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
+import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
@@ -33,7 +34,7 @@ public class CustomerServiceTest {
 	@MockBean
 	private CustomerRepository customerRepository;
 	
-	/*@Test
+	@Test
 	void when_getAll_CustomerOverview_returns_all() throws InvalidCustomerException {
 		//given
 		List<Customer> allCustomers = new ArrayList<Customer>();
@@ -50,7 +51,7 @@ public class CustomerServiceTest {
 		assertEquals(allCustomers.get(0).getFirstName(), dtos.get(0).getFirstName());
 		assertEquals(allCustomers.get(0).getLastName(), dtos.get(0).getLastName());
 		assertEquals(allCustomers.get(0).getBirthdate(), dtos.get(0).getBirthdate());
-	}*/
+	}
 	
 	@Test
 	void when_given_customerId_return_Customer() throws InvalidCustomerException {
@@ -58,29 +59,23 @@ public class CustomerServiceTest {
 		Optional<Customer> customer = Optional.of(Customer.create(new CustomerId("C1"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
 		Mockito.when(customerRepository.getCustomerById(any(CustomerId.class))).thenReturn(customer);
 		
-		List<CustomerDetailsDTO> customerDTOs = new ArrayList<CustomerDetailsDTO>();
-		customerDTOs.add(CustomerDetailsDTO.createFromCustomer(Customer.create(new CustomerId("C1"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE)));
-		//TODO:
-		//Mockito.when(customerService.getCustomerDetailsById(any(String.class))).thenReturn(customerDTOs);
-		
 		//when
 		Optional<CustomerDetailsDTO> dto = customerService.getCustomerDetailsById(customer.get().getCustomerId().getId());
 		
 		//then
 		assertTrue(dto.isPresent());
-		assertEquals(1, customerDTOs.size());
-		assertEquals(customer.get().getCustomerId().getId(), customerDTOs.get(0).getCustomerId().getId());
-		assertEquals(customer.get().getFirstName(), customerDTOs.get(0).getFirstName());
-		assertEquals(customer.get().getLastName(), customerDTOs.get(0).getLastName());
-		assertEquals(customer.get().getBirthdate(), customerDTOs.get(0).getBirthdate());
-		assertEquals(customer.get().getAddress().getStreetName(), customerDTOs.get(0).getAddress().getStreetName());
-		assertEquals(customer.get().getAddress().getStreetNumber(), customerDTOs.get(0).getAddress().getStreetNumber());
-		assertEquals(customer.get().getAddress().getPostCode(), customerDTOs.get(0).getAddress().getPostCode());
-		assertEquals(customer.get().getAddress().getCity(), customerDTOs.get(0).getAddress().getCity());
-		assertEquals(customer.get().getAddress().getCountry(), customerDTOs.get(0).getAddress().getCountry());
-		assertEquals(customer.get().getEmail(), customerDTOs.get(0).getEmail());
-		assertEquals(customer.get().getPhoneNumber(), customerDTOs.get(0).getPhoneNumber());
-		assertEquals(customer.get().getGender(), customerDTOs.get(0).getGender());
+		assertEquals(customer.get().getCustomerId().getId(), dto.get().getCustomerId().getId());
+		assertEquals(customer.get().getFirstName(), dto.get().getFirstName());
+		assertEquals(customer.get().getLastName(), dto.get().getLastName());
+		assertEquals(customer.get().getBirthdate(), dto.get().getBirthdate());
+		assertEquals(customer.get().getAddress().getStreetName(), dto.get().getAddress().getStreetName());
+		assertEquals(customer.get().getAddress().getStreetNumber(), dto.get().getAddress().getStreetNumber());
+		assertEquals(customer.get().getAddress().getPostCode(), dto.get().getAddress().getPostCode());
+		assertEquals(customer.get().getAddress().getCity(), dto.get().getAddress().getCity());
+		assertEquals(customer.get().getAddress().getCountry(), dto.get().getAddress().getCountry());
+		assertEquals(customer.get().getEmail(), dto.get().getEmail());
+		assertEquals(customer.get().getPhoneNumber(), dto.get().getPhoneNumber());
+		assertEquals(customer.get().getGender(), dto.get().getGender());
 	}
 	
 	
