@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import at.fhv.se.hotel.managementSoftware.application.api.RoomAssignmentService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomService;
@@ -33,6 +34,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
 
+@ActiveProfiles("test")
 @SpringBootTest
 public class RoomAssignmentServiceTest {
 	

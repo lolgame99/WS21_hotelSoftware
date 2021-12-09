@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import at.fhv.se.hotel.managementSoftware.application.api.PriceService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomCategoryService;
@@ -24,6 +25,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.Price;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
 
+@ActiveProfiles("test")
 @SpringBootTest
 public class RoomCategoryServiceTest {
 

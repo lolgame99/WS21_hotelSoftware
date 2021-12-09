@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import at.fhv.se.hotel.managementSoftware.application.api.InvoiceLineService;
 import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceLineDetailsDTO;
@@ -19,6 +20,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceLine;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.InvoiceLineRepository;
 
+@ActiveProfiles("test")
 @SpringBootTest
 public class InvoiceLineServiceTest {
 	@Autowired

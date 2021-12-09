@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
@@ -25,6 +26,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
+@ActiveProfiles("test")
 @SpringBootTest
 public class CustomerServiceTest {
 
