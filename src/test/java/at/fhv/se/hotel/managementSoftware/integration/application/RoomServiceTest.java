@@ -93,6 +93,8 @@ public class RoomServiceTest {
 		allRooms.add(Room.create(new RoomId("1"), RoomStatus.AVAILABLE, category));
 		
 	//Hier ist noch ein Fehler
+		Optional<RoomCategory> roomCategory = Optional.of(category);
+		Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(roomCategory);
 		Mockito.when(roomRepository.getAllRoomsByRoomCategory(allRooms.get(0).getCategory())).thenReturn(allRooms);
 		
 		PriceDetailsDTO priceDTO = PriceDetailsDTO.createFromPrice(Price.create(new RoomCategoryId("AA"), BigDecimal.valueOf(100), LocalDate.now().minusDays(1), LocalDate.now().plusMonths(3)));
