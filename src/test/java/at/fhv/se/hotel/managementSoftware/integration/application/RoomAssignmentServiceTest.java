@@ -100,12 +100,11 @@ public class RoomAssignmentServiceTest {
 		assertEquals(allAssignments.get(0).getAssignedTo(), dtos.get(0).getAssignedTo());
 		assertEquals(allAssignments.get(0).getRoomAssignmentId(), dtos.get(0).getRoomAssignmentId());
 		assertEquals(allAssignments.get(0).getPaymentStatus(), dtos.get(0).getPaymentStatus());
-//		assertEquals(allAssignments.get(0).getRoomNumber(), dtos.get(0).getRoom().getRoomNumber());
 	}
 	
 	
 	@Test
-	void when_given_roomAssignmentId_returns_roomAssignmentId_roomAssignmentDTO() throws InvalidStayException {
+	void when_given_roomAssignmentByStayId_returns_all() throws InvalidStayException {
 		
 		//given
 		StayId stayId1 = new StayId("123");
@@ -140,7 +139,6 @@ public class RoomAssignmentServiceTest {
 		assertEquals(allAssignments.get(0).getAssignedTo(), dtos.get(0).getAssignedTo());
 		assertEquals(allAssignments.get(0).getRoomAssignmentId(), dtos.get(0).getRoomAssignmentId());
 		assertEquals(allAssignments.get(0).getPaymentStatus(), dtos.get(0).getPaymentStatus());
-//		assertEquals(allAssignments.get(0).getRoomNumber(), dtos.get(0).getRoom().getRoomNumber());
 	}
 	
 }
