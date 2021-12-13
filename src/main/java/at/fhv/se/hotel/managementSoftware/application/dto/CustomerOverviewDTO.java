@@ -65,5 +65,11 @@ public class CustomerOverviewDTO {
 		return name;
 	}
 	
+	public String displayName() {
+		if (name == null) {
+			return firstName + " " + (middleName == null ? "" : middleName) + " " + lastName;
+		}
+		return name;
+	}
 	
 }

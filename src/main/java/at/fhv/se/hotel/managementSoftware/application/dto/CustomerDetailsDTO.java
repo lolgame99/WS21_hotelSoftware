@@ -119,5 +119,10 @@ public class CustomerDetailsDTO {
 		return discountRate;
 	}
 	
-	
+	public String displayName() {
+		if (name == null) {
+			return firstName + " " + (middleName == null ? "" : middleName) + " " + lastName;
+		}
+		return name;
+	}
 }

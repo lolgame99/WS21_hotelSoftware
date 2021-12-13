@@ -157,8 +157,7 @@
                     <ul class="list-group customerList">
                         <!-- Dynamically load all customer -->
                         <li class="list-group-item" th:each="n : ${customers}">
-                        	<a th:if="${n.middleName != null}" th:href="@{/booking(customerId=${n.customerId.getId()})}" th:text="${n.firstName}+' '+${n.middleName}+' '+${n.lastName}"></a>
-                        	<a th:if="${n.middleName == null}" th:href="@{/booking(customerId=${n.customerId.getId()})}" th:text="${n.firstName}+' '+${n.lastName}"></a>
+                        	<a th:href="@{/booking(customerId=${n.customerId.getId()})}" th:text="${n.displayName()}"></a>
                         </li>
                     </ul>
 

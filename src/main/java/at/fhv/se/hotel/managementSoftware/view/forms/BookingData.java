@@ -57,7 +57,10 @@ public class BookingData {
 		this.middleName = existingCustomer.getMiddleName();
 		this.lastName = existingCustomer.getLastName();
 		this.gender = existingCustomer.getGender();
-		this.birthdate = existingCustomer.getBirthdate().toString();
+		if (existingCustomer.getBirthdate() != null) {
+			this.birthdate = existingCustomer.getBirthdate().toString();
+		}
+		
 		this.email = existingCustomer.getEmail();
 		this.phoneNumber = existingCustomer.getPhoneNumber();
 		this.streetName = existingCustomer.getAddress().getStreetName();

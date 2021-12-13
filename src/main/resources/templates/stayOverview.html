@@ -92,7 +92,7 @@
 	                                </div>
 	                                <div class="col">
 	                                    <span class="fw-bold">Customer Info:</span><br>
-	                                    <span>Name: <span  th:text="${s.customer.firstName}+' '+${s.customer.lastName}"></span></span><br>
+	                                    <span>Name: <span  th:text="${s.customer.displayName()}"></span></span><br>
 	                                    <span>Phone Number:<span th:text="${s.customer.phoneNumber}"></span></span><br>
 	                                    <span>Email: <span th:text="${s.customer.email}"></span></span><br>
 	                                </div>

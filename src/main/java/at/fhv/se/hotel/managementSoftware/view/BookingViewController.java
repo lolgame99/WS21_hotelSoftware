@@ -64,7 +64,6 @@ public class BookingViewController {
 	@GetMapping(CREATE_BOOKING_URL)
 	public String createBooking(@RequestParam(value = "customerId", required = false) String customerId, Model model) {
 		final BookingData form = new BookingData();
-		
 		if(customerId != null) {
 			Optional<CustomerDetailsDTO> existingCustomer = customerService.getCustomerDetailsById(customerId);
 			if (existingCustomer.isPresent()) {

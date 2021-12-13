@@ -13,7 +13,9 @@ $(document).ready(function(){
     });
 
 	$(".removeCategoryBtn").click(function(){
-		categoryCounter--;
+		if(categoryCounter > 0){
+			categoryCounter--;
+		}
         $(".categoryEntry").last().remove();
     });
 

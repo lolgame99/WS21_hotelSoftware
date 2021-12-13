@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	$(".defaultGuest").prop( "checked", true );
 	let categoryCounter = 0;
 	
 	let now = new Date();
@@ -28,7 +29,9 @@ $(document).ready(function(){
     });
 
 	$(".removeCategoryBtn").click(function(){
-		categoryCounter--;
+		if(categoryCounter > 0){
+			categoryCounter--;
+		}
         $(".roomEntry").last().remove();
     });
 
