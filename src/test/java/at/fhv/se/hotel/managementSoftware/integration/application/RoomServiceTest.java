@@ -92,7 +92,6 @@ public class RoomServiceTest {
 		List<Room> allRooms = new ArrayList<Room>();
 		allRooms.add(Room.create(new RoomId("1"), RoomStatus.AVAILABLE, category));
 		
-	//Hier ist noch ein Fehler
 		Optional<RoomCategory> roomCategory = Optional.of(category);
 		Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(roomCategory);
 		Mockito.when(roomRepository.getAllRoomsByRoomCategory(allRooms.get(0).getCategory())).thenReturn(allRooms);
@@ -102,7 +101,7 @@ public class RoomServiceTest {
 		Mockito.when(roomCategoryService.getRoomCategoryById(any(String.class))).thenReturn(categoryDTO);
 		
 		//when
-		List<RoomDTO> dtos = roomService.getAllRoomDTOs();
+		List<RoomDTO> dtos = roomService.getAllRoomsByRoomCategory(category.getCategoryId().getId());
 		
 		//then
 		assertEquals(allRooms.get(0).getRoomNumber().getId(), dtos.get(0).getRoomNumber().getId());
@@ -119,7 +118,7 @@ public class RoomServiceTest {
 		List<Room> allRooms = new ArrayList<Room>();
 		allRooms.add(Room.create(new RoomId("1"), RoomStatus.AVAILABLE, category));
 		
-	//Hier ist noch ein Fehler
+		Mockito.when(roomRepository.getRoomByNumber(any(RoomId.class))).thenReturn(Optional.of(allRooms.get(0)));
 		Mockito.when(roomRepository.getRoomByNumber(allRooms.get(0).getRoomNumber())).thenReturn(Optional.of(allRooms.get(0)));
 		
 		PriceDetailsDTO priceDTO = PriceDetailsDTO.createFromPrice(Price.create(new RoomCategoryId("AA"), BigDecimal.valueOf(100), LocalDate.now().minusDays(1), LocalDate.now().plusMonths(3)));
@@ -127,14 +126,14 @@ public class RoomServiceTest {
 		Mockito.when(roomCategoryService.getRoomCategoryById(any(String.class))).thenReturn(categoryDTO);
 		
 		//when
-		List<RoomDTO> dtos = roomService.getAllRoomDTOs();
+		Optional<RoomDTO> dtos = roomService.getRoomByRoomNumber(allRooms.get(0).getRoomNumber().getId());
 		
 		//then
-		assertEquals(allRooms.get(0).getRoomNumber().getId(), dtos.get(0).getRoomNumber().getId());
-		assertEquals(allRooms.get(0).getRoomStatus(), dtos.get(0).getRoomStatus());
-		assertEquals(allRooms.get(0).getCategory().getCategoryId().getId(), dtos.get(0).getRoomCategory().getCategoryId().getId());
-		assertEquals(allRooms.get(0).getCategory().getCategoryName(), dtos.get(0).getRoomCategory().getName());
-		assertEquals(allRooms.get(0).getCategory().getBedNumber(), dtos.get(0).getRoomCategory().getBedNumber());
+		assertEquals(allRooms.get(0).getRoomNumber().getId(), dtos.get().getRoomNumber().getId());
+		assertEquals(allRooms.get(0).getRoomStatus(), dtos.get().getRoomStatus());
+		assertEquals(allRooms.get(0).getCategory().getCategoryId().getId(), dtos.get().getRoomCategory().getCategoryId().getId());
+		assertEquals(allRooms.get(0).getCategory().getCategoryName(), dtos.get().getRoomCategory().getName());
+		assertEquals(allRooms.get(0).getCategory().getBedNumber(), dtos.get().getRoomCategory().getBedNumber());
 	}
 	
 	
@@ -184,7 +183,7 @@ public class RoomServiceTest {
 		allRooms.add(Room.create(new RoomId("1"), RoomStatus.OCCUPIED, category));
 		allRooms.add(Room.create(new RoomId("2"), RoomStatus.AVAILABLE, category));
 		
-	//Hier ist noch ein Fehler
+		Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.of(category));
 		Mockito.when(roomRepository.getAllRoomsByRoomCategory(any(RoomCategory.class))).thenReturn(allRooms);
 				
 		Stay stay = Stay.createForWalkIn(new StayId("123"), LocalDate.now(), LocalDate.now().plusDays(7), 2, "1234 1234 1234 1234", new CustomerId("C6"), new GuestId("G6"));
@@ -199,7 +198,7 @@ public class RoomServiceTest {
 		Mockito.when(roomRepository.getRoomByNumber(roomAssignments.get(0).getRoomNumber())).thenReturn(Optional.of(allRooms.get(0)));
 				
 		//when
-		List<RoomDTO> dtos = roomService.getAllFreeRoomsBetween(fromDate, toDate);
+		List<RoomDTO> dtos = roomService.getFreeRoomsBetweenByRoomCategoryId(category.getCategoryId().getId(),fromDate, toDate);
 										
 		//then
 		assertEquals(allRooms.get(0).getRoomNumber().getId(), dtos.get(0).getRoomNumber().getId());
