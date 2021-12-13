@@ -103,7 +103,7 @@ public class TestData implements ApplicationRunner {
 		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[3], "Erling", "Haaland", LocalDate.of(2000, 5, 28), new Address("Marktplatz", "21", "Dortmund", "44135 ", "Germany"), "Haaland.goat@rhyta.com", "+495863126628", Gender.MALE).addMiddleName("Klaus"));
 		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[4], "Cristiano", "Ronaldo", LocalDate.of(1985, 2, 5), new Address("Oxford Street", "12", "Manchester", "M1", "United Kingdom"), "CristianoRonaldo@rhyta.com", "+449497823332", Gender.MALE));
 		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[5], "Conchita", "Wurst", LocalDate.of(1994, 10, 11), new Address("Wurst Strasse", "3", "Wien", "1010", "Austria"), "Conchita@wurst.com", "+436642135879", Gender.DIVERSE));
-		customerRepository.addCustomer(CompanyCustomer.create(customerUUID[6], "Firma AG", new Address("Fabrikstrasse", "3", "Wien", "1010", "Austria"), "Fabrik@email.com", "+43664273949", BigDecimal.valueOf(10)));
+		customerRepository.addCustomer(CompanyCustomer.create(customerUUID[6], "Firma AG", new Address("Fabrikstrasse", "3", "Wien", "1010", "Austria"), "Fabrik@email.com", "+43664273949", BigDecimal.valueOf(-10)));
 
 		guestRepository.addGuest(Guest.createFromCustomer(guestUUID[0], (IndividualCustomer) customerRepository.getCustomerById(customerUUID[0]).get()));
 		guestRepository.addGuest(Guest.create(guestUUID[1], "Franziska", "Nachbauer", "+438465184868").addMiddleName("Leonie"));
@@ -134,7 +134,7 @@ public class TestData implements ApplicationRunner {
 				LocalDate.now().plusDays(10),
 				"5555555555554444",
 				"11/10",
-				customerUUID[1],
+				customerUUID[6],
 				6,
 				BookingStatus.PAID,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 2);
