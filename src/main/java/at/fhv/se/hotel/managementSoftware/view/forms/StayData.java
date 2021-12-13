@@ -1,5 +1,6 @@
 package at.fhv.se.hotel.managementSoftware.view.forms;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,9 @@ public class StayData {
 	
 	private String email;
 	private String phoneNumber;
+	
+	private String companyName;
+	private BigDecimal discountRate;
 	
 	private String streetName;
 	private String streetNumber;
@@ -65,6 +69,8 @@ public class StayData {
 		this.city = existingCustomer.getAddress().getCity();
 		this.postcode = existingCustomer.getAddress().getPostCode();
 		this.country = existingCustomer.getAddress().getCountry();
+		this.discountRate = existingCustomer.getDiscountRate();
+		this.companyName = existingCustomer.getName();
 	}
 	
 	public void addExistingBooking(BookingDetailsDTO existingBooking) {
@@ -316,6 +322,22 @@ public class StayData {
 
 	public void setRoomNumbers(List<String> roomNumbers) {
 		this.roomNumbers = roomNumbers;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public BigDecimal getDiscountRate() {
+		return discountRate;
+	}
+
+	public void setDiscountRate(BigDecimal discountRate) {
+		this.discountRate = discountRate;
 	}
 	
 	

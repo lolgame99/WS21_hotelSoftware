@@ -1,5 +1,7 @@
 package at.fhv.se.hotel.managementSoftware.domain.model;
 
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidGuestException;
+
 public class Guest {
 	private long id;
 	private GuestId guestId;
@@ -20,12 +22,16 @@ public class Guest {
 		return guest;
 	}
 	
-	public static Guest createFromCustomer(GuestId guestId, IndividualCustomer customer) {
+	public static Guest createFromCustomer(GuestId guestId, Customer customer) throws InvalidGuestException {
+		if (customer instanceof CompanyCustomer) {
+			throw new InvalidGuestException("Guest could not be created <br> Must fill guest information if stay is booked by a company");
+		}
+		IndividualCustomer convertedCustomer = (IndividualCustomer) customer;
 		Guest guest = new Guest();
 		guest.guestId = guestId;
-		guest.firstName = customer.getFirstName();
-		guest.lastName = customer.getLastName();
-		guest.phoneNumber = customer.getPhoneNumber();
+		guest.firstName = convertedCustomer.getFirstName();
+		guest.lastName = convertedCustomer.getLastName();
+		guest.phoneNumber = convertedCustomer.getPhoneNumber();
 		return guest;
 	}
 	

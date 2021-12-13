@@ -1,5 +1,6 @@
 package at.fhv.se.hotel.managementSoftware.domain.valueObjects;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -27,25 +28,30 @@ public class InvoiceCustomer {
 	private LocalDate birthdate;
 	private Gender gender;
 	
+	private InvoiceCustomer() {
+	}
+	
 	public InvoiceCustomer(Customer customer) {
 		this.customerId = customer.getCustomerId();
 		this.address = customer.getAddress();
 		this.email = customer.getEmail();
 		this.phoneNumber = customer.getPhoneNumber();
-		this.firstName = customer.getFirstName();
-		this.middleName = customer.getMiddleName();
-		this.lastName = customer.getLastName();
-		this.birthdate = customer.getBirthdate();
-		this.gender = customer.getGender();
-	}
-	
-	public InvoiceCustomer(CompanyCustomer customer) {
-		this.customerId = customer.getCustomerId();
-		this.address = customer.getAddress();
-		this.email = customer.getEmail();
-		this.phoneNumber = customer.getPhoneNumber();
-		this.name = customer.getName();
-		this.discountRate = customer.getDiscountRate();
+		
+		if (customer instanceof IndividualCustomer) {
+			IndividualCustomer typeCustomer = (IndividualCustomer) customer;
+			this.firstName = typeCustomer.getFirstName();
+			this.middleName = typeCustomer.getMiddleName();
+			this.lastName = typeCustomer.getLastName();
+			this.birthdate = typeCustomer.getBirthdate();
+			this.gender = typeCustomer.getGender();
+		}else {
+			CompanyCustomer typeCustomer = (CompanyCustomer) customer;
+			this.name = typeCustomer.getName();
+			this.discountRate = typeCustomer.getDiscountRate();
+		}
+
+		
+		
 	}
 
 	public long getId() {

@@ -59,7 +59,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		List<Invoice> allInvoices = invoiceRepository.getAllInvoices();
 		List<InvoiceDetailsDTO> dtos = new ArrayList<InvoiceDetailsDTO>();
 		for (Invoice invoice : allInvoices) {
-			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromCustomer(invoice.getCustomer());
+			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromInvoiceCustomer(invoice.getCustomer());
 			List<InvoiceLineDetailsDTO> lines = invoiceLineService.getAllInvoiceLinesByInvoiceId(invoice.getInvoiceId().getId());
 			dtos.add(InvoiceDetailsDTO.createsFromInvoice(invoice, lines, customer));
 		}
@@ -71,7 +71,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		List<Invoice> allInvoices = invoiceRepository.getInvoicesByCustomerId(new CustomerId(id));
 		List<InvoiceDetailsDTO> dtos = new ArrayList<InvoiceDetailsDTO>();
 		for (Invoice invoice : allInvoices) {
-			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromCustomer(invoice.getCustomer());
+			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromInvoiceCustomer(invoice.getCustomer());
 			List<InvoiceLineDetailsDTO> lines = invoiceLineService.getAllInvoiceLinesByInvoiceId(invoice.getInvoiceId().getId());
 			dtos.add(InvoiceDetailsDTO.createsFromInvoice(invoice, lines, customer));
 		}
@@ -83,7 +83,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		List<Invoice> allInvoices = invoiceRepository.getInvoicesByStayId(new StayId(id));
 		List<InvoiceDetailsDTO> dtos = new ArrayList<InvoiceDetailsDTO>();
 		for (Invoice invoice : allInvoices) {
-			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromCustomer(invoice.getCustomer());
+			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromInvoiceCustomer(invoice.getCustomer());
 			List<InvoiceLineDetailsDTO> lines = invoiceLineService.getAllInvoiceLinesByInvoiceId(invoice.getInvoiceId().getId());
 			dtos.add(InvoiceDetailsDTO.createsFromInvoice(invoice, lines, customer));
 		}
@@ -95,7 +95,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		Optional<Invoice> invoice = invoiceRepository.getInvoiceByInvoiceId(new InvoiceId(id));
 		Optional<InvoiceDetailsDTO> dto = Optional.empty();
 		if (invoice.isPresent()) {
-			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromCustomer(invoice.get().getCustomer());
+			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromInvoiceCustomer(invoice.get().getCustomer());
 			List<InvoiceLineDetailsDTO> lines = invoiceLineService.getAllInvoiceLinesByInvoiceId(invoice.get().getInvoiceId().getId());
 			dto = Optional.of(InvoiceDetailsDTO.createsFromInvoice(invoice.get(), lines, customer));
 		}

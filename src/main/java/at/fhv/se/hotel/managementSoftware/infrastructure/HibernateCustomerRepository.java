@@ -55,7 +55,12 @@ public class HibernateCustomerRepository implements CustomerRepository{
 
 	@Override
 	public void addCustomer(Customer customer) {
-		em.merge(customer);
+		if (customer instanceof IndividualCustomer) {
+			em.merge((IndividualCustomer) customer);
+		}else {
+			em.merge((CompanyCustomer) customer);
+		}
+		
 		
 	}
 

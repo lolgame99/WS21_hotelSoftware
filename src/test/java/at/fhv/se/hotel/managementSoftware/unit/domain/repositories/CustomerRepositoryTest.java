@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
 import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
+import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
@@ -35,21 +36,21 @@ public class CustomerRepositoryTest {
 		
 		//when
 		customerRepository.addCustomer(expectedCustomer);
-		Optional<IndividualCustomer> actualCustomer = customerRepository.getCustomerById(expectedCustomer.getCustomerId());
+		IndividualCustomer actualCustomer = (IndividualCustomer) customerRepository.getCustomerById(expectedCustomer.getCustomerId()).get();
 		
 		//then
-		assertEquals(expectedCustomer.getCustomerId().getId(), actualCustomer.get().getCustomerId().getId());
-		assertEquals(expectedCustomer.getFirstName(), actualCustomer.get().getFirstName());
-		assertEquals(expectedCustomer.getLastName(), actualCustomer.get().getLastName());
-		assertEquals(expectedCustomer.getBirthdate(), actualCustomer.get().getBirthdate());
-		assertEquals(expectedCustomer.getAddress().getStreetName(), actualCustomer.get().getAddress().getStreetName());
-		assertEquals(expectedCustomer.getAddress().getStreetNumber(), actualCustomer.get().getAddress().getStreetNumber());
-		assertEquals(expectedCustomer.getAddress().getCity(), actualCustomer.get().getAddress().getCity());
-		assertEquals(expectedCustomer.getAddress().getPostCode(), actualCustomer.get().getAddress().getPostCode());
-		assertEquals(expectedCustomer.getAddress().getCountry(), actualCustomer.get().getAddress().getCountry());
-		assertEquals(expectedCustomer.getEmail(), actualCustomer.get().getEmail());
-		assertEquals(expectedCustomer.getPhoneNumber(), actualCustomer.get().getPhoneNumber());
-		assertEquals(expectedCustomer.getGender(), actualCustomer.get().getGender());
+		assertEquals(expectedCustomer.getCustomerId().getId(), actualCustomer.getCustomerId().getId());
+		assertEquals(expectedCustomer.getFirstName(), actualCustomer.getFirstName());
+		assertEquals(expectedCustomer.getLastName(), actualCustomer.getLastName());
+		assertEquals(expectedCustomer.getBirthdate(), actualCustomer.getBirthdate());
+		assertEquals(expectedCustomer.getAddress().getStreetName(), actualCustomer.getAddress().getStreetName());
+		assertEquals(expectedCustomer.getAddress().getStreetNumber(), actualCustomer.getAddress().getStreetNumber());
+		assertEquals(expectedCustomer.getAddress().getCity(), actualCustomer.getAddress().getCity());
+		assertEquals(expectedCustomer.getAddress().getPostCode(), actualCustomer.getAddress().getPostCode());
+		assertEquals(expectedCustomer.getAddress().getCountry(), actualCustomer.getAddress().getCountry());
+		assertEquals(expectedCustomer.getEmail(), actualCustomer.getEmail());
+		assertEquals(expectedCustomer.getPhoneNumber(), actualCustomer.getPhoneNumber());
+		assertEquals(expectedCustomer.getGender(), actualCustomer.getGender());
 		
 	}
 	
@@ -59,30 +60,10 @@ public class CustomerRepositoryTest {
 		CustomerId invalCustomerId = new CustomerId("007");
 		
 		//when
-		Optional<IndividualCustomer> actualCustomer = customerRepository.getCustomerById(invalCustomerId);
+		Optional<Customer> actualCustomer = customerRepository.getCustomerById(invalCustomerId);
 		
 		//then
 		assertTrue(actualCustomer.isEmpty());
-	}
-	
-	@Test
-	void when_all_test_customers_are_loaded() {
-		//given
-		String[] expectedCustomerFirstNames = {"Ulrich","Michelle","Ursula","Erling","Cristiano","Conchita",};
-		String[] expectedCustomerLastNames = {"Vogler","Eichelberger","Eichelberger","Haaland","Ronaldo","Wurst",};
-		
-		//when
-		String[] actualCustomerFirstNames = new String[6];
-		String[] actualCustomerLastNames = new String[6];
-		List<IndividualCustomer> customers = customerRepository.getAllCustomers();
-		for (int i = 0; i < customers.size(); i++) {
-			actualCustomerFirstNames[i] = customers.get(i).getFirstName();
-			actualCustomerLastNames[i] = customers.get(i).getLastName();
-		}
-		
-		//then
-		assertArrayEquals(expectedCustomerFirstNames, actualCustomerFirstNames);
-		assertArrayEquals(expectedCustomerLastNames, actualCustomerLastNames);
 	}
 	
 	 @Test
@@ -93,7 +74,7 @@ public class CustomerRepositoryTest {
 	    //when
 	    customerRepository.addCustomer(customerToDelete);
 	    customerRepository.deleteCustomerById(customerToDelete.getCustomerId());
-	    List<IndividualCustomer> allCustomers  = customerRepository.getAllCustomers();
+	    List<Customer> allCustomers  = customerRepository.getAllCustomers();
 	    boolean isDeleted = true;
 	    
 	    for (int i = 0; i < allCustomers.size(); i++) {

@@ -19,6 +19,8 @@ import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
+import at.fhv.se.hotel.managementSoftware.domain.model.CompanyCustomer;
+import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
@@ -77,22 +79,38 @@ public class BookingServiceImpl implements BookingService{
 
 	@Override
 	public void addBookingFromData(BookingData bookingData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate, LocalDate convertedBirthDate) throws Exception {
-		Optional<IndividualCustomer> customer = customerRepository.getCustomerById(new CustomerId(bookingData.getCustomerId()));
+		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(bookingData.getCustomerId()));
 		Boolean customerCreated = customer.isEmpty();
 		if(customerCreated) {
-			customer = Optional.of(IndividualCustomer.create(
-					customerRepository.nextIdentity(),
-					bookingData.getFirstName(),
-					bookingData.getLastName(),
-					convertedBirthDate,
-					new Address(bookingData.getStreetName(),bookingData.getStreetNumber(),bookingData.getCity(),bookingData.getPostcode(),bookingData.getCountry()),
-					bookingData.getEmail(),
-					bookingData.getPhoneNumber(),
-					bookingData.getGender()
-					));
-			if (bookingData.getMiddleName() != "") {
-				customer.get().addMiddleName(bookingData.getMiddleName());
+			if (bookingData.getCompanyName() != "") {
+				CompanyCustomer companyCustomer = CompanyCustomer.create(
+						customerRepository.nextIdentity(), 
+						bookingData.getCompanyName(), 
+						new Address(bookingData.getStreetName(),bookingData.getStreetNumber(),bookingData.getCity(),bookingData.getPostcode(),bookingData.getCountry()),
+						bookingData.getEmail(),
+						bookingData.getPhoneNumber(),
+						bookingData.getDiscountRate());
+				customer = Optional.of(companyCustomer);
+			}else {
+				IndividualCustomer individualCustomer = IndividualCustomer.create(
+						customerRepository.nextIdentity(),
+						bookingData.getFirstName(),
+						bookingData.getLastName(),
+						convertedBirthDate,
+						new Address(bookingData.getStreetName(),bookingData.getStreetNumber(),bookingData.getCity(),bookingData.getPostcode(),bookingData.getCountry()),
+						bookingData.getEmail(),
+						bookingData.getPhoneNumber(),
+						bookingData.getGender()
+						);
+				
+				if (bookingData.getMiddleName() != "") {
+					individualCustomer.addMiddleName(bookingData.getMiddleName());
+				}
+				
+				customer = Optional.of(individualCustomer);
 			}
+			
+			
 		}
 		
 		HashMap<RoomCategory, Integer> categoryCount = new HashMap<RoomCategory, Integer>();

@@ -11,6 +11,7 @@ import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
+import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 
@@ -23,9 +24,9 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public List<CustomerOverviewDTO> getAllCustomersOverview() {
 		List<CustomerOverviewDTO> customerDTOs = new ArrayList<CustomerOverviewDTO>();
-		List<IndividualCustomer> customer = customerRepository.getAllCustomers();
+		List<Customer> customer = customerRepository.getAllCustomers();
 		
-		for (IndividualCustomer cus : customer) {
+		for (Customer cus : customer) {
 			customerDTOs.add(CustomerOverviewDTO.createFromCustomer(cus));
 		}
 		
@@ -35,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Optional<CustomerOverviewDTO> getCustomerOverviewById(String id) {
-		Optional<IndividualCustomer> customer = customerRepository.getCustomerById(new CustomerId(id));
+		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(id));
 		Optional<CustomerOverviewDTO> customerDTO = Optional.empty();
 		
 		if (customer.isPresent()) {
@@ -47,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Optional<CustomerDetailsDTO> getCustomerDetailsById(String id) {
-		Optional<IndividualCustomer> customer = customerRepository.getCustomerById(new CustomerId(id));
+		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(id));
 		Optional<CustomerDetailsDTO> customerDTO = Optional.empty();
 		
 		if (customer.isPresent()) {

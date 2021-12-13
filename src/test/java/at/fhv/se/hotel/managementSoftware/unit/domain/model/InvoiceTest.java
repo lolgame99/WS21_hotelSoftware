@@ -16,6 +16,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
+import at.fhv.se.hotel.managementSoftware.domain.valueObjects.InvoiceCustomer;
 
 public class InvoiceTest {
 	@Test
@@ -25,8 +26,9 @@ public class InvoiceTest {
 	BigDecimal sum = new BigDecimal(4444);
 	PaymentType paymentType = PaymentType.CASH;
 	IndividualCustomer customer = IndividualCustomer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+	InvoiceCustomer invoiceCustomer = new InvoiceCustomer(customer);
 		
-	Invoice invoice = Invoice.create(invoiceId, date, sum, paymentType, customer, new StayId("1"));
+	Invoice invoice = Invoice.create(invoiceId, date, sum, paymentType, invoiceCustomer, new StayId("1"));
 	
 	assertEquals(invoiceId, invoice.getInvoiceId());
 	assertEquals(date, invoice.getDate());

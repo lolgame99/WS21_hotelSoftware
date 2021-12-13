@@ -6,5 +6,5 @@ public interface Customer {
 	public CustomerId getCustomerId();
 	public String getPhoneNumber();
 	public String getEmail();
-	public Address getAddress();
+	public Address getAddress(); 
 }

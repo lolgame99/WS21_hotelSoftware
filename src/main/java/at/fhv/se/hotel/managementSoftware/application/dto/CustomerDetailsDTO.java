@@ -1,5 +1,6 @@
 package at.fhv.se.hotel.managementSoftware.application.dto;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -7,6 +8,7 @@ import java.util.Objects;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CompanyCustomer;
+import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.InvoiceCustomer;
@@ -30,34 +32,33 @@ public class CustomerDetailsDTO {
 	private CustomerDetailsDTO() {
 	}
 	
-	public static CustomerDetailsDTO createFromCustomer(IndividualCustomer customer) {
-		CustomerDetailsDTO dto = new CustomerDetailsDTO();
-		dto.customerId = customer.getCustomerId();
-		dto.firstName = customer.getFirstName();
-		dto.lastName = customer.getLastName();
-		dto.birthdate = customer.getBirthdate();
-		dto.address = customer.getAddress();
-		dto.email = customer.getEmail();
-		dto.phoneNumber = customer.getPhoneNumber();
-		dto.gender = customer.getGender();
-		dto.middleName = customer.getMiddleName();
-		
-		return dto;
-	}
-	
-	public static CustomerDetailsDTO createFromCustomer(CompanyCustomer customer) {
+	public static CustomerDetailsDTO createFromCustomer(Customer customer) {
 		CustomerDetailsDTO dto = new CustomerDetailsDTO();
 		dto.customerId = customer.getCustomerId();
 		dto.address = customer.getAddress();
 		dto.email = customer.getEmail();
 		dto.phoneNumber = customer.getPhoneNumber();
-		dto.name = customer.getName();
-		dto.discountRate = customer.getDiscountRate();
+		
+		
+		if (customer instanceof IndividualCustomer) {
+			IndividualCustomer typeCustomer = (IndividualCustomer) customer;
+			dto.firstName = typeCustomer.getFirstName();
+			dto.middleName = typeCustomer.getMiddleName();
+			dto.lastName = typeCustomer.getLastName();
+			dto.birthdate = typeCustomer.getBirthdate();
+			dto.gender = typeCustomer.getGender();
+		}else {
+			CompanyCustomer typeCustomer = (CompanyCustomer) customer;
+			dto.name = typeCustomer.getName();
+			dto.discountRate = typeCustomer.getDiscountRate();
+		}
+		
 		
 		return dto;
 	}
 	
-	public static CustomerDetailsDTO createFromCustomer(InvoiceCustomer customer) {
+	
+	public static CustomerDetailsDTO createFromInvoiceCustomer(InvoiceCustomer customer) {
 		CustomerDetailsDTO dto = new CustomerDetailsDTO();
 		dto.customerId = customer.getCustomerId();
 		dto.firstName = customer.getFirstName();
