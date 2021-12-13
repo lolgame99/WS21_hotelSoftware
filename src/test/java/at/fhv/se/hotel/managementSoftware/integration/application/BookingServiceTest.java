@@ -37,6 +37,7 @@ import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
+import at.fhv.se.hotel.managementSoftware.view.forms.BookingData;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -102,7 +103,7 @@ public class BookingServiceTest {
 		assertEquals(allBookings.get(0).getBookingId().getId(), dto.get(0).getBookingId().getId());
 		assertEquals(allBookings.get(0).getCustomerId().getId(), dto.get(0).getCustomer().getCustomerId().getId());
 		assertEquals(allBookings.get(0).getGuestCount(), dto.get(0).getGuestCount());
-		//assertEquals(allBookings.get(0).getBookingStatus(), dto.get(0).getBookingStatus()); //BookingStatus is enum but was java.lang.string:Paid (?)
+		assertEquals(allBookings.get(0).getBookingStatus(), dto.get(0).getBookingStatus());
 		assertEquals(customerDetails.get().getCustomerId(), dto.get(0).getCustomer().getCustomerId());
 		
 		
@@ -200,7 +201,7 @@ public class BookingServiceTest {
 		assertEquals(actualBooking.get(0).getBookingId().getId(), dto.get(0).getBookingId().getId());
 		assertEquals(actualBooking.get(0).getCustomerId().getId(), dto.get(0).getCustomer().getCustomerId().getId());
 		assertEquals(actualBooking.get(0).getGuestCount(), dto.get(0).getGuestCount());
-		//assertEquals(allBookings.get(0).getBookingStatus(), dto.get(0).getBookingStatus()); //BookingStatus is enum but was java.lang.string:Paid (?)
+		assertEquals(actualBooking.get(0).getBookingStatus(), dto.get(0).getBookingStatus());
 		assertEquals(customerDetails.get().getCustomerId(), dto.get(0).getCustomer().getCustomerId());
 		
 		
@@ -257,41 +258,60 @@ public class BookingServiceTest {
 		
 	}
 	
-//	@Test
-//	void when_addBookings() {
-//		
-//
-//
-//		
-//	}
-//	
-//	@Test
-//	void when_addBooking_from_Data() throws InvalidBookingException, InvalidCustomerException {
-//		//given from Booking
-//		BookingId bookingId = new BookingId("B1");
-//		LocalDate checkInDate =  LocalDate.now();
-//		LocalDate checkOutDate = LocalDate.now().plusDays(7);
-//		String creditCardNumber = "1212121212";
-//		String creditCardValid = "12/23";
-//		CustomerId customerId = new CustomerId("C1");
-//		int guestCount = 4;
-//		BookingStatus bookingStatus = BookingStatus.PENDING;
-//		
-//		//given from RoomCategory
-//        RoomCategoryId categoryId = new RoomCategoryId("1");
-//        String categoryName = "Family Suite";
-//        int bedNumber = 2;
-//        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
-//        categoryCount.put(RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber), 3);
-//		
-//        
-//		       
-//      
-//	}
-//	
-//	@Test
-//	void when_update_Booking() {
-//		
-//	}
+	@Test
+	void when_get_booking_details_byId_return_empty() {
+		//given
+		String bookingId = "1123";
+		
+		//when
+		Optional<BookingDetailsDTO> dto = bookingService.getBookingDetailsById(bookingId);
+		
+		//then
+		assertTrue(dto.isEmpty());
+	}
+
+	@Test
+	void when_add_booking_from_data() throws Exception {
+		//given
+		BookingData data = new BookingData();
+		BookingId bookingId = new BookingId("B1");
+		LocalDate checkInDate =  LocalDate.now();
+		LocalDate checkOutDate = LocalDate.now().plusDays(7);
+		String creditCardNumber = "1212121212";
+		String creditCardValid = "12/23";
+		CustomerId customerId = new CustomerId("C1");
+		int guestCount = 4;
+		BookingStatus bookingStatus = BookingStatus.PENDING;
+		
+		//given from RoomCategory
+        RoomCategoryId categoryId = new RoomCategoryId("1");
+        String categoryName = "Family Suite";
+        int bedNumber = 2;
+        RoomCategory category = RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber);
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        categoryCount.put(category, 3);
+		       
+        Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+        Customer customer = Customer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+
+        data.addExistingBooking(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer)));
+        
+        Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.of(category));
+        
+        //when
+        bookingService.addBookingFromData(data, checkInDate, checkOutDate, LocalDate.of(1988, 7, 21));
+        Optional<BookingDetailsDTO> dto = bookingService.getBookingDetailsById(bookingId.getId());
+        
+        //then
+  		assertTrue(dto.isPresent());
+  		assertEquals(booking.getBookingId().getId(), dto.get().getBookingId().getId());
+  		assertEquals(booking.getCustomerId().getId(), dto.get().getCustomer().getCustomerId().getId());
+  		assertEquals(booking.getCheckInDate(), dto.get().getCheckInDate());
+  		assertEquals(booking.getBookingStatus(), dto.get().getBookingStatus());
+  		assertEquals(booking.getCategoryCount(), dto.get().getCategoryCount());
+  		assertEquals(booking.getCheckOutDate(), dto.get().getCheckOutDate());
+  		assertEquals(booking.getCreditCardNumber(), dto.get().getCreditCardNumber());
+  		assertEquals(booking.getCreditCardValid(), dto.get().getCreditCardValid());
+	}
 
 }

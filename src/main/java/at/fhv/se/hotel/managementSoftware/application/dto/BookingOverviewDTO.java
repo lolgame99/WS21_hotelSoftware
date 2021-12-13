@@ -10,7 +10,7 @@ public class BookingOverviewDTO {
 	private int roomCount;
 	private int guestCount;
 	private CustomerOverviewDTO customer;
-	private String bookingStatus;
+	private BookingStatus bookingStatus;
 	
 	private BookingOverviewDTO() {
 	}
@@ -26,7 +26,7 @@ public class BookingOverviewDTO {
 		dto.roomCount = totalRoomCount;
 		dto.guestCount = booking.getGuestCount();
 		dto.customer = customer;
-		dto.bookingStatus = booking.getBookingStatus().toString();
+		dto.bookingStatus = booking.getBookingStatus();
 		return dto;
 	}
 			
@@ -46,7 +46,7 @@ public class BookingOverviewDTO {
 		return customer;
 	}
 
-	public String getBookingStatus() {
+	public BookingStatus getBookingStatus() {
 		return bookingStatus;
 	}
 	
