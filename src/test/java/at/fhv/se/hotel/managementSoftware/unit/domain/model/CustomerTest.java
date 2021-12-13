@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
@@ -29,8 +29,8 @@ public class CustomerTest {
 		Gender gender = Gender.MALE;
 		
 		//when
-		Customer customer1 = Customer.create(customerId, fName, lName, birthdate, address, email, phoneNumber, gender);
-		Customer customer2 = Customer.create(new CustomerId("C2"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+		IndividualCustomer customer1 = IndividualCustomer.create(customerId, fName, lName, birthdate, address, email, phoneNumber, gender);
+		IndividualCustomer customer2 = IndividualCustomer.create(new CustomerId("C2"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
 		//then
 		assertEquals(customerId, customer1.getCustomerId());
 		assertEquals(fName, customer1.getFirstName());
@@ -81,7 +81,7 @@ public class CustomerTest {
 		Gender gender = Gender.MALE;
 		
 		//when
-		Customer customer2 = Customer.create(customerId, firstName, lastName, birthdate, address, email, phoneNumber, gender).addMiddleName(middleName);
+		IndividualCustomer customer2 = IndividualCustomer.create(customerId, firstName, lastName, birthdate, address, email, phoneNumber, gender).addMiddleName(middleName);
 
 		//then
 		assertEquals(customerId, customer2.getCustomerId());
@@ -109,6 +109,6 @@ public class CustomerTest {
 		Gender gender = Gender.MALE;
 
 		//when...then
-		assertThrows(InvalidCustomerException.class, () -> Customer.create(customerId, firstName, lastName, birthdate, address, email, phoneNumber, gender));
+		assertThrows(InvalidCustomerException.class, () -> IndividualCustomer.create(customerId, firstName, lastName, birthdate, address, email, phoneNumber, gender));
 	}
 }

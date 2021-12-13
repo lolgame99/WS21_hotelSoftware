@@ -4,7 +4,7 @@ package at.fhv.se.hotel.managementSoftware.application.dto;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 
 
@@ -18,7 +18,7 @@ public class CustomerOverviewDTO {
 	private CustomerOverviewDTO() {
 	}
 	
-	public static CustomerOverviewDTO createFromCustomer(Customer customer) {
+	public static CustomerOverviewDTO createFromCustomer(IndividualCustomer customer) {
 		CustomerOverviewDTO dto = new CustomerOverviewDTO();
 		dto.customerId = customer.getCustomerId();
 		dto.firstName = customer.getFirstName();

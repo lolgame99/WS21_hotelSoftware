@@ -25,7 +25,7 @@ import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceLineDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentType;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
@@ -49,7 +49,7 @@ public class InvoiceServiceTest {
 	@Test
 	void when_getAll_invoices_return_all() throws InvalidCustomerException {
 		//given
-		Customer customer = Customer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+		IndividualCustomer customer = IndividualCustomer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
 		List<Invoice> allInvoices = new ArrayList<Invoice>();
 		allInvoices.add(Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, customer, new StayId("1")));
 		Mockito.when(invoiceRepository.getAllInvoices()).thenReturn(allInvoices);
@@ -76,7 +76,7 @@ public class InvoiceServiceTest {
 	@Test
 	void when_given_customerId_return_customer_invoices() throws InvalidCustomerException {
 		//given
-		Customer customer = Customer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+		IndividualCustomer customer = IndividualCustomer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
 		List<Invoice> allInvoices = new ArrayList<Invoice>();
 		allInvoices.add(Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, customer, new StayId("1")));
 		Mockito.when(invoiceRepository.getInvoicesByCustomerId(any(CustomerId.class))).thenReturn(allInvoices);
@@ -103,7 +103,7 @@ public class InvoiceServiceTest {
 	@Test
 	void when_given_stayId_return_stay_invoices() throws InvalidCustomerException {
 		//given
-		Customer customer = Customer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+		IndividualCustomer customer = IndividualCustomer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
 		List<Invoice> allInvoices = new ArrayList<Invoice>();
 		allInvoices.add(Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, customer, new StayId("1")));
 		Mockito.when(invoiceRepository.getInvoicesByStayId(any(StayId.class))).thenReturn(allInvoices);
@@ -130,7 +130,7 @@ public class InvoiceServiceTest {
 	@Test
 	void when_given_invoiceId_return_invoice() throws InvalidCustomerException {
 		//given
-		Customer customer = Customer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+		IndividualCustomer customer = IndividualCustomer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
 		Optional<Invoice> invoice = Optional.of(Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, customer, new StayId("1")));
 		Mockito.when(invoiceRepository.getInvoiceByInvoiceId(any(InvoiceId.class))).thenReturn(invoice);
 		

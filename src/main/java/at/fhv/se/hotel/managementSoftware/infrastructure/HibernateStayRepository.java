@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;

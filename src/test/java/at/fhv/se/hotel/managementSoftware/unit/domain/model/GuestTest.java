@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
 import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
@@ -50,7 +50,7 @@ public class GuestTest {
 		String email = "JohnnyDoe@rhyta.com";
 		String phoneNumber = "+436648795210";
 		Gender gender = Gender.MALE;
-		Customer customer = Customer.create(customerId, firstName, lastName, birthdate, address, email, phoneNumber, gender);
+		IndividualCustomer customer = IndividualCustomer.create(customerId, firstName, lastName, birthdate, address, email, phoneNumber, gender);
 		
 		//when
 		Guest guest = Guest.createFromCustomer(guestId, customer);

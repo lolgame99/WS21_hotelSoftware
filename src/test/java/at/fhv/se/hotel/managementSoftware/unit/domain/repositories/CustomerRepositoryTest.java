@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
@@ -31,11 +31,11 @@ public class CustomerRepositoryTest {
 	@Test
 	void when_given_customer_is_added_return_equal() throws InvalidCustomerException {
 		//given
-		Customer expectedCustomer = Customer.create(new CustomerId("C2"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+		IndividualCustomer expectedCustomer = IndividualCustomer.create(new CustomerId("C2"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
 		
 		//when
 		customerRepository.addCustomer(expectedCustomer);
-		Optional<Customer> actualCustomer = customerRepository.getCustomerById(expectedCustomer.getCustomerId());
+		Optional<IndividualCustomer> actualCustomer = customerRepository.getCustomerById(expectedCustomer.getCustomerId());
 		
 		//then
 		assertEquals(expectedCustomer.getCustomerId().getId(), actualCustomer.get().getCustomerId().getId());
@@ -59,7 +59,7 @@ public class CustomerRepositoryTest {
 		CustomerId invalCustomerId = new CustomerId("007");
 		
 		//when
-		Optional<Customer> actualCustomer = customerRepository.getCustomerById(invalCustomerId);
+		Optional<IndividualCustomer> actualCustomer = customerRepository.getCustomerById(invalCustomerId);
 		
 		//then
 		assertTrue(actualCustomer.isEmpty());
@@ -74,7 +74,7 @@ public class CustomerRepositoryTest {
 		//when
 		String[] actualCustomerFirstNames = new String[6];
 		String[] actualCustomerLastNames = new String[6];
-		List<Customer> customers = customerRepository.getAllCustomers();
+		List<IndividualCustomer> customers = customerRepository.getAllCustomers();
 		for (int i = 0; i < customers.size(); i++) {
 			actualCustomerFirstNames[i] = customers.get(i).getFirstName();
 			actualCustomerLastNames[i] = customers.get(i).getLastName();
@@ -88,12 +88,12 @@ public class CustomerRepositoryTest {
 	 @Test
 	 void delete_customer_does_not_return_anything() throws InvalidCustomerException {
 		// given
-	    Customer customerToDelete = Customer.create(new CustomerId("C2"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+	    IndividualCustomer customerToDelete = IndividualCustomer.create(new CustomerId("C2"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
 	        
 	    //when
 	    customerRepository.addCustomer(customerToDelete);
 	    customerRepository.deleteCustomerById(customerToDelete.getCustomerId());
-	    List<Customer> allCustomers  = customerRepository.getAllCustomers();
+	    List<IndividualCustomer> allCustomers  = customerRepository.getAllCustomers();
 	    boolean isDeleted = true;
 	    
 	    for (int i = 0; i < allCustomers.size(); i++) {

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.StayStatus;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
 import at.fhv.se.hotel.managementSoftware.domain.model.Stay;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;

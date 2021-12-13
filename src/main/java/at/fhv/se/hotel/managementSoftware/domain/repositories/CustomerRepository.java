@@ -3,6 +3,7 @@ package at.fhv.se.hotel.managementSoftware.domain.repositories;
 import java.util.List;
 import java.util.Optional;
 
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;

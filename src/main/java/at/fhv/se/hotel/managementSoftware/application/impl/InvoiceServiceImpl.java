@@ -20,6 +20,7 @@ import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceLineDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidInvoiceException;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
@@ -32,6 +33,7 @@ import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository
 import at.fhv.se.hotel.managementSoftware.domain.repositories.InvoiceLineRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.InvoiceRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
+import at.fhv.se.hotel.managementSoftware.domain.valueObjects.InvoiceCustomer;
 import at.fhv.se.hotel.managementSoftware.view.forms.InvoiceData;
 
 @Component
@@ -136,7 +138,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 		
 		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(data.getCustomerId()));
-		Invoice invoice = Invoice.create(invoiceId, LocalDate.now(), sum, data.getPaymentType(), customer.get(), new StayId(data.getStayId()));
+		Invoice invoice = Invoice.create(invoiceId, LocalDate.now(), sum, data.getPaymentType(), new InvoiceCustomer(customer.get()), new StayId(data.getStayId()));
 		invoiceRepository.addInvoice(invoice);
 		return invoiceId;
 	}

@@ -18,11 +18,13 @@
 		    	<param name="type">12</param>
 			</type>       
 		</property>
-		<component name="customer" class="at.fhv.se.hotel.managementSoftware.domain.model.Customer">
+		<component name="customer" class="at.fhv.se.hotel.managementSoftware.domain.valueObjects.InvoiceCustomer">
             <component name="customerId" class="at.fhv.se.hotel.managementSoftware.domain.model.CustomerId">
 	            <property name="id" column="customerId" type="java.lang.String"/>           
 	        </component>
             <property name="firstName" column="firstName" type="java.lang.String"/>
+			<property name="name" column="name" type="java.lang.String"/>
+			<property name="discountRate" column="discountRate" type="java.math.BigDecimal"/>
             <property name="lastName" column="lastName" type="java.lang.String"/>
             <property name="middleName" column="middleName" type="java.lang.String"/>
             <property name="birthdate" column="birthdate" type="java.time.LocalDate"/>

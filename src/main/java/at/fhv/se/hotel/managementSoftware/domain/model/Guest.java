@@ -20,7 +20,7 @@ public class Guest {
 		return guest;
 	}
 	
-	public static Guest createFromCustomer(GuestId guestId, Customer customer) {
+	public static Guest createFromCustomer(GuestId guestId, IndividualCustomer customer) {
 		Guest guest = new Guest();
 		guest.guestId = guestId;
 		guest.firstName = customer.getFirstName();

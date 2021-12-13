@@ -19,7 +19,7 @@ import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
@@ -77,10 +77,10 @@ public class BookingServiceImpl implements BookingService{
 
 	@Override
 	public void addBookingFromData(BookingData bookingData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate, LocalDate convertedBirthDate) throws Exception {
-		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(bookingData.getCustomerId()));
+		Optional<IndividualCustomer> customer = customerRepository.getCustomerById(new CustomerId(bookingData.getCustomerId()));
 		Boolean customerCreated = customer.isEmpty();
 		if(customerCreated) {
-			customer = Optional.of(Customer.create(
+			customer = Optional.of(IndividualCustomer.create(
 					customerRepository.nextIdentity(),
 					bookingData.getFirstName(),
 					bookingData.getLastName(),
@@ -152,7 +152,7 @@ public class BookingServiceImpl implements BookingService{
 			LocalDate convertedBirthDate) throws Exception {
 		CustomerId oldCustomerId = new CustomerId(bookingData.getCustomerId());
 		customerRepository.deleteCustomerById(oldCustomerId);
-		Customer customer = Customer.create(
+		IndividualCustomer customer = IndividualCustomer.create(
 				oldCustomerId,
 				bookingData.getFirstName(),
 				bookingData.getLastName(),
