@@ -148,5 +148,11 @@
      	<button class="btn btn-primary no-print" onclick="pdf()">Export as pdf</button>
      	<button class="btn btn-primary no-print" onclick="GoBackWithRefresh();return false;">Back</button>
   	</div>
+  	
+  	<script th:inline="javascript">
+  		/*<![CDATA[*/
+        	var pdfName = /*[[${invoice.invoiceId.getId()}]]*/ "Test";
+  		/*]]>*/
+  	</script>
 </body>
 </html>
