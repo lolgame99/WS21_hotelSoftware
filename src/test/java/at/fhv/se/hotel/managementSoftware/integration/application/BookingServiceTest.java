@@ -31,6 +31,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
@@ -83,7 +84,7 @@ public class BookingServiceTest {
 		
        
         Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
-        Customer customer = Customer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
     
         
         List<Booking> allBookings = new ArrayList<Booking>();
@@ -132,7 +133,7 @@ public class BookingServiceTest {
 		
        
         Booking expectedBooking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
-        Customer customer = Customer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
     
         
         List<Booking> actualBooking = new ArrayList<Booking>();
@@ -182,7 +183,7 @@ public class BookingServiceTest {
 				
 		       
         Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
-        Customer customer = Customer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
 
         List<Booking> actualBooking = new ArrayList<Booking>();
         actualBooking.add(booking);
@@ -233,7 +234,7 @@ public class BookingServiceTest {
 		       
         Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
         
-        Customer customer = Customer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
 
         Optional<Booking> actualBooking = Optional.of(booking);
 		Mockito.when(bookingRepository.getBookingById(any(BookingId.class))).thenReturn(actualBooking);
@@ -292,11 +293,13 @@ public class BookingServiceTest {
         categoryCount.put(category, 3);
 		       
         Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
-        Customer customer = Customer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
 
         data.addExistingBooking(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer)));
         
         Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.of(category));
+        Mockito.when(bookingRepository.getBookingById(any(BookingId.class))).thenReturn(Optional.of(booking));
+        Mockito.when(customerService.getCustomerDetailsById(any(String.class))).thenReturn(Optional.of(CustomerDetailsDTO.createFromCustomer(customer)));
         
         //when
         bookingService.addBookingFromData(data, checkInDate, checkOutDate, LocalDate.of(1988, 7, 21));

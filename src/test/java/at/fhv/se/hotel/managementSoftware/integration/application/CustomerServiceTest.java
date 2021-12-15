@@ -23,6 +23,7 @@ import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
@@ -40,61 +41,64 @@ public class CustomerServiceTest {
 	void when_getAll_CustomerOverview_returns_all() throws InvalidCustomerException {
 		//given
 		List<Customer> allCustomers = new ArrayList<Customer>();
-		allCustomers.add(Customer.create(new CustomerId("C1"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
+		allCustomers.add(IndividualCustomer.create(new CustomerId("C1"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
 		
 		Mockito.when(customerRepository.getAllCustomers()).thenReturn(allCustomers);
+		IndividualCustomer convertedCustomer = (IndividualCustomer) allCustomers.get(0);
 		
 		//when
 		List<CustomerOverviewDTO> dtos = customerService.getAllCustomersOverview();
 		
 		//then
 		assertEquals(1, dtos.size());
-		assertEquals(allCustomers.get(0).getCustomerId().getId(), dtos.get(0).getCustomerId().getId());
-		assertEquals(allCustomers.get(0).getFirstName(), dtos.get(0).getFirstName());
-		assertEquals(allCustomers.get(0).getLastName(), dtos.get(0).getLastName());
-		assertEquals(allCustomers.get(0).getBirthdate(), dtos.get(0).getBirthdate());
+		assertEquals(convertedCustomer.getCustomerId().getId(), dtos.get(0).getCustomerId().getId());
+		assertEquals(convertedCustomer.getFirstName(), dtos.get(0).getFirstName());
+		assertEquals(convertedCustomer.getLastName(), dtos.get(0).getLastName());
+		assertEquals(convertedCustomer.getBirthdate(), dtos.get(0).getBirthdate());
 	}
 	
 	@Test
 	void when_given_customerId_return_CustomerOverview() throws InvalidCustomerException {
 		//given;
-		Optional<Customer> customer = Optional.of(Customer.create(new CustomerId("C1"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
+		Optional<Customer> customer = Optional.of(IndividualCustomer.create(new CustomerId("C1"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
 		Mockito.when(customerRepository.getCustomerById(any(CustomerId.class))).thenReturn(customer);
+		IndividualCustomer convertedCustomer = (IndividualCustomer) customer.get();
 		
 		//when
 		Optional<CustomerOverviewDTO> dto = customerService.getCustomerOverviewById(customer.get().getCustomerId().getId());
 		
 		//then
 		assertTrue(dto.isPresent());
-		assertEquals(customer.get().getCustomerId().getId(), dto.get().getCustomerId().getId());
-		assertEquals(customer.get().getFirstName(), dto.get().getFirstName());
-		assertEquals(customer.get().getLastName(), dto.get().getLastName());
-		assertEquals(customer.get().getBirthdate(), dto.get().getBirthdate());
+		assertEquals(convertedCustomer.getCustomerId().getId(), dto.get().getCustomerId().getId());
+		assertEquals(convertedCustomer.getFirstName(), dto.get().getFirstName());
+		assertEquals(convertedCustomer.getLastName(), dto.get().getLastName());
+		assertEquals(convertedCustomer.getBirthdate(), dto.get().getBirthdate());
 	}
 	
 	@Test
 	void when_given_customerId_return_CustomerDetails() throws InvalidCustomerException {
 		//given;
-		Optional<Customer> customer = Optional.of(Customer.create(new CustomerId("C1"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
+		Optional<Customer> customer = Optional.of(IndividualCustomer.create(new CustomerId("C1"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
 		Mockito.when(customerRepository.getCustomerById(any(CustomerId.class))).thenReturn(customer);
+		IndividualCustomer convertedCustomer = (IndividualCustomer) customer.get();
 		
 		//when
 		Optional<CustomerDetailsDTO> dto = customerService.getCustomerDetailsById(customer.get().getCustomerId().getId());
 		
 		//then
 		assertTrue(dto.isPresent());
-		assertEquals(customer.get().getCustomerId().getId(), dto.get().getCustomerId().getId());
-		assertEquals(customer.get().getFirstName(), dto.get().getFirstName());
-		assertEquals(customer.get().getLastName(), dto.get().getLastName());
-		assertEquals(customer.get().getBirthdate(), dto.get().getBirthdate());
-		assertEquals(customer.get().getAddress().getStreetName(), dto.get().getAddress().getStreetName());
-		assertEquals(customer.get().getAddress().getStreetNumber(), dto.get().getAddress().getStreetNumber());
-		assertEquals(customer.get().getAddress().getPostCode(), dto.get().getAddress().getPostCode());
-		assertEquals(customer.get().getAddress().getCity(), dto.get().getAddress().getCity());
-		assertEquals(customer.get().getAddress().getCountry(), dto.get().getAddress().getCountry());
-		assertEquals(customer.get().getEmail(), dto.get().getEmail());
-		assertEquals(customer.get().getPhoneNumber(), dto.get().getPhoneNumber());
-		assertEquals(customer.get().getGender(), dto.get().getGender());
+		assertEquals(convertedCustomer.getCustomerId().getId(), dto.get().getCustomerId().getId());
+		assertEquals(convertedCustomer.getFirstName(), dto.get().getFirstName());
+		assertEquals(convertedCustomer.getLastName(), dto.get().getLastName());
+		assertEquals(convertedCustomer.getBirthdate(), dto.get().getBirthdate());
+		assertEquals(convertedCustomer.getAddress().getStreetName(), dto.get().getAddress().getStreetName());
+		assertEquals(convertedCustomer.getAddress().getStreetNumber(), dto.get().getAddress().getStreetNumber());
+		assertEquals(convertedCustomer.getAddress().getPostCode(), dto.get().getAddress().getPostCode());
+		assertEquals(convertedCustomer.getAddress().getCity(), dto.get().getAddress().getCity());
+		assertEquals(convertedCustomer.getAddress().getCountry(), dto.get().getAddress().getCountry());
+		assertEquals(convertedCustomer.getEmail(), dto.get().getEmail());
+		assertEquals(convertedCustomer.getPhoneNumber(), dto.get().getPhoneNumber());
+		assertEquals(convertedCustomer.getGender(), dto.get().getGender());
 	}
 	
 	

@@ -44,6 +44,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
 import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Price;
 import at.fhv.se.hotel.managementSoftware.domain.model.Room;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignment;
@@ -128,7 +129,7 @@ public class StayServiceTest {
         Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, "11/22" , customerId, guestCount, BookingStatus.PAID, categoryCount);
 		Stay stay = Stay.createFromBooking(stayId, booking, guestId);
         
-        Customer customer = Customer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
         Guest guest = Guest.create(guestId, "Johnny" , "Muster", "43546846546");
 		RoomCategory cat = RoomCategory.createWithDescription(categoryId, categoryName, bedNumber, categoryName);
         Room room = Room.create(roomId, RoomStatus.AVAILABLE, cat);
@@ -193,7 +194,7 @@ public class StayServiceTest {
         Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, "11/22" , customerId, guestCount, BookingStatus.PAID, categoryCount);
 		Stay stay = Stay.createFromBooking(stayId, booking, guestId);
         
-        Customer customer = Customer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
         Guest guest = Guest.create(guestId, "Johnny" , "Muster", "43546846546");
 		RoomCategory cat = RoomCategory.createWithDescription(categoryId, categoryName, bedNumber, categoryName);
         Room room = Room.create(roomId, RoomStatus.AVAILABLE, cat);
@@ -255,7 +256,7 @@ public class StayServiceTest {
         Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, "11/22" , customerId, guestCount, BookingStatus.PAID, categoryCount);
 		Stay stay = Stay.createFromBooking(stayId, booking, guestId);
         
-        Customer customer = Customer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
         Guest guest = Guest.create(guestId, "Johnny" , "Muster", "43546846546");
 		RoomCategory cat = RoomCategory.createWithDescription(categoryId, categoryName, bedNumber, categoryName);
         Room room = Room.create(roomId, RoomStatus.AVAILABLE, cat);
