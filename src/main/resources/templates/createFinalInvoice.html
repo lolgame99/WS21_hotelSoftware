@@ -67,19 +67,17 @@
                              <th>Description</th>
                              <th class="right">Price</th>
                              <th class="center">Qty</th>
-                             <th class="center">VAT</th>
-                             <th class="right text-end">Total</th>
+                             <th class="center">Total</th>
                          </tr>
                      </thead>
                      <tbody>
                          <tr th:each="line, itemStat : ${invoice.invoiceLines}">
-                             <td class="center" th:text="${itemStat.index}+1"></td>
-                             <td class="left strong" th:text="${line.name}"></td>
-                             <td class="left" th:text="${line.description}"></td>
-                             <td class="right" th:text="${line.price}+' €'"></td>
-                             <td class="center" th:text="${line.count}"></td>
-                             <td class="center">10%</td>
-                             <td class="right text-end" th:text="${#numbers.formatDecimal(line.price*1.1,1,2)}+' €'"></td>
+                             <td th:text="${itemStat.index}+1"></td>
+                             <td th:text="${line.name}"></td>
+                             <td th:text="${line.description}"></td>
+                             <td th:text="${line.price}+' €'"></td>
+                             <td th:text="${line.count}"></td>
+                             <td class="text-end" th:text="${#numbers.formatDecimal(line.count*line.price,1,2)}+' €'"></td>
                          </tr>
                      </tbody>
                  </table>
@@ -87,41 +85,36 @@
              <div class="row justify-content-end">
                  <div class="col-lg-4 col-sm-5 ml-auto text-end">
                      <table class="table table-clear">
+                     	 <thead>
+                     	 	<tr>
+                       			<td class="left">
+                                  	 <strong class="text-dark">Subtotal</strong>
+                               	</td>
+                               	<td class="right" th:text="${invoice.sum/(1-invoice.customer.discountRate*-1/100)}+' €'" th:if="${invoice.customer.discountRate} != null"></td>
+                               	<td class="right" th:text="${invoice.sum}+' €'" th:if="${invoice.customer.discountRate} == null"></td>
+                             </tr>
+                     	 </thead>
                          <tbody>
-                         	<thead>
-                         		<tr>
-                         			<td class="left">
-       
-                                 	</td>
-                                 	<td class="left">
-                                    	 <strong class="text-dark">Price without VAT</strong>
-                                 	</td>
-                                 	<td class="left">
-                                    	 <strong class="text-dark">Price with VAT</strong>
-                                 	</td>
-                             	</tr>
-                         	</thead>
                              <tr th:if="${invoice.customer.discountRate  != null}">
                          			<td class="left">
-                                    	 <strong class="text-dark">Subtotal</strong>
+                                    	 <span class="text-dark">Discount:</span>
                                  	</td>
-                                 	<td class="right" th:text="${invoice.sum/(1-invoice.customer.discountRate*-1/100)}+' €'" th:if="${invoice.customer.discountRate} != null"></td>
-                                 	<td class="right" th:text="${#numbers.formatDecimal(invoice.sum*1.1/(1-invoice.customer.discountRate*-1/100),1,2)}+' €'" th:if="${invoice.customer.discountRate} != null"></td>
-                             	</tr>
-                             <tr th:if="${invoice.customer.discountRate  != null}">
-                         			<td class="left">
-                                    	 <strong class="text-dark">Discount:</strong>
-                                 	</td>
-                                 	<td class="right" th:text="${invoice.sum/(1-invoice.customer.discountRate*-1/100)-invoice.sum}+' €'" th:if="${invoice.customer.discountRate} != null"></td>
-                                 	<td class="right" th:text="${#numbers.formatDecimal(invoice.sum*1.1/(1-invoice.customer.discountRate*-1/100)-invoice.sum*1.1,1,2)}+' €'" th:if="${invoice.customer.discountRate} != null"></td>
+                                 	<td class="right" th:text="'- '+${invoice.sum/(1-invoice.customer.discountRate*-1/100)-invoice.sum}+' €'" th:if="${invoice.customer.discountRate} != null"></td>
                             </tr>
                             <tr>
                          			<td class="left">
-                                    	 <strong class="text-dark">Total:</strong>
+                                    	 <span class="text-dark">10% Vat Tax:</span>
                                  	</td>
-                                 	<td class="right" th:text="${invoice.sum}+' €'"></td>
-                                 	<td class="right" th:text="${#numbers.formatDecimal(invoice.sum*1.1,1,2)}+' €'"></td>
+                                 	<td class="right" th:text="${#numbers.formatDecimal(invoice.sum*0.1,1,2)}+' €'"></td>
                             </tr>
+                            <tfoot>
+	                            <tr>
+	                         			<td class="left">
+	                                    	 <strong class="text-dark">Total:</strong>
+	                                 	</td>
+	                                 	<td class="right" th:text="${#numbers.formatDecimal(invoice.sum*1.1,1,2)}+' €'"></td>
+	                            </tr>
+                            </tfoot>
                          </tbody>
                      </table>
                  </div>

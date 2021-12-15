@@ -128,7 +128,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			Boolean isDouble = IntStream.of(indexes).anyMatch(x -> x == index);
 			if (!isDouble) {
 				InvoiceLine line = InvoiceLine.create(invoiceId, count, name, description, price.multiply(BigDecimal.valueOf(count)));
-				sum = sum.add(line.getPrice());
+				sum = sum.add(line.getPrice().multiply(BigDecimal.valueOf(line.getCount())));
 				invoiceLineRepository.addLine(line);
 			}
 			
