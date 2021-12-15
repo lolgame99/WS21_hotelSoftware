@@ -1,7 +1,8 @@
 $(document).ready(function(){
 	var categoryCounter = 0 + $(".categoryEntry").length;
 	
-	if($("#companyCustomerRadio").prop('checked')){
+	if($("#companyName").val() != ""){
+		$('#companyCustomerRadio').prop('checked',true);
 		companyCustomerSelected();
 	}else{
 		individualCustomerSelected();
