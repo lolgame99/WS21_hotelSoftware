@@ -135,7 +135,7 @@ public class BookingViewController {
 	private LocalDate dateStringConverter(String date) {
 		String[] splitStringArray = null;
 		int[] splitIntArray = new int[3];
-		if (date != null) {
+		if (date != null && date != "") {
 			splitStringArray = date.split("-");
 			for (int i = 0; i < splitStringArray.length; i++) {
 				splitIntArray[i] = Integer.parseInt(splitStringArray[i]);
