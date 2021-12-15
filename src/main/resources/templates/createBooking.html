@@ -67,7 +67,7 @@
 			            </select>
                     </div>
                     <div class="col">
-                        <label class="form-label" for="birthdate">Birthdate</label><br>
+                        <label class="form-label" for="birthdate">Date of birth</label><br>
                         <input class="form-control" type="date" th:field="*{birthdate}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                         <input class="form-control" type="text" th:field="*{companyName}" th:disabled="*{customerId != null}" required>
                     </div>
             		<div class="col-4">
-                        <label class="form-label" for="discountRate">Discount Percent</label><br>
+                        <label class="form-label" for="discountRate">Discount Percentage</label><br>
                         <input class="form-control" type="number" th:field="*{discountRate}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
