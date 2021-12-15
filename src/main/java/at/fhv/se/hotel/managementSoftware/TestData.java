@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
@@ -41,6 +42,7 @@ import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.StayRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
 
+@Profile("!test")
 @Component
 public class TestData implements ApplicationRunner {
 
