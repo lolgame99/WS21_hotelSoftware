@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import at.fhv.se.hotel.managementSoftware.application.api.CustomerService;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;

@@ -18,7 +18,8 @@ import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.CompanyCustomer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
 import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
@@ -71,8 +72,7 @@ public class TestData implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		
-		CustomerId[] customerUUID = new CustomerId[6];
+		CustomerId[] customerUUID = new CustomerId[7];
 		for (int i = 0; i < customerUUID.length; i++) {
 			customerUUID[i] = new CustomerId(UUID.randomUUID().toString().toUpperCase());
 		}
@@ -99,14 +99,15 @@ public class TestData implements ApplicationRunner {
 			roomAssignmentUUID[i] = new RoomAssignmentId(UUID.randomUUID().toString().toUpperCase());
 		}
 		
-		customerRepository.addCustomer(Customer.create(customerUUID[0], "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
-		customerRepository.addCustomer(Customer.create(customerUUID[1], "Michelle", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Germany"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
-		customerRepository.addCustomer(Customer.create(customerUUID[2], "Ursula", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Germany"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
-		customerRepository.addCustomer(Customer.create(customerUUID[3], "Erling", "Haaland", LocalDate.of(2000, 5, 28), new Address("Marktplatz", "21", "Dortmund", "44135 ", "Germany"), "Haaland.goat@rhyta.com", "+495863126628", Gender.MALE).addMiddleName("Klaus"));
-		customerRepository.addCustomer(Customer.create(customerUUID[4], "Cristiano", "Ronaldo", LocalDate.of(1985, 2, 5), new Address("Oxford Street", "12", "Manchester", "M1", "United Kingdom"), "CristianoRonaldo@rhyta.com", "+449497823332", Gender.MALE));
-		customerRepository.addCustomer(Customer.create(customerUUID[5], "Conchita", "Wurst", LocalDate.of(1994, 10, 11), new Address("Wurst Strasse", "3", "Wien", "1010", "Austria"), "Conchita@wurst.com", "+436642135879", Gender.DIVERSE));
+		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[0], "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE));
+		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[1], "Michelle", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Germany"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
+		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[2], "Ursula", "Eichelberger", LocalDate.of(1991, 2, 15), new Address("Luebecker Strasse", "62", "Seubersdorf", "92358 ", "Germany"), "MichelleEichelberger@rhyta.com", "+499497826628", Gender.FEMALE));
+		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[3], "Erling", "Haaland", LocalDate.of(2000, 5, 28), new Address("Marktplatz", "21", "Dortmund", "44135 ", "Germany"), "Haaland.goat@rhyta.com", "+495863126628", Gender.MALE).addMiddleName("Klaus"));
+		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[4], "Cristiano", "Ronaldo", LocalDate.of(1985, 2, 5), new Address("Oxford Street", "12", "Manchester", "M1", "United Kingdom"), "CristianoRonaldo@rhyta.com", "+449497823332", Gender.MALE));
+		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[5], "Conchita", "Wurst", LocalDate.of(1994, 10, 11), new Address("Wurst Strasse", "3", "Wien", "1010", "Austria"), "Conchita@wurst.com", "+436642135879", Gender.DIVERSE));
+		customerRepository.addCustomer(CompanyCustomer.create(customerUUID[6], "Firma AG", new Address("Fabrikstrasse", "3", "Wien", "1010", "Austria"), "Fabrik@email.com", "+43664273949", BigDecimal.valueOf(-10)));
 
-		guestRepository.addGuest(Guest.createFromCustomer(guestUUID[0], customerRepository.getCustomerById(customerUUID[0]).get()));
+		guestRepository.addGuest(Guest.createFromCustomer(guestUUID[0], (IndividualCustomer) customerRepository.getCustomerById(customerUUID[0]).get()));
 		guestRepository.addGuest(Guest.create(guestUUID[1], "Franziska", "Nachbauer", "+438465184868").addMiddleName("Leonie"));
 		
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[0], "Single Room", 1));
@@ -135,7 +136,7 @@ public class TestData implements ApplicationRunner {
 				LocalDate.now().plusDays(10),
 				"5555555555554444",
 				"11/10",
-				customerUUID[1],
+				customerUUID[6],
 				6,
 				BookingStatus.PAID,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 2);

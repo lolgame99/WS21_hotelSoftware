@@ -10,12 +10,13 @@ import org.junit.jupiter.api.Test;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentType;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
+import at.fhv.se.hotel.managementSoftware.domain.valueObjects.InvoiceCustomer;
 
 public class InvoiceTest {
 	@Test
@@ -24,9 +25,10 @@ public class InvoiceTest {
 	LocalDate date = LocalDate.now();
 	BigDecimal sum = new BigDecimal(4444);
 	PaymentType paymentType = PaymentType.CASH;
-	Customer customer = Customer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+	IndividualCustomer customer = IndividualCustomer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+	InvoiceCustomer invoiceCustomer = new InvoiceCustomer(customer);
 		
-	Invoice invoice = Invoice.create(invoiceId, date, sum, paymentType, customer, new StayId("1"));
+	Invoice invoice = Invoice.create(invoiceId, date, sum, paymentType, invoiceCustomer, new StayId("1"));
 	
 	assertEquals(invoiceId, invoice.getInvoiceId());
 	assertEquals(date, invoice.getDate());

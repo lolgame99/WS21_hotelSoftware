@@ -27,6 +27,7 @@ public class StayRestController {
 		try {
 			stayService.checkoutStay(stayId);
 			map.put("status", "ok");
+			map.put("message", "Stay checked out successfully!");
 		} catch (InvalidStayException e) {
 			map.put("status", "error");
 			map.put("message", e.getMessage());

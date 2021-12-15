@@ -28,7 +28,9 @@ import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidRoomAssignmen
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
+import at.fhv.se.hotel.managementSoftware.domain.model.CompanyCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Guest;
 import at.fhv.se.hotel.managementSoftware.domain.model.Room;
@@ -127,19 +129,35 @@ public class StayServiceImpl implements StayService{
 		Boolean customerCreated = customer.isEmpty();
 		Stay stay = null;
 		if(customerCreated) {
-			customer = Optional.of(Customer.create(
-					customerRepository.nextIdentity(),
-					stayData.getFirstName(),
-					stayData.getLastName(),
-					convertedBirthDate,
-					new Address(stayData.getStreetName(),stayData.getStreetNumber(),stayData.getCity(),stayData.getPostcode(),stayData.getCountry()),
-					stayData.getEmail(),
-					stayData.getPhoneNumber(),
-					stayData.getGender()
-					));
-			if (stayData.getMiddleName() != null) {
-				customer.get().addMiddleName(stayData.getMiddleName());
+			if (stayData.getCompanyName() != "") {
+				CompanyCustomer companyCustomer = CompanyCustomer.create(
+						customerRepository.nextIdentity(), 
+						stayData.getCompanyName(), 
+						new Address(stayData.getStreetName(),stayData.getStreetNumber(),stayData.getCity(),stayData.getPostcode(),stayData.getCountry()),
+						stayData.getEmail(),
+						stayData.getPhoneNumber(),
+						stayData.getDiscountRate());
+				customer = Optional.of(companyCustomer);
+			}else {
+				IndividualCustomer individualCustomer = IndividualCustomer.create(
+						customerRepository.nextIdentity(),
+						stayData.getFirstName(),
+						stayData.getLastName(),
+						convertedBirthDate,
+						new Address(stayData.getStreetName(),stayData.getStreetNumber(),stayData.getCity(),stayData.getPostcode(),stayData.getCountry()),
+						stayData.getEmail(),
+						stayData.getPhoneNumber(),
+						stayData.getGender()
+						);
+				
+				if (stayData.getMiddleName() != "") {
+					individualCustomer.addMiddleName(stayData.getMiddleName());
+				}
+				
+				customer = Optional.of(individualCustomer);
 			}
+			
+			
 		}
 		
 		if(stayData.getGuest().equals("newGuest")) {
@@ -154,7 +172,6 @@ public class StayServiceImpl implements StayService{
 		
 		if(booking.isPresent()) {
 			stay = Stay.createFromBooking(stayRepository.nextIdentity(), booking.get(), guest.getGuestId());
-			booking.get().checkedIn();
 		}else {
 			stay = Stay.createForWalkIn(
 					stayRepository.nextIdentity(),
@@ -188,6 +205,9 @@ public class StayServiceImpl implements StayService{
 		
 		if (customerCreated) {
 			customerRepository.addCustomer(customer.get());
+		}
+		if (booking.isPresent()) {
+			booking.get().checkedIn();
 		}
 		stayRepository.addStay(stay);
 		

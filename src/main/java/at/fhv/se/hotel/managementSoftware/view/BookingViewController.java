@@ -64,7 +64,6 @@ public class BookingViewController {
 	@GetMapping(CREATE_BOOKING_URL)
 	public String createBooking(@RequestParam(value = "customerId", required = false) String customerId, Model model) {
 		final BookingData form = new BookingData();
-		
 		if(customerId != null) {
 			Optional<CustomerDetailsDTO> existingCustomer = customerService.getCustomerDetailsById(customerId);
 			if (existingCustomer.isPresent()) {
@@ -136,7 +135,7 @@ public class BookingViewController {
 	private LocalDate dateStringConverter(String date) {
 		String[] splitStringArray = null;
 		int[] splitIntArray = new int[3];
-		if (date != null) {
+		if (date != null && date != "") {
 			splitStringArray = date.split("-");
 			for (int i = 0; i < splitStringArray.length; i++) {
 				splitIntArray[i] = Integer.parseInt(splitStringArray[i]);

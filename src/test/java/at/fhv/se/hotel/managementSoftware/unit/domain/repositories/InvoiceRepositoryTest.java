@@ -19,13 +19,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentType;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
-import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
 import at.fhv.se.hotel.managementSoftware.domain.model.InvoiceId;
 import at.fhv.se.hotel.managementSoftware.domain.model.StayId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.InvoiceRepository;
 import at.fhv.se.hotel.managementSoftware.domain.valueObjects.Address;
+import at.fhv.se.hotel.managementSoftware.domain.valueObjects.InvoiceCustomer;
 
 @SpringBootTest
 @Transactional
@@ -36,8 +37,9 @@ public class InvoiceRepositoryTest {
 	@Test
 	void when_given_invoice_added_return_equal() throws InvalidCustomerException {
 		//given
-		Customer customer = Customer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
-		Invoice expectedInvoice = Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, customer, new StayId("1"));
+		IndividualCustomer customer = IndividualCustomer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+		InvoiceCustomer invoiceCustomer = new InvoiceCustomer(customer);
+		Invoice expectedInvoice = Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, invoiceCustomer, new StayId("1"));
 		
 		//when
 		invoiceRepository.addInvoice(expectedInvoice);
@@ -54,10 +56,12 @@ public class InvoiceRepositoryTest {
 	@Test
 	void when_given_customerId_return_equal() throws InvalidCustomerException {
 		//given
-		Customer customer1 = Customer.create(new CustomerId("2"), "Test2", "Customer2", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
-		Customer customer2 = Customer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
-		Invoice expectedInvoice = Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, customer1, new StayId("1"));
-		Invoice unexpectedInvoice = Invoice.create(new InvoiceId("2"), LocalDate.now(), new BigDecimal(300.00), PaymentType.CASH, customer2, new StayId("1"));
+		IndividualCustomer customer1 = IndividualCustomer.create(new CustomerId("2"), "Test2", "Customer2", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+		InvoiceCustomer invoiceCustomer1 = new InvoiceCustomer(customer1);
+		IndividualCustomer customer2 = IndividualCustomer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+		InvoiceCustomer invoiceCustomer2 = new InvoiceCustomer(customer2);
+		Invoice expectedInvoice = Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, invoiceCustomer1, new StayId("1"));
+		Invoice unexpectedInvoice = Invoice.create(new InvoiceId("2"), LocalDate.now(), new BigDecimal(300.00), PaymentType.CASH, invoiceCustomer2, new StayId("1"));
 		
 		//when
 		invoiceRepository.addInvoice(expectedInvoice);
@@ -77,9 +81,10 @@ public class InvoiceRepositoryTest {
 	@Test
 	void when_given_invoiceId_return_equal() throws InvalidCustomerException {
 		//given
-		Customer customer = Customer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
-		Invoice expectedInvoice = Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, customer, new StayId("1"));
-		Invoice unexpectedInvoice = Invoice.create(new InvoiceId("2"), LocalDate.now(), new BigDecimal(300.00), PaymentType.CASH, customer, new StayId("2"));
+		IndividualCustomer customer = IndividualCustomer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+		InvoiceCustomer invoiceCustomer = new InvoiceCustomer(customer);
+		Invoice expectedInvoice = Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, invoiceCustomer, new StayId("1"));
+		Invoice unexpectedInvoice = Invoice.create(new InvoiceId("2"), LocalDate.now(), new BigDecimal(300.00), PaymentType.CASH, invoiceCustomer, new StayId("2"));
 		
 		//when
 		invoiceRepository.addInvoice(expectedInvoice);
@@ -98,8 +103,9 @@ public class InvoiceRepositoryTest {
 	@Test
 	void when_given_invalidInvoiceId_return_empty() throws InvalidCustomerException {
 		//given
-		Customer customer = Customer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
-		Invoice unexpectedInvoice = Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(300.00), PaymentType.CASH, customer, new StayId("1"));
+		IndividualCustomer customer = IndividualCustomer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+		InvoiceCustomer invoiceCustomer = new InvoiceCustomer(customer);
+		Invoice unexpectedInvoice = Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(300.00), PaymentType.CASH, invoiceCustomer, new StayId("1"));
 		InvoiceId invalidId = new InvoiceId("invalid");
 		
 		//when
@@ -127,9 +133,10 @@ public class InvoiceRepositoryTest {
 	@Test
 	void when_given_stayId_return_equal() throws InvalidCustomerException {
 		//given
-		Customer customer = Customer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
-		Invoice expectedInvoice = Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, customer, new StayId("1"));
-		Invoice unexpectedInvoice = Invoice.create(new InvoiceId("2"), LocalDate.now(), new BigDecimal(300.00), PaymentType.CASH, customer, new StayId("2"));
+		IndividualCustomer customer = IndividualCustomer.create(new CustomerId("1"), "Test", "Customer", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "TestCustomer@gmail.com", "+493737105579", Gender.MALE);
+		InvoiceCustomer invoiceCustomer = new InvoiceCustomer(customer);
+		Invoice expectedInvoice = Invoice.create(new InvoiceId("1"), LocalDate.now(), new BigDecimal(700.00), PaymentType.CASH, invoiceCustomer, new StayId("1"));
+		Invoice unexpectedInvoice = Invoice.create(new InvoiceId("2"), LocalDate.now(), new BigDecimal(300.00), PaymentType.CASH, invoiceCustomer, new StayId("2"));
 		
 		//when
 		invoiceRepository.addInvoice(expectedInvoice);

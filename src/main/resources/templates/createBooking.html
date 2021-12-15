@@ -33,23 +33,33 @@
         <form class="new_booking row" action="#" th:object="${form}" th:action="@{/booking}" method="post">
         	<input class="form-control d-none" type="text" th:field="*{customerId}">
             <div class="col-6">
-                <p class="fs-5">Customer information</p>
-                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#customerSelection">Add existing customer</button>
-                <div class="form-row row my-2">
+                <p class="fs-5">Customer information</p>                     			
+                <button type="button" class="btn btn-secondary mb-4" data-bs-toggle="modal" data-bs-target="#customerSelection">Add existing customer</button>
+                <div class="row-6">
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio" name="flexRadioDefault" id="individualCustomerRadio" value="individualCustomer" checked th:disabled="*{customerId != null}">
+						<label class="form-check-label" for="flexRadioDefault1">Individual Customer</label>
+					</div>
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio" name="flexRadioDefault" id="companyCustomerRadio" value="companyCustomer" th:disabled="*{customerId != null}">
+						<label class="form-check-label" for="flexRadioDefault2">Company / Travel Agency</label>
+					</div>             	
+				</div>
+                <div class="form-row row my-2 individualCustomer">
                     <div class="col">
                         <label class="form-label" for="firstName">First name</label><br>
                         <input class="form-control" type="text" th:field="*{firstName}" th:disabled="*{customerId != null}" required>
                     </div>
                     <div class="col">
                         <label class="form-label" for="middleName">Middle name</label><br>
-                        <input class="form-control" type="text" th:field="*{middleName}" th:disabled="*{customerId != null}">
+                        <input class="form-control" id="customerMiddleName" type="text" th:field="*{middleName}" th:disabled="*{customerId != null}">
                     </div>
                     <div class="col">
                         <label class="form-label" for="lastName">Last name</label><br>
                         <input class="form-control" type="text" th:field="*{lastName}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
-                <div class="form-row row mb-2">
+                <div class="form-row row mb-2 individualCustomer">
                     <div class="col">
                         <label class="form-label" for="gender">Gender</label><br>
                         <select class="form-control" th:field="*{gender}" th:disabled="*{customerId != null}" required>
@@ -57,8 +67,18 @@
 			            </select>
                     </div>
                     <div class="col">
-                        <label class="form-label" for="birthdate">Birthdate</label><br>
+                        <label class="form-label" for="birthdate">Date of birth</label><br>
                         <input class="form-control" type="date" th:field="*{birthdate}" th:disabled="*{customerId != null}" required>
+                    </div>
+                </div>
+                <div class="form-row row my-2 companyCustomer d-none">
+                    <div class="col-8">
+                        <label class="form-label" for="companyName">Company name</label><br>
+                        <input class="form-control" type="text" th:field="*{companyName}" th:disabled="*{customerId != null}" required>
+                    </div>
+            		<div class="col-4">
+                        <label class="form-label" for="discountRate">Discount Percentage</label><br>
+                        <input class="form-control" type="number" th:field="*{discountRate}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
@@ -157,8 +177,7 @@
                     <ul class="list-group customerList">
                         <!-- Dynamically load all customer -->
                         <li class="list-group-item" th:each="n : ${customers}">
-                        	<a th:if="${n.middleName != null}" th:href="@{/booking(customerId=${n.customerId.getId()})}" th:text="${n.firstName}+' '+${n.middleName}+' '+${n.lastName}"></a>
-                        	<a th:if="${n.middleName == null}" th:href="@{/booking(customerId=${n.customerId.getId()})}" th:text="${n.firstName}+' '+${n.lastName}"></a>
+                        	<a th:href="@{/booking(customerId=${n.customerId.getId()})}" th:text="${n.displayName()}"></a>
                         </li>
                     </ul>
 
