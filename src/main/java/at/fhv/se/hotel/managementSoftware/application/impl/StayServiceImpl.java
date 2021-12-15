@@ -172,7 +172,6 @@ public class StayServiceImpl implements StayService{
 		
 		if(booking.isPresent()) {
 			stay = Stay.createFromBooking(stayRepository.nextIdentity(), booking.get(), guest.getGuestId());
-			booking.get().checkedIn();
 		}else {
 			stay = Stay.createForWalkIn(
 					stayRepository.nextIdentity(),
@@ -206,6 +205,9 @@ public class StayServiceImpl implements StayService{
 		
 		if (customerCreated) {
 			customerRepository.addCustomer(customer.get());
+		}
+		if (booking.isPresent()) {
+			booking.get().checkedIn();
 		}
 		stayRepository.addStay(stay);
 		
