@@ -76,7 +76,7 @@
                              <td th:text="${line.name}"></td>
                              <td th:text="${line.description}"></td>
                              <td th:text="${line.price}+' €'"></td>
-                             <td th:text="${line.count}"></td>
+                             <td class="text-center" th:text="${line.count}"></td>
                              <td class="text-end" th:text="${#numbers.formatDecimal(line.count*line.price,1,2)}+' €'"></td>
                          </tr>
                      </tbody>
@@ -88,7 +88,7 @@
                      	 <thead>
                      	 	<tr>
                        			<td class="left">
-                                  	 <strong class="text-dark">Subtotal</strong>
+                                  	 <strong class="text-dark">Subtotal:</strong>
                                	</td>
                                	<td class="right" th:text="${invoice.sum/(1-invoice.customer.discountRate*-1/100)}+' €'" th:if="${invoice.customer.discountRate} != null"></td>
                                	<td class="right" th:text="${invoice.sum}+' €'" th:if="${invoice.customer.discountRate} == null"></td>
@@ -119,9 +119,6 @@
                      </table>
                  </div>
              </div>
-         </div>
-         <div class="card-footer bg-white">
-             <p class="mb-0">Hotel Schwarz, Austria, 6900 Bregenz, Teststreet 55</p>
          </div>
      </div>
      <button class="btn btn-primary no-print mt-4" onclick="window.print()">Print Invoice</button>
