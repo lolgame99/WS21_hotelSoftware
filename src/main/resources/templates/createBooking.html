@@ -33,9 +33,21 @@
         <form class="new_booking row" action="#" th:object="${form}" th:action="@{/booking}" method="post">
         	<input class="form-control d-none" type="text" th:field="*{customerId}">
             <div class="col-6">
-                <p class="fs-5">Customer information</p>
+                <p class="fs-5">Customer information</p>                     			
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#customerSelection">Add existing customer</button>
-                <div class="form-row row my-2">
+                <div class="row-6">
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio"
+							name="flexRadioDefault" id="flexRadioDefault1" value="individualCustomer" checked> <label
+							class="form-check-label" for="flexRadioDefault1"> Individual Customer </label>
+					</div>
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio"
+							name="flexRadioDefault" id="flexRadioDefault2" value="company_travelAgency"> <label
+							class="form-check-label" for="flexRadioDefault2"> Company / Travel Agency </label>
+					</div>             	
+				</div>
+                <div class="form-row row my-2" id="customer">
                     <div class="col">
                         <label class="form-label" for="firstName">First name</label><br>
                         <input class="form-control" type="text" th:field="*{firstName}" th:disabled="*{customerId != null}" required>

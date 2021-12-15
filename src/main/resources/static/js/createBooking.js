@@ -1,6 +1,35 @@
 $(document).ready(function(){
 	var categoryCounter = 0 + $(".categoryEntry").length;
 	
+	/*$("input[type=radio][name=customer]").change(function() {
+	    if (this.value == "individualCustomer") {
+	        $(':radio[id=flexRadioDefault1]').change(function() {
+				$("#yes").removeClass("none");
+				$("#no").addClass("none");
+
+
+			});
+			$(':radio[id=flexRadioDefault2]').change(function() {
+				$(".customer").removeClass("form-row row my-2");
+
+			});
+	    }
+	    else if (this.value == "company_travelAgency") {
+			 $(".customer").each(function () {
+            	$(this).addClass("d-none");
+				$(this).find("input").prop('required',false);
+        	});
+	    }
+	});*/
+	
+		$("input[name='flexRadioDefault']").click(function() {
+			if ($("#flexRadioDefault1").is(":checked")) {
+				$(".form-row row my-2").addClass("show-DIV");
+			} else {
+				$(".form-row row my-2").removeClass("show-DIV");
+			}
+		});
+	
 	
     $(".addCategoryBtn").click(function(){
         var newCategoryEntry = $('.categoryEntryEmpty').clone();
