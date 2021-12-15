@@ -34,34 +34,32 @@
         	<input class="form-control d-none" type="text" th:field="*{customerId}">
             <div class="col-6">
                 <p class="fs-5">Customer information</p>                     			
-                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#customerSelection">Add existing customer</button>
+                <button type="button" class="btn btn-secondary mb-4" data-bs-toggle="modal" data-bs-target="#customerSelection">Add existing customer</button>
                 <div class="row-6">
 					<div class="form-check-inline">
-						<input class="form-check-input" type="radio"
-							name="flexRadioDefault" id="flexRadioDefault1" value="individualCustomer" checked> <label
-							class="form-check-label" for="flexRadioDefault1"> Individual Customer </label>
+						<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="individualCustomer" checked>
+						<label class="form-check-label" for="flexRadioDefault1">Individual Customer</label>
 					</div>
 					<div class="form-check-inline">
-						<input class="form-check-input" type="radio"
-							name="flexRadioDefault" id="flexRadioDefault2" value="company_travelAgency"> <label
-							class="form-check-label" for="flexRadioDefault2"> Company / Travel Agency </label>
+						<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="companyCustomer">
+						<label class="form-check-label" for="flexRadioDefault2">Company / Travel Agency</label>
 					</div>             	
 				</div>
-                <div class="form-row row my-2" id="customer">
+                <div class="form-row row my-2 individualCustomer">
                     <div class="col">
                         <label class="form-label" for="firstName">First name</label><br>
                         <input class="form-control" type="text" th:field="*{firstName}" th:disabled="*{customerId != null}" required>
                     </div>
                     <div class="col">
                         <label class="form-label" for="middleName">Middle name</label><br>
-                        <input class="form-control" type="text" th:field="*{middleName}" th:disabled="*{customerId != null}">
+                        <input class="form-control" id="customerMiddleName" type="text" th:field="*{middleName}" th:disabled="*{customerId != null}">
                     </div>
                     <div class="col">
                         <label class="form-label" for="lastName">Last name</label><br>
                         <input class="form-control" type="text" th:field="*{lastName}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
-                <div class="form-row row mb-2">
+                <div class="form-row row mb-2 individualCustomer">
                     <div class="col">
                         <label class="form-label" for="gender">Gender</label><br>
                         <select class="form-control" th:field="*{gender}" th:disabled="*{customerId != null}" required>
@@ -71,6 +69,14 @@
                     <div class="col">
                         <label class="form-label" for="birthdate">Birthdate</label><br>
                         <input class="form-control" type="date" th:field="*{birthdate}" th:disabled="*{customerId != null}" required>
+                    </div>
+                </div>
+                <div class="form-row row my-2 companyCustomer d-none">
+                    <div class="col">
+                        <label class="form-label" for="companyName">Company name</label><br>
+                        <input class="form-control" type="text" th:field="*{companyName}" th:disabled="*{customerId != null}" required>
+                        <label class="form-label" for="discountRate">Discount Rate</label><br>
+                        <input class="form-control" type="number" th:field="*{discountRate}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
