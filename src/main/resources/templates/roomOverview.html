@@ -47,7 +47,7 @@
                 <tr>
                		<th class="text-center" scope="col">Room Number</th>
                     <th class="text-center" scope="col">Room Category</th>
-                    <th class="text-center dropup" scope="col">
+                    <th class="text-start dropup" scope="col">
                     	<a class="dropdown-toggle text-reset text-decoration-none" href="#" id="roomStatusDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     		Room Status
                     	</a>
@@ -65,7 +65,13 @@
                 	<tr th:each="room,itemStat: ${allRooms}">
 	                    <td class="text-center" th:text="${room.roomNumber.getId()}"></td>
 	                    <td class="text-center" th:text="${room.roomCategory.name}"></td>
-	                    <th class="text-center roomStatus" th:text="${room.roomStatus.getDisplayValue()}"></th>
+	                    <th class="text-start">
+	                    	<span class="text-primary" th:if="${room.roomStatus.getDisplayValue() == 'Cleaning'}">&#11044</span>
+	                    	<span class="text-success" th:if="${room.roomStatus.getDisplayValue() == 'Available'}">&#11044</span>
+	                    	<span class="text-danger" th:if="${room.roomStatus.getDisplayValue() == 'Occupied'}">&#11044</span>
+	                    	<span class="text-secondary" th:if="${room.roomStatus.getDisplayValue() == 'Maintenance'}">&#11044</span>
+	                    	<span class="roomStatus" th:text="${room.roomStatus.getDisplayValue()}"></span>
+	                    </th>
 	                </tr>
             </tbody>
         </table>
