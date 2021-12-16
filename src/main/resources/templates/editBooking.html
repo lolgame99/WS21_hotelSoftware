@@ -33,7 +33,7 @@
         	<input class="form-control d-none" type="text" th:field="*{bookingId}">
             <div class="col-6">
                 <p class="fs-5">Customer information</p>
-                <div class="form-row row my-2">
+                <div class="form-row row my-2" th:if="${form.companyName == null}">
                     <div class="col">
                         <label class="form-label" for="firstName">First name</label><br>
                         <input class="form-control" type="text" th:field="*{firstName}" required>
@@ -47,7 +47,7 @@
                         <input class="form-control" type="text" th:field="*{lastName}" required>
                     </div>
                 </div>
-                <div class="form-row row mb-2">
+                <div class="form-row row mb-2" th:if="${form.companyName == null}">
                     <div class="col">
                         <label class="form-label" for="gender">Gender</label><br>
                         <select class="form-control" th:field="*{gender}"  required>
@@ -57,6 +57,16 @@
                     <div class="col">
                         <label class="form-label" for="birthdate">Date of Birth</label><br>
                         <input class="form-control" type="date" th:field="*{birthdate}" required>
+                    </div>
+                </div>
+                <div class="form-row row my-2" th:if="${form.companyName != null}">
+                    <div class="col-8">
+                        <label class="form-label" for="companyName">Company name</label><br>
+                        <input class="form-control" type="text" th:field="*{companyName}" required>
+                    </div>
+            		<div class="col-4">
+                        <label class="form-label" for="discountRate">Discount Percentage</label><br>
+                        <input class="form-control" type="number" th:field="*{discountRate}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
