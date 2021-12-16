@@ -24,6 +24,7 @@ import at.fhv.se.hotel.managementSoftware.application.dto.RoomDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.StayDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentStatus;
+import at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidRoomAssignmentException;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
@@ -120,10 +121,12 @@ public class StayServiceImpl implements StayService{
 	}
 
 	@Override
+	@Transactional
 	public void addStayFromData(StayData stayData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate,
 			LocalDate convertedBirthDate) throws Exception{
 		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(stayData.getCustomerId()));
 		Optional<Booking> booking = bookingRepository.getBookingById(new BookingId(stayData.getBookingId()));
+		List<Room> bookedRooms = new ArrayList<Room>();
 		Guest guest = null;
 		
 		Boolean customerCreated = customer.isEmpty();
@@ -190,16 +193,12 @@ public class StayServiceImpl implements StayService{
 				throw new InvalidRoomAssignmentException("RoomAssignment could not be created <br> Room with number "+stayData.getRoomNumbers().get(i)+" does not exist");
 			} else if (stayData.getRoomNumbers().size() != stayData.getRoomNumbers().stream().distinct().collect(Collectors.toList()).size()) {
 				throw new InvalidRoomAssignmentException("RoomAssignment could not be created <br> Room with number"+stayData.getRoomNumbers().get(i)+" can't be allocated twice");
-			}
-			
-			List<RoomAssignment> occupiedRooms = roomAssignmentRepository.getAllRoomAssignmentsBetweenDates(stay.getCheckInDate(), stay.getCheckOutDate());
-			for (RoomAssignment ra : occupiedRooms) {
-				if (ra.getRoomNumber().getId().equals(room.get().getRoomNumber().getId())) {
-					throw new InvalidRoomAssignmentException("RoomAssignment could not be created <br> Room with number "+stayData.getRoomNumbers().get(i)+" is already occupied");
-				}
+			} else if (room.get().getRoomStatus() != RoomStatus.AVAILABLE) {
+				throw new InvalidRoomAssignmentException("RoomAssignment could not be created <br> Room with number "+stayData.getRoomNumbers().get(i)+" is already occupied");
 			}
 			
 			roomAssignmentRepository.addRoomAssignment(RoomAssignment.create(roomAssignmentRepository.nextIdentity(),new RoomId(stayData.getRoomNumbers().get(i)), stay));
+			bookedRooms.add(room.get());
 		} 
 		
 		
@@ -210,6 +209,9 @@ public class StayServiceImpl implements StayService{
 			booking.get().checkedIn();
 		}
 		stayRepository.addStay(stay);
+		for (Room room : bookedRooms) {
+			room.setOccupied();
+		}
 		
 	}
 
@@ -246,6 +248,7 @@ public class StayServiceImpl implements StayService{
 			if (roomAssignment.getPaymentStatus() == PaymentStatus.UNPAID) {
 				throw new InvalidStayException("Please close all open positions first");
 			}
+			roomRepository.getRoomByNumber(roomAssignment.getRoomNumber()).get().setCleaning();
 		}
 		
 		stay.get().checkout();
