@@ -43,7 +43,7 @@ $(document).ready(function(){
 			}else{
 				$(".alert-success").addClass('d-none');
 				$(".errorMsg").html(data.message);
-				$(".alert").removeClass("d-none")
+				$(".alert-danger").removeClass("d-none")
 				checkbox.prop("checked", false);
 			}
 		});
