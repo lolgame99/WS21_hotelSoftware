@@ -41,7 +41,7 @@ $(document).ready(function(){
 			});
 		}else{
 			$(".roomStatus").each(function() {
-					$(this).parent().show();
+					$(this).parent().parent().show();
 			});
 		}
 		
