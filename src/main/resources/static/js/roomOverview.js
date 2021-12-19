@@ -34,9 +34,9 @@ $(document).ready(function(){
 		if(options.length != 0){
 			$(".roomStatus").each(function() {
 				if($.inArray($(this).html(),options) == -1){
-					$(this).parent().hide();
+					$(this).parent().parent().hide();
 				}else{
-					$(this).parent().show();
+					$(this).parent().parent().show();
 				}
 			});
 		}else{
