@@ -22,7 +22,7 @@
             		<li><a class="dropdown-item" href="/stay">Overview</a>
             	</ul>
             </li>
-            <li class="nav-item"><a href="#" class="nav-link">Rooms</a></li>
+            <li class="nav-item"><a href="/room" class="nav-link">Rooms</a></li>
             <li class="nav-item"><a href="#" class="nav-link">Bill</a></li>
         </ul>
     </header>
@@ -33,8 +33,18 @@
         	<input class="form-control d-none" type="text" th:field="*{bookingId}">
             <div class="col-6">
                 <p class="fs-5">Customer information</p>
-                <button th:if="${form.bookingId == null}" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#customerSelection">Add existing customer</button>
-                <div class="form-row row my-2">
+                <button th:if="${form.bookingId == null}" type="button" class="btn btn-secondary mb-4" data-bs-toggle="modal" data-bs-target="#customerSelection">Add existing customer</button>
+                <div class="row-6">
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio" name="flexRadioDefault" id="individualCustomerRadio" value="individualCustomer" checked th:disabled="*{customerId != null}">
+						<label class="form-check-label" for="flexRadioDefault1">Individual Customer</label>
+					</div>
+					<div class="form-check-inline">
+						<input class="form-check-input" type="radio" name="flexRadioDefault" id="companyCustomerRadio" value="companyCustomer" th:disabled="*{customerId != null}">
+						<label class="form-check-label" for="flexRadioDefault2">Company / Travel Agency</label>
+					</div>             	
+				</div>
+                <div class="form-row row my-2 individualCustomer">
                     <div class="col">
                         <label class="form-label" for="firstName">First name</label><br>
                         <input class="form-control" type="text" th:field="*{firstName}" th:disabled="*{customerId != null}" required>
@@ -48,7 +58,7 @@
                         <input class="form-control" type="text" th:field="*{lastName}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
-                <div class="form-row row mb-2">
+                <div class="form-row row mb-2 individualCustomer">
                     <div class="col">
                         <label class="form-label" for="gender">Gender</label><br>
                         <select class="form-control" th:field="*{gender}" th:disabled="*{customerId != null}" required>
@@ -56,8 +66,18 @@
 			            </select>
                     </div>
                     <div class="col">
-                        <label class="form-label" for="birthdate">Birthdate</label><br>
+                        <label class="form-label" for="birthdate">Date of Birth</label><br>
                         <input class="form-control" type="date" th:field="*{birthdate}" th:disabled="*{customerId != null}" required>
+                    </div>
+                </div>
+                <div class="form-row row my-2 companyCustomer d-none">
+                    <div class="col-8">
+                        <label class="form-label" for="companyName">Company name</label><br>
+                        <input class="form-control" type="text" th:field="*{companyName}" th:disabled="*{customerId != null}" required>
+                    </div>
+            		<div class="col-4">
+                        <label class="form-label" for="discountRate">Discount Percentage</label><br>
+                        <input class="form-control" type="number" th:field="*{discountRate}" th:disabled="*{customerId != null}" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
@@ -148,7 +168,7 @@
                 <div class="row-6">
                 	<p class="fs-5">Guest information</p>
 	                	<div class="form-check form-check-inline">
-							  <input class="form-check-input" type="radio" th:field="*{guest}" value="newGuest" required>
+							  <input class="form-check-input defaultGuest" type="radio" th:field="*{guest}" value="newGuest" required>
 							  <label class="form-check-label" for="inlineCheckbox1">New Guest</label>
 						</div>
 						<div class="form-check form-check-inline">
@@ -168,7 +188,7 @@
                         <label class="form-label" for="lastName">Last name</label><br>
                         <input class="form-control" type="text" th:field="*{guestLastName}" required>
                     </div>
-                    <div class="form-row row mb-2">
+                	<div class="form-row row mb-2">
                     <div class="col guest">
                         <label class="form-label" for="phoneNumber">Phone number</label><br>
                         <input class="form-control" type="text" th:field="*{guestPhoneNumber}" required>

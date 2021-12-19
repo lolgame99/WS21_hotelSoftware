@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import java.time.LocalDate;
 import at.fhv.se.hotel.managementSoftware.domain.enums.PaymentType;
+import at.fhv.se.hotel.managementSoftware.domain.valueObjects.InvoiceCustomer;
 
 public class Invoice {
 	private long id;
@@ -12,13 +13,13 @@ public class Invoice {
     private LocalDate date;
     private BigDecimal sum;
     private PaymentType paymentType;
-    private Customer customer;
+    private InvoiceCustomer customer;
     private StayId stayId;
     
     private Invoice() {   
     }
     
-    public static Invoice create(InvoiceId invoiceId, LocalDate date, BigDecimal sum, PaymentType advancePayment, Customer customer, StayId stayId) {
+    public static Invoice create(InvoiceId invoiceId, LocalDate date, BigDecimal sum, PaymentType advancePayment, InvoiceCustomer customer, StayId stayId) {
         Invoice invoice = new Invoice();
         invoice.invoiceId = invoiceId;
         invoice.date = date;
@@ -54,7 +55,7 @@ public class Invoice {
 	}
 
 
-	public Customer getCustomer() {
+	public InvoiceCustomer getCustomer() {
 		return customer;
 	}
 

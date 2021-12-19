@@ -1,5 +1,6 @@
 package at.fhv.se.hotel.managementSoftware.view.forms;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,9 @@ public class BookingData {
 	private String lastName;
 	private Gender gender;
 	private String birthdate;
+	
+	private String companyName;
+	private BigDecimal discountRate;
 	
 	private String email;
 	private String phoneNumber;
@@ -53,7 +57,10 @@ public class BookingData {
 		this.middleName = existingCustomer.getMiddleName();
 		this.lastName = existingCustomer.getLastName();
 		this.gender = existingCustomer.getGender();
-		this.birthdate = existingCustomer.getBirthdate().toString();
+		if (existingCustomer.getBirthdate() != null) {
+			this.birthdate = existingCustomer.getBirthdate().toString();
+		}
+		
 		this.email = existingCustomer.getEmail();
 		this.phoneNumber = existingCustomer.getPhoneNumber();
 		this.streetName = existingCustomer.getAddress().getStreetName();
@@ -61,6 +68,8 @@ public class BookingData {
 		this.city = existingCustomer.getAddress().getCity();
 		this.postcode = existingCustomer.getAddress().getPostCode();
 		this.country = existingCustomer.getAddress().getCountry();
+		this.companyName = existingCustomer.getName();
+		this.discountRate = existingCustomer.getDiscountRate();
 	}
 	
 	public void addExistingBooking(BookingDetailsDTO existingBooking) {
@@ -260,8 +269,22 @@ public class BookingData {
 
 	public void setBookingStatus(BookingStatus bookingStatus) {
 		this.bookingStatus = bookingStatus;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public BigDecimal getDiscountRate() {
+		return discountRate;
+	}
+
+	public void setDiscountRate(BigDecimal discountRate) {
+		this.discountRate = discountRate;
 	}	
-	
-	
 	
 }

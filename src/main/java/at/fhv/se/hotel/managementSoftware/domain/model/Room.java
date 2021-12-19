@@ -32,4 +32,19 @@ public class Room {
 		return category;
 	}
 	
+	public void setAvailable() {
+		this.roomStatus = RoomStatus.AVAILABLE;
+	}
+	
+	public void setOccupied() {
+		this.roomStatus = RoomStatus.OCCUPIED;
+	}
+	
+	public void setCleaning() {
+		this.roomStatus = RoomStatus.CLEANING;
+	}
+	
+	public void setMaintenance() {
+		this.roomStatus = RoomStatus.MAINTENANCE;
+	}
 }

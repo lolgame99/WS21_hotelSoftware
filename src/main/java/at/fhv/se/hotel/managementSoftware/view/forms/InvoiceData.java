@@ -15,6 +15,7 @@ public class InvoiceData {
 	private PaymentType paymentType;
 	private String stayId;
 	private String customerId;
+	private String discountRate;
 	
 	public InvoiceData() {
 	}
@@ -22,6 +23,9 @@ public class InvoiceData {
 	public void addInfo(StayDetailsDTO stay) {
 		this.stayId = stay.getStayId().getId();
 		this.customerId = stay.getCustomer().getCustomerId().getId();
+		if (stay.getCustomer().getDiscountRate() != null) {
+			this.discountRate = stay.getCustomer().getDiscountRate().toString();
+		}
 	}
 	
 	public void validate() {
@@ -43,6 +47,9 @@ public class InvoiceData {
 		this.descriptions = validatedDescriptions;
 		this.prices = validatedPrices;
 		this.assignmentIds = validatedAssignmentIds;
+		if (this.discountRate == null) {
+			this.discountRate = "0";
+		}
 	}
 
 	public ArrayList<Boolean> getToPay() {
@@ -107,6 +114,14 @@ public class InvoiceData {
 
 	public void setAssignmentIds(ArrayList<String> assignmentIds) {
 		this.assignmentIds = assignmentIds;
+	}
+
+	public String getDiscountRate() {
+		return discountRate;
+	}
+
+	public void setDiscountRate(String discountRate) {
+		this.discountRate = discountRate;
 	}
 	
 	

@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
@@ -31,25 +32,25 @@ public class CustomerRepositoryTest {
 	@Test
 	void when_given_customer_is_added_return_equal() throws InvalidCustomerException {
 		//given
-		Customer expectedCustomer = Customer.create(new CustomerId("C2"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+		IndividualCustomer expectedCustomer = IndividualCustomer.create(new CustomerId("C2"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
 		
 		//when
 		customerRepository.addCustomer(expectedCustomer);
-		Optional<Customer> actualCustomer = customerRepository.getCustomerById(expectedCustomer.getCustomerId());
+		IndividualCustomer actualCustomer = (IndividualCustomer) customerRepository.getCustomerById(expectedCustomer.getCustomerId()).get();
 		
 		//then
-		assertEquals(expectedCustomer.getCustomerId().getId(), actualCustomer.get().getCustomerId().getId());
-		assertEquals(expectedCustomer.getFirstName(), actualCustomer.get().getFirstName());
-		assertEquals(expectedCustomer.getLastName(), actualCustomer.get().getLastName());
-		assertEquals(expectedCustomer.getBirthdate(), actualCustomer.get().getBirthdate());
-		assertEquals(expectedCustomer.getAddress().getStreetName(), actualCustomer.get().getAddress().getStreetName());
-		assertEquals(expectedCustomer.getAddress().getStreetNumber(), actualCustomer.get().getAddress().getStreetNumber());
-		assertEquals(expectedCustomer.getAddress().getCity(), actualCustomer.get().getAddress().getCity());
-		assertEquals(expectedCustomer.getAddress().getPostCode(), actualCustomer.get().getAddress().getPostCode());
-		assertEquals(expectedCustomer.getAddress().getCountry(), actualCustomer.get().getAddress().getCountry());
-		assertEquals(expectedCustomer.getEmail(), actualCustomer.get().getEmail());
-		assertEquals(expectedCustomer.getPhoneNumber(), actualCustomer.get().getPhoneNumber());
-		assertEquals(expectedCustomer.getGender(), actualCustomer.get().getGender());
+		assertEquals(expectedCustomer.getCustomerId().getId(), actualCustomer.getCustomerId().getId());
+		assertEquals(expectedCustomer.getFirstName(), actualCustomer.getFirstName());
+		assertEquals(expectedCustomer.getLastName(), actualCustomer.getLastName());
+		assertEquals(expectedCustomer.getBirthdate(), actualCustomer.getBirthdate());
+		assertEquals(expectedCustomer.getAddress().getStreetName(), actualCustomer.getAddress().getStreetName());
+		assertEquals(expectedCustomer.getAddress().getStreetNumber(), actualCustomer.getAddress().getStreetNumber());
+		assertEquals(expectedCustomer.getAddress().getCity(), actualCustomer.getAddress().getCity());
+		assertEquals(expectedCustomer.getAddress().getPostCode(), actualCustomer.getAddress().getPostCode());
+		assertEquals(expectedCustomer.getAddress().getCountry(), actualCustomer.getAddress().getCountry());
+		assertEquals(expectedCustomer.getEmail(), actualCustomer.getEmail());
+		assertEquals(expectedCustomer.getPhoneNumber(), actualCustomer.getPhoneNumber());
+		assertEquals(expectedCustomer.getGender(), actualCustomer.getGender());
 		
 	}
 	
@@ -65,30 +66,10 @@ public class CustomerRepositoryTest {
 		assertTrue(actualCustomer.isEmpty());
 	}
 	
-	@Test
-	void when_all_test_customers_are_loaded() {
-		//given
-		String[] expectedCustomerFirstNames = {"Ulrich","Michelle","Ursula","Erling","Cristiano","Conchita",};
-		String[] expectedCustomerLastNames = {"Vogler","Eichelberger","Eichelberger","Haaland","Ronaldo","Wurst",};
-		
-		//when
-		String[] actualCustomerFirstNames = new String[6];
-		String[] actualCustomerLastNames = new String[6];
-		List<Customer> customers = customerRepository.getAllCustomers();
-		for (int i = 0; i < customers.size(); i++) {
-			actualCustomerFirstNames[i] = customers.get(i).getFirstName();
-			actualCustomerLastNames[i] = customers.get(i).getLastName();
-		}
-		
-		//then
-		assertArrayEquals(expectedCustomerFirstNames, actualCustomerFirstNames);
-		assertArrayEquals(expectedCustomerLastNames, actualCustomerLastNames);
-	}
-	
 	 @Test
 	 void delete_customer_does_not_return_anything() throws InvalidCustomerException {
 		// given
-	    Customer customerToDelete = Customer.create(new CustomerId("C2"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+	    IndividualCustomer customerToDelete = IndividualCustomer.create(new CustomerId("C2"), "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
 	        
 	    //when
 	    customerRepository.addCustomer(customerToDelete);

@@ -20,6 +20,7 @@ import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.InvoiceLineDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidInvoiceException;
+import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.Invoice;
@@ -32,6 +33,7 @@ import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository
 import at.fhv.se.hotel.managementSoftware.domain.repositories.InvoiceLineRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.InvoiceRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomAssignmentRepository;
+import at.fhv.se.hotel.managementSoftware.domain.valueObjects.InvoiceCustomer;
 import at.fhv.se.hotel.managementSoftware.view.forms.InvoiceData;
 
 @Component
@@ -57,7 +59,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		List<Invoice> allInvoices = invoiceRepository.getAllInvoices();
 		List<InvoiceDetailsDTO> dtos = new ArrayList<InvoiceDetailsDTO>();
 		for (Invoice invoice : allInvoices) {
-			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromCustomer(invoice.getCustomer());
+			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromInvoiceCustomer(invoice.getCustomer());
 			List<InvoiceLineDetailsDTO> lines = invoiceLineService.getAllInvoiceLinesByInvoiceId(invoice.getInvoiceId().getId());
 			dtos.add(InvoiceDetailsDTO.createsFromInvoice(invoice, lines, customer));
 		}
@@ -69,7 +71,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		List<Invoice> allInvoices = invoiceRepository.getInvoicesByCustomerId(new CustomerId(id));
 		List<InvoiceDetailsDTO> dtos = new ArrayList<InvoiceDetailsDTO>();
 		for (Invoice invoice : allInvoices) {
-			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromCustomer(invoice.getCustomer());
+			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromInvoiceCustomer(invoice.getCustomer());
 			List<InvoiceLineDetailsDTO> lines = invoiceLineService.getAllInvoiceLinesByInvoiceId(invoice.getInvoiceId().getId());
 			dtos.add(InvoiceDetailsDTO.createsFromInvoice(invoice, lines, customer));
 		}
@@ -81,7 +83,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		List<Invoice> allInvoices = invoiceRepository.getInvoicesByStayId(new StayId(id));
 		List<InvoiceDetailsDTO> dtos = new ArrayList<InvoiceDetailsDTO>();
 		for (Invoice invoice : allInvoices) {
-			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromCustomer(invoice.getCustomer());
+			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromInvoiceCustomer(invoice.getCustomer());
 			List<InvoiceLineDetailsDTO> lines = invoiceLineService.getAllInvoiceLinesByInvoiceId(invoice.getInvoiceId().getId());
 			dtos.add(InvoiceDetailsDTO.createsFromInvoice(invoice, lines, customer));
 		}
@@ -93,7 +95,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		Optional<Invoice> invoice = invoiceRepository.getInvoiceByInvoiceId(new InvoiceId(id));
 		Optional<InvoiceDetailsDTO> dto = Optional.empty();
 		if (invoice.isPresent()) {
-			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromCustomer(invoice.get().getCustomer());
+			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromInvoiceCustomer(invoice.get().getCustomer());
 			List<InvoiceLineDetailsDTO> lines = invoiceLineService.getAllInvoiceLinesByInvoiceId(invoice.get().getInvoiceId().getId());
 			dto = Optional.of(InvoiceDetailsDTO.createsFromInvoice(invoice.get(), lines, customer));
 		}
@@ -105,6 +107,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		if (data.getAssignmentIds().size() == 0) {
 			throw new InvalidInvoiceException("Invoice could not be created <br> Atleast one position has to be selected");
 		}
+		BigDecimal convertedDiscount = BigDecimal.valueOf(Double.valueOf(data.getDiscountRate())).divide(BigDecimal.valueOf(100)).add(BigDecimal.valueOf(1));
 		InvoiceId invoiceId = new InvoiceId(invoiceRepository.nextIdentity());
 		BigDecimal sum = BigDecimal.ZERO;
 		for (int i = 0; i < data.getNames().size(); i++) {
@@ -125,7 +128,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			Boolean isDouble = IntStream.of(indexes).anyMatch(x -> x == index);
 			if (!isDouble) {
 				InvoiceLine line = InvoiceLine.create(invoiceId, count, name, description, price.multiply(BigDecimal.valueOf(count)));
-				sum = sum.add(line.getPrice());
+				sum = sum.add(line.getPrice().multiply(BigDecimal.valueOf(line.getCount())));
 				invoiceLineRepository.addLine(line);
 			}
 			
@@ -136,7 +139,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 		
 		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(data.getCustomerId()));
-		Invoice invoice = Invoice.create(invoiceId, LocalDate.now(), sum, data.getPaymentType(), customer.get(), new StayId(data.getStayId()));
+		Invoice invoice = Invoice.create(invoiceId, LocalDate.now(), sum.multiply(convertedDiscount), data.getPaymentType(), new InvoiceCustomer(customer.get()), new StayId(data.getStayId()));
 		invoiceRepository.addInvoice(invoice);
 		return invoiceId;
 	}

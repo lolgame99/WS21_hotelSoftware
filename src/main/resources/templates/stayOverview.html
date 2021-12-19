@@ -23,7 +23,7 @@
             		<li><a class="dropdown-item" href="/stay">Overview</a>
             	</ul>
             </li>
-            <li class="nav-item"><a href="#" class="nav-link">Rooms</a></li>
+            <li class="nav-item"><a href="/room" class="nav-link">Rooms</a></li>
             <li class="nav-item"><a href="#" class="nav-link">Bill</a></li>
         </ul>
     </header>
@@ -45,7 +45,11 @@
         <div class="alert alert-danger d-none">
 	        <p class="fs-3 fw-bold">The following error has occured</p>
             <p class="fs-4 errorMsg"></p>
-     </div>
+     	</div>
+     	<div class="alert alert-success d-none">
+	        <p class="fs-3 fw-bold">Success</p>
+            <p class="fs-4">Stay checked out successfully!</p>
+     	</div>
       </div>
     <table id="stayoverview" class="table table-sm table-hover">
             <thead>
@@ -92,7 +96,7 @@
 	                                </div>
 	                                <div class="col">
 	                                    <span class="fw-bold">Customer Info:</span><br>
-	                                    <span>Name: <span  th:text="${s.customer.firstName}+' '+${s.customer.lastName}"></span></span><br>
+	                                    <span>Name: <span  th:text="${s.customer.displayName()}"></span></span><br>
 	                                    <span>Phone Number:<span th:text="${s.customer.phoneNumber}"></span></span><br>
 	                                    <span>Email: <span th:text="${s.customer.email}"></span></span><br>
 	                                </div>

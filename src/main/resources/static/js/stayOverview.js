@@ -8,6 +8,10 @@ $(document).ready(function(){
 		var month = ("0" + (now.getMonth() + 1)).slice(-2);
 	}
 	
+	if(searchParams.has("success")){
+		$(".alert-success").removeClass('d-none');
+	}
+	
     $(".staySearch").keyup(function () {
         var filter = jQuery(this).val();
         jQuery(".stayOverview tr td:first-child").each(function () {
@@ -34,10 +38,12 @@ $(document).ready(function(){
 			dataType : "json"
 		}).done(function( data ) {
 		    if(data.status == "ok"){
-				location.reload();
+				var baseUrl = window.location.href.split("?")[0];
+				$(location).attr('href',baseUrl+"?success=1");
 			}else{
+				$(".alert-success").addClass('d-none');
 				$(".errorMsg").html(data.message);
-				$(".alert").removeClass("d-none")
+				$(".alert-danger").removeClass("d-none")
 				checkbox.prop("checked", false);
 			}
 		});
