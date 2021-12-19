@@ -114,9 +114,9 @@ public class TestData implements ApplicationRunner {
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[1], "Double Room", 2));
 		roomCategoryRepository.addRoomCategory(RoomCategory.createWithoutDescription(categoryUUID[2], "Family Suite", 4));
 		
-		priceRepository.addPrice(Price.create(categoryUUID[0], new BigDecimal(100.00), LocalDate.now(), LocalDate.now().plusMonths(6)));
-		priceRepository.addPrice(Price.create(categoryUUID[1], new BigDecimal(300.00), LocalDate.now(), LocalDate.now().plusMonths(6)));
-		priceRepository.addPrice(Price.create(categoryUUID[2], new BigDecimal(800.00), LocalDate.now(), LocalDate.now().plusMonths(6)));
+		priceRepository.addPrice(Price.create(categoryUUID[0], new BigDecimal(50.00), LocalDate.now(), LocalDate.now().plusMonths(6)));
+		priceRepository.addPrice(Price.create(categoryUUID[1], new BigDecimal(80.00), LocalDate.now(), LocalDate.now().plusMonths(6)));
+		priceRepository.addPrice(Price.create(categoryUUID[2], new BigDecimal(150.00), LocalDate.now(), LocalDate.now().plusMonths(6)));
 		
 		
 		bookingRepository.addBooking(Booking.create(
