@@ -1,5 +1,6 @@
 package at.fhv.se.hotel.managementSoftware.application.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,7 +90,7 @@ public class BookingServiceImpl implements BookingService{
 						new Address(bookingData.getStreetName(),bookingData.getStreetNumber(),bookingData.getCity(),bookingData.getPostcode(),bookingData.getCountry()),
 						bookingData.getEmail(),
 						bookingData.getPhoneNumber(),
-						bookingData.getDiscountRate());
+						bookingData.getDiscountRate().multiply(BigDecimal.valueOf(-1)));
 				customer = Optional.of(companyCustomer);
 			}else {
 				IndividualCustomer individualCustomer = IndividualCustomer.create(

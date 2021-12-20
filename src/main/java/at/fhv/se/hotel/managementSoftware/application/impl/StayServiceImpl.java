@@ -1,5 +1,6 @@
 package at.fhv.se.hotel.managementSoftware.application.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +140,7 @@ public class StayServiceImpl implements StayService{
 						new Address(stayData.getStreetName(),stayData.getStreetNumber(),stayData.getCity(),stayData.getPostcode(),stayData.getCountry()),
 						stayData.getEmail(),
 						stayData.getPhoneNumber(),
-						stayData.getDiscountRate());
+						stayData.getDiscountRate().multiply(BigDecimal.valueOf(-1)));
 				customer = Optional.of(companyCustomer);
 			}else {
 				IndividualCustomer individualCustomer = IndividualCustomer.create(

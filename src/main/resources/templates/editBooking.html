@@ -66,7 +66,7 @@
                     </div>
             		<div class="col-4">
                         <label class="form-label" for="discountRate">Discount Percentage</label><br>
-                        <input class="form-control" type="number" th:field="*{discountRate}" required>
+                        <input class="form-control" type="number" th:field="*{discountRate}" min="1" oninput="this.value = Math.abs(this.value)" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
