@@ -110,7 +110,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		if (data.getAssignmentIds().size() == 0) {
 			throw new InvalidInvoiceException("Invoice could not be created <br> Atleast one position has to be selected");
 		}
-		BigDecimal convertedDiscount = BigDecimal.valueOf(Double.valueOf(data.getDiscountRate())).divide(BigDecimal.valueOf(100)).add(BigDecimal.valueOf(1));
+		BigDecimal convertedDiscount = BigDecimal.valueOf(Double.valueOf(data.getDiscountRate())*-1).divide(BigDecimal.valueOf(100)).add(BigDecimal.valueOf(1));
 		InvoiceId invoiceId = new InvoiceId(invoiceRepository.nextIdentity());
 		BigDecimal sum = BigDecimal.ZERO;
 		for (int i = 0; i < data.getNames().size(); i++) {

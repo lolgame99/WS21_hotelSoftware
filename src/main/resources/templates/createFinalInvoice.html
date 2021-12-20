@@ -92,7 +92,7 @@
                        			<td class="left">
                                   	 <strong class="text-dark">Subtotal:</strong>
                                	</td>
-                               	<td class="right" th:text="${invoice.sum/(1-invoice.customer.discountRate*-1/100)}+' €'" th:if="${invoice.customer != null && invoice.customer?.discountRate != null}"></td>
+                               	<td class="right" th:text="${invoice.sum/(1-invoice.customer.discountRate/100)}+' €'" th:if="${invoice.customer != null && invoice.customer?.discountRate != null}"></td>
                                	<td class="right" th:text="${invoice.sum}+' €'" th:if="${invoice.customer?.discountRate == null}"></td>
                              </tr>
                      	 </thead>
@@ -101,7 +101,7 @@
                          			<td class="left">
                                     	 <span class="text-dark">Discount:</span>
                                  	</td>
-                                 	<td class="right" th:text="'- '+${invoice.sum/(1-invoice.customer.discountRate*-1/100)-invoice.sum}+' €'" th:if="${invoice.customer != null && invoice.customer?.discountRate != null}"></td>
+                                 	<td class="right" th:text="${'-'+#numbers.formatDecimal((invoice.sum/(1-invoice.customer.discountRate/100))-invoice.sum,1,2)}+' €'" th:if="${invoice.customer != null && invoice.customer?.discountRate != null}"></td>
                             </tr>
                             <tr>
                          			<td class="left">
