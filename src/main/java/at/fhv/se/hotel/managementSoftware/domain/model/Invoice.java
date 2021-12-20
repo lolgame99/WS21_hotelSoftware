@@ -29,6 +29,16 @@ public class Invoice {
         invoice.stayId = stayId;
         return invoice;
     }
+    
+    public static Invoice create(InvoiceId invoiceId, LocalDate date, BigDecimal sum, PaymentType advancePayment, StayId stayId) {
+        Invoice invoice = new Invoice();
+        invoice.invoiceId = invoiceId;
+        invoice.date = date;
+        invoice.sum = sum;
+        invoice.paymentType = advancePayment;
+        invoice.stayId = stayId;
+        return invoice;
+    }
 
 
 	public InvoiceId getInvoiceId() {
