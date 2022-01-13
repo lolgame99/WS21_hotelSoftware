@@ -83,16 +83,7 @@ public class BookingServiceImpl implements BookingService{
 		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(bookingData.getCustomerId()));
 		Boolean customerCreated = customer.isEmpty();
 		if(customerCreated) {
-			if (bookingData.getCompanyName() != "") {
-				CompanyCustomer companyCustomer = CompanyCustomer.create(
-						customerRepository.nextIdentity(), 
-						bookingData.getCompanyName(), 
-						new Address(bookingData.getStreetName(),bookingData.getStreetNumber(),bookingData.getCity(),bookingData.getPostcode(),bookingData.getCountry()),
-						bookingData.getEmail(),
-						bookingData.getPhoneNumber(),
-						bookingData.getDiscountRate().multiply(BigDecimal.valueOf(-1)));
-				customer = Optional.of(companyCustomer);
-			}else {
+			if (bookingData.getCompanyName() == "" || bookingData.getCompanyName() == null) {
 				IndividualCustomer individualCustomer = IndividualCustomer.create(
 						customerRepository.nextIdentity(),
 						bookingData.getFirstName(),
@@ -109,6 +100,15 @@ public class BookingServiceImpl implements BookingService{
 				}
 				
 				customer = Optional.of(individualCustomer);
+			}else {
+				CompanyCustomer companyCustomer = CompanyCustomer.create(
+						customerRepository.nextIdentity(), 
+						bookingData.getCompanyName(), 
+						new Address(bookingData.getStreetName(),bookingData.getStreetNumber(),bookingData.getCity(),bookingData.getPostcode(),bookingData.getCountry()),
+						bookingData.getEmail(),
+						bookingData.getPhoneNumber(),
+						bookingData.getDiscountRate().multiply(BigDecimal.valueOf(-1)));
+				customer = Optional.of(companyCustomer);
 			}
 			
 			
