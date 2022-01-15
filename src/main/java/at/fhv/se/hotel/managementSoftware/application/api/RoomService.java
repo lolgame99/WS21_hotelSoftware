@@ -10,6 +10,6 @@ public interface RoomService {
 	public List<RoomDTO> getAllRoomDTOs();
 	public List<RoomDTO> getAllRoomsByRoomCategory(String id);
 	public Optional<RoomDTO> getRoomByRoomNumber(String number);
-	public List<RoomDTO> getAllFreeRoomsBetween(LocalDate date1, LocalDate date2);
-	public List<RoomDTO> getFreeRoomsBetweenByRoomCategoryId(String id,LocalDate date1, LocalDate date2);
+	public List<RoomDTO> getAllFreeRoomsBetween(String date1, String date2);
+	public List<RoomDTO> getFreeRoomsBetweenByRoomCategoryId(String id,String date1, String date2);
 }
