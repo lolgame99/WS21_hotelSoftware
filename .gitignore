@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### REACT MODULES ###
+src_spa/node_modules/
+src_spa/package-lock.json
