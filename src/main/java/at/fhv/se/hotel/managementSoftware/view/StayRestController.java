@@ -13,9 +13,9 @@ import at.fhv.se.hotel.managementSoftware.application.api.StayService;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/stay")
 public class StayRestController {
-	private static final String ERROR_URL = "/error";
+
 	private static final String CHECKOUT_URL = "/checkout";
 	
 	@Autowired

@@ -34,7 +34,7 @@ $(document).ready(function(){
 		var checkbox = $(this);
 		$.ajax({
 			type: "POST",
-			url: baseUrl+"api/checkout?stayId="+checkbox.data("stayid"),
+			url: baseUrl+"api/stay/checkout?stayId="+checkbox.data("stayid"),
 			dataType : "json"
 		}).done(function( data ) {
 		    if(data.status == "ok"){
