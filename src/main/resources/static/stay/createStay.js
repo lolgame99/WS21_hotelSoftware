@@ -13,6 +13,15 @@ $(document).ready(function(){
 	if($(".roomSelection").find(".roomCategorys").length > 0){
 		categoryCounter = 0;
 		$(".roomSelection").find(".roomNumber").each(function(){
+			var catId = $(this).parent().siblings().find(".roomCategorys").val();
+			var sug = "";
+			$(".roomSuggestions").find(".category").first().each(function(){
+				if(catId == $(this).text()){
+					sug = $(this).siblings().text();
+					$(this).parent().remove();
+				}
+			});
+			$(this).val(sug);
 			$(this).attr("name","roomNumbers["+ categoryCounter+"]");
 			categoryCounter++;
 		});

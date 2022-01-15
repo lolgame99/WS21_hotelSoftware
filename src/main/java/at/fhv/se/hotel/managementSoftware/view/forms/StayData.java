@@ -12,6 +12,7 @@ import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
+import at.fhv.se.hotel.managementSoftware.domain.model.RoomId;
 
 public class StayData {
 	private String customerId;
@@ -96,8 +97,6 @@ public class StayData {
 			}
 		}
 	}
-	
-	
 	
 	public String getBookingId() {
 		return bookingId;

@@ -242,17 +242,11 @@
         </div>
     </div>
 
-	<!-- ToDo: Edit Roomnumber -->
-    <div class="roomEntryEmpty d-none form-row row mb-1">
-        <div class="col">
-            <select class="form-control roomCategorys" required>
-              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryId.getId()}"></option>
-            </select>
-        </div>
-        <div class="col">
-        	<input class="form-control roomNumber" type="text" required>
-        </div>
+    <div class="roomSuggestions d-none">
+    	<div class="suggestion" th:each="n, stats : ${roomSuggestions}">
+    		<span class="category"  th:text="${catIdSuggestions[stats.index]}"></span>
+    		<span class="room"  th:text="${n}"></span>
+    	</div>
     </div>
-    
 </body>
 </html>
