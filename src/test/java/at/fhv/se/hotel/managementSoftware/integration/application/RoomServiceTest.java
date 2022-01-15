@@ -161,7 +161,7 @@ public class RoomServiceTest {
 		Mockito.when(roomRepository.getRoomByNumber(roomAssignments.get(0).getRoomNumber())).thenReturn(Optional.of(allRooms.get(0)));
 		
 		//when
-		List<RoomDTO> dtos = roomService.getAllFreeRoomsBetween(fromDate, toDate);
+		List<RoomDTO> dtos = roomService.getAllFreeRoomsBetween(fromDate.toString(), toDate.toString());
 								
 		//then
 		assertEquals(allRooms.get(0).getRoomNumber().getId(), dtos.get(0).getRoomNumber().getId());
@@ -198,7 +198,7 @@ public class RoomServiceTest {
 		Mockito.when(roomRepository.getRoomByNumber(roomAssignments.get(0).getRoomNumber())).thenReturn(Optional.of(allRooms.get(0)));
 				
 		//when
-		List<RoomDTO> dtos = roomService.getFreeRoomsBetweenByRoomCategoryId(category.getCategoryId().getId(),fromDate, toDate);
+		List<RoomDTO> dtos = roomService.getFreeRoomsBetweenByRoomCategoryId(category.getCategoryId().getId(),fromDate.toString(), toDate.toString());
 										
 		//then
 		assertEquals(allRooms.get(0).getRoomNumber().getId(), dtos.get(0).getRoomNumber().getId());
