@@ -51,7 +51,7 @@
                     </div>
                     <div class="col">
                         <label class="form-label" for="middleName">Middle name</label><br>
-                        <input class="form-control" type="text" th:field="*{middleName}" th:disabled="*{customerId != null}">
+                        <input id="customerMiddleName" class="form-control" type="text" th:field="*{middleName}" th:disabled="*{customerId != null}">
                     </div>
                     <div class="col">
                         <label class="form-label" for="lastName">Last name</label><br>
