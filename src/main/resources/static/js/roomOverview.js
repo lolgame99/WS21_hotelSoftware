@@ -12,6 +12,28 @@ $(document).ready(function(){
             }
         });
     });
+
+	$(".showRoomStatusChange").click(function(){
+		var status = $(this).siblings().get(1).innerText;
+		var number = $(this).parent().siblings().get(0).innerText;
+		
+		$(".changeRoomNumber").text(number);
+		$(".changeRoomStatus").text(status);
+		$(".changeRoomSelect").children().each(function () {
+            $(this).remove();
+        });
+		if(status = "Cleaning"){
+			$(".changeRoomSelect").append('<option value="maintenance">Maintenance</option>');
+			$(".changeRoomSelect").append('<option value="available">Available</option>');
+		}else if(status = "Available"){
+			$(".changeRoomSelect").append('<option value="maintenance">Maintenance</option>');
+			$(".changeRoomSelect").append('<option value="cleaning">Cleaning</option>');
+		}else{
+			$(".changeRoomSelect").append('<option value="cleaning">Cleaning</option>');
+			$(".changeRoomSelect").append('<option value="available">Available</option>');
+		}
+		
+    });
 	
 	var options = [];
 	$( '.dropdown-menu a' ).on( 'click', function( event ) {
@@ -30,7 +52,6 @@ $(document).ready(function(){
 	
 	    $( event.target ).blur();
 	      
-		console.log( options );
 		if(options.length != 0){
 			$(".roomStatus").each(function() {
 				if($.inArray($(this).html(),options) == -1){
