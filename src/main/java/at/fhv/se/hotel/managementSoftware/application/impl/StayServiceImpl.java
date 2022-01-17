@@ -211,7 +211,7 @@ public class StayServiceImpl implements StayService{
 		}
 		stayRepository.addStay(stay);
 		for (Room room : bookedRooms) {
-			room.setOccupied();
+			room.setStatus(RoomStatus.OCCUPIED);
 		}
 		
 	}
@@ -249,7 +249,7 @@ public class StayServiceImpl implements StayService{
 			if (roomAssignment.getPaymentStatus() == PaymentStatus.UNPAID) {
 				throw new InvalidStayException("Please close all open positions first");
 			}
-			roomRepository.getRoomByNumber(roomAssignment.getRoomNumber()).get().setCleaning();
+			roomRepository.getRoomByNumber(roomAssignment.getRoomNumber()).get().setStatus(RoomStatus.CLEANING);
 		}
 		
 		stay.get().checkout();
