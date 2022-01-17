@@ -65,16 +65,35 @@
                 	<tr th:each="room,itemStat: ${allRooms}">
 	                    <td class="text-center" th:text="${room.roomNumber.getId()}"></td>
 	                    <td class="text-center" th:text="${room.roomCategory.name}"></td>
-	                    <th class="text-start">
+	                    <td class="text-start">
 	                    	<span class="text-primary" th:if="${room.roomStatus.getDisplayValue() == 'Cleaning'}">&#11044</span>
 	                    	<span class="text-success" th:if="${room.roomStatus.getDisplayValue() == 'Available'}">&#11044</span>
 	                    	<span class="text-danger" th:if="${room.roomStatus.getDisplayValue() == 'Occupied'}">&#11044</span>
 	                    	<span class="text-secondary" th:if="${room.roomStatus.getDisplayValue() == 'Maintenance'}">&#11044</span>
 	                    	<span class="roomStatus" th:text="${room.roomStatus.getDisplayValue()}"></span>
-	                    </th>
+	                    	<a href="#" class="btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#roomStatusChange"><i class="bi bi-pencil-fill"></i></a>
+	                    </td>
 	                </tr>
             </tbody>
         </table>
+    </div>
+    
+    <div class="modal fade" id="roomStatusChange" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="customerSelectionLabel">Select Room Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Room Number: <span class="changeRoomNumber"></span></p>
+					<p>Current Status: <span class="changeRoomStatus"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
     
 </body>
