@@ -41,7 +41,7 @@ $(document).ready(function(){
 		var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
 		$.ajax({
 			type: "POST",
-			url: baseUrl+"api/room/setStatus?roomId="+$(".changeRoomNumber").text()+"&status="+(".changeRoomSelect").value(),
+			url: baseUrl+"api/room/setStatus?roomId="+$(".changeRoomNumber").text()+"&status="+$(".changeRoomSelect").val(),
 			dataType : "json"
 		}).done(function( data ) {
 		    if(data.status == "ok"){

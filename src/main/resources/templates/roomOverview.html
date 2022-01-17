@@ -30,12 +30,12 @@
      <div class="content container my-3">
         <p class="fs-3">Room Overview</p>
      </div>
-   	<div class="content container my-6">
+   	<div class="content container my-3">
       <div class="col">
-        <div class="row justify-content-start">
-         <div class="col-lg-4 col-sm-5 ml-auto text-start">
-            <input class="form-control roomOverviewSearch" type="text" id="name" name="name" value="" placeholder="Enter Roomnumber">
-          </div>
+        <div class="row justify-content-start my-3">
+        	<div class="col-lg-4 col-sm-5 ml-auto text-start">
+          		<input class="form-control roomOverviewSearch" type="text" id="name" name="name" value="" placeholder="Enter Roomnumber">
+        	</div>
         </div>
         <div class="alert alert-danger d-none">
 	        <p class="fs-3 fw-bold">The following error has occured</p>
@@ -43,10 +43,10 @@
      	</div>
      	<div class="alert alert-success d-none">
 	        <p class="fs-3 fw-bold">Success</p>
-            <p class="fs-4">Stay checked out successfully!</p>
+            <p class="fs-4">Room Status changed successfully!</p>
      	</div>
      </div>
-      </div>
+      
     <table id="roomOverview" class="table table-sm table-hover">
             <thead>
                 <tr>
@@ -84,6 +84,7 @@
             </tbody>
         </table>
     </div>
+    </div>
     
     <div class="modal fade" id="roomStatusChange" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
@@ -102,7 +103,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button roomStatusBtn" class="btn btn-primary">Change</button>
+                    <button type="button" class="btn btn-primary roomStatusBtn">Change</button>
                 </div>
             </div>
         </div>
