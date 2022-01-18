@@ -1,0 +1,13 @@
+.photo {
+  height: 200px;
+  width: auto;
+}
+
+header, footer {
+	background-color: lightblue;
+	height: 220px;
+}
+
+.bild, .content {
+	padding-left: 100px;
+}
