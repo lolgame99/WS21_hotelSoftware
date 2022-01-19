@@ -34,7 +34,7 @@ public class HibernateBookingAssignmentRepository implements BookingAssignmentRe
 
 	@Override
 	public List<BookingAssignment> getAllBookingAssignmentsBetweenDates(LocalDate date1, LocalDate date2) {
-		TypedQuery<BookingAssignment> query = em.createQuery("SELECT ba FROM BookingAssignment ba WHERE assignedFrom >= :fromDate AND assignedTo <= :toDate", BookingAssignment.class)
+		TypedQuery<BookingAssignment> query = em.createQuery("SELECT ba FROM BookingAssignment ba WHERE assignedFrom <= :toDate AND assignedTo >= :fromDate", BookingAssignment.class)
 				.setParameter("fromDate", date1)
 				.setParameter("toDate", date2);
         return query.getResultList();

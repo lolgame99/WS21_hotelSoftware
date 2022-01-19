@@ -40,15 +40,15 @@ public class BookingAssignmentServiceImpl implements BookingAssignmentService {
 		Map<String, Integer> result = new HashMap<String, Integer>();
 		
 		for (Room room : allRooms) {
-			if (!result.containsKey(room.getCategory().getCategoryId().getId())) {
-				result.put(room.getCategory().getCategoryId().getId(), 0);
+			if (!result.containsKey(room.getCategory().getCategoryName())) {
+				result.put(room.getCategory().getCategoryName(), 0);
 			}
 		}
 		for (Room room : allRooms) {
-			result.put(room.getCategory().getCategoryId().getId(), result.get(room.getCategory().getCategoryId().getId())+1);
+			result.put(room.getCategory().getCategoryName(), result.get(room.getCategory().getCategoryName())+1);
 		}
 		for (BookingAssignment ba : bookingAssignments) {
-			result.put(ba.getCategory().getCategoryId().getId(), result.get(ba.getCategory().getCategoryId().getId())-1);
+			result.put(ba.getCategory().getCategoryName(), result.get(ba.getCategory().getCategoryName())-ba.getCategoryCount());
 		}
 		
 		

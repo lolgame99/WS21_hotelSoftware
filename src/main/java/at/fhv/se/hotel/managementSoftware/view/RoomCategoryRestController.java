@@ -19,7 +19,7 @@ import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException
 @RestController
 @RequestMapping("api/category")
 public class RoomCategoryRestController {
-private static final String GETALL_URL = "/getAll";
+	private static final String GETALL_URL = "/getAll";
 	
 	@Autowired
 	private RoomCategoryService roomCategoryService;
