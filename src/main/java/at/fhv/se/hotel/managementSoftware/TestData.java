@@ -13,6 +13,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import at.fhv.se.hotel.managementSoftware.application.api.BookingService;
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus;
@@ -51,6 +52,9 @@ public class TestData implements ApplicationRunner {
 
 	@Autowired
 	private BookingRepository bookingRepository;
+	
+	@Autowired
+	private BookingService bookingService;
 
 	@Autowired
 	private RoomCategoryRepository roomCategoryRepository;
@@ -119,7 +123,7 @@ public class TestData implements ApplicationRunner {
 		priceRepository.addPrice(Price.create(categoryUUID[2], new BigDecimal(150.00), LocalDate.now(), LocalDate.now().plusMonths(6)));
 		
 		
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[0],
 				LocalDate.now(),
 				LocalDate.now().plusDays(7),
@@ -130,7 +134,7 @@ public class TestData implements ApplicationRunner {
 				BookingStatus.ARRIVED,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(),1);}})); 
 
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[1],
 				LocalDate.now(),
 				LocalDate.now().plusDays(10),
@@ -142,7 +146,7 @@ public class TestData implements ApplicationRunner {
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 2);
 					put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(), 1);}}));
 
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[2],
 				LocalDate.now().plusDays(7),
 				LocalDate.now().plusDays(16),
@@ -154,7 +158,7 @@ public class TestData implements ApplicationRunner {
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 2);}}
 				));
 		
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[3],
 				LocalDate.now().plusDays(1),
 				LocalDate.now().plusDays(7),
@@ -166,7 +170,7 @@ public class TestData implements ApplicationRunner {
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 3);}}
 				));
 		
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[4],
 				LocalDate.now().plusDays(9),
 				LocalDate.now().plusDays(10),
@@ -179,7 +183,7 @@ public class TestData implements ApplicationRunner {
 														put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 2);}}
 				));
 		
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[5],
 				LocalDate.now().plusDays(2),
 				LocalDate.now().plusDays(4),
