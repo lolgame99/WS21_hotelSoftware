@@ -3,6 +3,7 @@ package at.fhv.se.hotel.managementSoftware.integration.application;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -257,6 +258,73 @@ public class InvoiceServiceTest {
 		
 		//when.. then
 		assertDoesNotThrow(() -> invoiceService.addInvoiceFromData(data));
+		
+	}
+	
+	@Test
+	void when_invoice_position_is_not_selected() throws Exception {
+		//given
+		StayId stayId = new StayId("123");
+		LocalDate checkInDate = LocalDate.now();
+		LocalDate checkOutDate = LocalDate.now().plusDays(7);
+		int guestCount = 3;
+		String creditCardNumber = "0201133211";
+		BookingId bookingId = new BookingId("B12");
+		CustomerId customerId = new CustomerId("122");
+		GuestId guestId = new GuestId("133");
+		
+		//given from RoomCategory
+        RoomCategoryId categoryId = new RoomCategoryId("1");
+        String categoryName = "Family Suite";
+        int bedNumber = 2;
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        categoryCount.put(RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber), 3);
+		
+        RoomAssignmentId roomAssignmentId = new RoomAssignmentId("1");
+        RoomId roomId = new RoomId("AA");
+        Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, "11/22" , customerId, guestCount, BookingStatus.PAID, categoryCount);
+		Stay stay = Stay.createFromBooking(stayId, booking, guestId);
+        
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        Guest guest = Guest.create(guestId, "Johnny" , "Muster", "43546846546");
+		RoomCategory cat = RoomCategory.createWithDescription(categoryId, categoryName, bedNumber, categoryName);
+        Room room = Room.create(roomId, RoomStatus.AVAILABLE, cat);
+        Price price = Price.create(categoryId, new BigDecimal("250"), checkInDate, checkOutDate);
+        RoomAssignment roomAssignment = RoomAssignment.create(roomAssignmentId, roomId, stay);
+        List<RoomAssignmentDTO> roomAssignmentDTOs = new ArrayList<RoomAssignmentDTO>();
+        roomAssignmentDTOs.add(RoomAssignmentDTO.createFromRoomAssignment(roomAssignment, RoomDTO.createFromRoom(room, RoomCategoryDTO.createFromCategory(cat, PriceDetailsDTO.createFromPrice(price)))));
+        
+		InvoiceData data = new InvoiceData();
+		data.addInfo(StayDetailsDTO.createFromStay(stay, Optional.of(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer))), CustomerDetailsDTO.createFromCustomer(customer), GuestDetailsDTO.createFromGuest(guest), roomAssignmentDTOs));
+		
+		ArrayList<Boolean> selectedPositions = new ArrayList<Boolean>();
+		selectedPositions.add(false);
+//		data.setToPay(selectedPositions);
+//		
+//		ArrayList<String> names = new ArrayList<String>();
+//		ArrayList<String> descriptions = new ArrayList<String>();
+//		ArrayList<String> assignmentIds = new ArrayList<String>();
+//		ArrayList<BigDecimal> prices = new ArrayList<BigDecimal>();
+//		names.add("Testpositions");
+//		descriptions.add("Testposition Description");
+//		prices.add(BigDecimal.valueOf(100));
+//		assignmentIds.add(roomAssignment.getRoomAssignmentId().getId());
+//		
+//		data.setDescriptions(descriptions);
+//		data.setNames(names);
+//		data.setPrices(prices);
+//		data.setAssignmentIds(assignmentIds);
+//		data.setPaymentType(PaymentType.CASH);
+		
+		Mockito.when(roomAssignmentRepository.getRoomAssignmentsById(any(RoomAssignmentId.class))).thenReturn(Optional.of(roomAssignment));
+		Mockito.when(customerRepository.getCustomerById(any(CustomerId.class))).thenReturn(Optional.of(customer));
+		
+		data.validate();
+		
+		//when.. then
+		
+		assertThrows(InvalidInvoiceException.class, () -> invoiceService.addInvoiceFromData(data));
+
 		
 	}
 }
