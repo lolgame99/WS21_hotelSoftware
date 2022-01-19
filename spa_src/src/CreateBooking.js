@@ -181,7 +181,6 @@ class CreateBooking extends PureComponent{
 								<br/>
 								<Form.Group controllId="createBooking.catFree">
 	      							{this.state.freeCategories.map(free=>{
-									console.log(free.categoryCount)
 									return free.category===cat.categoryId.id ?
 										<Form.Control type="text" placeholder={"Free: "+free.categoryCount} disabled/>
 									: null
@@ -192,7 +191,13 @@ class CreateBooking extends PureComponent{
 	      					<Col md={6}>
 	      						<br/>
 	      						<Form.Group controllId="createBooking.familyRoomCount">
-	      							<Form.Control type="number"/>
+									{this.state.freeCategories.map(free=>{
+									return free.category===cat.categoryId.id ?
+										<Form.Control type="number" min="0" max={free.categoryCount} />
+									: null
+									
+									})} 
+	      							
 	      						</Form.Group>
 	      					</Col>
 	      				</Row>
