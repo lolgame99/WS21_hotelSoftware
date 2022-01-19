@@ -52,7 +52,6 @@ public class BookingRestController {
 		}else {
 			return null;
 		}
-		
-		
+
 	}
 }

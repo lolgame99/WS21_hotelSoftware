@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingAssignment;
@@ -46,7 +47,7 @@ public class BookingAssignmentRepositoryTest {
 	private CustomerRepository customerRepository;
 	
 	@Test
-	void when_given_roomAssignment_is_added_return_equal() throws InvalidStayException {
+	void when_given_roomAssignment_is_added_return_equal() throws InvalidBookingException {
 		//given
 		BookingId bookingId = new BookingId("asdf");
 		LocalDate checkInDate =  LocalDate.now().plusDays(20);
@@ -62,18 +63,19 @@ public class BookingAssignmentRepositoryTest {
         
         categoryCount.put(category, 1);
 		
-//		Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
-//		BookingAssignment expectedAssignment = BookingAssignment.create(new BookingAssignmentId(bookingAssignmentRepository.nextIdentity()), booking);
-//		
-//		//when
-//		bookingAssignmentRepository.addBookingAssignment(expectedAssignment);
-//		RoomAssignment actualAssignment = bookingAssignmentRepository.getRoomAssignmentsByStayId(expectedAssignment.getStayId()).get(0);
-//		
-//		//then
-//		assertEquals(expectedAssignment.getStayId().getId(), actualAssignment.getStayId().getId());
-//		assertEquals(expectedAssignment.getRoomNumber().getId(), actualAssignment.getRoomNumber().getId());
-//		assertEquals(expectedAssignment.getAssignedFrom(), actualAssignment.getAssignedFrom());
-//		assertEquals(expectedAssignment.getAssignedTo(), actualAssignment.getAssignedTo());
+		Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+		BookingAssignment expectedAssignment = BookingAssignment.create(new BookingAssignmentId(bookingAssignmentRepository.nextIdentity()),category,1, booking);
+		
+		//when
+		bookingAssignmentRepository.addBookingAssignment(expectedAssignment);
+		BookingAssignment actualAssignment = bookingAssignmentRepository.getAllBookingAssignmentsBetweenDates(checkInDate, checkOutDate).get(0);
+		
+		//then
+		assertEquals(expectedAssignment.getBookingId().getId(), actualAssignment.getBookingId().getId());
+		assertEquals(expectedAssignment.getCategory(), actualAssignment.getCategory());
+		assertEquals(expectedAssignment.getAssignedFrom(), actualAssignment.getAssignedFrom());
+		assertEquals(expectedAssignment.getAssignedTo(), actualAssignment.getAssignedTo());
+		assertEquals(expectedAssignment.getCategoryCount(), actualAssignment.getCategoryCount());
 		
 	}
 

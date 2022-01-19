@@ -12,10 +12,8 @@
         </component>
         <property name = "assignedFrom" column = "assignedFrom" type = "java.time.LocalDate"/>
         <property name = "assignedTo" column = "assignedTo" type = "java.time.LocalDate"/>
-		
-		<component name="roomNumber" class="at.fhv.se.hotel.managementSoftware.domain.model.RoomId">
-            <property name="id" column="roomNumber" type="java.lang.String"/>           
-        </component>
+		<property name = "categoryCount" column = "categoryCount" type = "int"/>
+		<many-to-one name="category" class="at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory"/>
         <component name="bookingId" class="at.fhv.se.hotel.managementSoftware.domain.model.BookingId">
             <property name="id" column="bookingId" type="java.lang.String"/>           
         </component>

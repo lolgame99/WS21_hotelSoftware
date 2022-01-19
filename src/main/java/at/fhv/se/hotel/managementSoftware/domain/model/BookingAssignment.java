@@ -9,18 +9,20 @@ public class BookingAssignment {
 	private BookingAssignmentId bookingAssignmentId;
 	private LocalDate assignedFrom;
 	private LocalDate assignedTo;
-	private RoomId roomNumber;
+	private RoomCategory category;
+	private int categoryCount;
 	private BookingId bookingId;
 	
 	private BookingAssignment() {
 	}
 	
-	public static BookingAssignment create(BookingAssignmentId bookingAssignmentId, RoomId roomNumber, Booking booking) {
+	public static BookingAssignment create(BookingAssignmentId bookingAssignmentId, RoomCategory category, int categoryCount, Booking booking) {
 		BookingAssignment roomAssignment = new BookingAssignment();
 		roomAssignment.bookingAssignmentId = bookingAssignmentId;
 		roomAssignment.assignedFrom = booking.getCheckInDate();
 		roomAssignment.assignedTo = booking.getCheckOutDate();
-		roomAssignment.roomNumber = roomNumber;
+		roomAssignment.category = category;
+		roomAssignment.categoryCount = categoryCount;
 		roomAssignment.bookingId = booking.getBookingId();
 		
 		return roomAssignment;
@@ -34,10 +36,6 @@ public class BookingAssignment {
 		return assignedTo;
 	}
 
-	public RoomId getRoomNumber() {
-		return roomNumber;
-	}
-
 	public BookingId getBookingId() {
 		return bookingId;
 	}
@@ -49,5 +47,14 @@ public class BookingAssignment {
 	public BookingAssignmentId getBookingAssignmentId() {
 		return bookingAssignmentId;
 	}
+
+	public RoomCategory getCategory() {
+		return category;
+	}
+
+	public int getCategoryCount() {
+		return categoryCount;
+	}
+	
 	
 }
