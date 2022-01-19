@@ -11,43 +11,26 @@ import at.fhv.se.hotel.managementSoftware.domain.model.RoomAssignmentId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 
 public class BookingAssignmentDTO {
-	private BookingAssignmentId bookingAssignmentId;
-	private LocalDate assignedFrom;
-	private LocalDate assignedTo;
-	private RoomCategory category;
-	private int categoryCount;
+	private String category;
+	private int count;
 	
 	private BookingAssignmentDTO() {
 		
 	}
 	
-	public static BookingAssignmentDTO createFromBookingAssignment(BookingAssignment ba) {
+	public static BookingAssignmentDTO create(String categoryId, Integer categoryCount) {
 		BookingAssignmentDTO dto = new BookingAssignmentDTO();
-		dto.assignedFrom = ba.getAssignedFrom();
-		dto.assignedTo = ba.getAssignedTo();
-		dto.category = ba.getCategory();
-		dto.categoryCount = ba.getCategoryCount();
+		dto.category = categoryId;
+		dto.count = categoryCount;
 		return dto;
 	}
 
-	public LocalDate getAssignedFrom() {
-		return assignedFrom;
-	}
-
-	public LocalDate getAssignedTo() {
-		return assignedTo;
-	}
-
-	public BookingAssignmentId getBookingAssignmentId() {
-		return bookingAssignmentId;
-	}
-
-	public RoomCategory getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
 	public int getCategoryCount() {
-		return categoryCount;
+		return count;
 	}
 
 	

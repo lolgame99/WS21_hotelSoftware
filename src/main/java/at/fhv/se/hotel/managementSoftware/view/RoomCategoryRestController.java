@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,8 @@ public class RoomCategoryRestController {
 	
 	@Autowired
 	private RoomCategoryService roomCategoryService;
-
+	
+	@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8080"})
 	@GetMapping(GETALL_URL)
 	public List<RoomCategoryDTO> getAllCategoriesDTO() {
 		return roomCategoryService.getAllRoomCategoriesDTO();

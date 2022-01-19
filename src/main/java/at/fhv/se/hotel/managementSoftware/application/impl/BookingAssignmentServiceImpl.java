@@ -13,6 +13,7 @@ import at.fhv.se.hotel.managementSoftware.application.api.BookingAssignmentServi
 import at.fhv.se.hotel.managementSoftware.application.api.RoomAssignmentService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomService;
 import at.fhv.se.hotel.managementSoftware.application.api.StayService;
+import at.fhv.se.hotel.managementSoftware.application.dto.BookingAssignmentDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomAssignmentDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus;
@@ -34,25 +35,30 @@ public class BookingAssignmentServiceImpl implements BookingAssignmentService {
 	private RoomRepository roomRepository;
 
 	@Override
-	public Map<String, Integer> getFreeRoomCountBetweenDates(String fromDate, String toDate) {
+	public List<BookingAssignmentDTO> getFreeRoomCountBetweenDates(String fromDate, String toDate) {
 		List<BookingAssignment> bookingAssignments = bookingAssignmentRepository.getAllBookingAssignmentsBetweenDates(dateStringConverter(fromDate), dateStringConverter(toDate));
 		List<Room> allRooms = roomRepository.getAllRooms();
 		Map<String, Integer> result = new HashMap<String, Integer>();
 		
+		List<BookingAssignmentDTO> dtos = new ArrayList<BookingAssignmentDTO>();
+		
 		for (Room room : allRooms) {
-			if (!result.containsKey(room.getCategory().getCategoryName())) {
-				result.put(room.getCategory().getCategoryName(), 0);
+			if (!result.containsKey(room.getCategory().getCategoryId().getId())) {
+				result.put(room.getCategory().getCategoryId().getId(), 0);
 			}
 		}
 		for (Room room : allRooms) {
-			result.put(room.getCategory().getCategoryName(), result.get(room.getCategory().getCategoryName())+1);
+			result.put(room.getCategory().getCategoryId().getId(), result.get(room.getCategory().getCategoryId().getId())+1);
 		}
 		for (BookingAssignment ba : bookingAssignments) {
-			result.put(ba.getCategory().getCategoryName(), result.get(ba.getCategory().getCategoryName())-ba.getCategoryCount());
+			result.put(ba.getCategory().getCategoryId().getId(), result.get(ba.getCategory().getCategoryId().getId())-ba.getCategoryCount());
+		}
+		for (Map.Entry<String, Integer> entry : result.entrySet()) {
+		    dtos.add(BookingAssignmentDTO.create(entry.getKey(),entry.getValue()));
 		}
 		
-		
-		return result;
+				
+		return dtos;
 	}
 
 	@Override

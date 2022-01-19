@@ -6,10 +6,45 @@ import Button from 'react-bootstrap/Button'
 
 import "bootstrap/dist/css/bootstrap.min.css"
 
-import React from 'react';
+import React, {PureComponent} from 'react';
 
-const CreateBooking = () => {
-	return(
+var curr = new Date();
+curr.setDate(curr.getDate());
+var date = curr.toISOString().substr(0,10);
+var baseUrl = window.location.href.split(":")[1];
+
+class CreateBooking extends PureComponent{
+	constructor(props){
+		super(props);
+		
+		this.state={
+			roomCategories:[],
+			freeCategories:[]
+		};
+		this.dateSelected = this.dateSelected.bind(this);
+	}
+	
+	componentDidMount(){
+		fetch("http:"+baseUrl+":8080/api/category/getAll").then(res=>res.json()).then(
+			result=>{
+				this.setState({roomCategories:result});
+			}
+		)
+		
+	}
+	
+	dateSelected(){
+		var checkInDate = document.getElementById("checkInDate").value;
+		var checkOutDate = document.getElementById("checkOutDate").value;
+		fetch("http:"+baseUrl+":8080/api/room/getAvailableCount?from="+checkInDate+"&to="+checkOutDate).then(res=>res.json()).then(
+			result=>{
+				this.setState({freeCategories:result});
+			}
+		)
+	}
+	
+	render(){
+		return(
 		<Container>
       	<br/>
       	<h3>Create booking</h3>
@@ -44,9 +79,9 @@ const CreateBooking = () => {
       						<Form.Group controllId="createBooking.gender">
       							<Form.Label>Gender</Form.Label>
       							<Form.Select>
- 									<option value="1">Male</option>
-  									<option value="2">Female</option>
- 									<option value="3">Divers</option>
+ 									<option value="MALE">Male</option>
+  									<option value="FEMALE">Female</option>
+ 									<option value="DIVERSE">Divers</option>
 								</Form.Select>
       						</Form.Group>
       					</Col>
@@ -104,10 +139,10 @@ const CreateBooking = () => {
       						<Form.Group controllId="createBooking.country">
       							<Form.Label>Country</Form.Label>
       							<Form.Select>
- 									<option value="1">Austria</option>
-  									<option value="2">Germany</option>
-  									<option value="3">Switzerland</option>
-  									<option value="4">United Kingdom</option>
+ 									<option value="Austria">Austria</option>
+  									<option value="Germany">Germany</option>
+  									<option value="Switzerland">Switzerland</option>
+  									<option value="United Kingdom">United Kingdom</option>
 								</Form.Select>
       						</Form.Group>
       					</Col>
@@ -119,36 +154,50 @@ const CreateBooking = () => {
       					
       				</Row>
       				<Row>
-      					<Col>
-      						<Col>
-      						<Form.Group controllId="createBooking.checkOut">
-      							<Form.Label>Check-out date</Form.Label>
-      							<Form.Control type="date" required/>
-      						</Form.Group>
-      					</Col>
-      					</Col>
-      					<Col>
+						<Col>
       						<Form.Group controllId="createBooking.checkIn">
       							<Form.Label>Check-in date</Form.Label>
-      							<Form.Control type="date" required/>
+      							<Form.Control type="date" defaultValue={date} id="checkInDate" onChange={this.dateSelected} required/>
       						</Form.Group>
       					</Col>
+      					<Col>
+      						<Col>
+	      						<Form.Group controllId="createBooking.checkOut">
+	      							<Form.Label>Check-out date</Form.Label>
+	      							<Form.Control type="date" defaultValue={date} onChange={this.dateSelected} id="checkOutDate" required/>
+	      						</Form.Group>
+      						</Col>
+      					</Col>
       				</Row>
+      				{this.state.roomCategories.map(cat=>(
+						<Row>
+	      					<Col md={4}>
+	      						<br/>
+	      						<Form.Group controllId="createBooking.catFamily">
+	      							<Form.Control type="text" placeholder={cat.name} data-id={cat.categoryId.id} disabled/>
+	      						</Form.Group>
+	      					</Col>
+							<Col md={2}>
+								<br/>
+								<Form.Group controllId="createBooking.catFree">
+	      							{this.state.freeCategories.map(free=>{
+									console.log(free.categoryCount)
+									return free.category===cat.categoryId.id ?
+										<Form.Control type="text" placeholder={"Free: "+free.categoryCount} disabled/>
+									: null
+									
+									})} 
+	      						</Form.Group>
+							</Col>
+	      					<Col md={6}>
+	      						<br/>
+	      						<Form.Group controllId="createBooking.familyRoomCount">
+	      							<Form.Control type="number"/>
+	      						</Form.Group>
+	      					</Col>
+	      				</Row>
+					))}
       				
-      				<Row>
-      					<Col>
-      						<br/>
-      						<Form.Group controllId="createBooking.catFamily">
-      							<Form.Control type="text" placeholder="Family suite (4 beds)" disabled/>
-      						</Form.Group>
-      					</Col>
-      					<Col>
-      						<br/>
-      						<Form.Group controllId="createBooking.familyRoomCount">
-      							<Form.Control type="number"/>
-      						</Form.Group>
-      					</Col>
-      				</Row>
       				<Row>
       					<Col>
       						<br/>
@@ -193,6 +242,8 @@ const CreateBooking = () => {
       	</Form>
       </Container>
 	);
-};
+	}
+}
+
 
 export default CreateBooking;

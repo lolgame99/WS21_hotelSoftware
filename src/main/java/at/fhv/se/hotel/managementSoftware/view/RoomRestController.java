@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import at.fhv.se.hotel.managementSoftware.application.api.BookingAssignmentService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomCategoryService;
 import at.fhv.se.hotel.managementSoftware.application.api.RoomService;
+import at.fhv.se.hotel.managementSoftware.application.dto.BookingAssignmentDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomDTO;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidStayException;
@@ -32,9 +34,9 @@ public class RoomRestController {
 	private BookingAssignmentService bookingAssignmentService;
 	
 	
-
+	@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8080"})
 	@GetMapping(GETAVAILABLE_URL)
-	public Map<String, Integer> getAvailableRoomCount(@RequestParam(value = "from", required = true) String from, @RequestParam(value = "to", required = true) String to) {
+	public List<BookingAssignmentDTO> getAvailableRoomCount(@RequestParam(value = "from", required = true) String from, @RequestParam(value = "to", required = true) String to) {
 		return bookingAssignmentService.getFreeRoomCountBetweenDates(from, to);
 	}
 	
