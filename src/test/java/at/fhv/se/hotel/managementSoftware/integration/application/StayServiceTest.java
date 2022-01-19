@@ -333,7 +333,7 @@ public class StayServiceTest {
         Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, "11/22" , customerId, guestCount, BookingStatus.PAID, categoryCount);
 		Stay stay = Stay.createFromBooking(stayId, booking, guestId);
 
-        Customer customer = IndividualCustomer.create(customerId, fname, lname, LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        Customer customer = IndividualCustomer.create(customerId, fname, lname, LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE).addMiddleName("Eva");
         Guest guest = Guest.createFromCustomer(guestId, customer);
 
         data.addExistingBooking(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer)));
@@ -351,7 +351,7 @@ public class StayServiceTest {
         
         
         
-        Optional<Room> room = Optional.of(Room.create(new RoomId("106"), RoomStatus.AVAILABLE, RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber)));
+        Optional<Room> room = Optional.of(Room.create(new RoomId("103"), RoomStatus.AVAILABLE, RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber)));
         Mockito.when(roomRepository.getRoomByNumber(any(RoomId.class))).thenReturn(room);
    
         
@@ -418,12 +418,12 @@ public class StayServiceTest {
 		Mockito.when(customerService.getCustomerDetailsById(any(String.class))).thenReturn(Optional.of(CustomerDetailsDTO.createFromCustomer(companyCustomer)));
 		Mockito.when(guestRepository.getGuestById(any(GuestId.class))).thenReturn(Optional.of(companyGuest));
 		Mockito.when(guestService.getGuestById(any(String.class))).thenReturn(Optional.of(GuestDetailsDTO.createFromGuest(companyGuest)));
-      
+		
       
       
 		Optional<Room> companyRoom = Optional.of(Room.create(new RoomId("107"), RoomStatus.AVAILABLE, RoomCategory.createWithoutDescription(companyCategoryId, companyCategoryName, companyBedNumber)));
 		Mockito.when(roomRepository.getRoomByNumber(any(RoomId.class))).thenReturn(companyRoom);
-		companyStayData.getGuestMiddleName();
+		
       
       
 		//when...then CompanyCustomer
@@ -461,9 +461,13 @@ public class StayServiceTest {
         HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
         categoryCount.put(RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber), 3);
 		
+        Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardNumber, customerId, guestCount, BookingStatus.PAID, categoryCount);
 		Stay stay = Stay.createForWalkIn(stayId, checkInDate, checkOutDate, guestCount, creditCardNumber, customerId, guestId);
         Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
-        Guest guest = Guest.createFromCustomer(guestId, customer).addMiddleName("Maria");
+        Guest guest = Guest.createFromCustomer(guestId, customer);
+        
+        data.addExistingBooking(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer)));
+
         
         data.setGuest("newGuest");
         List<String> list = new ArrayList<>();
@@ -567,6 +571,68 @@ public class StayServiceTest {
         
         List<String> list = new ArrayList<>();
         list.add("103");
+        list.add("103");
+        data.setRoomNumbers(list);
+        
+        
+        
+        
+        Mockito.when(stayRepository.getStayById(any(StayId.class))).thenReturn(Optional.of(stay));
+        Mockito.when(bookingRepository.getBookingById(any(BookingId.class))).thenReturn(Optional.of(booking));
+        Mockito.when(customerService.getCustomerDetailsById(any(String.class))).thenReturn(Optional.of(CustomerDetailsDTO.createFromCustomer(customer)));
+        Mockito.when(guestRepository.getGuestById(any(GuestId.class))).thenReturn(Optional.of(guest));
+        Mockito.when(guestService.getGuestById(any(String.class))).thenReturn(Optional.of(GuestDetailsDTO.createFromGuest(guest)));
+        
+        
+        
+       Optional<Room> room = Optional.of(Room.create(new RoomId("103"), RoomStatus.AVAILABLE, RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber)));
+       Optional<Room> room2 = Optional.of(Room.create(new RoomId("103"), RoomStatus.AVAILABLE, RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber)));
+
+       Mockito.when(roomRepository.getRoomByNumber(any(RoomId.class))).thenReturn(room);
+       Mockito.when(roomRepository.getRoomByNumber(any(RoomId.class))).thenReturn(room2);
+
+        
+        
+        //when...then
+   
+        assertThrows(InvalidRoomAssignmentException.class, () -> stayService.addStayFromData(data, checkInDate, checkOutDate, LocalDate.of(1989, 11, 22)));
+   
+	}
+	
+	@Test
+	void when_given_Room_is_not_available() throws Exception {
+		//given
+		StayData data = new StayData();
+		StayId stayId = new StayId("123");
+		LocalDate checkInDate = LocalDate.now();
+		LocalDate checkOutDate = LocalDate.now().plusDays(7);
+		int guestCount = 3;
+		String creditCardNumber = "0201133211";
+		BookingId bookingId = new BookingId("B12");
+		CustomerId customerId = new CustomerId("122");
+		GuestId guestId = new GuestId("133");
+		String fname = "Ulrich";
+		String lname = "Vogler";
+		
+		//given from RoomCategory
+        RoomCategoryId categoryId = new RoomCategoryId("1");
+        String categoryName = "Family Suite";
+        int bedNumber = 2;
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        categoryCount.put(RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber), 3);
+		
+        Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, "11/22" , customerId, guestCount, BookingStatus.PAID, categoryCount);
+		Stay stay = Stay.createFromBooking(stayId, booking, guestId);
+
+        Customer customer = IndividualCustomer.create(customerId, fname, lname, LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        Guest guest = Guest.createFromCustomer(guestId, customer);
+
+        data.addExistingBooking(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer)));
+        
+        data.setGuest("newGuest");
+        
+        List<String> list = new ArrayList<>();
+        list.add("103");
         data.setRoomNumbers(list);
         
         
@@ -579,10 +645,10 @@ public class StayServiceTest {
         
         
         
-       Optional<Room> room = Optional.of(Room.create(new RoomId("106"), RoomStatus.AVAILABLE, RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber)));
+       Optional<Room> room = Optional.of(Room.create(new RoomId("106"), RoomStatus.OCCUPIED, RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber)));
 
        Mockito.when(roomRepository.getRoomByNumber(any(RoomId.class))).thenReturn(room);
-       
+
         
         
         //when...then
