@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,8 @@ public class BookingRestController {
 	
 	@Autowired
 	private BookingService bookingService;
-
+	
+	@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8080"})
 	@PostMapping(CREATE_BOOKING_URL)
 	public Map<String,String> createBooking(@RequestBody BookingData form) {
 		HashMap<String, String> map = new HashMap<String, String>();
