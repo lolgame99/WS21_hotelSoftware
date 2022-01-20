@@ -36,6 +36,7 @@ class CreateBooking extends PureComponent{
 		this.handleDynamicChange = this.handleDynamicChange.bind(this);
 		this.submitForm = this.submitForm.bind(this);
 		this.clearState = this.clearState.bind(this);
+		this.goBack = this.goBack.bind(this);
 	}
 	
 	componentDidMount(){
@@ -66,6 +67,10 @@ class CreateBooking extends PureComponent{
 	
 	clearState(){
 		this.setState({...initialState});
+	}
+	
+	goBack(){
+		this.setState({formSubmitted:false});
 	}
 	
 	handleDynamicChange(event,index){
@@ -341,7 +346,9 @@ class CreateBooking extends PureComponent{
 							<p class="fs-3 fw-bold">The following error occured</p>
 	           				<p class="fs-4">{this.state.response.message}</p>
 						</Alert>
-						
+						<Button variant="primary" type="button" onClick={this.goBack}>
+		   							Go Back
+		  						</Button>
 					</Container>
 				);
 			}
