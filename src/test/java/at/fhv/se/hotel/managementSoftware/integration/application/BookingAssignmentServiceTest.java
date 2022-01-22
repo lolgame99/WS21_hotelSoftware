@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import at.fhv.se.hotel.managementSoftware.application.api.BookingAssignmentService;
+import at.fhv.se.hotel.managementSoftware.application.dto.BookingAssignmentDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.PriceDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomDTO;
@@ -81,8 +82,46 @@ public class BookingAssignmentServiceTest {
 		
 		//when
 		//Map<String,Integer> result = bookingAssignmentService.getFreeRoomCountBetweenDates(checkInDate.toString(), checkOutDate.toString());
+		List<BookingAssignmentDTO> dtos = bookingAssignmentService.getFreeRoomCountBetweenDates(checkInDate.toString(), checkOutDate.toString());
 		
 		//then
 		//assertEquals(2, result.get(category.getCategoryId().getId()));
+		assertEquals(allRooms.get(0).getCategory().getCategoryId().getId(), dtos.get(0).getCategory());
 	}
+	
+	@Test
+	public void when_addNewBookingAssignment() throws Exception {
+		//given
+		RoomCategory category = RoomCategory.createWithoutDescription(new RoomCategoryId("1"), "Test Category", 2);
+		List<Room> allRooms = new ArrayList<Room>();
+		allRooms.add(Room.create(new RoomId("1"), RoomStatus.AVAILABLE, category));
+		allRooms.add(Room.create(new RoomId("2"), RoomStatus.AVAILABLE, category));
+		allRooms.add(Room.create(new RoomId("3"), RoomStatus.AVAILABLE, category));
+		Mockito.when(roomRepository.getAllRooms()).thenReturn(allRooms);
+		
+		BookingId bookingId = new BookingId("B1");
+		LocalDate checkInDate =  LocalDate.now();
+		LocalDate checkOutDate = LocalDate.now().plusDays(7);
+		String creditCardNumber = "1212121212";
+		String creditCardValid = "12/23";
+		CustomerId customerId = new CustomerId("C1");
+		int guestCount = 1;
+		BookingStatus bookingStatus = BookingStatus.PAID;
+		
+		HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        categoryCount.put(category, 1);
+        Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+		
+        List<BookingAssignment> bookingAssignments = new ArrayList<BookingAssignment>();
+		bookingAssignments.add(BookingAssignment.create(new BookingAssignmentId("11"), category, 1, booking));
+		Mockito.when(bookingAssignmentRepository.getAllBookingAssignmentsBetweenDates(checkInDate, checkOutDate)).thenReturn(bookingAssignments);
+		
+		
+		BookingAssignment bookingAssignment = BookingAssignment.create(new BookingAssignmentId("11"), category, 1, booking);
+		
+		//when ... then
+		bookingAssignmentService.addBookingAssignment(bookingAssignment);
+	}
+	
+	
 }
