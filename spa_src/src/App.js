@@ -15,6 +15,7 @@ function App() {
     	<Aboutus/>
     	<br/>
     	<Rooms/>
+    	<br/>
     </div>
   );
 }
