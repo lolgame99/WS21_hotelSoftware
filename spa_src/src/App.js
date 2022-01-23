@@ -20,6 +20,10 @@ class App extends Component {
 		this.setState({showBooking: !this.state.showBooking})
 	}
 
+	componentDidMount(){
+		document.title = "Hotel Schwarz";
+	}
+	
 	render(){
 		if(this.state.showBooking==false){
 			return(
