@@ -504,45 +504,44 @@ public class BookingServiceTest {
 	
 	}
 	
-//	@Test
-//	void when_updateBooking() throws Exception {
-//		//given Booking IndividualCustomer
-//		BookingData data = new BookingData();
-//		BookingId bookingId = new BookingId("B1");
-//		LocalDate checkInDate =  LocalDate.now();
-//		LocalDate checkOutDate = LocalDate.now().plusDays(7);
-//		String creditCardNumber = "1212121212";
-//		String creditCardValid = "12/23";
-//		CustomerId customerId = new CustomerId("C1");
-//		int guestCount = 4;
-//		BookingStatus bookingStatus = BookingStatus.PENDING;
-//		
-//		//given RoomCategory IndividualCustomer
-//        RoomCategoryId categoryId = new RoomCategoryId("1");
-//        String categoryName = "Family Suite";
-//        int bedNumber = 2;
-//        RoomCategory category = RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber);
-//        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
-//        categoryCount.put(category, 3);
-//        
-//        
-//		       
-//        Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
-//        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
-//        
-//       
-//        data.addExistingBooking(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer)));
-//        
-//        Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.of(category));
-//        Mockito.when(bookingRepository.getBookingById(any(BookingId.class))).thenReturn(Optional.of(booking));
-//        Mockito.when(customerService.getCustomerDetailsById(any(String.class))).thenReturn(Optional.of(CustomerDetailsDTO.createFromCustomer(customer)));
-//
-//        bookingService.addBookingFromData(data, checkInDate, checkOutDate, LocalDate.of(1988, 7, 21));
-//
-//        //when...IndividualCustomer
-//        CustomerId oldCustomerId = new CustomerId(data.getCustomerId());
-//        
-//        
-//	}
+	@Test
+	void when_updateBooking() throws Exception {
+		//given Booking IndividualCustomer
+		BookingData data = new BookingData();
+		BookingId bookingId = new BookingId("B1");
+		LocalDate checkInDate =  LocalDate.now();
+		LocalDate checkOutDate = LocalDate.now().plusDays(7);
+		String creditCardNumber = "1212121212";
+		String creditCardValid = "12/23";
+		CustomerId customerId = new CustomerId("C1");
+		int guestCount = 4;
+		BookingStatus bookingStatus = BookingStatus.PENDING;
+		
+		//given RoomCategory IndividualCustomer
+        RoomCategoryId categoryId = new RoomCategoryId("1");
+        String categoryName = "Family Suite";
+        int bedNumber = 2;
+        RoomCategory category = RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber);
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        categoryCount.put(category, 3);
+        
+        
+		       
+        Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        
+       
+        data.addExistingBooking(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer)));
+        
+        Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.of(category));
+        Mockito.when(bookingRepository.getBookingById(any(BookingId.class))).thenReturn(Optional.of(booking));
+        Mockito.when(customerService.getCustomerDetailsById(any(String.class))).thenReturn(Optional.of(CustomerDetailsDTO.createFromCustomer(customer)));
+
+        bookingService.addBookingFromData(data, checkInDate, checkOutDate, LocalDate.of(1988, 7, 21)); 
+        
+        //when...then
+        assertDoesNotThrow(() -> bookingService.updateBooking(data, checkInDate, checkOutDate, LocalDate.of(1988, 7, 21)));
+        
+	}
 	
 }
