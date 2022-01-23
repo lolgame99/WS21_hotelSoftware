@@ -11,7 +11,7 @@ public class RoomAssignment {
 	private LocalDate assignedTo;
 	private RoomId roomNumber;
 	private StayId stayId;
-	private PaymentStatus paymentStatus;
+	private PaymentStatus paymentStatus;  
 	
 	private RoomAssignment() {
 	}

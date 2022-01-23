@@ -30,18 +30,23 @@
      <div class="content container my-3">
         <p class="fs-3">Room Overview</p>
      </div>
-   	<div class="content container my-6">
+   	<div class="content container my-3">
       <div class="col">
-        <div class="row justify-content-start">
-         <div class="col-lg-4 col-sm-5 ml-auto text-start">
-            <input class="form-control roomOverviewSearch" type="text" id="name" name="name" value="" placeholder="Enter Roomnumber">
-          </div>
+        <div class="row justify-content-start my-3">
+        	<div class="col-lg-4 col-sm-5 ml-auto text-start">
+          		<input class="form-control roomOverviewSearch" type="text" id="name" name="name" value="" placeholder="Enter Roomnumber">
+        	</div>
         </div>
         <div class="alert alert-danger d-none">
 	        <p class="fs-3 fw-bold">The following error has occured</p>
             <p class="fs-4 errorMsg"></p>
+     	</div>
+     	<div class="alert alert-success d-none">
+	        <p class="fs-3 fw-bold">Success</p>
+            <p class="fs-4">Room Status changed successfully!</p>
+     	</div>
      </div>
-      </div>
+      
     <table id="roomOverview" class="table table-sm table-hover">
             <thead>
                 <tr>
@@ -63,18 +68,45 @@
             </thead>
             <tbody class="roomOverview">
                 	<tr th:each="room,itemStat: ${allRooms}">
-	                    <td class="text-center" th:text="${room.roomNumber.getId()}"></td>
+	                    <td class="text-center roomNumber" th:text="${room.roomNumber.getId()}"></td>
 	                    <td class="text-center" th:text="${room.roomCategory.name}"></td>
-	                    <th class="text-start">
+	                    <td class="text-start">
 	                    	<span class="text-primary" th:if="${room.roomStatus.getDisplayValue() == 'Cleaning'}">&#11044</span>
 	                    	<span class="text-success" th:if="${room.roomStatus.getDisplayValue() == 'Available'}">&#11044</span>
 	                    	<span class="text-danger" th:if="${room.roomStatus.getDisplayValue() == 'Occupied'}">&#11044</span>
 	                    	<span class="text-secondary" th:if="${room.roomStatus.getDisplayValue() == 'Maintenance'}">&#11044</span>
 	                    	<span class="roomStatus" th:text="${room.roomStatus.getDisplayValue()}"></span>
-	                    </th>
+	                    	<a th:if="${room.roomStatus.getDisplayValue() == 'Cleaning' || room.roomStatus.getDisplayValue() == 'Available' || room.roomStatus.getDisplayValue() == 'Maintenance'}" href="#" class="btn btn-default btn-sm showRoomStatusChange" data-bs-toggle="modal" data-bs-target="#roomStatusChange">
+	                    		<i class="bi bi-pencil-fill"></i>
+	                    	</a>
+	                    </td>
 	                </tr>
             </tbody>
         </table>
+    </div>
+    </div>
+    
+    <div class="modal fade" id="roomStatusChange" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="customerSelectionLabel">Select Room Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Room Number: <span class="changeRoomNumber"></span></p>
+					<p>Current Status: <span class="changeRoomStatus"></span></p>
+					<hr>
+					<label class="form-label" for="status">New status:</label><br>
+					<select class="form-control changeRoomSelect" name="status">
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary roomStatusBtn">Change</button>
+                </div>
+            </div>
+        </div>
     </div>
     
 </body>

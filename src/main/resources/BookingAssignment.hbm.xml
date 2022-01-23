@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field" default-cascade="all">
+	<class name="at.fhv.se.hotel.managementSoftware.domain.model.BookingAssignment" table="bookingAssignment" lazy="true">
+		<cache usage="read-write"/>	
+		<id name="id" type="java.lang.Long" column="id" unsaved-value="null">
+            <generator class="native"/>
+        </id>
+        <component name="bookingAssignmentId" class="at.fhv.se.hotel.managementSoftware.domain.model.BookingAssignmentId">
+            <property name="id" column="bookingAssignmentId" type="java.lang.String"/>           
+        </component>
+        <property name = "assignedFrom" column = "assignedFrom" type = "java.time.LocalDate"/>
+        <property name = "assignedTo" column = "assignedTo" type = "java.time.LocalDate"/>
+		<property name = "categoryCount" column = "categoryCount" type = "int"/>
+		<many-to-one name="category" class="at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory"/>
+        <component name="bookingId" class="at.fhv.se.hotel.managementSoftware.domain.model.BookingId">
+            <property name="id" column="bookingId" type="java.lang.String"/>           
+        </component>
+	</class>
+</hibernate-mapping>

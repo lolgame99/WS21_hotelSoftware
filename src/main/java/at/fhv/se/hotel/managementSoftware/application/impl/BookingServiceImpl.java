@@ -1,9 +1,11 @@
 package at.fhv.se.hotel.managementSoftware.application.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import at.fhv.se.hotel.managementSoftware.application.dto.CustomerOverviewDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
+import at.fhv.se.hotel.managementSoftware.domain.model.BookingAssignment;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
 import at.fhv.se.hotel.managementSoftware.domain.model.CompanyCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
@@ -25,6 +28,7 @@ import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategory;
 import at.fhv.se.hotel.managementSoftware.domain.model.RoomCategoryId;
+import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingAssignmentRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.BookingRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.CustomerRepository;
 import at.fhv.se.hotel.managementSoftware.domain.repositories.RoomCategoryRepository;
@@ -45,7 +49,10 @@ public class BookingServiceImpl implements BookingService{
 	
 	@Autowired
 	private CustomerService customerService;
-
+	
+	@Autowired
+	private BookingAssignmentRepository bookingAssignmentRepository;
+	
 	@Override
 	public List<BookingOverviewDTO> getAllBookings() {
 		List<Booking> bookings = bookingRepository.getAllBookings();
@@ -74,6 +81,13 @@ public class BookingServiceImpl implements BookingService{
 
 	@Override
 	public void addBooking(Booking booking) {
+		Map<RoomCategory, Integer> categoryCount = booking.getCategoryCount();
+		for (HashMap.Entry<RoomCategory, Integer> entry : categoryCount.entrySet()) {
+		    RoomCategory key = entry.getKey();
+		    Integer value = entry.getValue();
+		    BookingAssignment ba = BookingAssignment.create(bookingAssignmentRepository.nextIdentity(), key, value, booking);
+		    bookingAssignmentRepository.addBookingAssignment(ba);
+		}
 		bookingRepository.addBooking(booking);
 	}
 
@@ -81,17 +95,9 @@ public class BookingServiceImpl implements BookingService{
 	public void addBookingFromData(BookingData bookingData, LocalDate convertedCheckInDate, LocalDate convertedCheckOutDate, LocalDate convertedBirthDate) throws Exception {
 		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(bookingData.getCustomerId()));
 		Boolean customerCreated = customer.isEmpty();
+		List<BookingAssignment> bookingAssignments = new ArrayList<BookingAssignment>();
 		if(customerCreated) {
-			if (bookingData.getCompanyName() != "") {
-				CompanyCustomer companyCustomer = CompanyCustomer.create(
-						customerRepository.nextIdentity(), 
-						bookingData.getCompanyName(), 
-						new Address(bookingData.getStreetName(),bookingData.getStreetNumber(),bookingData.getCity(),bookingData.getPostcode(),bookingData.getCountry()),
-						bookingData.getEmail(),
-						bookingData.getPhoneNumber(),
-						bookingData.getDiscountRate());
-				customer = Optional.of(companyCustomer);
-			}else {
+			if (bookingData.getCompanyName() == "" || bookingData.getCompanyName() == null) {
 				IndividualCustomer individualCustomer = IndividualCustomer.create(
 						customerRepository.nextIdentity(),
 						bookingData.getFirstName(),
@@ -108,19 +114,33 @@ public class BookingServiceImpl implements BookingService{
 				}
 				
 				customer = Optional.of(individualCustomer);
+			}else {
+				CompanyCustomer companyCustomer = CompanyCustomer.create(
+						customerRepository.nextIdentity(), 
+						bookingData.getCompanyName(), 
+						new Address(bookingData.getStreetName(),bookingData.getStreetNumber(),bookingData.getCity(),bookingData.getPostcode(),bookingData.getCountry()),
+						bookingData.getEmail(),
+						bookingData.getPhoneNumber(),
+						bookingData.getDiscountRate().multiply(BigDecimal.valueOf(-1)));
+				customer = Optional.of(companyCustomer);
 			}
 			
 			
 		}
 		
 		HashMap<RoomCategory, Integer> categoryCount = new HashMap<RoomCategory, Integer>();
+		if (bookingData.getCategoryValues().size() == 0) {
+			throw new InvalidBookingException("Booking could not be created <br/> Atleast one category has to be selected");
+		}
 		for (int i = 0; i < bookingData.getCategoryValues().size(); i++) {
 			if(categoryCount.containsKey(roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get())) {
-				throw new InvalidBookingException("Booking could not be created <br> The same category can't be selected more than once");
+				throw new InvalidBookingException("Booking could not be created <br/> The same category can't be selected more than once");
 			}
+			RoomCategory category = roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get();
 			categoryCount.put(
-					roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get(), 
+					category, 
 					bookingData.getCategoryAmounts().get(i));
+			
 		}
 		Booking booking = Booking.create(
 				bookingRepository.nextIdentity(),
@@ -133,6 +153,12 @@ public class BookingServiceImpl implements BookingService{
 				BookingStatus.PAID,
 				categoryCount);
 		
+		for (HashMap.Entry<RoomCategory, Integer> entry : categoryCount.entrySet()) {
+		    RoomCategory key = entry.getKey();
+		    Integer value = entry.getValue();
+		    BookingAssignment ba = BookingAssignment.create(bookingAssignmentRepository.nextIdentity(), key, value, booking);
+		    bookingAssignmentRepository.addBookingAssignment(ba);
+		}
 		
 		if (customerCreated) {
 			customerRepository.addCustomer(customer.get());
@@ -187,7 +213,7 @@ public class BookingServiceImpl implements BookingService{
 		HashMap<RoomCategory, Integer> categoryCount = new HashMap<RoomCategory, Integer>();
 		for (int i = 0; i < bookingData.getCategoryValues().size(); i++) {
 			if(categoryCount.containsKey(roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get())) {
-				throw new InvalidBookingException("Booking could not be created <br> The same category can't be selected more than once");
+				throw new InvalidBookingException("Booking could not be created <br/> The same category can't be selected more than once");
 			}
 			categoryCount.put(
 					roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get(), 

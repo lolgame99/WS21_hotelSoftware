@@ -1,14 +1,19 @@
 package at.fhv.se.hotel.managementSoftware.integration.application;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -29,6 +34,7 @@ import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingExcept
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidCustomerException;
 import at.fhv.se.hotel.managementSoftware.domain.model.Booking;
 import at.fhv.se.hotel.managementSoftware.domain.model.BookingId;
+import at.fhv.se.hotel.managementSoftware.domain.model.CompanyCustomer;
 import at.fhv.se.hotel.managementSoftware.domain.model.Customer;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.IndividualCustomer;
@@ -60,6 +66,39 @@ public class BookingServiceTest {
 	private CustomerService customerService;
 	
 	
+	
+	
+		
+
+	
+	@Test
+	void when_addNewBooking() throws Exception{
+		BookingId bookingId = new BookingId("B1");
+		LocalDate checkInDate =  LocalDate.now();
+		LocalDate checkOutDate = LocalDate.now().plusDays(7);
+		String creditCardNumber = "1212121212";
+		String creditCardValid = "12/23";
+		CustomerId customerId = new CustomerId("C1");
+		int guestCount = 4;
+		BookingStatus bookingStatus = BookingStatus.PAID;
+		
+		//given from RoomCategory
+        RoomCategoryId categoryId = new RoomCategoryId("1");
+        String categoryName = "Family Suite";
+        int bedNumber = 2;
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        categoryCount.put(RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber), 3);
+       
+		
+       
+        Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+ 
+		
+		//when...then
+		bookingService.addBooking(booking);
+		
+	
+	}
 	
 	
 	@Test
@@ -272,8 +311,8 @@ public class BookingServiceTest {
 	}
 
 	@Test
-	void when_add_booking_from_data() throws Exception {
-		//given
+	void when_add_booking_from_data_IndividualCustomer() throws Exception {
+		//given Booking IndividualCustomer
 		BookingData data = new BookingData();
 		BookingId bookingId = new BookingId("B1");
 		LocalDate checkInDate =  LocalDate.now();
@@ -284,28 +323,32 @@ public class BookingServiceTest {
 		int guestCount = 4;
 		BookingStatus bookingStatus = BookingStatus.PENDING;
 		
-		//given from RoomCategory
+		//given RoomCategory IndividualCustomer
         RoomCategoryId categoryId = new RoomCategoryId("1");
         String categoryName = "Family Suite";
         int bedNumber = 2;
         RoomCategory category = RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber);
         HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
         categoryCount.put(category, 3);
+        
+        
 		       
         Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
         Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
-
+        
+       
         data.addExistingBooking(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer)));
         
         Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.of(category));
         Mockito.when(bookingRepository.getBookingById(any(BookingId.class))).thenReturn(Optional.of(booking));
         Mockito.when(customerService.getCustomerDetailsById(any(String.class))).thenReturn(Optional.of(CustomerDetailsDTO.createFromCustomer(customer)));
-        
-        //when
+
+        //when...IndividualCustomer
         bookingService.addBookingFromData(data, checkInDate, checkOutDate, LocalDate.of(1988, 7, 21));
         Optional<BookingDetailsDTO> dto = bookingService.getBookingDetailsById(bookingId.getId());
-        
-        //then
+       
+     
+        //then...IndividualCustomer
   		assertTrue(dto.isPresent());
   		assertEquals(booking.getBookingId().getId(), dto.get().getBookingId().getId());
   		assertEquals(booking.getCustomerId().getId(), dto.get().getCustomer().getCustomerId().getId());
@@ -315,6 +358,190 @@ public class BookingServiceTest {
   		assertEquals(booking.getCheckOutDate(), dto.get().getCheckOutDate());
   		assertEquals(booking.getCreditCardNumber(), dto.get().getCreditCardNumber());
   		assertEquals(booking.getCreditCardValid(), dto.get().getCreditCardValid());
+ 		assertDoesNotThrow(() -> bookingService.addBookingFromData(data, checkInDate, checkOutDate, LocalDate.of(1988, 7, 21)));
+ 		
 	}
+	
+	@Test
+	void when_addBookingFromData_CompanyCustomer() throws Exception {
+		//given Booking CompanyCustomer
+        BookingData companyData = new BookingData();
+        BookingId companyBookingId = new BookingId("B2");
+        LocalDate companyCheckInDate = LocalDate.now();
+        LocalDate companyCheckOutDate = LocalDate.now().plusDays(10);
+        String companyCreditCardNumber = "1000102020";
+        String companyCreditCardValid = "11/24";
+		int companyGuestCount = 3;
+		BookingStatus companyBookingStatus = BookingStatus.PENDING;
 
+        //given CompanyCustomer
+        CustomerId companyCustomerId = new CustomerId("C2");
+        String companyName = "Firma Muster AG";
+        Address companyAddress = new Address("Musterstrasse", "21", "Dornbirn", "6850", "Austria");
+        String companyEmail = "MusterAG@muster.at";
+        String companyPhoneNumber = "+4366054862056";
+        BigDecimal discountRate = new BigDecimal(10);
+        
+        //given RoomCategory CompanyCustomer
+        RoomCategoryId companyCategoryId = new RoomCategoryId("1");
+        String companyCategoryName = "Family Suite";
+        int companyBedNumber = 2;
+        RoomCategory companyCategory = RoomCategory.createWithoutDescription(companyCategoryId, companyCategoryName, companyBedNumber);
+        HashMap <RoomCategory, Integer> companyCategoryCount = new HashMap<>();
+        companyCategoryCount.put(companyCategory, 3);
+  		
+        Booking companyBooking = Booking.create(companyBookingId, companyCheckInDate, companyCheckOutDate, companyCreditCardNumber, companyCreditCardValid, companyCustomerId, companyGuestCount, companyBookingStatus, companyCategoryCount);
+        Customer companyCustomer = CompanyCustomer.create(companyCustomerId, companyName, companyAddress, companyEmail, companyPhoneNumber, discountRate);
+        companyData.addExistingBooking(BookingDetailsDTO.createFromBooking(companyBooking, CustomerDetailsDTO.createFromCustomer(companyCustomer)));
+       
+        
+        
+        Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.of(companyCategory));
+        Mockito.when(bookingRepository.getBookingById(any(BookingId.class))).thenReturn(Optional.of(companyBooking));
+        Mockito.when(customerService.getCustomerDetailsById(any(String.class))).thenReturn(Optional.of(CustomerDetailsDTO.createFromCustomer(companyCustomer)));
+        //Mockito.doThrow(InvalidBookingException.class).when(roomCategoryRepository).getRoomCategoryById(any(RoomCategoryId.class));
+        //when...CompanyCustomer
+        bookingService.addBookingFromData(companyData, companyCheckInDate, companyCheckOutDate, LocalDate.of(1989, 7, 21));
+        Optional<BookingDetailsDTO> dto2 = bookingService.getBookingDetailsById(companyBookingId.getId());
+  		
+        
+        //then...CompanyCustomer
+  		assertTrue(dto2.isPresent());
+ 		assertEquals(companyBooking.getBookingId().getId(), dto2.get().getBookingId().getId());
+ 		assertEquals(companyBooking.getCustomerId().getId(), dto2.get().getCustomer().getCustomerId().getId());
+ 		assertDoesNotThrow(() -> bookingService.addBookingFromData(companyData, companyCheckInDate, companyCheckOutDate, LocalDate.of(1989, 7, 21)));
+ 		
+        
+ 		
+	}
+	
+	@Test
+	void when_roomCategory_is_not_selected() throws Exception {
+		//given Booking IndividualCustomer
+		BookingData data = new BookingData();
+		BookingId bookingId = new BookingId("B1");
+		LocalDate checkInDate =  LocalDate.now();
+		LocalDate checkOutDate = LocalDate.now().plusDays(7);
+		String creditCardNumber = "1212121212";
+		String creditCardValid = "12/23";
+		CustomerId customerId = new CustomerId("C1");
+		int guestCount = 1;
+		BookingStatus bookingStatus = BookingStatus.PENDING;
+		
+		//given RoomCategory IndividualCustomer
+        RoomCategoryId categoryId = new RoomCategoryId("1");
+        String categoryName = "Family Suite";
+        int bedNumber = 1;
+        RoomCategory category = RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber);
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        categoryCount.put(category, 1);
+        
+       
+        Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.empty());
+
+        Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        
+        categoryCount.clear();
+        data.addExistingBooking(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer)));
+       
+        //Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.of(category));
+        Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.empty());
+        Mockito.when(bookingRepository.getBookingById(any(BookingId.class))).thenReturn(Optional.of(booking));
+        Mockito.when(customerService.getCustomerDetailsById(any(String.class))).thenReturn(Optional.of(CustomerDetailsDTO.createFromCustomer(customer)));
+        
+
+     
+        //then...IndividualCustomer
+        
+		assertThrows(InvalidBookingException.class, () -> bookingService.addBookingFromData(data, checkInDate, checkOutDate, LocalDate.of(1988, 7, 21)));
+	}
+	
+	@Test
+	void when_same_roomCategory_is_selected_more_than_once() throws Exception{
+		//given Booking IndividualCustomer
+		BookingData data = new BookingData();
+		BookingId bookingId = new BookingId("B1");
+		LocalDate checkInDate =  LocalDate.now();
+		LocalDate checkOutDate = LocalDate.now().plusDays(7);
+		String creditCardNumber = "1212121212";
+		String creditCardValid = "12/23";
+		CustomerId customerId = new CustomerId("C1");
+		int guestCount = 1;
+		BookingStatus bookingStatus = BookingStatus.PENDING;
+		
+		//given RoomCategory IndividualCustomer
+        RoomCategoryId categoryId = new RoomCategoryId("1");
+        String categoryName = "Family Suite";
+        int bedNumber = 2;
+        RoomCategory category = RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber);
+        RoomCategory category2 = RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber);
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        categoryCount.put(category, 1);
+        categoryCount.put(category2, 1);
+        
+          
+        Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        
+       
+        data.addExistingBooking(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer)));
+        
+        Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.of(category));
+        Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.of(category2));
+        Mockito.when(bookingRepository.getBookingById(any(BookingId.class))).thenReturn(Optional.of(booking));
+        Mockito.when(customerService.getCustomerDetailsById(any(String.class))).thenReturn(Optional.of(CustomerDetailsDTO.createFromCustomer(customer)));
+        
+        
+        //when...IndividualCustomer
+        
+       
+       
+     
+        //then...IndividualCustomer
+  		
+		assertThrows(InvalidBookingException.class, () -> bookingService.addBookingFromData(data, checkInDate, checkOutDate, LocalDate.of(1988, 7, 21)));
+	
+	}
+	
+	@Test
+	void when_updateBooking() throws Exception {
+		//given Booking IndividualCustomer
+		BookingData data = new BookingData();
+		BookingId bookingId = new BookingId("B1");
+		LocalDate checkInDate =  LocalDate.now();
+		LocalDate checkOutDate = LocalDate.now().plusDays(7);
+		String creditCardNumber = "1212121212";
+		String creditCardValid = "12/23";
+		CustomerId customerId = new CustomerId("C1");
+		int guestCount = 4;
+		BookingStatus bookingStatus = BookingStatus.PENDING;
+		
+		//given RoomCategory IndividualCustomer
+        RoomCategoryId categoryId = new RoomCategoryId("1");
+        String categoryName = "Family Suite";
+        int bedNumber = 2;
+        RoomCategory category = RoomCategory.createWithoutDescription(categoryId, categoryName, bedNumber);
+        HashMap <RoomCategory, Integer> categoryCount = new HashMap<>();
+        categoryCount.put(category, 3);
+        
+        
+		       
+        Booking booking = Booking.create(bookingId, checkInDate, checkOutDate, creditCardNumber, creditCardValid, customerId, guestCount, bookingStatus, categoryCount);
+        Customer customer = IndividualCustomer.create(customerId, "Ulrich", "Vogler", LocalDate.of(1988, 7, 21), new Address("Kantstrasse", "32", "Rochlitz", "09301", "Germany"), "UlrichVogler@rhyta.com", "+493737105579", Gender.MALE);
+        
+       
+        data.addExistingBooking(BookingDetailsDTO.createFromBooking(booking, CustomerDetailsDTO.createFromCustomer(customer)));
+        
+        Mockito.when(roomCategoryRepository.getRoomCategoryById(any(RoomCategoryId.class))).thenReturn(Optional.of(category));
+        Mockito.when(bookingRepository.getBookingById(any(BookingId.class))).thenReturn(Optional.of(booking));
+        Mockito.when(customerService.getCustomerDetailsById(any(String.class))).thenReturn(Optional.of(CustomerDetailsDTO.createFromCustomer(customer)));
+
+        bookingService.addBookingFromData(data, checkInDate, checkOutDate, LocalDate.of(1988, 7, 21)); 
+        
+        //when...then
+        assertDoesNotThrow(() -> bookingService.updateBooking(data, checkInDate, checkOutDate, LocalDate.of(1988, 7, 21)));
+        
+	}
+	
 }

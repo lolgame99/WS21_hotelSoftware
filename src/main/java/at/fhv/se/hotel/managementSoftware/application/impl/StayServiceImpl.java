@@ -1,5 +1,6 @@
 package at.fhv.se.hotel.managementSoftware.application.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,16 +133,7 @@ public class StayServiceImpl implements StayService{
 		Boolean customerCreated = customer.isEmpty();
 		Stay stay = null;
 		if(customerCreated) {
-			if (stayData.getCompanyName() != "") {
-				CompanyCustomer companyCustomer = CompanyCustomer.create(
-						customerRepository.nextIdentity(), 
-						stayData.getCompanyName(), 
-						new Address(stayData.getStreetName(),stayData.getStreetNumber(),stayData.getCity(),stayData.getPostcode(),stayData.getCountry()),
-						stayData.getEmail(),
-						stayData.getPhoneNumber(),
-						stayData.getDiscountRate());
-				customer = Optional.of(companyCustomer);
-			}else {
+			if (stayData.getCompanyName() == "" || stayData.getCompanyName() == null) {
 				IndividualCustomer individualCustomer = IndividualCustomer.create(
 						customerRepository.nextIdentity(),
 						stayData.getFirstName(),
@@ -158,6 +150,15 @@ public class StayServiceImpl implements StayService{
 				}
 				
 				customer = Optional.of(individualCustomer);
+			}else {
+				CompanyCustomer companyCustomer = CompanyCustomer.create(
+						customerRepository.nextIdentity(), 
+						stayData.getCompanyName(), 
+						new Address(stayData.getStreetName(),stayData.getStreetNumber(),stayData.getCity(),stayData.getPostcode(),stayData.getCountry()),
+						stayData.getEmail(),
+						stayData.getPhoneNumber(),
+						stayData.getDiscountRate().multiply(BigDecimal.valueOf(-1)));
+				customer = Optional.of(companyCustomer);
 			}
 			
 			
@@ -210,7 +211,7 @@ public class StayServiceImpl implements StayService{
 		}
 		stayRepository.addStay(stay);
 		for (Room room : bookedRooms) {
-			room.setOccupied();
+			room.setStatus(RoomStatus.OCCUPIED);
 		}
 		
 	}
@@ -248,7 +249,7 @@ public class StayServiceImpl implements StayService{
 			if (roomAssignment.getPaymentStatus() == PaymentStatus.UNPAID) {
 				throw new InvalidStayException("Please close all open positions first");
 			}
-			roomRepository.getRoomByNumber(roomAssignment.getRoomNumber()).get().setCleaning();
+			roomRepository.getRoomByNumber(roomAssignment.getRoomNumber()).get().setStatus(RoomStatus.CLEANING);
 		}
 		
 		stay.get().checkout();

@@ -13,6 +13,15 @@ $(document).ready(function(){
 	if($(".roomSelection").find(".roomCategorys").length > 0){
 		categoryCounter = 0;
 		$(".roomSelection").find(".roomNumber").each(function(){
+			var catId = $(this).parent().siblings().find(".roomCategorys").val();
+			var sug = "";
+			$(".roomSuggestions").find(".category").first().each(function(){
+				if(catId == $(this).text()){
+					sug = $(this).siblings().text();
+					$(this).parent().remove();
+				}
+			});
+			$(this).val(sug);
 			$(this).attr("name","roomNumbers["+ categoryCounter+"]");
 			categoryCounter++;
 		});
@@ -85,19 +94,21 @@ $(document).ready(function(){
 
 function companyCustomerSelected(){
 	$(".individualCustomer").each(function () {
-            	$(this).addClass("d-none");
-				$(this).find("input").prop('required',false);
-        	});
-			$(".companyCustomer").each(function () {
-            	$(this).removeClass("d-none");
-				$(this).find("input").prop('required',true);
-        	});
+    	$(this).addClass("d-none");
+		$(this).find("input").prop('required',false);
+		$(this).find("input").val("");
+	});
+	$(".companyCustomer").each(function () {
+    	$(this).removeClass("d-none");
+		$(this).find("input").prop('required',true);
+	});
 }
 
 function individualCustomerSelected(){
 	$(".companyCustomer").each(function () {
     	$(this).addClass("d-none");
 		$(this).find("input").prop('required',false);
+		$(this).find("input").val("");
 	});
 	$(".individualCustomer").each(function () {
     	$(this).removeClass("d-none");

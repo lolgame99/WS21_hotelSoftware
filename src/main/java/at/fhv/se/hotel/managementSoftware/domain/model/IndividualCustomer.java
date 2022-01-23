@@ -28,7 +28,7 @@ public class IndividualCustomer implements Customer{
 	public static IndividualCustomer create(CustomerId customerId, String firstName, String lastName, LocalDate birthdate, Address address, String email,
 			String phoneNumber, Gender gender) throws InvalidCustomerException {
 		if (ChronoUnit.YEARS.between(birthdate, LocalDate.now()) < 18) {
-			throw new InvalidCustomerException("Customer could not be created <br> Customer has to be atleast 18 years old ");
+			throw new InvalidCustomerException("Customer could not be created <br/> Customer has to be atleast 18 years old ");
 		}
 		
 		IndividualCustomer customer = new IndividualCustomer();

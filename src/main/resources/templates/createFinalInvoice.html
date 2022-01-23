@@ -20,14 +20,14 @@
             <li class="nav-item"><a href="/" class="nav-link">Dashboard</a></li>
             <li class="nav-item"><a href="/booking" class="nav-link">Create Booking</a></li>
             <li class="nav-item dropdown">
-            	<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stay</a>
+            	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stay</a>
             	<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             		<li><a class="dropdown-item" href="/stay/create">Create Stay</a>
             		<li><a class="dropdown-item" href="/stay">Overview</a>
             	</ul>
             </li>
             <li class="nav-item"><a href="/room" class="nav-link">Rooms</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Bill</a></li>
+            <li class="nav-item"><a href="#" class="nav-link active">Bill</a></li>
         </ul>
 	</header>
 <br>
@@ -49,7 +49,7 @@
                      <div>Email: hotel.schwarz@contact.at</div>
                      <div>Phone: +43 660 4278646</div>
                  </div>
-                 <div class="col-sm-6 ">
+                 <div class="col-sm-6 " th:if="${invoice.customer != null}">
                      <h5 class="mb-3">To:</h5>
                      <h3 class="text-dark mb-1" th:text="${invoice.customer.displayName()}"></h3>              
                      <div th:text="${invoice.customer.address.country}"></div>
@@ -92,16 +92,16 @@
                        			<td class="left">
                                   	 <strong class="text-dark">Subtotal:</strong>
                                	</td>
-                               	<td class="right" th:text="${invoice.sum/(1-invoice.customer.discountRate*-1/100)}+' €'" th:if="${invoice.customer.discountRate} != null"></td>
-                               	<td class="right" th:text="${invoice.sum}+' €'" th:if="${invoice.customer.discountRate} == null"></td>
+                               	<td class="right" th:text="${invoice.sum/(1-invoice.customer.discountRate/100)}+' €'" th:if="${invoice.customer != null && invoice.customer?.discountRate != null}"></td>
+                               	<td class="right" th:text="${invoice.sum}+' €'" th:if="${invoice.customer?.discountRate == null}"></td>
                              </tr>
                      	 </thead>
                          <tbody>
-                             <tr th:if="${invoice.customer.discountRate  != null}">
+                             <tr th:if="${invoice.customer != null && invoice.customer?.discountRate  != null}">
                          			<td class="left">
                                     	 <span class="text-dark">Discount:</span>
                                  	</td>
-                                 	<td class="right" th:text="'- '+${invoice.sum/(1-invoice.customer.discountRate*-1/100)-invoice.sum}+' €'" th:if="${invoice.customer.discountRate} != null"></td>
+                                 	<td class="right" th:text="${'-'+#numbers.formatDecimal((invoice.sum/(1-invoice.customer.discountRate/100))-invoice.sum,1,2)}+' €'" th:if="${invoice.customer != null && invoice.customer?.discountRate != null}"></td>
                             </tr>
                             <tr>
                          			<td class="left">

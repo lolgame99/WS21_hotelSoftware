@@ -51,7 +51,7 @@
                     </div>
                     <div class="col">
                         <label class="form-label" for="middleName">Middle name</label><br>
-                        <input class="form-control" type="text" th:field="*{middleName}" th:disabled="*{customerId != null}">
+                        <input id="customerMiddleName" class="form-control" type="text" th:field="*{middleName}" th:disabled="*{customerId != null}">
                     </div>
                     <div class="col">
                         <label class="form-label" for="lastName">Last name</label><br>
@@ -77,7 +77,7 @@
                     </div>
             		<div class="col-4">
                         <label class="form-label" for="discountRate">Discount Percentage</label><br>
-                        <input class="form-control" type="number" th:field="*{discountRate}" th:disabled="*{customerId != null}" required>
+                        <input class="form-control" type="number" th:field="*{discountRate}" th:disabled="*{customerId != null}" min="1" oninput="this.value = Math.abs(this.value)" required>
                     </div>
                 </div>
                 <div class="form-row row mb-2">
@@ -229,8 +229,7 @@
                     <ul class="list-group customerList">
                         <!-- Dynamically load all customer -->
                         <li class="list-group-item" th:each="n : ${customers}">
-                        	<a th:if="${n.middleName != null}" th:href="@{/stay/create(customerId=${n.customerId.getId()})}" th:text="${n.firstName}+' '+${n.middleName}+' '+${n.lastName}"></a>
-                        	<a th:if="${n.middleName == null}" th:href="@{/stay/create(customerId=${n.customerId.getId()})}" th:text="${n.firstName}+' '+${n.lastName}"></a>
+                        	<a th:href="@{/stay/create(customerId=${n.customerId.getId()})}" th:text="${n.displayName()}"></a>
                         </li>
                     </ul>
 
@@ -241,18 +240,22 @@
             </div>
         </div>
     </div>
-
-	<!-- ToDo: Edit Roomnumber -->
+		<!-- ToDo: Edit Roomnumber -->
     <div class="roomEntryEmpty d-none form-row row mb-1">
-        <div class="col">
-            <select class="form-control roomCategorys" required>
-              <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryId.getId()}"></option>
-            </select>
-        </div>
-        <div class="col">
-        	<input class="form-control roomNumber" type="text" required>
-        </div>
+	    <div class="col">
+	        <select class="form-control roomCategorys" required>
+	          <option th:each="n : ${roomCategories}" th:text="${n.name}" th:value="${n.categoryId.getId()}"></option>
+	        </select>
+	    </div>
+	    <div class="col">
+	    	<input class="form-control roomNumber" type="text" required>
+	    </div>
+	</div>
+    <div class="roomSuggestions d-none">
+    	<div class="suggestion" th:each="n, stats : ${roomSuggestions}">
+    		<span class="category"  th:text="${catIdSuggestions[stats.index]}"></span>
+    		<span class="room"  th:text="${n}"></span>
+    	</div>
     </div>
-    
 </body>
 </html>

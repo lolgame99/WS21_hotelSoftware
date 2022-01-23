@@ -1,6 +1,8 @@
 package at.fhv.se.hotel.managementSoftware.integration.application;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.math.BigDecimal;
@@ -22,6 +24,7 @@ import at.fhv.se.hotel.managementSoftware.application.dto.PriceDetailsDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomCategoryDTO;
 import at.fhv.se.hotel.managementSoftware.application.dto.RoomDTO;
 import at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus;
+import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidBookingException;
 import at.fhv.se.hotel.managementSoftware.domain.exceptions.InvalidRoomException;
 import at.fhv.se.hotel.managementSoftware.domain.model.CustomerId;
 import at.fhv.se.hotel.managementSoftware.domain.model.GuestId;
@@ -161,7 +164,7 @@ public class RoomServiceTest {
 		Mockito.when(roomRepository.getRoomByNumber(roomAssignments.get(0).getRoomNumber())).thenReturn(Optional.of(allRooms.get(0)));
 		
 		//when
-		List<RoomDTO> dtos = roomService.getAllFreeRoomsBetween(fromDate, toDate);
+		List<RoomDTO> dtos = roomService.getAllFreeRoomsBetween(fromDate.toString(), toDate.toString());
 								
 		//then
 		assertEquals(allRooms.get(0).getRoomNumber().getId(), dtos.get(0).getRoomNumber().getId());
@@ -198,7 +201,7 @@ public class RoomServiceTest {
 		Mockito.when(roomRepository.getRoomByNumber(roomAssignments.get(0).getRoomNumber())).thenReturn(Optional.of(allRooms.get(0)));
 				
 		//when
-		List<RoomDTO> dtos = roomService.getFreeRoomsBetweenByRoomCategoryId(category.getCategoryId().getId(),fromDate, toDate);
+		List<RoomDTO> dtos = roomService.getFreeRoomsBetweenByRoomCategoryId(category.getCategoryId().getId(),fromDate.toString(), toDate.toString());
 										
 		//then
 		assertEquals(allRooms.get(0).getRoomNumber().getId(), dtos.get(0).getRoomNumber().getId());
@@ -206,5 +209,33 @@ public class RoomServiceTest {
 		assertEquals(allRooms.get(0).getCategory().getCategoryId().getId(), dtos.get(0).getRoomCategory().getCategoryId().getId());
 		assertEquals(allRooms.get(0).getCategory().getCategoryName(), dtos.get(0).getRoomCategory().getName());
 		assertEquals(allRooms.get(0).getCategory().getBedNumber(), dtos.get(0).getRoomCategory().getBedNumber());
-			}
+	}
+	
+	@Test
+	public void when_change_roomstatus_return_new_status() throws InvalidRoomException{
+		//given
+		RoomCategory category = RoomCategory.createWithoutDescription(new RoomCategoryId("1"), "Test Category", 2);
+		Room room = Room.create(new RoomId("1"), RoomStatus.OCCUPIED, category);
+		
+		Mockito.when(roomRepository.getRoomByNumber(any(RoomId.class))).thenReturn(Optional.of(room));
+		
+		//when
+		
+		
+		//when...then
+		assertDoesNotThrow(() ->roomService.changeRoomStatus(room.getRoomNumber().getId(), "AVAILABLE"));
+		assertEquals(RoomStatus.AVAILABLE, room.getRoomStatus());
+	}
+	
+	@Test
+	public void when_change_roomstatus_invalid_roomnumber_throw() throws InvalidRoomException{
+		//given
+		Mockito.when(roomRepository.getRoomByNumber(any(RoomId.class))).thenReturn(Optional.empty());
+		
+		//when
+		
+		
+		//when...then
+		assertThrows(InvalidRoomException.class, () -> roomService.changeRoomStatus("1", "AVAILABLE"));
+	}
 }

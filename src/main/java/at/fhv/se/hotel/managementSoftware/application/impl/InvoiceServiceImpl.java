@@ -95,7 +95,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 		Optional<Invoice> invoice = invoiceRepository.getInvoiceByInvoiceId(new InvoiceId(id));
 		Optional<InvoiceDetailsDTO> dto = Optional.empty();
 		if (invoice.isPresent()) {
-			CustomerDetailsDTO customer = CustomerDetailsDTO.createFromInvoiceCustomer(invoice.get().getCustomer());
+			CustomerDetailsDTO customer = null;
+			if (invoice.get().getCustomer() != null) {
+				customer = CustomerDetailsDTO.createFromInvoiceCustomer(invoice.get().getCustomer());
+			}
 			List<InvoiceLineDetailsDTO> lines = invoiceLineService.getAllInvoiceLinesByInvoiceId(invoice.get().getInvoiceId().getId());
 			dto = Optional.of(InvoiceDetailsDTO.createsFromInvoice(invoice.get(), lines, customer));
 		}
@@ -107,7 +110,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		if (data.getAssignmentIds().size() == 0) {
 			throw new InvalidInvoiceException("Invoice could not be created <br> Atleast one position has to be selected");
 		}
-		BigDecimal convertedDiscount = BigDecimal.valueOf(Double.valueOf(data.getDiscountRate())).divide(BigDecimal.valueOf(100)).add(BigDecimal.valueOf(1));
+		BigDecimal convertedDiscount = BigDecimal.valueOf(Double.valueOf(data.getDiscountRate())*-1).divide(BigDecimal.valueOf(100)).add(BigDecimal.valueOf(1));
 		InvoiceId invoiceId = new InvoiceId(invoiceRepository.nextIdentity());
 		BigDecimal sum = BigDecimal.ZERO;
 		for (int i = 0; i < data.getNames().size(); i++) {
@@ -137,9 +140,14 @@ public class InvoiceServiceImpl implements InvoiceService{
 			Optional<RoomAssignment> ra = roomAssignmentRepository.getRoomAssignmentsById(new RoomAssignmentId(data.getAssignmentIds().get(i)));
 			ra.get().paid();
 		}
+		Invoice invoice = null;
+		if (data.getIncludeCustomerInfo() == null) {
+			invoice = Invoice.create(invoiceId, LocalDate.now(), sum, data.getPaymentType(), new StayId(data.getStayId()));
+		}else {
+			Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(data.getCustomerId()));
+			invoice = Invoice.create(invoiceId, LocalDate.now(), sum.multiply(convertedDiscount), data.getPaymentType(), new InvoiceCustomer(customer.get()), new StayId(data.getStayId()));
+		}
 		
-		Optional<Customer> customer = customerRepository.getCustomerById(new CustomerId(data.getCustomerId()));
-		Invoice invoice = Invoice.create(invoiceId, LocalDate.now(), sum.multiply(convertedDiscount), data.getPaymentType(), new InvoiceCustomer(customer.get()), new StayId(data.getStayId()));
 		invoiceRepository.addInvoice(invoice);
 		return invoiceId;
 	}

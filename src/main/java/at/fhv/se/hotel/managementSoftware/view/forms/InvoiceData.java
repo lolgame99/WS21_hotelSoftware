@@ -16,6 +16,7 @@ public class InvoiceData {
 	private String stayId;
 	private String customerId;
 	private String discountRate;
+	private String includeCustomerInfo;
 	
 	public InvoiceData() {
 	}
@@ -50,6 +51,14 @@ public class InvoiceData {
 		if (this.discountRate == null) {
 			this.discountRate = "0";
 		}
+	}
+
+	public String getIncludeCustomerInfo() {
+		return includeCustomerInfo;
+	}
+
+	public void setIncludeCustomerInfo(String includeCustomerInfo) {
+		this.includeCustomerInfo = includeCustomerInfo;
 	}
 
 	public ArrayList<Boolean> getToPay() {

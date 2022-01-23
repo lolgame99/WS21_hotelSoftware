@@ -16,14 +16,14 @@
             <li class="nav-item"><a href="/" class="nav-link">Dashboard</a></li>
             <li class="nav-item"><a href="/booking" class="nav-link">Create Booking</a></li>
             <li class="nav-item dropdown">
-            	<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stay</a>
+            	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stay</a>
             	<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             		<li><a class="dropdown-item" href="/stay/create">Create Stay</a>
             		<li><a class="dropdown-item" href="/stay">Overview</a>
             	</ul>
             </li>
             <li class="nav-item"><a href="/room" class="nav-link">Rooms</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Bill</a></li>
+            <li class="nav-item"><a href="#" class="nav-link active">Bill</a></li>
         </ul>
 	</header>
      <div class="card">
@@ -81,6 +81,10 @@
 						<input class="form-control" th:field="*{discountRate}" readonly>
 	             	</div>
 	             </div>
+	             <div class="form-check mb-4">
+				 	<input class="form-check-input" type="checkbox" value="true" th:field="*{includeCustomerInfo}" checked>
+				 	<label class="form-check-label" for="includeCustomerInfo">Include customer information on invoice</label>
+				 </div>
 			     <input class="d-none" th:field="*{stayId}"/>
 			     <input class="d-none" th:field="*{customerId}"/>
 	             <button type="submit" class="btn btn-primary">Pay selected items</button>

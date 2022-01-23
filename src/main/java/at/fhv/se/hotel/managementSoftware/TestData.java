@@ -13,6 +13,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import at.fhv.se.hotel.managementSoftware.application.api.BookingService;
 import at.fhv.se.hotel.managementSoftware.domain.enums.BookingStatus;
 import at.fhv.se.hotel.managementSoftware.domain.enums.Gender;
 import at.fhv.se.hotel.managementSoftware.domain.enums.RoomStatus;
@@ -51,6 +52,9 @@ public class TestData implements ApplicationRunner {
 
 	@Autowired
 	private BookingRepository bookingRepository;
+	
+	@Autowired
+	private BookingService bookingService;
 
 	@Autowired
 	private RoomCategoryRepository roomCategoryRepository;
@@ -105,7 +109,7 @@ public class TestData implements ApplicationRunner {
 		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[3], "Erling", "Haaland", LocalDate.of(2000, 5, 28), new Address("Marktplatz", "21", "Dortmund", "44135 ", "Germany"), "Haaland.goat@rhyta.com", "+495863126628", Gender.MALE).addMiddleName("Klaus"));
 		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[4], "Cristiano", "Ronaldo", LocalDate.of(1985, 2, 5), new Address("Oxford Street", "12", "Manchester", "M1", "United Kingdom"), "CristianoRonaldo@rhyta.com", "+449497823332", Gender.MALE));
 		customerRepository.addCustomer(IndividualCustomer.create(customerUUID[5], "Conchita", "Wurst", LocalDate.of(1994, 10, 11), new Address("Wurst Strasse", "3", "Wien", "1010", "Austria"), "Conchita@wurst.com", "+436642135879", Gender.DIVERSE));
-		customerRepository.addCustomer(CompanyCustomer.create(customerUUID[6], "Firma AG", new Address("Fabrikstrasse", "3", "Wien", "1010", "Austria"), "Fabrik@email.com", "+43664273949", BigDecimal.valueOf(-10)));
+		customerRepository.addCustomer(CompanyCustomer.create(customerUUID[6], "Firma AG", new Address("Fabrikstrasse", "3", "Wien", "1010", "Austria"), "Fabrik@email.com", "+43664273949", BigDecimal.valueOf(10)));
 
 		guestRepository.addGuest(Guest.createFromCustomer(guestUUID[0], (IndividualCustomer) customerRepository.getCustomerById(customerUUID[0]).get()));
 		guestRepository.addGuest(Guest.create(guestUUID[1], "Franziska", "Nachbauer", "+438465184868").addMiddleName("Leonie"));
@@ -119,7 +123,7 @@ public class TestData implements ApplicationRunner {
 		priceRepository.addPrice(Price.create(categoryUUID[2], new BigDecimal(150.00), LocalDate.now(), LocalDate.now().plusMonths(6)));
 		
 		
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[0],
 				LocalDate.now(),
 				LocalDate.now().plusDays(7),
@@ -130,7 +134,7 @@ public class TestData implements ApplicationRunner {
 				BookingStatus.ARRIVED,
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(),1);}})); 
 
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[1],
 				LocalDate.now(),
 				LocalDate.now().plusDays(10),
@@ -142,7 +146,7 @@ public class TestData implements ApplicationRunner {
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 2);
 					put(roomCategoryRepository.getRoomCategoryById(categoryUUID[1]).get(), 1);}}));
 
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[2],
 				LocalDate.now().plusDays(7),
 				LocalDate.now().plusDays(16),
@@ -154,7 +158,7 @@ public class TestData implements ApplicationRunner {
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 2);}}
 				));
 		
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[3],
 				LocalDate.now().plusDays(1),
 				LocalDate.now().plusDays(7),
@@ -166,7 +170,7 @@ public class TestData implements ApplicationRunner {
 				new HashMap<RoomCategory, Integer>(){{put(roomCategoryRepository.getRoomCategoryById(categoryUUID[0]).get(), 3);}}
 				));
 		
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[4],
 				LocalDate.now().plusDays(9),
 				LocalDate.now().plusDays(10),
@@ -179,7 +183,7 @@ public class TestData implements ApplicationRunner {
 														put(roomCategoryRepository.getRoomCategoryById(categoryUUID[2]).get(), 2);}}
 				));
 		
-		bookingRepository.addBooking(Booking.create(
+		bookingService.addBooking(Booking.create(
 				bookingUUID[5],
 				LocalDate.now().plusDays(2),
 				LocalDate.now().plusDays(4),
