@@ -130,11 +130,11 @@ public class BookingServiceImpl implements BookingService{
 		
 		HashMap<RoomCategory, Integer> categoryCount = new HashMap<RoomCategory, Integer>();
 		if (bookingData.getCategoryValues().size() == 0) {
-			throw new InvalidBookingException("Booking could not be created <br> Atleast one category has to be selected");
+			throw new InvalidBookingException("Booking could not be created <br/> Atleast one category has to be selected");
 		}
 		for (int i = 0; i < bookingData.getCategoryValues().size(); i++) {
 			if(categoryCount.containsKey(roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get())) {
-				throw new InvalidBookingException("Booking could not be created <br> The same category can't be selected more than once");
+				throw new InvalidBookingException("Booking could not be created <br/> The same category can't be selected more than once");
 			}
 			RoomCategory category = roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get();
 			categoryCount.put(
@@ -213,7 +213,7 @@ public class BookingServiceImpl implements BookingService{
 		HashMap<RoomCategory, Integer> categoryCount = new HashMap<RoomCategory, Integer>();
 		for (int i = 0; i < bookingData.getCategoryValues().size(); i++) {
 			if(categoryCount.containsKey(roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get())) {
-				throw new InvalidBookingException("Booking could not be created <br> The same category can't be selected more than once");
+				throw new InvalidBookingException("Booking could not be created <br/> The same category can't be selected more than once");
 			}
 			categoryCount.put(
 					roomCategoryRepository.getRoomCategoryById(new RoomCategoryId(bookingData.getCategoryValues().get(i))).get(), 

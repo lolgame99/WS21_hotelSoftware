@@ -27,22 +27,22 @@ public class Booking {
 			CustomerId customerId, int guestCount, BookingStatus bookingStatus, HashMap<RoomCategory, Integer> categoryCount) throws InvalidBookingException{
 		// Pruefen, ob Check-in-Date vor Check-out-Date liegt
 		if (checkInDate.compareTo(checkOutDate) >= 0) {
-			throw new InvalidBookingException("Booking could not be created <br> Check-out-Date can't be before Check-in Date");
+			throw new InvalidBookingException("Booking could not be created <br/> Check-out-Date can't be before Check-in Date");
 		}
 		
 		//Pruefen, ob Check-in-Date vor heute liegt
 		if (checkInDate.compareTo(LocalDate.now()) < 0) {
-			throw new InvalidBookingException("Booking could not be created <br> Check-in-Date can't be in the past");
+			throw new InvalidBookingException("Booking could not be created <br/> Check-in-Date can't be in the past");
 		}
 
 		// Pruefen, ob mind. ein Kunde
 		if (guestCount <= 0) {
-			throw new InvalidBookingException("Booking could not be created <br> Booking requires atleast 1 guest");
+			throw new InvalidBookingException("Booking could not be created <br/> Booking requires atleast 1 guest");
 		}
 		
 		//Pruefen ob mind. eine Raumkategory in Hashmap
 		if(categoryCount.isEmpty()) {
-			throw new InvalidBookingException("Booking could not be created <br> Atleast 1 roomcategory has to be selected");
+			throw new InvalidBookingException("Booking could not be created <br/> Atleast 1 roomcategory has to be selected");
 		}
 		
 		//Pruefen ob genug Betten fuer Anzahl von Gaesten
@@ -51,7 +51,7 @@ public class Booking {
 			bedSum += entry.getKey().getBedNumber() * entry.getValue();
 		}
 		if (bedSum < guestCount) {
-			throw new InvalidBookingException("Booking could not be created <br> Too many guests for the selected number of rooms");
+			throw new InvalidBookingException("Booking could not be created <br/> Too many guests for the selected number of rooms");
 		}
 		
 		Booking booking = new Booking();

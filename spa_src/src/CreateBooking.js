@@ -108,8 +108,11 @@ class CreateBooking extends PureComponent{
 			headers: new Headers({'content-type': 'application/json'})
 		}).then(res=>res.json()).then(
 			res=>{
+				res.message = res.message.split("/>")[1];
 				this.setState({response:res});
 				this.setState({formSubmitted:true});
+				
+				
 			}
 		)
 	}
@@ -235,7 +238,7 @@ class CreateBooking extends PureComponent{
 		      			</Col>
 		      			<Col xs={6}>
 		      				<Row>
-		      					<h5>Customer information</h5>
+		      					<h5>Booking information</h5>
 		      					
 		      				</Row>
 		      				<Row>
@@ -328,20 +331,18 @@ class CreateBooking extends PureComponent{
 		}else{
 			if(this.state.response.status =="ok"){
 				return(
-					<Container>		
+					<Container>
+						<br />		
 						<Alert variant="success">
 							<p class="fs-3 fw-bold">Success</p>
 	           				<p class="fs-4">{this.state.response.message}</p>
 						</Alert>
-						<Button variant="primary" type="button" onClick={this.clearState}>
-		   							New Booking
-		  						</Button>
 					</Container>
 				);
 			}else{
 				return(
 					<Container>
-						
+						<br />
 						<Alert variant="danger">
 							<p class="fs-3 fw-bold">The following error occured</p>
 	           				<p class="fs-4">{this.state.response.message}</p>
