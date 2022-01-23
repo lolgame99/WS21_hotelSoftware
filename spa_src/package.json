@@ -2,6 +2,7 @@
   "name": "spa_src",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://localhost:8080/spa/",
   "dependencies": {
     "@syncfusion/ej2-react-calendars": "^19.4.42",
     "@testing-library/jest-dom": "^5.16.1",

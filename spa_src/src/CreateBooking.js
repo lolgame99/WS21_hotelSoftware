@@ -335,7 +335,7 @@ class CreateBooking extends PureComponent{
 						<br />		
 						<Alert variant="success">
 							<p class="fs-3 fw-bold">Success</p>
-	           				<p class="fs-4">{this.state.response.message}</p>
+	           				<p class="fs-4">Booking created successfully!</p>
 						</Alert>
 					</Container>
 				);
